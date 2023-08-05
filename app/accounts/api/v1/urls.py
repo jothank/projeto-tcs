@@ -1,7 +1,7 @@
 ##
 # Libraries
 ##
-from django.urls import path, include, re_path
+from django.urls import path, re_path
 from rest_framework import routers
 from dj_rest_auth.views import (
     LoginView,
@@ -17,6 +17,8 @@ from dj_rest_auth.registration.views import (
     ResendEmailVerificationView,
 )
 from django.views.generic import TemplateView
+from rest_framework_simplejwt.views import TokenVerifyView
+from dj_rest_auth.jwt_auth import get_refresh_view
 
 # Routers
 router = routers.DefaultRouter()
@@ -41,7 +43,8 @@ urlpatterns = [
         name="account_email_verification_sent",
     ),
     # Password
-    path("password/reset/", PasswordResetView.as_view(), name="rest_password_reset"),
+    path("password/reset/", PasswordResetView.as_view(),
+         name="rest_password_reset"),
     path(
         "rest-auth/password/reset/confirm/<str:uidb64>/<str:token>",
         PasswordResetConfirmView.as_view(),
@@ -52,5 +55,10 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="rest_logout"),
     path("user/", UserDetailsView.as_view(), name="rest_user_details"),
     # Change Password
-    path("password/change/", PasswordChangeView.as_view(), name="rest_password_change"),
+    path("password/change/", PasswordChangeView.as_view(),
+         name="rest_password_change"),
+    # Token
+    path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('token/refresh/', get_refresh_view().as_view(), name='token_refresh'),
+
 ]

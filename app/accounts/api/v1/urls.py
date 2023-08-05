@@ -27,11 +27,21 @@ router = routers.DefaultRouter()
 # URLs
 urlpatterns = [
     # Register
-    path("register/", RegisterView.as_view(), name="rest_register"),
     path(
-        "resend-email/", ResendEmailVerificationView.as_view(), name="rest_resend_email"
+        "register/",
+        RegisterView.as_view(),
+        name="rest_register"
     ),
-    path("verify-email/", VerifyEmailView.as_view(), name="rest_verify_email"),
+    path(
+        "resend-email/",
+        ResendEmailVerificationView.as_view(),
+        name="rest_resend_email"
+    ),
+    path(
+        "verify-email/",
+        VerifyEmailView.as_view(),
+        name="rest_verify_email"
+    ),
     re_path(
         "account-confirm-email/(?P<key>[-:\w]+)/$",
         VerifyEmailView.as_view(),
@@ -44,20 +54,38 @@ urlpatterns = [
     ),
 
     # Password
-    path("password/reset/", PasswordResetView.as_view(),
-         name="rest_password_reset"),
+    path(
+        "password/reset/",
+        PasswordResetView.as_view(),
+        name="rest_password_reset"
+    ),
     path(
         "password/reset/confirm/<str:uidb64>/<str:token>",
         PasswordResetConfirmView.as_view(),
         name="password_reset_confirm",
     ),
-    path("password/change/", PasswordChangeView.as_view(),
-         name="rest_password_change"),
+    path(
+        "password/change/",
+        PasswordChangeView.as_view(),
+        name="rest_password_change"
+    ),
 
     # Login
-    path("login/", LoginView.as_view(), name="rest_login"),
-    path("logout/", LogoutView.as_view(), name="rest_logout"),
-    path("user/", UserDetailsView.as_view(), name="rest_user_details"),
+    path(
+        "login/",
+        LoginView.as_view(),
+        name="rest_login"
+    ),
+    path(
+        "logout/",
+        LogoutView.as_view(),
+        name="rest_logout"
+    ),
+    path(
+        "user/",
+        UserDetailsView.as_view(),
+        name="rest_user_details"
+    ),
 
     # Token
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),

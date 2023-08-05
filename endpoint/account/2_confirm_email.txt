@@ -1,0 +1,11 @@
+###
+# Confirm email
+###
+
+# URL
+http://localhost:8000/api/v1/account-confirm-email/MQ:1qSM9b:s1QvEmU8ZMOSTfDaHpPq65RZ58S7BR8g32aTRTHctzs/
+
+#json
+{
+    "key" : "MQ:1qSM9b:s1QvEmU8ZMOSTfDaHpPq65RZ58S7BR8g32aTRTHctzs"
+}

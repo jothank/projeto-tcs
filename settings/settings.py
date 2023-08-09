@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
 
     # Apps
-    "app.accounts",
+    "app.accounts", "app.address",
 
     # CorsHeaders
     "corsheaders",

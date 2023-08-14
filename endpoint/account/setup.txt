@@ -1,0 +1,44 @@
+Nome da Lib: dj-rest-auth
+Link da documentação: https://dj-rest-auth.readthedocs.io/en/latest/
+
+O motivo de utilizar esta biblioteca é a facilidade de implementação, 
+o que reduz significativamente o tempo necessário para criar autenticação usando 
+o Django Rest Framework. Além disso, trata-se de uma biblioteca recente, que tem sido mantida
+e atualizada regularmente. 
+Também, já utiliza o SimpleJWT por padrão, garantindo uma autenticação com tokens para maior segurança.
+
+Para utilizar os endpoints, é recomendado o uso do Postman.
+
+1- Para realizar o cadastro de usuário, siga o passo 1: vá para a pasta 
+"endpoint" -> "account" -> "register".
+
+2- Após realizar o cadastro do usuário, no terminal da IDE será exibida uma prévia 
+do email contendo a URL para a confirmação do email. Para realizar a confirmação do email, 
+siga o passo 2: vá para a pasta "endpoint" -> "account" -> "confirm_email".
+*Observação: esse passo precisa ser realizado para que o login do usuário seja efetuado com sucesso.
+
+3- Para realizar o login, é necessário que o email esteja confirmado. 
+Após a confirmação do email, siga os passos descritos no passo 3: 
+vá para a pasta "endpoint" -> "account" -> "login".
+
+4- Para realizar a recuperação de senha, siga o passo 4: 
+vá para a pasta "endpoint" -> "account" -> "reset_password".
+Após enviar o email pelo endpoint, se o email estiver correto, o link para resetar 
+a senha aparecerá no terminal. Então, basta acessar o link e preencher os campos obrigatórios 
+descritos na pasta mencionada anteriormente. No entanto, é importante saber que o 
+UID é o número informado na URL e o Token é o trecho da URL sem as "/".
+Exempo: 
+http://127.0.0.1:8000/api/v1/password/reset/confirm/1/bsh316-8ed9d77abd19800a6c9c844bd0ea00bd
+LocalHost:8000/api/v1/password/reset/confirm/UID/TOKEN
+
+5- Para realizar a troca de senha, siga o passo 5:
+vá para a pasta "endpoint" -> "account" -> "change_password"
+*Observação: esse passo precisa ser realizado login antes e enviar o token para autenticação.
+
+6- Token Refresh, siga o passo 6:
+vá para a pasta "endpoint" -> "account" -> "token"
+Observação: Esta biblioteca utiliza SimpleJWT. A cada login, são gerados 
+um token de acesso e um token de refresh. Para que a navegação seja autenticada, 
+é necessário usar o "access token". Após um período de 5 minutos, esse token vai expirar. 
+Portanto, para se manter autenticado, é preciso utilizar o "refresh token" para atualizar 
+e validar o usuário.

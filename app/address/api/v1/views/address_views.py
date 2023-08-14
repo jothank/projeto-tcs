@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from django_filters import rest_framework as filters
-from app.address.models.user import Address
+from app.address.models.address import Address
 from django_filters.rest_framework import DjangoFilterBackend
 from app.address.api.v1.serializers.address import DefaultAddressSerializer
 from app.address.api.v1.filters.address.address_filter import AddressFilter

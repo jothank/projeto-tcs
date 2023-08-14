@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from app.address.models.user import Address
+from app.address.models.address import Address
 
 class AddressFilter(filters.FilterSet):
 
@@ -26,4 +26,4 @@ class AddressFilter(filters.FilterSet):
     class Meta:
         model = Address
         fields = '__all__'
-        exclude = ['id', 'created_at', 'updated_at', 'deleted_at', ]
+       

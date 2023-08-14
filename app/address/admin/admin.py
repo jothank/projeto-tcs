@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app.address.models.user import Address
+from app.address.models.address import address
 
 
 
@@ -9,4 +9,4 @@ class AddressAdmin(admin.ModelAdmin):
     list_filter = ('street', 'number', 'complement', 'neighborhood', 'city', 'state', 'country', 'zipcode', )
 
 
-admin.site.register(Address, AddressAdmin)
+admin.site.register(address, AddressAdmin)

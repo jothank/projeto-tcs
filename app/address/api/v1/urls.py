@@ -7,11 +7,13 @@ from app.address.api.v1.views.address_views import AddressViewSet
 
 
 # Routers
-router = routers.DefaultRouter()
-router.register(r'address', AddressViewSet)
+router = routers.SimpleRouter()
+router.register(r'address', AddressViewSet, basename='address')
 
 # URLs
 urlpatterns = [
      path('', include(router.urls)),
+    
   
 ]
+

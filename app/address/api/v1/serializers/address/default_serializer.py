@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from app.address.models.user import Address
+from app.address.models.address import Address
 
 
 class DefaultAddressSerializer(serializers.ModelSerializer):

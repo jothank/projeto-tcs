@@ -1,5 +1,0 @@
-Let's verify your email!
-
-Just use the link below to verify your email and follow the next steps to confirm your account.
-{{ activate_url }}
-

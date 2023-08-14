@@ -49,6 +49,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    
+    #Django filters
+    'django_filters',
 
     # Apps
     "app.accounts", "app.address",

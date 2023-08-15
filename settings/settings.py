@@ -92,7 +92,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.template.context_processors.i18n",
                 "django.contrib.messages.context_processors.messages",
-            ],
+                "app.accounts.context_processors.frontend_url",],
         },
     },
 ]
@@ -228,3 +228,5 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost",
 ]
+
+FRONTEND_URL = 'https://seu-frontend.com'

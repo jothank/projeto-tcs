@@ -1,5 +1,7 @@
-Let's verify your email!
+{% include "account/email/email_confirmation_message.html" %}
+Olá, {{ user.username }}!
 
-Just use the link below to verify your email and follow the next steps to confirm your account.
-{{ activate_url }}
+Obrigado por se registrar. Por favor, clique no link abaixo para confirmar seu email:
+
+
 

@@ -52,6 +52,10 @@ INSTALLED_APPS = [
 
     # Apps
     "app.accounts",
+    "app.address",
+    
+    # Django Filters
+    "django_filters",
 
     # CorsHeaders
     "corsheaders",

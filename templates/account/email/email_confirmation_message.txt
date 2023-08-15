@@ -1,6 +1,7 @@
+{% include "account/email/email_confirmation_message.html" %}
 Olá, {{ user.username }}!
 
 Obrigado por se registrar. Por favor, clique no link abaixo para confirmar seu email:
 
-{{ FE_URL }}/api/v1/account-confirm-email/{{ key }}
+
 

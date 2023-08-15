@@ -1,5 +1,6 @@
-Let's verify your email!
+Olá, {{ user.username }}!
 
-Just use the link below to verify your email and follow the next steps to confirm your account.
-{{ activate_url }}
+Obrigado por se registrar. Por favor, clique no link abaixo para confirmar seu email:
+
+{{ FE_URL }}/api/v1/account-confirm-email/{{ key }}
 

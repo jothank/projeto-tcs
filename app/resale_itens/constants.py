@@ -1,5 +1,5 @@
 """
-Address Constants
+ResaleItens Constants
 """
 ###
 # Libraries

@@ -1,48 +1,51 @@
+###
+# Libs
+###
 from django.utils.translation import gettext as _
 from django.db import models
 
 
-class Address(models.Model): 
-    
+###
+# Model
+###
+class Address(models.Model):
+
     street = models.CharField(
-        verbose_name=_('Street'),
         max_length=255,
-        
+        verbose_name=_('Street'),
+
     )
     number = models.CharField(
-        verbose_name=_('Number'),
         max_length=255,
-       
+        verbose_name=_('Number'),
+
     )
     complement = models.CharField(
-        verbose_name=_('Complement'),
         max_length=255,
-       
+        verbose_name=_('Complement'),
+
     )
     neighborhood = models.CharField(
-        verbose_name=_('Neighborhood'),
         max_length=255,
-        
+        verbose_name=_('Neighborhood'),
+
     )
     city = models.CharField(
-        verbose_name=_('City'),
         max_length=255,
-        
+        verbose_name=_('City'),
+
     )
     state = models.CharField(
-        verbose_name=_('State'),
         max_length=255,
-        
+        verbose_name=_('State'),
+
     )
     country = models.CharField(
-        verbose_name=_('Country'),
         max_length=255,
-        
+        verbose_name=_('Country'),
+
     )
     zipcode = models.CharField(
-        verbose_name=_('Zipcode'),
         max_length=255,
-       
+        verbose_name=_('Zipcode'),
     )
-  
-

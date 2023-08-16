@@ -1,5 +1,5 @@
 """
-Address URL Configuration
+ResaleItens URL Configuration
 """
 ###
 # Libraries
@@ -13,5 +13,5 @@ from django.urls import path, include
 
 
 urlpatterns = [
-    path('api/v1/', include('app.address.api.v1.urls'))
+    path('api/v1/', include('app.resale_itens.api.v1.urls'))
 ]

@@ -1,5 +1,5 @@
 """
-API V1: Address Permissions
+API V1: ResaleItens Permissions
 """
 ###
 # Libraries

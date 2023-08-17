@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # Apps
     "app.accounts",
     "app.address",
+    "app.product_registration",
     
     # Django Filters
     "django_filters",

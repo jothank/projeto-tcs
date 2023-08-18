@@ -17,6 +17,6 @@ class ResaleItem(models.Model):
         max_length=255,
         verbose_name=_('Description')
     )
-    purchase_price = models.DecimalField(
+    purchase_price = models.FloatField(
         verbose_name=_('Purchase Price'),
     )

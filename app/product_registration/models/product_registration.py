@@ -16,7 +16,25 @@ class ProductRegistration(models.Model):
     unit_measure = models.CharField(max_length=50)
     percentage_loss = models.DecimalField(max_digits=5, decimal_places=2)
     
+    @property
+    def unidade_medida(self):
+        if self.unit_measure == 'mass':
+            return Mass(kg=self.quantity)
+        elif self.unit_measure == 'volume':
+            return Volume(l=self.quantity)
+
+    @unidade_medida.setter
+    def unidade_medida(self, value):
+        
+        if isinstance(value, Mass):
+            self.quantity = value.kg
+            self.unit_measure = 'mass'
+        elif isinstance(value, Volume):
+            self.quantity = value.l
+            self.unit_measure = 'volume'
+
+    
     
 
     def __str__(self):
-        return f'Produto: {self.produto}, Item de Revenda: {self.item_revenda}'
+        return f'Produto: {self.product}, Item de Revenda: {self.reseller_item}'

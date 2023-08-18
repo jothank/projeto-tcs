@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "app.accounts",
     "app.address",
     "app.product_registration",
+    "app.product_specification",
     "app.resale_item",
 
     # Django Filters

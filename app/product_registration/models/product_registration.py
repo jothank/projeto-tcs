@@ -19,22 +19,36 @@ class ProductRegistration(models.Model):
     @property
     def unidade_medida(self):
         if self.unit_measure == 'mass':
-            return Mass(kg=self.quantity)
+            return Mass(kg=self.insumos.quantity)
         elif self.unit_measure == 'volume':
-            return Volume(l=self.quantity)
+            return Volume(l=self.insumos.quantity)
+        elif self.unit_measure == 'ml':
+            return Volume(ml=self.insumos.quantity)
+        elif self.unit_measure == 'g':
+            return Mass(g=self.insumos.quantityy)
+        elif self.unit_measure == 'mg':
+            return Mass(mg=self.insumos.quantity)
 
     @unidade_medida.setter
     def unidade_medida(self, value):
         
-        if isinstance(value, Mass):
-            self.quantity = value.kg
-            self.unit_measure = 'mass'
-        elif isinstance(value, Volume):
-            self.quantity = value.l
+       if isinstance(value, Mass):
+            self.insumos.quantity = value.kg
+            if value.unit == 'g':
+                self.unit_measure = 'g'
+            elif value.unit == 'mg':
+                self.unit_measure = 'mg'
+            else:
+                self.unit_measure = 'mass'
+       elif isinstance(value, Volume):
+            self.insumos.quantity = value.l
             self.unit_measure = 'volume'
+            if isinstance(value, Volume):
+                self.insumos.quantity = value.ml
+                self.unit_measure = 'ml'
 
     
     
 
     def __str__(self):
-        return f'Produto: {self.product}, Item de Revenda: {self.reseller_item}'
+        return f'ProductRegistration ID: {self.id}'

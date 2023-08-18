@@ -12,7 +12,7 @@ from django.apps import AppConfig
 ###
 class ResaleItemConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'app.resale_itens'
+    name = 'app.resale_item'
 
     def ready(self):
         import app.resale_item.signals

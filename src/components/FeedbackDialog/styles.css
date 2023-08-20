@@ -1,0 +1,42 @@
+dialogContentContainer {
+  color: #F5F5F5;
+  height: 100%;
+  padding: 24px;
+}
+
+;
+
+dialogContentContainer>svg {
+  font-size: 60px;
+}
+
+feedbackDialogButton {
+  background: #FFF;
+  color: #000;
+}
+
+;
+
+paperRoot {
+    z-index: 1301;
+    min-width: 530px;
+    width: 100%;
+    min-height: 285px;
+    border-radius: 12px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+
+;
+
+
+feedbackDialogAddActionButton {
+  color: #f8f8ff;
+  border: 0;
+  text-decoration: underline;
+  font-size: 11px;
+}
+
+;

@@ -1,12 +1,11 @@
 from django.contrib import admin
-from app.address.models.address import Address
+from app.company.models.company import Company
 
 
 
-class AddressAdmin(admin.ModelAdmin):
-    list_display = ('street', 'number', 'complement', 'neighborhood', 'city', 'state', 'country', 'zipcode', )
-    search_fields = ('street', 'number', 'complement', 'neighborhood', 'city', 'state', 'country', 'zipcode', )
-    list_filter = ('street', 'number', 'complement', 'neighborhood', 'city', 'state', 'country', 'zipcode', )
-
-
-admin.site.register(Address, AddressAdmin)
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ('name', 'cnpj', 'phone', 'email','street', 'number', 'complement', 'neighborhood', 'city', 'state', 'country', 'zipcode',  )
+    search_fields = ('name', 'cnpj', 'phone', 'email','street', 'number', 'complement', 'neighborhood', 'city', 'state', 'country', 'zipcode',  )
+    list_filter = ('name', 'cnpj', 'phone', 'email','street', 'number', 'complement', 'neighborhood', 'city', 'state', 'country', 'zipcode',  )
+    ordering = ('name', 'cnpj', 'phone', 'email','street', 'number', 'complement', 'neighborhood', 'city', 'state', 'country', 'zipcode',  )
+admin.site.register(Company, CompanyAdmin)

@@ -8,7 +8,24 @@ from django.db import models
 ###
 # Model
 ###
-class Address(models.Model):
+class Company(models.Model):
+    
+    name: models.CharField(
+        max_length=255,
+        verbose_name=_('Name'),
+    )
+    cnpj: models.CharField(
+        max_length=255,
+        verbose_name=_('CNPJ'),
+    )
+    email: models.CharField(
+        max_length=255,
+        verbose_name=_('Email'),
+    )
+    phone: models.CharField(    
+        max_length=255, 
+        verbose_name=_('Phone'),
+    )
 
     street = models.CharField(
         max_length=255,
@@ -20,11 +37,7 @@ class Address(models.Model):
         verbose_name=_('Number'),
 
     )
-    complement = models.CharField(
-        max_length=255,
-        verbose_name=_('Complement'),
-
-    )
+   
     neighborhood = models.CharField(
         max_length=255,
         verbose_name=_('Neighborhood'),

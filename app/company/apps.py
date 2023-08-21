@@ -3,7 +3,7 @@ from django.apps import AppConfig
 
 class AddressConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'app.address'
+    name = 'app.company'
 
     def ready(self):
-        import app.address.signals
+        import app.company.signals

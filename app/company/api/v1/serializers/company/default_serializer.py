@@ -5,15 +5,15 @@ API V1: Address Serializers
 # Libraries
 ###
 from rest_framework import serializers
-from app.address.models.address import Address
+from app.company.models.company import Company
 
 ###
 # Serializers
 ###
 
 
-class DefaultAddressSerializer(serializers.ModelSerializer):
+class DefaultCompanySerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Address
+        model = Company
         fields = '__all__'

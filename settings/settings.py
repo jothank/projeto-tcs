@@ -52,7 +52,7 @@ INSTALLED_APPS = [
 
     # Apps
     "app.accounts",
-    "app.address",
+    "app.company",
     "app.product_registration",
     "app.product_specification",
     "app.resale_item",

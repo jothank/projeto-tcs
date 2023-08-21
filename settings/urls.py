@@ -9,4 +9,5 @@ urlpatterns = [
     path('', CustomLoginView.as_view(), name='custom_login'), 
     path('reset_password/', CustomResetPasswordView.as_view(), name='reset_password'),
     path('api/', include('app.accounts.urls')),
+    path('', include('app.feedstock.urls')),
 ]

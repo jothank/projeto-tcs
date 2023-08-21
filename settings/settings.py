@@ -51,8 +51,12 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
 
+    #Django filters
+    'django_filters',
+    
     # Apps
     "app.accounts",
+    "app.feedstock",
 
     # CorsHeaders
     "corsheaders",
@@ -210,6 +214,9 @@ SITE_ID = 1
 # Rest Framework
 ###
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    ),
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
     ],

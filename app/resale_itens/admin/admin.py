@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app.address.models.address import Address
+from app.company.models.company import Address
 
 
 class ResaleItensAdmin(admin.ModelAdmin):

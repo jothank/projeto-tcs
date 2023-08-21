@@ -1,5 +1,5 @@
 """
-API V1: Address Serializers
+API V1: Company Serializers
 """
 ###
 # Libraries

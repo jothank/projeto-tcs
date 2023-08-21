@@ -52,9 +52,7 @@ INSTALLED_APPS = [
 
     # Apps
     "app.accounts",
-    "app.company",
-    "app.product_registration",
-    "app.product_specification",
+    "app.fixed_expense",
     "app.resale_item",
 
     # Django Filters

@@ -3,12 +3,16 @@
 ##
 from django.urls import path, include
 from rest_framework import routers
-from app.address.api.v1.views.address_views import AddressViewSet
+from app.fixed_expense.api.v1.views.fixed_expense_views import FixedExpenseViewSet
 
 
 # Routers
 router = routers.SimpleRouter()
-# router.register(r'address', AddressViewSet, basename='address')
+router.register(
+    r'fixed_expense',
+    FixedExpenseViewSet,
+    basename='fixed_expense'
+)
 
 # URLs
 urlpatterns = [

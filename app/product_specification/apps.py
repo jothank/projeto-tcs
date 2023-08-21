@@ -1,5 +1,5 @@
 """
-ResaleItens
+ProductSpecification
 """
 ###
 # Libraries
@@ -10,9 +10,9 @@ from django.apps import AppConfig
 ###
 # Config
 ###
-class ResaleItensConfig(AppConfig):
+class ProductSpecificationConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'app.resale_itens'
+    name = 'app.product_specification'
 
     def ready(self):
-        import app.resale_itens.signals
+        import app.product_specification.signals

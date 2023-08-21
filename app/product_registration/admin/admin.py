@@ -1,9 +1,9 @@
 from django.contrib import admin
-from app.company.models.company import Address
+from app.product_registration.models.product_registration import ProductRegistration
 
 
-class ResaleItensAdmin(admin.ModelAdmin):
+class ProductRegistrationAdmin(admin.ModelAdmin):
     ...
 
 
-admin.site.register(Address, ResaleItensAdmin)
+admin.site.register(ProductRegistration, ProductRegistrationAdmin)

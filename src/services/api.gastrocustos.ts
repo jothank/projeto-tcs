@@ -29,7 +29,7 @@ apiGastroCustos.interceptors.response.use(
     if (axios.isAxiosError(er)) {
       if (er.response) {
         if (er.response.status == 401) {
-          useNavigate()("/login");
+          useNavigate()("login/");
 
         }
       }

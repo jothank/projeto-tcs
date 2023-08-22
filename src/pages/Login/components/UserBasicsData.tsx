@@ -92,49 +92,8 @@ const UserBasicsData = () => {
     addNewUserDoc(e.target.value);
     let error = '';
 
-    if (cleanDoc && cleanDoc.length === 14) {
-      addIsOrganization(true);
-      setLoading(true)
-      resetAddress();
-
-      fetchJsonp(`https://receitaws.com.br/v1/cnpj/${cleanDoc}`)
-        .then((res: { json: () => any; }) => res.json())
-        .then((data: any) => {
-          if (data.status === 'OK') {
-
-            addNewUser({ ...newUser, nome : data.nome })
-
-            addNewUserAddress({
-              city: data.municipio,
-              state: data.uf,
-              street: data.logradouro,
-              neighborhood: data.bairro,
-              country: 'Brasil',
-              number: data.numero,
-              cep: data.cep
-            })
-
-            addNewUserNameOrg(data.nome)
-            addNewUserTypeOrg('publica');
-            setLoading(false)
-            setDocChecked(true);
-            setCheckedError(false);
-          }
-          else {
-            addDocErrors('CNPJ não encontrado');
-            setCheckedError(true);
-            setLoading(false);
-            setDocChecked(false);
-          }
-        }
-        ).catch((err) => {
-          addDocErrors('Aguarde um momento antes de tentar novamente');
-          setLoading(false)
-          setDocChecked(false);
-          setCheckedError(true);
-        })
-    }
-    else if (cleanDoc && cleanDoc.length === 11) {
+   
+   if (cleanDoc && cleanDoc.length === 11) {
       setCpfLoading(true)
       resetAddress();
       addIsOrganization(false);
@@ -181,7 +140,7 @@ const UserBasicsData = () => {
       <CustomTextField
         name="documento"
         type="standard"
-        label="CPF/CNPJ"
+        label="CPF"
         fullWidth
         value={setCpfCnpjMask(newUserDoc)}
         onChange={getCheckDoc}

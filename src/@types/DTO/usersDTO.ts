@@ -1,20 +1,14 @@
 
 
 export interface addNewUserDTO {
-    email: string,
+    cpf: string,
+	email: string,
     name: string,
     phone: string,
-    approved: boolean,
-    paymentMethod: string,
-    isOrganization: string,
-    street: string,
-    address: string,
-    number: string,
-    state: string,
-    city: string,
-    cep: string,
-    type?: string,
-    file?: string,
+	password1: string,
+	password2: string,
+	username: string
+	
 }
 
 export interface getUsersDTO {

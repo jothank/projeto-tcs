@@ -13,7 +13,7 @@ import { NewPasswordProvider } from '../../context/newPasswordContext';
 
 
 type FormValuesProps = {
-  email: string;
+  username: string;
   password: string;
   afterSubmit?: string;
 };
@@ -26,13 +26,13 @@ export default function AuthLoginForm() {
   const [openNewPassword, setOpenNewPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().required('Por favor, digite um email').email('Email inválido!'),
+    cpf: Yup.string().required('Por favor, digite seu cpf'),
     password: Yup.string().required('Por favor, digite sua senha'),
   });
 
   const defaultValues = {
-    email: 'maruanibrahim22@gmaill.com',
-    password: '12345',
+    username: '07980274954',
+    password: '@Testando123',
   };
 
   const methods = useForm<FormValuesProps>({
@@ -49,7 +49,7 @@ export default function AuthLoginForm() {
 
   const onSubmit = async (data: FormValuesProps) => {
     try {
-      await login(data.email, data.password);
+      await login(data.username, data.password);
     } catch (error) {
       console.error(error);
 
@@ -67,7 +67,7 @@ export default function AuthLoginForm() {
       <Stack spacing={3}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
 
-        <RHFTextField name="email" label="Email" />
+        <RHFTextField name="username" label="CPF" />
 
         <RHFTextField
           name="password"

@@ -4,14 +4,13 @@ import {
   CustomDialogProps,
 } from '../../../components/CustomDialog';
 import { useCallback, useMemo, useState } from 'react';
-import UserCNPJCheck from '../components/UserCPNJCheck';
 import UserBasicsData from '../components/UserBasicsData';
 import CustomStepperCard from '../../../components/CustomStepperCard';
 import { useNewUserContext } from '../../../context/newUserContext';
 import { useFeedback } from '../../../context/Feedback';
-import { addNewUserAPI, addNewUserFileAPI } from '../../../services/users.services';
-import { UserFileDTO } from '../../../@types/DTO/loginDTO';
+import { addNewUserAPI} from '../../../services/users.services';
 import UserPasswordData from '../components/UserPasswordData';
+
 
 const NewUser = (props: CustomDialogProps) => {
   const { addFeedback } = useFeedback();
@@ -22,24 +21,15 @@ const NewUser = (props: CustomDialogProps) => {
       basicErrors,
       addressErrors,
       newUserAdress,
-      newUserDoc,
-      newUserTypeOrg,
-      fileErrors,
-      newUserFile,
-      paymentMethod,
       isOrganization,
       addNewUser,
       addNewUserAddress,
       addNewUserTypeOrg,
       addIsOrganization,
-      addNewUserDoc,
-      addNewUserNameOrg,
-      addNewUserFile,
-      addPaymentMethod,
-      newUserDocError,
       newUserPassword,
       addNewUserPassword,
       passwordErrors,
+      newUserDoc
 
     } = useNewUserContext()
   
@@ -68,32 +58,14 @@ const NewUser = (props: CustomDialogProps) => {
     })
     addNewUserTypeOrg('publica')
     addIsOrganization(false)
-    addNewUserDoc('')
-    addNewUserNameOrg('')
-    addNewUserFile({
-      name: '',
-      type: '',
-      base64: '',
-    })
-    addPaymentMethod('prePago')
   }
 
-  // const errors = `
-  // basic error: basicErrors
-  // Address error: addressErrors
-  // fileErrors error: fileErrors
-  // password error : passwordErrors
-  // `
-  // console.log("errors" , errors)
-  // console.log("Block User", newUser)
 
   const [loadingFinish, setLoadingFininsh] = useState(false);
 
   //errors tests
   const basicsHasError = !(Object.values(basicErrors).some((item: any) => item !== "") || Object.values(newUser).some((item: any) => item === ""));
-  const docHasError = !(newUserDoc === '' || newUserDocError !== '');
   const addressHasError = !(Object.values(addressErrors).some((item: any) => item !== "") || Object.values(newUserAdress).some((item: any) => item === ""));
-  const fileHasError = !(newUserFile.base64 === "" || !!fileErrors);
   const passwordHasError = !(newUserPassword.senha === '' || Object.values(passwordErrors).some((item: any) => item !== ""));
 
   console.log("passwordHasError", newUserPassword.senha)
@@ -104,14 +76,14 @@ const NewUser = (props: CustomDialogProps) => {
           id: 1,
           label: '',
           element: <UserBasicsData />,
-          canProceed: basicsHasError && docHasError
+          canProceed: basicsHasError
         },
-        {
-          id: 2,
-          label: '',
-          element: <UserCNPJCheck />,
-          canProceed: addressHasError
-        },
+        // {
+        //   id: 2,
+        //   label: '',
+        //   element: <UserCNPJCheck />,
+        //   canProceed: addressHasError
+        // },
        
         {
           id: 5,
@@ -126,14 +98,14 @@ const NewUser = (props: CustomDialogProps) => {
           id: 5,
           label: '',
           element: <UserBasicsData />,
-          canProceed: basicsHasError && docHasError
+          canProceed: basicsHasError 
         },
-        {
-          id: 6,
-          label: '',
-          element: <UserCNPJCheck />,
-          canProceed: addressHasError
-        },
+        // {
+        //   id: 6,
+        //   label: '',
+        //   element: <UserCNPJCheck />,
+        //   canProceed: addressHasError
+        // },
         
         {
           id: 8,
@@ -144,27 +116,11 @@ const NewUser = (props: CustomDialogProps) => {
       ]
     }
   }, [
-    fileHasError,
+
     basicsHasError,
-    docHasError,
     passwordHasError,
-    paymentMethod,
     addressHasError,
   ]);
-
-  const fetchFile = (file: UserFileDTO, userData: any) => {
-
-    addNewUserFileAPI(file).then((res) => {
-      fetchUser({ ...userData, file: res.data.dados });
-
-    }).catch((err) => {
-      addFeedback({
-        type: 'error',
-        title: '',
-        description: 'Não foi possível enviar o arquivo!',
-      })
-    })
-  }
 
   const fetchUser = async (userData: any) => {
     setLoadingFininsh(true)
@@ -173,7 +129,7 @@ const NewUser = (props: CustomDialogProps) => {
       addFeedback({
         type: 'success',
         title: '',
-        description: 'Pronto, agora só aguardar a sua aprovação!',
+        description: 'Usuário cadastrado com sucesso',
       });
       handleClose();
 
@@ -193,42 +149,34 @@ const NewUser = (props: CustomDialogProps) => {
   const onFinish = useCallback(async () => {
     console.log("newUserPassword.senha", newUserPassword.senha)
     const userData = {
-      doc: newUserDoc,
-      password: newUserPassword.senha,
+     cpf: newUserDoc,
+      password1: newUserPassword.senha,
+      password2: newUserPassword.senha,
       email: newUser.email,
       name: newUser.nome,
       phone: newUser.telefone,
-      approved: false,
-      paymentMethod: paymentMethod,
-      isOrganization: isOrganization,
-      street: newUserAdress.street,
-      address: newUserAdress.street,
-      number: newUserAdress.number,
-      state: newUserAdress.state,
-      city: newUserAdress.city,
-      cep: newUserAdress.cep,
-      type: newUserTypeOrg || '',
+      username: newUserDoc,
+      
+    
     }
-    if (isOrganization) {
-      const file = {
-        base64: newUserFile.base64,
-        name: newUserFile.name,
-        type: newUserFile.type,
-      }
-      fetchFile(file, userData);
-    } else {
-      fetchUser(userData);
+    console.log('finalizar', newUser.newUserDoc)
+    try {
+     const doc = addNewUserAPI(userData) 
+     addFeedback({
+      type: 'success',
+      title: '',
+      description: 'Usuário aprovado com sucesso',
+    })
+    } catch (error) {
+      addFeedback({
+        type: 'error',
+        title: '',
+        description: 'Não foi possível cadastar um novo usuário',
+      })
     }
-
-
   }, [
     newUser,
     newUserAdress,
-    newUserDoc,
-    newUserTypeOrg,
-    newUserFile,
-    paymentMethod,
-    isOrganization,
     loadingFinish,
     newUserPassword
   ]);

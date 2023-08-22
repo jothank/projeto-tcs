@@ -9,6 +9,7 @@ const NewUserProvider = ({ children }: any) => {
     nome: '',
     telefone: '',
     email: '',
+    
   });
 
   const [ newUserPassword, setNewUserPassword] = useState({

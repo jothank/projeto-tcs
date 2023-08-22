@@ -1,8 +1,7 @@
 
 import { Stack, Box } from '@mui/material';
 import { StyledRoot, StyledSectionBg, StyledSection, StyledContent } from './styles';
-import logoTop from '/logo/logo_branco.png'
-// import logoStart from '/logo/logoXDB.png'
+
 
 
 type Props = {

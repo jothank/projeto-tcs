@@ -109,3 +109,12 @@ docker/db2/
 # Mac
 .DS_STORE
 app/accounts/migrations/0001_initial.py
+app/feedstock/admin/__init__.py
+app/feedstock/admin/inlines/__init__.py
+app/feedstock/api/__init__.py
+app/feedstock/api/v1/__init__.py
+app/feedstock/helpers/__init__.py
+app/feedstock/management/__init__.py
+app/feedstock/signals/__init__.py
+app/feedstock/tasks/__init__.py
+app/feedstock/tests/__init__.py

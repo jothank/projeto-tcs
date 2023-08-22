@@ -9,7 +9,7 @@ class CompanyFilter(filters.FilterSet):
         field_name='cnpj', lookup_expr='icontains', method='filter_cnpj')
     email = filters.CharFilter(
         field_name='email', lookup_expr='icontains', method='filter_email')
-    phone = filters.CharFilter( 
+    phone = filters.CharFilter(
         field_name='phone', lookup_expr='icontains', method='filter_phone')
     zipcode = filters.CharFilter(
         field_name='zipcode', lookup_expr='icontains', method='filter_zipcode')
@@ -24,16 +24,16 @@ class CompanyFilter(filters.FilterSet):
 
     def filter_name(self, queryset, name, value):
         return queryset.filter(name__icontains=value)
-    
+
     def filter_cnpj(self, queryset, name, value):
         return queryset.filter(cnpj__icontains=value)
-    
+
     def filter_email(self, queryset, name, value):
         return queryset.filter(email__icontains=value)
-    
+
     def filter_phone(self, queryset, name, value):
         return queryset.filter(phone__icontains=value)
-    
+
     def filter_zipcode(self, queryset, name, value):
         return queryset.filter(zipcode__icontains=value)
 

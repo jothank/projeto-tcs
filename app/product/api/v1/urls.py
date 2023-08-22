@@ -3,12 +3,12 @@
 ##
 from django.urls import path, include
 from rest_framework import routers
-from app.address.api.v1.views.address_views import AddressViewSet
+from app.product.api.v1.views.product_views import ProductViewSet
 
 
 # Routers
 router = routers.SimpleRouter()
-# router.register(r'address', AddressViewSet, basename='address')
+router.register(r'address', ProductViewSet, basename='address')
 
 # URLs
 urlpatterns = [

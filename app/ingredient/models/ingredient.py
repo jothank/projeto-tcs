@@ -9,4 +9,7 @@ from django.db import models
 # Model
 ###
 class Ingredient(models.Model):
-    ...
+    name = models.CharField(max_length=255, verbose_name=_('Name'))
+    quantity = models.FloatField(verbose_name=_('Quantity'))
+    value = models.FloatField(verbose_name=_('Value'))
+    # falta ficha tecnica

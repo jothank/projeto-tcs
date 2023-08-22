@@ -12,8 +12,7 @@ from app.resale_item.models.resale_item import ResaleItem
 # Model
 ###
 class ProductRegistration(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL)
-    resale_item = models.ForeignKey(ResaleItem, on_delete=models.SET_NULL)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
     quantity = models.DecimalField(max_digits=10, decimal_places=2)
     unit_measure = models.CharField(max_length=50)
     percentage_loss = models.DecimalField(max_digits=5, decimal_places=2)

@@ -1,7 +1,13 @@
+###
+# Libraries
+###
 from django_filters import rest_framework as filters
 from app.company.models.company import Company
 
 
+###
+# Filters
+### 
 class CompanyFilter(filters.FilterSet):
     name = filters.CharFilter(
         field_name='name', lookup_expr='icontains', method='filter_name')

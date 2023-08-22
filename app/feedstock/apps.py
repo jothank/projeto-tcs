@@ -1,9 +1,9 @@
 from django.apps import AppConfig
 
 
-class CompanyConfig(AppConfig):
+class FeedstockConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'app.company'
-
+    name = 'app.feedstock'
+    
     def ready(self):
-        import app.company.signals
+        import app.feedstock.signals

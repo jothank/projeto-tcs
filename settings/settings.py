@@ -18,6 +18,7 @@ import dotenv
 # Get data from .env file
 ###
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 dotenv.read_dotenv(os.path.join(BASE_DIR, ".env"))
 ENVIRONMENT = os.environ.get("ENVIRONMENT")
 LOAD_ENVS_FROM_FILE = (
@@ -50,11 +51,13 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
 
+    #Django filters
+    'django_filters',
+    
     # Apps
     "app.accounts",
     "app.fixed_expense",
     "app.resale_item",
-    "app.product",
 
     # Django Filters
     "django_filters",
@@ -151,7 +154,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -163,7 +167,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ###
 
 AUTH_USER_MODEL = "accounts.User"
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 
@@ -214,6 +218,9 @@ SITE_ID = 1
 # Rest Framework
 ###
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    ),
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
     ],

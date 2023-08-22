@@ -51,13 +51,12 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
 
-    #Django filters
-    'django_filters',
-    
     # Apps
     "app.accounts",
     "app.fixed_expense",
     "app.resale_item",
+    "app.feedstock",
+
 
     # Django Filters
     "django_filters",

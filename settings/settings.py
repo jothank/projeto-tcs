@@ -19,7 +19,7 @@ import dotenv
 ###
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = Path(__file__).resolve().parent.parent
-dotenv.read_dotenv(os.path.join(BASE_DIR, ".env"))
+dotenv.load_dotenv(os.path.join(BASE_DIR, ".env"))
 ENVIRONMENT = os.environ.get("ENVIRONMENT")
 LOAD_ENVS_FROM_FILE = (
     True if os.environ.get("LOAD_ENVS_FROM_FILE", False) == "True" else False
@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     # Apps
     "app.accounts",
     "app.feedstock",
+    "app.utils",
 
     # CorsHeaders
     "corsheaders",
@@ -112,7 +113,7 @@ WSGI_APPLICATION = "settings.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 

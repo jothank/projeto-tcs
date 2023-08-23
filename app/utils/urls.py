@@ -1,5 +1,5 @@
 from django.urls import path, include
 
 urlpatterns = [
-    path('', include('app.feedstock.api.v1.urls')),
+    path('', include('app.utils.api.v1.urls')),
 ]

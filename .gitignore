@@ -118,3 +118,10 @@ app/feedstock/management/__init__.py
 app/feedstock/signals/__init__.py
 app/feedstock/tasks/__init__.py
 app/feedstock/tests/__init__.py
+app/feedstock/migrations/__init__.py
+app/utils/migrations/__init__.py
+settings/__init__.py
+app/feedstock/migrations/0001_initial.py
+app/utils/migrations/0001_initial.py
+app/feedstock/migrations/0002_alter_feedstock_options.py
+app/utils/migrations/0002_alter_unit_options.py

@@ -16,18 +16,18 @@ export const addNewUserAPI = async (
 };
 
 export const loginAPI = async (
-  cpf: string,
+  username: string,
   password: string,
 ): Promise<AxiosResponse<any>> => {
   const body = {
-    cpf,
+    username,
     password
   }
-  return await apiGastroCustos.post('login/',body,
+  return await apiGastroCustos.post( 'login/',body,
     {
       headers:
       {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
 
       }
     });

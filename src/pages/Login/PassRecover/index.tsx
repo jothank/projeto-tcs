@@ -47,7 +47,7 @@ const PasswordRecovery = (props: CustomDialogProps) => {
   const onFinish = useCallback(() => {
 
     if (newPassword.email && newPassword.otp && newPassword.password) {
-      changePasswordAPI(newPassword.email, newPassword.otp, newPassword.password)
+      changePasswordAPI(newPassword.email, newPassword.otp, newPassword.password1, newPassword.password2)
       .then(res => {
         addFeedback({
           type: 'success',

@@ -56,10 +56,10 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
         }}
       > 
       <Box style={{ paddingBottom: '2rem' }}>
-         <Logo/>
+         <h1 style={{color: 'white'}}>Gastro Custos</h1>
         
       </Box>
-       <NavAccount />
+       {/* <NavAccount /> */}
       </Stack>
 
       <NavSectionVertical data={navConfig} />

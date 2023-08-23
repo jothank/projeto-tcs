@@ -66,9 +66,9 @@ const NewUser = (props: CustomDialogProps) => {
   //errors tests
   const basicsHasError = !(Object.values(basicErrors).some((item: any) => item !== "") || Object.values(newUser).some((item: any) => item === ""));
   const addressHasError = !(Object.values(addressErrors).some((item: any) => item !== "") || Object.values(newUserAdress).some((item: any) => item === ""));
-  const passwordHasError = !(newUserPassword.senha === '' || Object.values(passwordErrors).some((item: any) => item !== ""));
+  const passwordHasError = !(newUserPassword.password === '' || Object.values(passwordErrors).some((item: any) => item !== ""));
 
-  console.log("passwordHasError", newUserPassword.senha)
+  console.log("passwordHasError", newUserPassword.password)
   const stepElements = useMemo(() => {
     if (isOrganization) {
       return [

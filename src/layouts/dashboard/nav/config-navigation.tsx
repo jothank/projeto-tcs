@@ -24,7 +24,7 @@ const navConfig = [
    // MANAGEMENT
   // ----------------------------------------------------------------------
   {
-    subheader: 'Certificados',
+    subheader: 'Seja bem vindo ao Gastro Custos',
     items: [
     
       // {

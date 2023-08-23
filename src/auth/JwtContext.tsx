@@ -132,9 +132,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, [initialize]);
 
   // LOGIN
-  const login = useCallback(async (cpf: string, password: string ) => {
+  const login = useCallback(async (username: string, password: string ) => {
 
-    const response = await loginAPI(cpf, password );
+    const response = await loginAPI(username, password );
     console.log("response", response)
 
     const { accessToken, user } = response.data;

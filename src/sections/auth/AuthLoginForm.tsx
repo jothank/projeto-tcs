@@ -26,7 +26,7 @@ export default function AuthLoginForm() {
   const [openNewPassword, setOpenNewPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    cpf: Yup.string().required('Por favor, digite seu cpf'),
+    username: Yup.string().required('Por favor, digite seu cpf'),
     password: Yup.string().required('Por favor, digite sua senha'),
   });
 
@@ -48,8 +48,10 @@ export default function AuthLoginForm() {
   } = methods;
 
   const onSubmit = async (data: FormValuesProps) => {
+    console.log(data)
     try {
       await login(data.username, data.password);
+      
     } catch (error) {
       console.error(error);
 
@@ -67,7 +69,7 @@ export default function AuthLoginForm() {
       <Stack spacing={3}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
 
-        <RHFTextField name="username" label="CPF" />
+        <RHFTextField name="username" label="Username" />
 
         <RHFTextField
           name="password"

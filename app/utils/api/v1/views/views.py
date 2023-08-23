@@ -2,8 +2,8 @@ from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination  
 from django_filters import rest_framework as filters
 from app.utils.models.models import Unit
-from app.utils.api.v1.serializers.feedstock.serializer import UnitSerializer
-from app.utils.api.v1.filters.feedstock.filters import UnitFilter
+from app.utils.api.v1.serializers.units.serializer import UnitSerializer
+from app.utils.api.v1.filters.units.filters import UnitFilter
 from rest_framework.response import Response
 
 class CustomPagination(PageNumberPagination):

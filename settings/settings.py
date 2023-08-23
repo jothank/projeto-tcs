@@ -39,6 +39,8 @@ ALLOWED_HOSTS = [
     "*"
 ]
 
+#Desactive slash in the end of url
+APPEND_SLASH = False
 
 # Application definition
 

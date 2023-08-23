@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     "app.accounts",
     "app.fixed_expense",
     "app.resale_item",
-    "app.feedstock",
+    # "app.feedstock",
     "app.company",
     "app.product",
     "app.product_registration",

@@ -6,7 +6,7 @@ import { UserFileDTO } from '../@types/DTO/loginDTO';
 export const addNewUserAPI = async (
   body: addNewUserDTO
 ): Promise<AxiosResponse<any>> => {
-  return await apiGastroCustos.post('register/',body,
+  return await apiGastroCustos.post('http://127.0.0.1:8000/api/v1/register/',body,
     {
       headers:
       {
@@ -23,7 +23,7 @@ export const loginAPI = async (
     username,
     password
   }
-  return await apiGastroCustos.post( 'login/',body,
+  return await apiGastroCustos.post( 'http://127.0.0.1:8000/api/v1/login/',body,
     {
       headers:
       {

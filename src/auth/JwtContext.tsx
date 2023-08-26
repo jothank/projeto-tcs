@@ -7,7 +7,6 @@ import { isValidToken, setSession } from './utils';
 import { ActionMapType, AuthStateType, AuthUserType, JWTContextType } from './types';
 import { getUserAPI, loginAPI } from '../services/users.services';
 
-
 enum Types {
   INITIAL = 'INITIAL',
   LOGIN = 'LOGIN',
@@ -92,7 +91,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const id = storageAvailable ? localStorage.getItem('userID') : '';
 
       if (accessToken && isValidToken(accessToken) && id) {
-        
         setSession(accessToken);
         const response = await getUserAPI(id);
         const { user } = response.data;
@@ -104,8 +102,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
           },
         });
       } else {
-  
-        
         dispatch({
           type: Types.INITIAL,
           payload: {
@@ -115,7 +111,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         });
       }
     } catch (error) {
-
       dispatch({
         type: Types.INITIAL,
         payload: {
@@ -123,7 +118,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
           user: null,
         },
       });
-      
     }
   }, [storageAvailable]);
 
@@ -132,14 +126,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, [initialize]);
 
   // LOGIN
-  const login = useCallback(async (username: string, password: string ) => {
+  const login = useCallback(async (username: string, password: string) => {
+    const response = await loginAPI(username, password);
+    console.log('response', response);
 
-    const response = await loginAPI(username, password );
-    console.log("response", response)
+    const user = response.data.user;
+    const accessToken = response.data.access;
+    const refreshToken = response.data.refresh;
 
-    const { accessToken, user } = response.data;
-
-    localStorage.setItem('userID', user.id);
+    localStorage.setItem('userID', user.pk);
     setSession(accessToken);
     dispatch({
       type: Types.LOGIN,
@@ -147,7 +142,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         user,
       },
     });
-
   }, []);
 
   // REGISTER
@@ -190,9 +184,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
       user: state.user,
       method: 'jwt',
       login,
-      loginWithGoogle: () => { },
-      loginWithGithub: () => { },
-      loginWithTwitter: () => { },
+      loginWithGoogle: () => {},
+      loginWithGithub: () => {},
+      loginWithTwitter: () => {},
       register,
       logout,
     }),

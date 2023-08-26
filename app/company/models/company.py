@@ -55,3 +55,6 @@ class Company(models.Model):
         max_length=255,
         verbose_name=_('Zipcode'),
     )
+
+class Meta:
+        verbose_name_plural = "Companies"

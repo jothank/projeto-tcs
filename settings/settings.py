@@ -33,7 +33,7 @@ LOAD_ENVS_FROM_FILE = (
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if os.environ.get("DEBUG") == "True" else False
 
 ALLOWED_HOSTS = [
     "*"

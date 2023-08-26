@@ -6,7 +6,7 @@ API V1: Company Views
 ###
 from rest_framework import viewsets
 from django_filters import rest_framework as filters
-from app.company.models.company import Address
+from app.company.models.company import Company
 from django_filters.rest_framework import DjangoFilterBackend
 from app.company.api.v1.serializers.company.default_serializer import DefaultCompanySerializer
 from app.company.api.v1.filters.company.company_filter import CompanyFilter

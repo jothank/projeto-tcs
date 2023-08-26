@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from .views import CustomLoginView, CustomResetPasswordView
+from app.company.api.v1.views.company_views import CompanyViewSet
 
 
 urlpatterns = [
@@ -14,4 +15,9 @@ urlpatterns = [
     path('', include('app.resale_item.urls')),
     path('', include('app.product.urls')),
     path('', include('app.product_registration.urls')),
+    path('', include('app.company.urls')),
+    path('api/', include('app.company.urls')),
+    path('api/v1/company/', CompanyViewSet.as_view({'get': 'list', 'post': 'create'}), name='company-list'),
+
+
 ]

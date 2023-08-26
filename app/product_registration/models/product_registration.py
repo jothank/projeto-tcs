@@ -5,7 +5,7 @@ from django.utils.translation import gettext as _
 from django.db import models
 from measurement.measures import Mass, Volume
 from app.product.models.product import Product
-from app.feedstock.models.feedstock import Feedstock
+# from app.feedstock.models.feedstock import Feedstock
 
 
 ###
@@ -16,7 +16,8 @@ class ProductRegistration(models.Model):
     quantity = models.DecimalField(max_digits=10, decimal_places=2)
     unit_measure = models.CharField(max_length=50)
     percentage_loss = models.DecimalField(max_digits=5, decimal_places=2)
-
+    
+    @property
     def unidade_medida(self):
         if self.unit_measure == 'mass':
             return Mass(kg=self.quantity)

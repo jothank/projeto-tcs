@@ -1,5 +1,5 @@
 """
-API V1: Company Views
+API V1: Product Views
 """
 ###
 # Libraries

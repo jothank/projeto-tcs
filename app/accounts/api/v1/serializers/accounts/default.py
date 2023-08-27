@@ -16,7 +16,7 @@ class CustomPasswordResetSerializer(PasswordResetSerializer):
 
     def get_email_options(self):
         return {
-            'subject_template_name': 'accounts/password_reset_subject.txt',
-            'email_template_name': 'accounts/password_reset_message.txt',
-            'html_email_template_name': 'accounts/password_reset_message.html',
+            'subject_template_name': 'account/reset/password_reset_subject.txt',
+            'email_template_name': 'account/reset/password_reset_message.txt',
+            'html_email_template_name': 'account/reset/password_reset_message.html',
         }

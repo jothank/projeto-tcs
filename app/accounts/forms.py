@@ -21,7 +21,7 @@ class CustomResetPasswordForm(PasswordResetForm):
         Sends a django.core.mail.EmailMultiAlternatives to `to_email`.
         """
         uid = force_str(uid_decoder(context.get("uid")))
-        reset_url = f'{settings.FE_URL}/password/reset/confirm/{uid}/{context.get("token")}'
+        reset_url = f'{settings.FE_URL}/password/reset/{uid}/{context.get("token")}'
 
         context.update({
             'reset_url': reset_url,

@@ -156,7 +156,7 @@ const NewUser = (props: CustomDialogProps) => {
       addFeedback({
         type: 'success',
         title: '',
-        description: 'Usuário aprovado com sucesso',
+        description: 'Usuário adicionado com sucesso com sucesso',
       });
     } catch (error) {
       addFeedback({

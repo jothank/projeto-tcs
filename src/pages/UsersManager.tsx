@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { useSettingsContext } from '../components/settings';
 import MUIDataTable from "mui-datatables";
 import { useEffect, useState } from 'react';
-import { approveUserAPI, listNewUserAPI } from '../services/users.services';
+import {  listNewUserAPI } from '../services/users.services';
 import FileDownload from '@mui/icons-material/Description';
 import DoneIcon from '@material-ui/icons/Done';
 import { setCpfCnpjMask } from '../utils/masks';
@@ -73,21 +73,7 @@ export default function UserManager() {
 
           const userIsApproved = dataUser?.find(user => user.id === _value);
 
-          return (
-            <Button
-              fullWidth
-              onClick={() => approveUserByID(_value)}
-              style={{
-                fontWeight: '300',
-                height: '35px',
-                borderRadius: '4px'
-              }}
-              variant='contained'
-              disabled={userIsApproved?.approved}
-            >
-              Aprovar
-            </Button>
-          );
+         
         },
       },
     },
@@ -153,24 +139,7 @@ export default function UserManager() {
   }, [addFeedback])
 
 
-  const approveUserByID = (id: number) => {
-
-    approveUserAPI(id).then(res => {
-      addFeedback({
-        type: 'success',
-        title: '',
-        description: `Usuário(a) ${res.data.user.name} aprovado!`,
-      });
-      getAllUsers();
-
-    }).catch(err => {
-      addFeedback({
-        type: 'error',
-        title: '',
-        description: err.response.data.message,
-      });
-    })
-  }
+ 
 
 
   const getAllUsers = () => {

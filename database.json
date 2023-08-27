@@ -1,0 +1,43 @@
+{
+  "empresas": [
+    {
+      "id": 0,
+      "cnpj": "",
+      "nome": "",
+      "telefone": "",
+      "email": "",
+      "logradouro": "",
+      "numero": "",
+      "bairro": "",
+      "cidade": "",
+      "cep": "",
+      "uf": ""
+    },
+    {
+      "cnpj": "03.709.814/0001-98",
+      "nome": "SERVICO NACIONAL DE APRENDIZAGEM COMERCIAL SENAC",
+      "telefone": "(11) 3236-2094/ (11) 3236-2098",
+      "email": "tributos.gef@sp.senac.br",
+      "logradouro": "R DR. VILA NOVA",
+      "numero": "228",
+      "bairro": "VILA BUARQUE",
+      "cidade": "SAO PAULO",
+      "cep": "01.222-903",
+      "uf": "SP",
+      "id": 1
+    },
+    {
+      "cnpj": "03.709.814/0001-98",
+      "nome": "SERVICO NACIONAL DE APRENDIZAGEM COMERCIAL SENAC",
+      "telefone": "(11) 3236-2094/ (11) 3236-2098",
+      "email": "tributos.gef@sp.senac.br",
+      "logradouro": "R DR. VILA NOVA",
+      "numero": "228",
+      "bairro": "VILA BUARQUE",
+      "cidade": "SAO PAULO",
+      "cep": "01.222-903",
+      "uf": "SP",
+      "id": 2
+    }
+  ]
+}

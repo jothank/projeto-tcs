@@ -31,7 +31,7 @@ export default function AuthLoginForm() {
   });
 
   const defaultValues = {
-    username: '07980274954',
+    username: '075.612.229-55',
     password: '@Testando123',
   };
 

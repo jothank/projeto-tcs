@@ -1,0 +1,15 @@
+###
+# GET
+##
+
+# URL
+http://localhost:8000/api/v1/feedstock/1/
+
+# json
+{
+    [
+        "id" : "1"
+        "valeu" : "10"
+        "mass" : "30g"
+    ], 
+}

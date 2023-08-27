@@ -1,0 +1,21 @@
+###
+# POST
+##
+
+# URL
+http://localhost:8000/api/v1/company/
+
+# json
+{
+    "name" : "senac"
+    "cnpj" : "000.00.000.000.000"
+    "email" : "senac@senac.brom"
+    "phone" : "4830343405"
+    "street" : "rua lalala"
+    "number" : "1410"
+    "neighborhood" : "bairro"
+    "city" : "cidade"
+    "state" : "estado"
+    "country" : "basil"
+    "zipcode": "23131231"
+}

@@ -1,0 +1,14 @@
+###
+# POST
+##
+
+# URL
+http://localhost:8000/api/v1/feedstock/
+
+# json
+{
+    [
+        "valeu" : "10"
+        "mass" : "30g"
+    ], 
+}

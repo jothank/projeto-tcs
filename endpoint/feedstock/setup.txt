@@ -1,0 +1,11 @@
+O modelo "FeedStock" foi criado para representar os insumos.
+A entidade de insumos é onde estarão os materiais-primas utilizados na 
+fabricação dos produtos, a fim de manter o controle da quantidade de matéria-prima 
+disponível e do custo unitário de cada material-prima.
+
+Em outras palavras, os insumos desempenham um papel extremamente importante na 
+precificação do produto, uma vez que nos proporcionam uma ideia de quanto custou
+ a matéria-prima que eventualmente se transformará em um produto acabado.
+
+O modelo "FeedStock" está utilizando a biblioteca DRF (Django Rest Framework) 
+para criar uma integração através das APIs nos endpoints.

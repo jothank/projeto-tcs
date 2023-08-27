@@ -1,0 +1,13 @@
+Lib - https://www.django-rest-framework.org/
+
+O modelo "Company" foi criado para representar a entidade empresa.
+A entidade empresa é onde os usuários estarão conectados à empresa e poderão 
+cadastrar as partes financeiras referentes a essa empresa.
+
+Em outras palavras, no nosso site de precificação de produtos, o modelo "empresa" 
+está fazendo referência à empresa que terá os produtos, bem como aos usuários 
+que serão gerentes de contas e donos da empresa. Isso permitirá visualizar a 
+precificação do produto para otimizar os custos e o lucro da empresa.
+
+A "Company" está utilizando a biblioteca DRF (Django Rest Framework) para criar uma 
+integração via APIs através dos endpoints.

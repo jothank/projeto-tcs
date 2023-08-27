@@ -1,0 +1,35 @@
+###
+# GET
+##
+
+# URL
+http://localhost:8000/api/v1/company/
+
+# json
+{
+    ["id" : "1"
+    "name" : "senac"
+    "cnpj" : "000.00.000.000.000"
+    "email" : "senac@senac.com"
+    "phone" : "4830343405"
+    "street" : "rua lalala"
+    "number" : "1410"
+    "neighborhood" : "bairro"
+    "city" : "cidade"
+    "state" : "estado"
+    "country" : "basil"
+    "zipcode": "23131231"], 
+    
+    ["id" : "2"
+    "name" : "senac2"
+    "cnpj" : "000.00.000.000.001"
+    "email" : "senac2@senac.com"
+    "phone" : "4830343406"
+    "street" : "rua lalala2"
+    "number" : "1412"
+    "neighborhood" : "bairro2"
+    "city" : "cidade2"
+    "state" : "estado2"
+    "country" : "basil2"
+    "zipcode": "231312312"],
+}

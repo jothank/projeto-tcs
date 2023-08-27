@@ -1,0 +1,17 @@
+###
+# Token
+###
+
+# URL
+http://localhost:8000/api/v1/token/refresh/
+
+#json
+
+{
+    "refresh" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxMjYzNTg0LCJpYXQiOjE2OTEyNjMyODQsImp0aSI6ImE5NDVkMTMxOTdlYjRhNDNiMzU0ZmEwMmVmM2U2OWIzIiwidXNlcl9pZCI6MX0.TsDRkmeA9Lj-sMHLPmIXePtbUtIgNkluwXuLS_31hvM"
+}
+
+#json
+{
+    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxMjU4OTMxLCJpYXQiOjE2OTEyNTg2MDYsImp0aSI6ImQyMzQ1ODg3ZmQ3NjRkNDM5ZTk2MzBkMDVmZDQ2MjBiIiwidXNlcl9pZCI6N30.1DLrybsVV6HphYVk1fC4MQXGDIVmAuloj4JwVHaRas0"
+}

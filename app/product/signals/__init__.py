@@ -7,7 +7,7 @@ from product_registration.models import ProductRegistration
 @receiver(post_save, sender=Product)
 def add_percentage_loss(sender, instance, created, **kwargs):
     if created:
-        quantity_value = instance.quantity
+        quantity_value = instance.productregistration_set.first().quantity
         
         ProductRegistration.objects.create(
             product=instance,

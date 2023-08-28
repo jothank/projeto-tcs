@@ -2,7 +2,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from app.product.models.product import Product  
 from decimal import Decimal
-from product_registration.models import ProductRegistration  
+from app.product_registration.models import ProductRegistration  
 
 @receiver(post_save, sender=Product)
 def add_percentage_loss(sender, instance, created, **kwargs):

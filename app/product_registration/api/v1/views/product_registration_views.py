@@ -20,3 +20,6 @@ from app.product_registration.api.v1.serializers.product_registration.default_se
 class ProductRegistrationViewSet(viewsets.ModelViewSet):
     queryset = ProductRegistration.objects.all()
     serializer_class = ProductRegistrationSerializer
+ 
+    
+    

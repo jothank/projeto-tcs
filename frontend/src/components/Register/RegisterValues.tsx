@@ -1,4 +1,4 @@
-import { RegisterIUser } from "../../types/user.type";
+import { RegisterIUser } from "types/user.type";
 
 export const RegisterValues: RegisterIUser = {
   username: "",

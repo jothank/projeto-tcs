@@ -1,4 +1,4 @@
-import { ConfirmPasswordResetIUser } from "../../types/user.type";
+import { ConfirmPasswordResetIUser } from "types/user.type";
 
 export const ConfirmPasswordResetValues: ConfirmPasswordResetIUser = {
   url: "",

@@ -1,4 +1,4 @@
-import { RegisterInputProps } from "../../types/user.type";
+import { RegisterInputProps } from "types/user.type";
 import { Field, ErrorMessage } from "formik";
 
 export const RegisterInput: React.FC<RegisterInputProps> = ({

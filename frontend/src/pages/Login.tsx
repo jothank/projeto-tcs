@@ -1,11 +1,11 @@
 import React from "react";
 import Swal from "sweetalert2";
 import { Formik, Form } from "formik";
-import { login } from "../services/auth.service";
-import { LoginIUser } from "../types/user.type";
-import LoginInput from "../components/Login/LoginInput";
-import { validationLogin } from "../components/Login/LoginValidation";
-import { LoginValues } from "../components/Login/LoginValues";
+import { login } from "services/auth.service";
+import { LoginIUser } from "types/user.type";
+import LoginInput from "components/Login/LoginInput";
+import { validationLogin } from "components/Login/LoginValidation";
+import { LoginValues } from "components/Login/LoginValues";
 
 const Login: React.FC = () => {
   const handleLogin = async (values: LoginIUser) => {

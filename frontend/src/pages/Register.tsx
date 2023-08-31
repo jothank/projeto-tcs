@@ -1,12 +1,12 @@
 import React from "react";
 import Swal from "sweetalert2";
 import { Formik, Form } from "formik";
-import { RegisterIUser } from "../types/user.type";
-import { register } from "../services/auth.service";
+import { RegisterIUser } from "types/user.type";
+import { register } from "services/auth.service";
 import { useNavigate } from "react-router-dom";
-import { RegisterValidation } from "../components/Register/RegisterValidation";
-import { RegisterInput } from "../components/Register/RegisterInput";
-import { RegisterValues } from "../components/Register/RegisterValues";
+import { RegisterValidation } from "components/Register/RegisterValidation";
+import { RegisterInput } from "components/Register/RegisterInput";
+import { RegisterValues } from "components/Register/RegisterValues";
 
 const Register: React.FC = () => {
   const history = useNavigate();

@@ -1,6 +1,6 @@
 import React from "react";
 import { Field, ErrorMessage } from "formik";
-import { RegisterInputProps } from "../../types/user.type";
+import { RegisterInputProps } from "types/user.type";
 
 const PasswordResetInput: React.FC<RegisterInputProps> = ({
   name,

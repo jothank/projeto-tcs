@@ -1,6 +1,6 @@
 import React from "react";
 import { Field, ErrorMessage } from "formik";
-import { RegisterInputProps } from "../../types/user.type";
+import { RegisterInputProps } from "types/user.type";
 
 const LoginInput: React.FC<RegisterInputProps> = ({ name, label, type }) => (
   <div className="form-group">

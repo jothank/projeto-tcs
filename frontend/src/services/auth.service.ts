@@ -86,10 +86,7 @@ export const confirmPasswordReset = async (
     return response.data;
   } catch (error: any) {
     console.log(error);
-    throw new Error(
-      error.response.data ||
-        "Error confirming password reset."
-    );
+    throw new Error(error.response.data || "Error confirming password reset.");
   }
 };
 

@@ -5,7 +5,7 @@ from django.utils.translation import gettext as _
 from django.db import models
 from measurement.measures import Mass, Volume
 from app.product.models.product import Product
-# from app.feedstock.models.feedstock import Feedstock
+
 
 
 ###

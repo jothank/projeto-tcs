@@ -1,5 +1,5 @@
 """
-API V1: Fixed Expense Serializers
+API V1: Ingredient Serializers
 """
 ###
 # Libraries

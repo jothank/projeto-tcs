@@ -1,6 +1,9 @@
+"""
+API V1: Resale Item Serializers
+"""
 ###
-# Librairies
-##
+# Libraries
+###
 from rest_framework import serializers
 
 ###

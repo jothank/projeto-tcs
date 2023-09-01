@@ -1,5 +1,20 @@
+"""
+Pricing admin
+"""
+###
+# Libraries
+###
 from django.contrib import admin
 from app.pricing.models.pricing import Pricing
+
+###
+# Inline Admin Models
+###
+
+
+###
+# Main Admin Models
+###
 
 class PricingAdmin(admin.ModelAdmin):
     ...

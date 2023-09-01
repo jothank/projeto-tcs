@@ -9,11 +9,10 @@ urlpatterns = [
     path('', include('app.company.urls')),
     path('', include('app.feedstock.urls')),
     path('', include('app.fixed_expense.urls')),
-    path('', include('app.ingredient.urls')),
+    # path('', include('app.ingredient.urls')),
     path('', include('app.pricing.urls')),
     path('', include('app.product.urls')),
     path('', include('app.product_registration.urls')),
-    path('', include('app.product_specification.urls')),
     path('', include('app.resale_item.urls')),
     path('', include('app.variable_expense.urls')),
 ]

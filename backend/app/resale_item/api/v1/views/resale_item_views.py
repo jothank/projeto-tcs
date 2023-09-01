@@ -1,5 +1,5 @@
 """
-API V1: Address Views
+API V1: Resale Item Views
 """
 ###
 # Libraries

@@ -1,5 +1,5 @@
 """
-ProductRegistration Constants
+Ingredient Constants
 """
 ###
 # Libraries

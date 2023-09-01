@@ -1,5 +1,5 @@
 """
-Address Constants
+Company Constants
 """
 ###
 # Libraries

@@ -18,10 +18,11 @@ class Combo(models.Model):
     resale_item = models.ForeignKey(
         ResaleItem,
         on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
         verbose_name=_('Resale Item'),
     )
     products = models.ManyToManyField(
         Product,
-        on_delete=models.SET_NULL,
         verbose_name=_('Products'),
     )

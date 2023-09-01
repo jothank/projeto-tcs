@@ -4,7 +4,7 @@ import { Formik, Form } from "formik";
 import { login } from "services/auth.service";
 import { LoginIUser } from "types/user.type";
 import LoginInput from "components/Login/LoginInput";
-import { validationLogin } from "components/Login/LoginValidation";
+import { validationLogin } from "utils/validationForm";
 import { LoginValues } from "components/Login/LoginValues";
 
 const Login: React.FC = () => {

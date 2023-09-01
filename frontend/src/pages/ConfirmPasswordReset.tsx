@@ -4,7 +4,7 @@ import { Formik, Form } from "formik";
 import { confirmPasswordReset } from "services/auth.service";
 import { ConfirmPasswordResetIUser } from "types/user.type";
 import ConfirmPasswordResetInput from "components/ConfirmPasswordReset/ConfirmPasswordResetInput";
-import { ConfirmPasswordResetValidation } from "components/ConfirmPasswordReset/ConfirmPasswordResetValidation";
+import { ConfirmPasswordResetValidation } from "utils/validationForm";
 import { ConfirmPasswordResetValues } from "components/ConfirmPasswordReset/ConfirmPasswordResetValues";
 
 const ConfirmPasswordReset: React.FC = () => {

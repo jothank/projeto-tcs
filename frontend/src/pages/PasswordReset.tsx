@@ -4,7 +4,7 @@ import { Formik, Form } from "formik";
 import { passwordReset } from "services/auth.service";
 import { PasswordResetIUser } from "types/user.type";
 import PasswordResetInput from "components/PasswordReset/PasswordResetInput";
-import { PasswordResetValidation } from "components/PasswordReset/PasswordResetValidation";
+import { PasswordResetValidation } from "utils/validationForm";
 import { PasswordResetValues } from "components/PasswordReset/PasswordResetValues";
 
 const PasswordReset: React.FC = () => {

@@ -1,5 +1,9 @@
 import { BASE_URL } from "../config";
 import axios from "axios";
+import authHeader from "./auth-header";
+
+
+
 
 const setUserLocalStorage = (userData: {
   user: any;
@@ -35,6 +39,7 @@ export const register = async (
 };
 
 export const login = async (username: string, password: string) => {
+  console.log('login test', username, password)
   try {
     const response = await axios.post(BASE_URL + "login/", {
       username,

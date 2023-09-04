@@ -8,25 +8,24 @@ import ProtectedRoute from "./routes/ProtectedRoutes/ProtectedRoutes";
 import Home from "./pages/Home/Home";
 
 const App: React.FC = () => {
-  
+
   return (
-<>
-    <BrowserRouter>
-      <div>
-        <Routes>
-          <Route path="/" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-          path="/dashboard"
-          element={<ProtectedRoute element={<Home />} />}
-        />
+    <>
+      <BrowserRouter>
+        <div>
+          <Routes>
+            <Route path="/" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/home" element={<Home />} />
+            {/* <Route path="/home" element={<ProtectedRoute element={<Home />} />} /> */}
 
 
-          <Route path="/password-reset" element={<PasswordReset />} />
-          <Route path="/password-reset-cofirm/:UID/:Token" element={<ConfirmPasswordReset />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+
+            <Route path="/password-reset" element={<PasswordReset />} />
+            <Route path="/password-reset-cofirm/:UID/:Token" element={<ConfirmPasswordReset />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
     </>
   );
 };

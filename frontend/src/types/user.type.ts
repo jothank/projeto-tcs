@@ -27,7 +27,7 @@ export interface PasswordResetIUser {
 }
 
 export interface ConfirmPasswordResetIUser {
-  url : string;
+  url: string;
   newPassword1: string;
   newPassword2: string;
 }

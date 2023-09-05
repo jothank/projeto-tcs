@@ -54,6 +54,16 @@ INSTALLED_APPS = [
 
     # Apps
     "app.accounts",
+    "app.combo",
+    "app.company",
+    "app.feedstock",
+    "app.fixed_expense",
+    # "app.ingredient",
+    "app.pricing",
+    "app.product",
+    "app.product_registration",
+    "app.resale_item",
+    "app.variable_expense",
 
     # CorsHeaders
     "corsheaders",

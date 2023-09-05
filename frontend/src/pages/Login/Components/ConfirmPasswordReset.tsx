@@ -1,15 +1,14 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Formik, Form } from "formik";
 import { confirmPasswordReset } from "../../../services/auth.service";
 import { ConfirmPasswordResetIUser } from "../../../types/user.type";
 import ConfirmPasswordResetInput from "../../../components/ConfirmPasswordReset/ConfirmPasswordResetInput";
-import { ConfirmPasswordResetValidation } from "../../../components/ConfirmPasswordReset/ConfirmPasswordResetValidation";
+// import { ConfirmPasswordResetValidation } from "../../../components/ConfirmPasswordReset/ConfirmPasswordResetValidation";
 import { ConfirmPasswordResetValues } from "../../../components/ConfirmPasswordReset/ConfirmPasswordResetValues";
 
+
 const ConfirmPasswordReset: React.FC = () => {
-  const { UID, Token } = useParams<{ UID: string; Token: string }>();
   const currentURL = window.location.href;
 
   const handleLogin = async (values: ConfirmPasswordResetIUser) => {
@@ -33,7 +32,7 @@ const ConfirmPasswordReset: React.FC = () => {
       <div className="card card-container">
         <Formik
           initialValues={ConfirmPasswordResetValues}
-          validationSchema={ConfirmPasswordResetValidation}
+          // validationSchema={ConfirmPasswordResetValidation}
           onSubmit={handleLogin}
         >
           <Form>

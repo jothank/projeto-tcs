@@ -1,6 +1,6 @@
 import { BASE_URL } from "../config";
 import axios from "axios";
-import authHeader from "./auth-header";
+
 
 
 
@@ -91,10 +91,7 @@ export const confirmPasswordReset = async (
     return response.data;
   } catch (error: any) {
     console.log(error);
-    throw new Error(
-      error.response.data ||
-        "Error confirming password reset."
-    );
+    throw new Error(error.response.data || "Error confirming password reset.");
   }
 };
 

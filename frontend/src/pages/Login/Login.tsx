@@ -3,6 +3,7 @@ import { Link, TextField, Button, Grid, Typography, Paper, Box, Divider } from '
 import { login } from "../../services/auth.service";
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import { AutheticatedContext  } from '../../context/AuthProvider';
 
 
 const validationSchema = yup.object({
@@ -20,7 +21,7 @@ const validationSchema = yup.object({
 
 export default function Login() {
   const navigate = useNavigate();
-
+  const { addAuth, isAuth } = AutheticatedContext ();
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -34,12 +35,15 @@ export default function Login() {
         await login(
           values.username,
           values.password,
-
+        
         )
+        addAuth(true)
+        console.log('sucesso', isAuth)
       } catch (error) {
 
       }
-    },
+     }
+    
   });
 
   const handleNavigate = () => {

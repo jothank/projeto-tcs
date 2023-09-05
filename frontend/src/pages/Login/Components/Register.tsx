@@ -170,7 +170,7 @@ export default function Register() {
           id="password2"
           name="password2"
           label="Password"
-          type="text"
+          type="password"
           value={formik.values.password2}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}

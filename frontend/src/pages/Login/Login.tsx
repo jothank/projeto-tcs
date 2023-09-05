@@ -19,13 +19,13 @@ const validationSchema = yup.object({
 
 });
 
-export  default  function Login() {
+export default   function Login() {
   const navigate = useNavigate();
-  const { setIsAuthenticated , isAuth } = AutheticatedContext ();
+  const { setIsAuthenticated , isAuth } =  AutheticatedContext ();
   const formik = useFormik({
     initialValues: {
-      username: '',
-      password: '',
+      username: 'maruan',
+      password: '@Testando123',
 
     },
     validationSchema: validationSchema,
@@ -37,11 +37,9 @@ export  default  function Login() {
           values.password,
          
         )
-      
         setIsAuthenticated(true)
        
-        console.log('sucesso', setIsAuthenticated)
-        console.log('is auth login', isAuth)
+       
         navigate('/home');
       } catch (error) {
 
@@ -50,9 +48,6 @@ export  default  function Login() {
     
   });
 
-  const handleNavigate = () => {
-    navigate('/home');
-  };
 
   return (
     <>
@@ -170,7 +165,7 @@ export  default  function Login() {
                       marginLeft: '20%',
                       width: '50%'
                     }}
-                    onClick={handleNavigate}
+                
                   >
                     Login
                   </Button>

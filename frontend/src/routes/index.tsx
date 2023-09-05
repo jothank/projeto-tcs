@@ -6,6 +6,7 @@ import Login from '../pages/Login/Login';
 import { Navigate, Route, Routes } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoutes/ProtectedRoutes';
 import PrivateRoute from './ProtectedRoutes/ProtectedRoutes';
+import Profile from 'pages/Profile/Profile';
 
 export const AppRouts = () => {
 
@@ -18,8 +19,8 @@ export const AppRouts = () => {
           path="/password-reset-cofirm/:UID/:Token"
           element={<ConfirmPasswordReset />}
         />
-     
-     <Route path="/home" element={<ProtectedRoute element={<Home />} />} />
+        {/* <Route path='/home' element={<ProtectedRoute element={<Home />} />} /> */}
+     <Route path="/home" element={<Home />}  />
 
    
       </Routes>

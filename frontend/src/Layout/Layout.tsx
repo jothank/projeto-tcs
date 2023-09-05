@@ -1,1 +1,1 @@
-export {}
+export * from './meuLateral/MenuLateral';

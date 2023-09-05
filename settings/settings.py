@@ -67,6 +67,9 @@ INSTALLED_APPS = [
     "dj_rest_auth.registration",
     "allauth",
     "allauth.account",
+            
+    # Swagger
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -160,11 +163,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ###
 
 AUTH_USER_MODEL = "accounts.User"
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 SITE_ID = 1
 
+
+LOGIN_URL = '/admin/'
 
 # E-mail settings
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')

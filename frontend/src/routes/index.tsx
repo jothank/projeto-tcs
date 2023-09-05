@@ -10,22 +10,40 @@ import PrivateRoute from './ProtectedRoutes/ProtectedRoutes';
 export const AppRouts = () => {
 
     return (
-        null
-        // <Routes>
-        //     <Route path="/" element={<Register />} />
-        //     <Route path="/login" element={<Login />} />
-        //     <Route path="/password/reset/" element={<PasswordReset />} />
-        //     <Route path="/password-reset-cofirm/:UID/:Token" element={<ConfirmPasswordReset />} />
+        <Routes>
+        <Route path="/" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/password/reset/" element={<PasswordReset />} />
+        <Route
+          path="/password-reset-cofirm/:UID/:Token"
+          element={<ConfirmPasswordReset />}
+        />
+     
+     <Route path="/home" element={<ProtectedRoute element={<Home />} />} />
 
-        //     {/* <Route element={<ProtectedRoute />}>
-        //         <Route path="/home" element={<Home />} />
-        //         <Route path="/products" element={<Home />} />
-        //         <Route path="/etc" element={<Home />} />
-        //     </Route> */}
-
-
-
-        // </Routes>
+   
+      </Routes>
+     
     );
 }
 
+
+// export const AppRouts = () => {
+
+//     return (
+//         // <Routes>
+//         //     <Route path="/" element={<Register />} />
+//         //     <Route path="/login" element={<Login />} />
+//         //     <Route path="/password/reset/" element={<PasswordReset />} />
+//         //     <Route path="/password-reset-cofirm/:UID/:Token" element={<ConfirmPasswordReset />} />
+
+//         //     <Route element={<ProtectedRoute />}>
+//         //          {/* Inserir todas rotas protegidas aqui dentro do ProtectRoute  */}
+//         //         <Route path="/home" element={<Home />} />
+//         //         <Route path="/products" element={<Home />} />
+//         //         <Route path="/etc" element={<Home />} />
+//         //     </Route>
+            
+
+//         // </Routes>
+//     );

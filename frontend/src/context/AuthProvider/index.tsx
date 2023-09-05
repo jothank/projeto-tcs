@@ -1,28 +1,35 @@
-import { createContext, useCallback, useContext, useState } from 'react';
+import { createContext, useContext, useState, ReactNode } from 'react';
 
-const AuthContext = createContext<any>(null);
+export interface AuthContextType {
+  isAuth: boolean;
+  setIsAuthenticated: (auth: boolean) => void;
+  
+}
 
-const  AutheticatedProvider = ({ children }: any) => {
+const initialAuthContext: AuthContextType = {
+  isAuth: false, // Valor inicial, você pode ajustar conforme necessário
+  setIsAuthenticated: () => {}
+};
 
-  const [ isAuth, setIsAuth] = useState(true)
+const AuthContext = createContext<AuthContextType | undefined>(initialAuthContext);
 
-  const addAuth = useCallback((content: boolean) => {
-    setIsAuth(content);
-  }, []);
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [isAuth, setIsAuth] = useState(false);
 
+  const setIsAuthenticated = (auth: boolean) => {
+    setIsAuth(auth);
+  };
   return (
-    <AuthContext.Provider value={{
-        addAuth,
-        isAuth
-    }}
-    >
+     <AuthContext.Provider value={{ isAuth, setIsAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-function AutheticatedContext() {
-  return useContext(AuthContext);
+export function AutheticatedContext() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuthenticatedContext deve ser usado dentro de um AuthProvider');
+  }
+  return context;
 }
-
-export { AutheticatedProvider, AutheticatedContext  };

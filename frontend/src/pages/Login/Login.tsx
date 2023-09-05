@@ -19,9 +19,9 @@ const validationSchema = yup.object({
 
 });
 
-export default function Login() {
+export  default  function Login() {
   const navigate = useNavigate();
-  const { addAuth, isAuth } = AutheticatedContext ();
+  const { setIsAuthenticated , isAuth } = AutheticatedContext ();
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -35,10 +35,14 @@ export default function Login() {
         await login(
           values.username,
           values.password,
-        
+         
         )
-        addAuth(true)
-        console.log('sucesso', isAuth)
+      
+        setIsAuthenticated(true)
+       
+        console.log('sucesso', setIsAuthenticated)
+        console.log('is auth login', isAuth)
+        navigate('/home');
       } catch (error) {
 
       }

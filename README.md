@@ -35,8 +35,14 @@ git clone https://github.com/jothank/projeto-tcs.git
 
 <pre>
 python -m venv venv
-Win: venv/Scripts/activate
+Win: venv\Scripts\activate
 Linux/MacOs: source venv/bin/activate
+</pre>
+
+<p>Atualize o PIP:</p>
+
+<pre>
+pip install --upgrade pip
 </pre>
 
 <p>Instale as dependências:</p>

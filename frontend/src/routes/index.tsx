@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Home from "../pages/Home/Home";
 import ConfirmPasswordReset from "../pages/Login/Components/ConfirmPasswordReset";
 import PasswordReset from "../pages/Login/Components/PasswordReset";
@@ -21,6 +22,38 @@ export const AppRouts = () => {
     </Routes>
   );
 };
+=======
+import Home from '../pages/Home/Home';
+import ConfirmPasswordReset from '../pages/Login/Components/ConfirmPasswordReset';
+import PasswordReset from '../pages/Login/Components/PasswordReset';
+import Register from '../pages/Login/Components/Register';
+import Login from '../pages/Login/Login';
+import { Navigate, Route, Routes } from 'react-router-dom'
+import ProtectedRoute from './ProtectedRoutes/ProtectedRoutes';
+import PrivateRoute from './ProtectedRoutes/ProtectedRoutes';
+import Profile from 'pages/Profile/Profile';
+
+export const AppRouts = () => {
+
+    return (
+        <Routes>
+        <Route path="/" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/password/reset/" element={<PasswordReset />} />
+        <Route
+          path="/password-reset-cofirm/:UID/:Token"
+          element={<ConfirmPasswordReset />}
+        />
+        {/* <Route path='/home' element={<ProtectedRoute element={<Home />} />} /> */}
+     <Route path="/home" element={<Home />}  />
+
+   
+      </Routes>
+     
+    );
+}
+
+>>>>>>> 48048c210546df889f2d79e74ad8fe1f568aa439
 
 // export const AppRouts = () => {
 

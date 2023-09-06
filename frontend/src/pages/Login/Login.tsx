@@ -15,27 +15,53 @@ import { useNavigate } from "react-router-dom";
 import { AutheticatedContext } from "../../context/AuthProvider";
 import { validationLogin } from "utils/validationForm";
 
-export default function Login() {
+
+const validationSchema = yup.object({
+  username: yup.string()
+    .min(3, "The username must be at least 3 characters.")
+    .max(20, "The username must not exceed 20 characters.")
+    .required("This field is required!"),
+  password: yup.string()
+    .min(6, "The password must be at least 6 characters.")
+    .max(40, "The password must not exceed 40 characters.")
+    .required("This field is required!"),
+
+
+});
+
+export  default  function Login() {
   const navigate = useNavigate();
-  const { setIsAuthenticated, isAuth } = AutheticatedContext();
+  const { setIsAuthenticated , isAuth } = AutheticatedContext ();
   const formik = useFormik({
     initialValues: {
-      username: "",
-      password: "",
+      username: '',
+      password: '',
+
     },
     validationSchema: validationLogin,
     onSubmit: async (values) => {
       try {
-        await login(values.username, values.password);
+        await login(
+          values.username,
+          values.password,
+         
+        )
+      
+        setIsAuthenticated(true)
+       
+        console.log('sucesso', setIsAuthenticated)
+        console.log('is auth login', isAuth)
+        navigate('/home');
+      } catch (error) {
 
-        setIsAuthenticated(true);
-
-        console.log("sucesso", setIsAuthenticated);
-        console.log("is auth login", isAuth);
-        navigate("/home");
-      } catch (error) {}
-    },
+      }
+     }
+    
   });
+
+  const handleNavigate = () => {
+    navigate('/home');
+  };
 
   return (
     <>
@@ -160,6 +186,7 @@ export default function Login() {
                       marginLeft: "20%",
                       width: "50%",
                     }}
+                    onClick={handleNavigate}
                   >
                     Login
                   </Button>

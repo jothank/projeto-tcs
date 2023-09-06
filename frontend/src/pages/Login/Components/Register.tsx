@@ -65,174 +65,156 @@ export default function Register() {
           width: "100%",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            "& > :not(style)": {
-              m: 1,
-              width: 600,
-              height: 700,
-            },
-          }}
-        >
-          <Paper elevation={3}>
-            <Typography
-              variant="h5"
-              sx={{
-                height: "100px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              Cadastro
-            </Typography>
-            <Divider />
-            <Grid
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "10px",
-                marginLeft: "10%",
-                marginTop: "3%",
-              }}
-            >
-              <form onSubmit={formik.handleSubmit}>
-                <TextField
-                  fullWidth
-                  id="username"
-                  name="username"
-                  label="Username"
-                  value={formik.values.username}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={
-                    formik.touched.username && Boolean(formik.errors.username)
-                  }
-                  helperText={formik.touched.username && formik.errors.username}
-                  sx={{
-                    width: 500,
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  id="email"
-                  name="email"
-                  label="Email"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
-                  sx={{
-                    width: 500,
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  id="password"
-                  name="password1"
-                  label="Password"
-                  type="password"
-                  value={formik.values.password1}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={
-                    formik.touched.password1 && Boolean(formik.errors.password1)
-                  }
-                  helperText={
-                    formik.touched.password1 && formik.errors.password1
-                  }
-                  sx={{
-                    width: 500,
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  id="password2"
-                  name="password2"
-                  label="Password"
-                  type="Password"
-                  value={formik.values.password2}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={
-                    formik.touched.password1 && Boolean(formik.errors.password2)
-                  }
-                  helperText={
-                    formik.touched.password1 && formik.errors.password2
-                  }
-                  sx={{
-                    width: 500,
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  id="firstName"
-                  name="firstName"
-                  label="Sobrenome"
-                  type="text"
-                  value={formik.values.firstName}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={
-                    formik.touched.firstName && Boolean(formik.errors.firstName)
-                  }
-                  helperText={
-                    formik.touched.firstName && formik.errors.firstName
-                  }
-                  sx={{
-                    width: 500,
-                  }}
-                />
-                <TextField
-                  fullWidth
-                  id="lastName"
-                  name="lastName"
-                  label="Sobrenome"
-                  type="text"
-                  value={formik.values.lastName}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={
-                    formik.touched.lastName && Boolean(formik.errors.lastName)
-                  }
-                  helperText={formik.touched.lastName && formik.errors.lastName}
-                  sx={{
-                    width: 500,
-                  }}
-                />
-                <Typography
-                  color="text.secondary"
-                  variant="body2"
-                  sx={{
-                    marginLeft: "62%",
-                  }}
-                >
-                  Já tem uma conta?
-                  <Link href="/login" underline="hover" variant="subtitle2">
-                    Login
-                  </Link>
-                </Typography>
-                <Button
-                  color="primary"
-                  variant="contained"
-                  fullWidth
-                  type="submit"
-                  sx={{
-                    marginLeft: "20%",
-                    width: "50%",
-                  }}
-                >
-                  Submit
-                </Button>
-              </form>
-            </Grid>
-          </Paper>
-        </Box>
+        <Paper elevation={3}>
+          <Typography
+            variant="h5"
+            sx={{
+              height: "100px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            Cadastro
+          </Typography>
+          <Divider />
+          <Grid
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px",
+              marginLeft: "10%",
+              marginTop: "3%",
+            }}
+          >
+            <form onSubmit={formik.handleSubmit}>
+              <TextField
+                fullWidth
+                id="username"
+                name="username"
+                label="Username"
+                value={formik.values.username}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.username && Boolean(formik.errors.username)
+                }
+                helperText={formik.touched.username && formik.errors.username}
+                sx={{
+                  width: 500,
+                }}
+              />
+              <TextField
+                fullWidth
+                id="email"
+                name="email"
+                label="Email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+                sx={{
+                  width: 500,
+                }}
+              />
+              <TextField
+                fullWidth
+                id="password"
+                name="password1"
+                label="Password"
+                type="password"
+                value={formik.values.password1}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.password1 && Boolean(formik.errors.password1)
+                }
+                helperText={formik.touched.password1 && formik.errors.password1}
+                sx={{
+                  width: 500,
+                }}
+              />
+              <TextField
+                fullWidth
+                id="password2"
+                name="password2"
+                label="Password"
+                type="text"
+                value={formik.values.password2}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.password1 && Boolean(formik.errors.password2)
+                }
+                helperText={formik.touched.password1 && formik.errors.password2}
+                sx={{
+                  width: 500,
+                }}
+              />
+              <TextField
+                fullWidth
+                id="firstName"
+                name="firstName"
+                label="Sobrenome"
+                type="text"
+                value={formik.values.firstName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.firstName && Boolean(formik.errors.firstName)
+                }
+                helperText={formik.touched.firstName && formik.errors.firstName}
+                sx={{
+                  width: 500,
+                }}
+              />
+              <TextField
+                fullWidth
+                id="lastName"
+                name="lastName"
+                label="Sobrenome"
+                type="text"
+                value={formik.values.lastName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.lastName && Boolean(formik.errors.lastName)
+                }
+                helperText={formik.touched.lastName && formik.errors.lastName}
+                sx={{
+                  width: 500,
+                }}
+              />
+              <Typography
+                color="text.secondary"
+                variant="body2"
+                sx={{
+                  marginLeft: "62%",
+                }}
+              >
+                Já tem uma conta?
+                <Link href="/login" underline="hover" variant="subtitle2">
+                  Login
+                </Link>
+              </Typography>
+              <Button
+                color="primary"
+                variant="contained"
+                fullWidth
+                type="submit"
+                sx={{
+                  marginLeft: "20%",
+                  width: "50%",
+                }}
+              >
+                Submit
+              </Button>
+            </form>
+          </Grid>
+        </Paper>
       </Grid>
     </Grid>
   );

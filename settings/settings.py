@@ -191,7 +191,7 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = os.environ.get('ACCOUNT_EMAIL_SUBJECT_PREFIX')
 
 REST_AUTH = {
     "PASSWORD_RESET_SERIALIZER": "app.accounts.api.v1.serializers.accounts.default.CustomPasswordResetSerializer",
-    "REGISTER_SERIALIZER": "app.accounts.api.v1.serializers.accounts.default.CustomRegisterSerializer",
+    # "REGISTER_SERIALIZER": "app.accounts.api.v1.serializers.accounts.default.CustomRegisterSerializer",
     "OLD_PASSWORD_FIELD_ENABLED": True,
     "USE_JWT": True,
     "JWT_AUTH_HTTPONLY": False,

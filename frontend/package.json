@@ -20,6 +20,7 @@
     "bootstrap": "^5.3.1",
     "formik": "^2.4.3",
     "react": "^18.2.0",
+    "react-auth-kit": "^2.12.6",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",

@@ -1,9 +1,9 @@
 import { BASE_URL } from "../config";
 import axios from "axios";
-
-
-
-
+import {
+  getLoginResponse,
+  getRegisterResponse,
+} from "utils/validationResponse";
 
 const setUserLocalStorage = (userData: {
   user: any;
@@ -34,12 +34,12 @@ export const register = async (
     });
     return response.data;
   } catch (error: any) {
-    throw new Error(error.response.data.username[0]);
+    throw new Error(getRegisterResponse(error));
   }
 };
 
 export const login = async (username: string, password: string) => {
-  console.log('login test', username, password)
+  console.log("login test", username, password);
   try {
     const response = await axios.post(BASE_URL + "login/", {
       username,

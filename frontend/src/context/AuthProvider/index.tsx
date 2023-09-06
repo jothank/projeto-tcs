@@ -1,26 +1,29 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode } from "react";
 
 export interface AuthContextType {
   isAuth: boolean;
   setIsAuthenticated: (auth: boolean) => void;
-  
 }
 
 const initialAuthContext: AuthContextType = {
   isAuth: false, // Valor inicial, você pode ajustar conforme necessário
-  setIsAuthenticated: () => {}
+  setIsAuthenticated: () => {},
 };
 
-const AuthContext = createContext<AuthContextType | undefined>(initialAuthContext);
+const AuthContext = createContext<AuthContextType | undefined>(
+  initialAuthContext
+);
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [isAuth, setIsAuth] = useState(false);
 
   const setIsAuthenticated = (auth: boolean) => {
     setIsAuth(auth);
   };
   return (
-     <AuthContext.Provider value={{ isAuth, setIsAuthenticated }}>
+    <AuthContext.Provider value={{ isAuth, setIsAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );
@@ -29,7 +32,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 export function AutheticatedContext() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuthenticatedContext deve ser usado dentro de um AuthProvider');
+    throw new Error(
+      "useAuthenticatedContext deve ser usado dentro de um AuthProvider"
+    );
   }
   return context;
 }

@@ -22,7 +22,7 @@ from dj_rest_auth.jwt_auth import get_refresh_view
 
 # Routers
 router = routers.DefaultRouter()
-
+router.register(r'accounts', RegisterView, basename='accounts')
 
 # URLs
 urlpatterns = [

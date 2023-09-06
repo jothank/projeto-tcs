@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+from pathlib import Path
 import os
 import dotenv
 
@@ -160,6 +160,7 @@ USE_TZ = True
 # Static Files
 ###
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -170,7 +171,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Rest Auth
 ###
 
-AUTH_USER_MODEL = "accounts.User"
+# AUTH_USER_MODEL = "accounts.User"
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
@@ -190,10 +191,33 @@ DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 ACCOUNT_EMAIL_SUBJECT_PREFIX = os.environ.get('ACCOUNT_EMAIL_SUBJECT_PREFIX')
 
 REST_AUTH = {
+    "LOGIN_SERIALIZER": "dj_rest_auth.serializers.LoginSerializer",
+    "TOKEN_SERIALIZER": "dj_rest_auth.serializers.TokenSerializer",
+    "JWT_SERIALIZER": "dj_rest_auth.serializers.JWTSerializer",
+    "JWT_SERIALIZER_WITH_EXPIRATION": "dj_rest_auth.serializers.JWTSerializerWithExpiration",
+    "JWT_TOKEN_CLAIMS_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",
+    "USER_DETAILS_SERIALIZER": "dj_rest_auth.serializers.UserDetailsSerializer",
     "PASSWORD_RESET_SERIALIZER": "app.accounts.api.v1.serializers.accounts.default.CustomPasswordResetSerializer",
-    # "REGISTER_SERIALIZER": "app.accounts.api.v1.serializers.accounts.default.CustomRegisterSerializer",
+    "PASSWORD_RESET_CONFIRM_SERIALIZER": "dj_rest_auth.serializers.PasswordResetConfirmSerializer",
+    "PASSWORD_CHANGE_SERIALIZER": "dj_rest_auth.serializers.PasswordChangeSerializer",
+    "REGISTER_SERIALIZER": "dj_rest_auth.registration.serializers.RegisterSerializer",
+    "REGISTER_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
+    "TOKEN_MODEL": "rest_framework.authtoken.models.Token",
+    "TOKEN_CREATOR": "dj_rest_auth.utils.default_create_token",
+    "PASSWORD_RESET_USE_SITES_DOMAIN": False,
     "OLD_PASSWORD_FIELD_ENABLED": True,
+    "LOGOUT_ON_PASSWORD_CHANGE": False,
+    "SESSION_LOGIN": True,
     "USE_JWT": True,
+    "JWT_AUTH_COOKIE": None,
+    "JWT_AUTH_REFRESH_COOKIE": "refresh",
+    "JWT_AUTH_REFRESH_COOKIE_PATH": "/",
+    "JWT_AUTH_SECURE": False,
+    "JWT_AUTH_HTTPONLY": True,
+    "JWT_AUTH_SAMESITE": "Lax",
+    "JWT_AUTH_RETURN_EXPIRATION": False,
+    "JWT_AUTH_COOKIE_USE_CSRF": False,
+    "JWT_AUTH_COOKIE_ENFORCE_CSRF_ON_UNAUTHENTICATED": False,
     "JWT_AUTH_HTTPONLY": False,
 }
 
@@ -203,14 +227,11 @@ REST_AUTH = {
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ),
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 20,

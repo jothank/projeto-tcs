@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
+from .views import CustomLoginView, CustomResetPasswordView
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from django.contrib.auth.views import LogoutView
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -20,13 +20,12 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', CustomLoginView.as_view(), name='custom_login'), 
+    path('reset_password/', CustomResetPasswordView.as_view(), name='reset_password'),
     path('accounts/', include('app.accounts.urls')),
     path('', include('app.feedstock.urls')),
     path('', include('app.utils.urls')),
-   #  path('', CustomLoginView.as_view(), name='custom_login'), 
-   #  path('reset_password/', CustomResetPasswordView.as_view(), name='reset_password'),
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    path('', LogoutView.as_view(), name='logout'),
 ]

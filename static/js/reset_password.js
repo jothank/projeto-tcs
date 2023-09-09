@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
           const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
   
-          const response = await fetch("/api/v1/password/reset/", {
+          const response = await fetch("/accounts/password/reset/", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -30,14 +30,14 @@ document.addEventListener("DOMContentLoaded", function () {
             successMessage.classList.add("active");
             setTimeout(() => {
               successMessage.classList.remove("active");
-            }, 10000); 
+            }, 5000); 
           } else {
 
             errorMessage.textContent = "Erro ao enviar o e-mail de redefinição.";
             errorMessage.classList.add("active");
             setTimeout(() => {
               errorMessage.classList.remove("active");
-            }, 10000); 
+            }, 5000); 
           }
         } catch (error) {
           console.error("An error occurred:", error);

@@ -248,5 +248,5 @@ FE_URL = os.environ.get('FE_URL')
 CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost",
+    "http://127.0.0.1:8000",
 ]

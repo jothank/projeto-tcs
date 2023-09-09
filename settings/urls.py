@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from .views import CustomLoginView, CustomResetPasswordView
+from .views import CustomLoginView, CustomResetPasswordView, CustomUserSignUpView
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', CustomLoginView.as_view(), name='custom_login'), 
     path('reset_password/', CustomResetPasswordView.as_view(), name='reset_password'),
+    path('signup/', CustomUserSignUpView.as_view(), name='signup'),
     path('accounts/', include('app.accounts.urls')),
     path('', include('app.feedstock.urls')),
     path('', include('app.utils.urls')),

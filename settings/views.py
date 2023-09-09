@@ -7,4 +7,8 @@ class CustomLoginView(View):
 
 class CustomResetPasswordView(View):
     def get(self, request, *args, **kwargs):
-        return render(request, 'reset_password.html')
+        return render(request, 'reset_password.html')    
+
+class CustomUserSignUpView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'signup.html')    

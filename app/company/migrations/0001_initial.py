@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ('neighborhood', models.CharField(max_length=255, verbose_name='Neighborhood')),
                 ('city', models.CharField(max_length=255, verbose_name='City')),
                 ('state', models.CharField(max_length=255, verbose_name='State')),
-                ('country', models.CharField(max_length=255, verbose_name='Country')),
+                # ('country', models.CharField(max_length=255, verbose_name='Country')),
                 ('zipcode', models.CharField(max_length=255, verbose_name='Zipcode')),
             ],
         ),

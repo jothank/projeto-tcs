@@ -80,6 +80,11 @@ INSTALLED_APPS = [
     'drf_yasg',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    # ...
+]
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -178,7 +183,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username'
 SITE_ID = 1
 
 
-LOGIN_URL = '/admin/'
+LOGIN_URL = 'custom_login'
 
 # E-mail settings
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')

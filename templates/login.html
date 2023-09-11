@@ -6,11 +6,12 @@
     <title>GastroCustos</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="{% static 'js/login.js' %}"></script>
 </head>
 <body>
     <div class="login-container">
         <h1>Login</h1>
-        <form method="post" action="{% url 'rest_login' %}">
+        <form id="login-form" method="post" >
             {% csrf_token %}
             <label for="username">Usuário:</label>
             <input type="text" id="username" name="username" required>
@@ -20,6 +21,7 @@
         </form>
         <p><a href="{% url 'reset_password' %}">Esqueceu a senha?</a></p>
         <p><a href="{% url 'signup' %}">Não tem uma conta? Cadastre-se</a></p>
+        <div id="message-error" class="message error"></div>  
     </div>
 </body>
 </html>

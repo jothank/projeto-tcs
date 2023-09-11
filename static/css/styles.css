@@ -48,10 +48,12 @@ button[type="submit"] {
     width: 100%;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    outline: none;
 }
 
 button[type="submit"]:hover {
     background-color: #0056b3;
+    outline: none;
 }
 
 p {
@@ -96,4 +98,8 @@ a:hover {
     cursor: pointer;
     font-size: 12px;
     margin-left: 10px;
+}
+
+.nav-pills li a:hover{
+    background-color: blue;
 }

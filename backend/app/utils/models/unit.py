@@ -3,7 +3,6 @@ from django.db import models
 from app.utils.constants import UNIT_CHOICES
 
 class Unit(models.Model):
-
     abbreviation = models.CharField(
         max_length=4, 
         choices=UNIT_CHOICES, 

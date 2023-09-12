@@ -13,6 +13,12 @@
         <h1>Cadastro</h1>
         <form method="post" id="signup-form">
             {% csrf_token %}
+            <label for="first_name">Nome:</label>
+            <input type="text" id="first_name" name="first_name" required>
+
+            <label for="last_name">Sobrenome:</label>
+            <input type="text" id="last_name" name="last_name" required>
+
             <label for="username">Usuário:</label>
             <input type="text" id="username" name="username" required>
             

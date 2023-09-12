@@ -9,3 +9,4 @@ djangorestframework-simplejwt==5.2.2
 drf-yasg
 python-dotenv
 wheel
+measurement==3.2.2

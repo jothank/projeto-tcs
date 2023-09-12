@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
         errorMessage.textContent = "";
 
         const formData = new FormData(signupForm);
+        const firstName = formData.get("first_name");
+        const lastName = formData.get("last_name");
         const username = formData.get("username");
         const email = formData.get("email");
         const password1 = formData.get("password1");
@@ -48,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "Content-Type": "application/json",
                     "X-CSRFToken": csrftoken,
                 },
-                body: JSON.stringify({ username, email, password1, password2 }),
+                body: JSON.stringify({ firstName, lastName, username, email, password1, password2 }),
             });
 
             if (response.ok) {

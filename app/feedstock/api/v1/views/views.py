@@ -32,7 +32,7 @@ class FeedstockViewSet(viewsets.ModelViewSet):
     pagination_class = CustomPagination  
 
     def create(self, request, *args, **kwargs):
-        units_data = request.data.get('units', []) 
+        units_data = request.data.get('units') 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         feedstock = serializer.save()

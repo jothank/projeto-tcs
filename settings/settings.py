@@ -62,6 +62,8 @@ INSTALLED_APPS = [
     "app.accounts",
     "app.feedstock",
     "app.utils",
+    "app.company",
+    "app.product_registration",
 
     # CorsHeaders
     "corsheaders",

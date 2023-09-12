@@ -6,4 +6,4 @@ class UtilsConfig(AppConfig):
     name = 'app.utils'
 
     def ready(self):
-        import app.utils.signals.signals
+        import app.utils.signals

@@ -1,6 +1,9 @@
+##
+# Libraries
+##
 from django.urls import path, include
 from rest_framework import routers
-from app.feedstock.api.v1.views.views import FeedstockViewSet
+from app.feedstock.api.v1.views.feedstock_views import FeedstockViewSet
 
 # Routers
 router = routers.SimpleRouter()

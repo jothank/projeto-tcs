@@ -1,7 +1,23 @@
+"""
+Feedstock admin
+"""
+###
+# Libraries
+###
 from django.contrib import admin
-from app.feedstock.models.models import Feedstock
+from app.feedstock.models.feedstock import Feedstock
 
-@admin.register(Feedstock)
+
+###
+# Inline Admin Models
+###
+
+
+###
+# Main Admin Models
+###
 class FeedstockAdmin(admin.ModelAdmin):
     list_display = ('name',)
-    filter_horizontal = ('units',)
+
+
+admin.site.register(Feedstock, FeedstockAdmin)

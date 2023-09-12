@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination  
 from django_filters import rest_framework as filters
-from app.utils.models.models import Unit
-from app.utils.api.v1.serializers.units.serializer import UnitSerializer
+from app.utils.models.unit import Unit
+from app.utils.api.v1.serializers.units.default import UnitDefaultSerializer
 from app.utils.api.v1.filters.units.filters import UnitFilter
 from rest_framework.response import Response
 
@@ -24,7 +24,7 @@ class CustomPagination(PageNumberPagination):
 
 class MassUnitList(viewsets.ModelViewSet):
     queryset = Unit.objects.all()
-    serializer_class = UnitSerializer
+    serializer_class = UnitDefaultSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = UnitFilter
     pagination_class = CustomPagination

@@ -47,15 +47,11 @@ class Company(models.Model):
         max_length=255,
         verbose_name=_('State'),
     )
-    # country = models.CharField(
-    #     max_length=255,
-    #     verbose_name=_('Country'),
-    # )
+    country = models.CharField(
+        max_length=255,
+        verbose_name=_('Country'),
+    )
     zipcode = models.CharField(
         max_length=255,
         verbose_name=_('Zipcode'),
     )
-
-
-class Meta:
-    verbose_name_plural = "Companies"

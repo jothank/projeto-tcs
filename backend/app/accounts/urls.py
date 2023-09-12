@@ -13,5 +13,5 @@ from django.urls import path, include
 
 
 urlpatterns = [
-    path('', include('app.accounts.api.v1.urls'))
+    path('api/v1/', include('app.accounts.api.v1.urls'))
 ]

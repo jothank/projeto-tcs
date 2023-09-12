@@ -56,5 +56,6 @@ class Company(models.Model):
         verbose_name=_('Zipcode'),
     )
 
+
 class Meta:
-        verbose_name_plural = "Companies"
+    verbose_name_plural = "Companies"

@@ -31,3 +31,6 @@ export interface ConfirmPasswordResetIUser {
   newPassword1: string;
   newPassword2: string;
 }
+export interface ConfirmEmailIUser {
+  url: string;
+}

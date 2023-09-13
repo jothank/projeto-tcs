@@ -96,6 +96,19 @@ export const confirmPasswordReset = async (
   }
 };
 
+export const confirmEmail = async (url: string) => {
+  const { TOKEN } = getURLParams(url);
+  try {
+    const response = await axios.post(`${BASE_URL}verify-email/`, {
+      key: TOKEN,
+    });
+    return response.data;
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error);
+  }
+};
+
 export const logout = () => {
   localStorage.removeItem("user");
   localStorage.removeItem("accessToken");

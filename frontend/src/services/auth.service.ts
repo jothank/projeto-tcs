@@ -153,3 +153,14 @@ export const validationToken = async () => {
     throw new Error(error?.response.status);
   }
 };
+
+export const getResendEmail = async (email: string) => {
+  try {
+    const response = await axios.post(BASE_URL + "resend-email/", {
+      email,
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};

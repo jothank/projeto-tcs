@@ -4,9 +4,8 @@ import React from "react";
 import { RegisterIUser } from "types/user.type";
 import { RegisterValidation } from "utils/validationForm";
 import { register } from "services/auth.service";
-import FormInput from "components/FormGroup/FormInput";
-import FormContainer from "components/FormGroup/FormContainer";
-import FormButton from "components/FormGroup/FormButton";
+import { ButtonForms, ContainerForms, FormInput } from "components/FormGroup";
+import { showAlert } from "components/ModalAlert/showModal";
 
 const RegisterValues: RegisterIUser = {
   username: "",
@@ -18,7 +17,10 @@ const RegisterValues: RegisterIUser = {
 };
 
 const Register: React.FC = () => {
-  const handleRegister = async (formValue: RegisterIUser) => {
+  const handleRegister = async (
+    formValue: RegisterIUser,
+    { resetForm }: { resetForm: () => void }
+  ) => {
     try {
       await register(
         formValue.username,
@@ -28,14 +30,26 @@ const Register: React.FC = () => {
         formValue.firstName,
         formValue.lastName
       );
-      console.log("Cadastro realizado com sucesso.");
+      showAlert({
+        title: "Usuário cadastrado com sucesso!",
+        text: "Verifique seu email para ativar sua conta.",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+
+      resetForm();
     } catch (error: any) {
-      console.log(error.message);
+      showAlert({
+        title: "Erro!",
+        text: error.message,
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   };
 
   return (
-    <FormContainer sizeForm="600px" titleForm="Cadastro">
+    <ContainerForms sizeForm="600px" titleForm="Cadastro">
       <Formik
         initialValues={RegisterValues}
         validationSchema={RegisterValidation}
@@ -54,17 +68,17 @@ const Register: React.FC = () => {
             label="Confirme a senha"
             type="password"
           />
-          <FormButton>
+          <ButtonForms>
             <Button variant="contained" type="submit" sx={{ width: "50%" }}>
               Cadastrar
             </Button>
             <Link href="/login" underline="hover" variant="subtitle2">
               Já possui tem uma conta?
             </Link>
-          </FormButton>
+          </ButtonForms>
         </Form>
       </Formik>
-    </FormContainer>
+    </ContainerForms>
   );
 };
 

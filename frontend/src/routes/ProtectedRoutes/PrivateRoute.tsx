@@ -12,14 +12,11 @@ const PrivateRoute: React.FC<{ children: React.ReactElement }> = ({
     const checkAuthentication = async () => {
       try {
         await validationToken();
-        console.log("validando token...");
         setIsValid(true);
       } catch (error: any) {
-        console.log(error.status)
         if (error.message.includes("401")) {
           try {
             await refreshToken();
-            console.log("Refreshing token...");
             await validationToken();
             setIsValid(true);
           } catch (innerError: any) {
@@ -27,10 +24,8 @@ const PrivateRoute: React.FC<{ children: React.ReactElement }> = ({
               navigate("/login");
             }
           }
-        } else if (error.message.includes("400")) {
-          navigate("/login");
         } else {
-          console.error("Unknown error during token validation:", error);
+          navigate("/login");
         }
       }
     };

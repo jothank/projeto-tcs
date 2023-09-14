@@ -19,4 +19,4 @@ const FormInput: React.FC<RegisterInputProps> = ({ name, label, type }) => (
   </Field>
 );
 
-export default FormInput;
+export { FormInput };

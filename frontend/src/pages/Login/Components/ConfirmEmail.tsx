@@ -1,40 +1,98 @@
-import React, { useEffect } from "react";
-import Swal from "sweetalert2";
-import { confirmEmail } from "services/auth.service";
+import React, { useState, useEffect } from "react";
+import { Formik, Form } from "formik";
+import { Link, Button } from "@mui/material";
+import { confirmEmail, getResendEmail } from "services/auth.service";
 import { ConfirmEmailIUser } from "types/user.type";
-import FormContainer from "components/FormGroup/FormContainer";
+import {
+  ContainerForms,
+  FormInput,
+  ButtonForms,
+  TitleForms,
+} from "components/FormGroup";
+
+import { ConfirmEmailValidation } from "utils/validationForm";
+
+const ConfirmEmailValues: ConfirmEmailIUser = {
+  email: "",
+  url: "",
+};
 
 const ConfirmEmail: React.FC = () => {
   const currentURL = window.location.href;
+  const [hasError, setHasError] = useState<boolean>(false);
+  const [emailSent, setEmailSent] = useState<boolean>(false);
 
-  const ConfirmEmailValues: ConfirmEmailIUser = {
-    url: "",
-  };
-
-  const handleLogin = async (values: ConfirmEmailIUser) => {
-    const {} = values;
-
+  const handleConfirmation = async () => {
     try {
       await confirmEmail(currentURL);
-      Swal.fire({
-        title: "Password reset Success",
-        text: "Email enviado com sucesso.",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
     } catch (error: any) {
       console.log(error);
+      setHasError(true);
+    }
+  };
+
+  const resendEmail = async (values: ConfirmEmailIUser) => {
+    try {
+      if (values.email) await getResendEmail(values.email);
+      setHasError(false);
+      setEmailSent(true);
+      alert("Email reenviado com sucesso!");
+    } catch (error: any) {
+      console.log(error);
+      alert("Erro ao reenviar o email. Tente novamente mais tarde.");
     }
   };
 
   useEffect(() => {
-    handleLogin(ConfirmEmailValues);
-  }, []);
+    handleConfirmation();
+  }, );
 
   return (
-    <FormContainer sizeForm="400px" titleForm="Confirmando email">
-      <h1>Obrigado por verificar sua conta</h1>
-    </FormContainer>
+    <ContainerForms sizeForm="500px" titleForm="Confirmação de E-mail">
+      {hasError ? (
+        <Formik
+          initialValues={ConfirmEmailValues}
+          validationSchema={ConfirmEmailValidation}
+          onSubmit={resendEmail}
+        >
+          {() => (
+            <Form>
+              <TitleForms>
+                <p>
+                  Ocorreu um erro ao verificar seu e-mail. Gostaria de tentar
+                  enviar novamente?
+                </p>
+              </TitleForms>
+              <FormInput name="email" label="Email" type="email" />
+              <ButtonForms>
+                <Button variant="contained" type="submit" sx={{ width: "50%" }}>
+                  Reenviar Email
+                </Button>
+              </ButtonForms>
+            </Form>
+          )}
+        </Formik>
+      ) : emailSent ? (
+        <>
+          <TitleForms>
+            <p>
+              Email enviado com sucesso, verifique sua caixa de email ou spam
+            </p>
+          </TitleForms>
+        </>
+      ) : (
+        <>
+          <TitleForms>
+            <h2>Obrigado por verificar sua conta</h2>
+          </TitleForms>
+          <ButtonForms>
+            <Link href="/login" underline="hover" variant="subtitle2">
+              Deseja acessar o sistema?
+            </Link>
+          </ButtonForms>
+        </>
+      )}
+    </ContainerForms>
   );
 };
 

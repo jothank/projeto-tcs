@@ -46,8 +46,6 @@ export const login = async (username: string, password: string) => {
       password,
     });
     setUserLocalStorage(response.data);
-    console.log("access", localStorage.getItem("accessToken"));
-    console.log("refresh", localStorage.getItem("refreshToken"));
     return response.data;
   } catch (error: any) {
     throw new Error(getLoginResponse(error));
@@ -61,7 +59,6 @@ export const passwordReset = async (email: string) => {
     });
     return response.data;
   } catch (error: any) {
-    console.log(error);
     throw new Error(error.response.data.email[0]);
   }
 };
@@ -104,7 +101,6 @@ export const confirmEmail = async (url: string) => {
     });
     return response.data;
   } catch (error: any) {
-    console.log(error);
     throw new Error(error);
   }
 };

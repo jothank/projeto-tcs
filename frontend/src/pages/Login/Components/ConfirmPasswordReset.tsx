@@ -5,7 +5,7 @@ import { ConfirmPasswordResetIUser } from "types/user.type";
 import { ConfirmPasswordResetValidation } from "utils/validationForm";
 import { ContainerForms, FormInput, ButtonForms } from "components/FormGroup";
 import { Button } from "@mui/material";
-import { showAlert } from "components/ModalAlert/showModal";
+import { getErro, getSuccess } from "utils/ModalAlert";
 
 const ConfirmPasswordReset: React.FC = () => {
   const currentURL = window.location.href;
@@ -21,19 +21,9 @@ const ConfirmPasswordReset: React.FC = () => {
 
     try {
       await confirmPasswordReset(currentURL, newPassword1, newPassword2);
-      showAlert({
-        title: "Sucesso!",
-        text: "Senha alterada.",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
+      getSuccess("Senha alterada.");
     } catch (error: any) {
-      showAlert({
-        title: "Erro!",
-        text: error.message,
-        icon: "error",
-        confirmButtonText: "OK",
-      });
+      getErro(error.message);
     }
   };
 

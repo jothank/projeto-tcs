@@ -3,6 +3,8 @@ import { Formik, Form } from "formik";
 import { Link, Button } from "@mui/material";
 import { confirmEmail, getResendEmail } from "services/auth.service";
 import { ConfirmEmailIUser } from "types/user.type";
+import { getErro, getSuccess } from "utils/ModalAlert";
+
 import {
   ContainerForms,
   FormInput,
@@ -26,7 +28,6 @@ const ConfirmEmail: React.FC = () => {
     try {
       await confirmEmail(currentURL);
     } catch (error: any) {
-      console.log(error);
       setHasError(true);
     }
   };
@@ -36,16 +37,15 @@ const ConfirmEmail: React.FC = () => {
       if (values.email) await getResendEmail(values.email);
       setHasError(false);
       setEmailSent(true);
-      alert("Email reenviado com sucesso!");
+      getSuccess("Email reenviado com sucesso!");
     } catch (error: any) {
-      console.log(error);
-      alert("Erro ao reenviar o email. Tente novamente mais tarde.");
+      getErro("Erro ao reenviar o email. Tente novamente mais tarde.");
     }
   };
 
   useEffect(() => {
     handleConfirmation();
-  }, );
+  });
 
   return (
     <ContainerForms sizeForm="500px" titleForm="Confirmação de E-mail">

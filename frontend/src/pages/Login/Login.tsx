@@ -7,7 +7,7 @@ import { LoginIUser } from "types/user.type";
 import { validationLogin } from "utils/validationForm";
 import { FormInput, ContainerForms, ButtonForms } from "components/FormGroup";
 import PasswordResetModal from "pages/Login/Components/PasswordReset";
-import { showAlert } from "components/ModalAlert/showModal";
+import { getErro } from "utils/ModalAlert";
 
 const LoginValues: LoginIUser = {
   username: "",
@@ -23,13 +23,7 @@ const Login: React.FC = () => {
       await login(values.username, values.password);
       navigate("/home");
     } catch (error: any) {
-      showAlert({
-        title: "Erro!",
-        text: `${error.message}`,
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-      console.log(error.message);
+      getErro(error.message);
     }
   };
 

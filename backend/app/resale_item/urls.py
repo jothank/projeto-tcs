@@ -13,5 +13,5 @@ from django.urls import path, include
 
 
 urlpatterns = [
-    path('api/v1/', include('app.resale_item.api.v1.urls'))
+    path('', include('app.resale_item.api.v1.urls'))
 ]

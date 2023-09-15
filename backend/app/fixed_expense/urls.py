@@ -13,5 +13,5 @@ from django.urls import path, include
 
 
 urlpatterns = [
-    path('api/v1/', include('app.fixed_expense.api.v1.urls'))
+    path('', include('app.fixed_expense.api.v1.urls'))
 ]

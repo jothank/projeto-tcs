@@ -3,6 +3,7 @@
 ###
 from django.utils.translation import gettext as _
 from django.db import models
+from app.accounts.models.user import User
 
 
 ###
@@ -10,11 +11,19 @@ from django.db import models
 ###
 class Company(models.Model):
 
+    users = models.ManyToManyField(
+        User,
+        verbose_name=_('Users'),
+        related_name='companies',
+    )
+
     name = models.CharField(
+        unique=True,
         max_length=255,
         verbose_name=_('Name'),
     )
     cnpj = models.CharField(
+        unique=True,
         max_length=255,
         verbose_name=_('CNPJ'),
     )

@@ -5,7 +5,7 @@ import { Formik, Form } from "formik";
 import { passwordReset } from "services/auth.service";
 import { FormInput } from "components/FormGroup";
 import { PasswordResetValidation } from "utils/validationForm";
-import { showAlert } from "components/ModalAlert/showModal";
+import { getErro, getSuccess } from "utils/ModalAlert";
 
 interface PasswordResetModalProps {
   isOpen: boolean;
@@ -23,20 +23,10 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({
   const handlepasswordReset = async (values: typeof PasswordResetValues) => {
     try {
       await passwordReset(values.email);
-      showAlert({
-        title: "Sucesso!",
-        text: "Email enviado com sucesso.",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
+      getSuccess("Email enviado com sucesso.");
       onClose();
     } catch (error: any) {
-      showAlert({
-        title: "Erro!",
-        text: error.message,
-        icon: "error",
-        confirmButtonText: "OK",
-      });
+      getErro(error.message);
     }
   };
 

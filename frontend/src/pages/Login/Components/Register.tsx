@@ -5,7 +5,7 @@ import { RegisterIUser } from "types/user.type";
 import { RegisterValidation } from "utils/validationForm";
 import { register } from "services/auth.service";
 import { ButtonForms, ContainerForms, FormInput } from "components/FormGroup";
-import { showAlert } from "components/ModalAlert/showModal";
+import { getErro, getSuccess } from "utils/ModalAlert";
 
 const RegisterValues: RegisterIUser = {
   username: "",
@@ -30,21 +30,11 @@ const Register: React.FC = () => {
         formValue.firstName,
         formValue.lastName
       );
-      showAlert({
-        title: "Usuário cadastrado com sucesso!",
-        text: "Verifique seu email para ativar sua conta.",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
+      getSuccess("Verifique seu email para ativar sua conta.");
 
       resetForm();
     } catch (error: any) {
-      showAlert({
-        title: "Erro!",
-        text: error.message,
-        icon: "error",
-        confirmButtonText: "OK",
-      });
+      getErro(error.message);
     }
   };
 

@@ -27,5 +27,5 @@ class CompanyViewSet(viewsets.ModelViewSet):
             return DefaultCompanySerializer
 
     def perform_create(self, serializer):
-        company = serializer.save()
-        company.users.add(self.request.user)
+        user = self.request.user
+        serializer.save(owner=user)

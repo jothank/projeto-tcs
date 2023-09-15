@@ -16,7 +16,11 @@ class Company(models.Model):
         verbose_name=_('Users'),
         related_name='companies',
     )
-
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name=_("Owner"),
+    )
     name = models.CharField(
         unique=True,
         max_length=255,
@@ -46,7 +50,6 @@ class Company(models.Model):
     neighborhood = models.CharField(
         max_length=255,
         verbose_name=_('Neighborhood'),
-
     )
     city = models.CharField(
         max_length=255,

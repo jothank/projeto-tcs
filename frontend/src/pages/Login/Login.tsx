@@ -5,10 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { login } from "services/auth.service";
 import { LoginIUser } from "types/user.type";
 import { validationLogin } from "utils/validationForm";
-import FormInput from "components/FormGroup/FormInput";
-import FormContainer from "components/FormGroup/FormContainer";
-import FormButton from "components/FormGroup/FormButton";
+import { FormInput, ContainerForms, ButtonForms } from "components/FormGroup";
 import PasswordResetModal from "pages/Login/Components/PasswordReset";
+import { showAlert } from "components/ModalAlert/showModal";
 
 const LoginValues: LoginIUser = {
   username: "",
@@ -24,12 +23,18 @@ const Login: React.FC = () => {
       await login(values.username, values.password);
       navigate("/home");
     } catch (error: any) {
+      showAlert({
+        title: "Erro!",
+        text: `${error.message}`,
+        icon: "error",
+        confirmButtonText: "OK",
+      });
       console.log(error.message);
     }
   };
 
   return (
-    <FormContainer sizeForm="400px" titleForm="Entrar">
+    <ContainerForms sizeForm="400px" titleForm="Entrar">
       <Formik
         initialValues={LoginValues}
         validationSchema={validationLogin}
@@ -38,7 +43,7 @@ const Login: React.FC = () => {
         <Form>
           <FormInput name="username" label="Username" type="text" />
           <FormInput name="password" label="Password" type="password" />
-          <FormButton>
+          <ButtonForms>
             <Button variant="contained" type="submit" sx={{ width: "50%" }}>
               Acessar
             </Button>
@@ -56,10 +61,10 @@ const Login: React.FC = () => {
               isOpen={isModalOpen}
               onClose={() => setModalOpen(false)}
             />
-          </FormButton>
+          </ButtonForms>
         </Form>
       </Formik>
-    </FormContainer>
+    </ContainerForms>
   );
 };
 

@@ -33,4 +33,5 @@ export interface ConfirmPasswordResetIUser {
 }
 export interface ConfirmEmailIUser {
   url: string;
+  email: string | null;
 }

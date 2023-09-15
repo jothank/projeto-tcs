@@ -156,7 +156,7 @@ export const validationToken = async () => {
 
 export const getResendEmail = async (email: string) => {
   try {
-    const response = await axios.post(BASE_URL + "resend-email/", {
+    const response = await axios.post(BASE_URL + "accounts/resend-email/", {
       email,
     });
     return response.data;

@@ -20,9 +20,15 @@ class PartialUpdateCompanySerializer(serializers.ModelSerializer):
         many=True,
         queryset=User.objects.all(),
     )
-
-    def save(self, **kwargs):
-        return super().save(**kwargs)
+    
+    def update(self, instance, validated_data):
+        users = validated_data.pop('users')
+        for user in users:
+            if not (instance.users.filter(id=user.id).exists()):
+                instance.users.add(user)    
+                continue
+        instance = super().update(instance, validated_data)
+        return instance
 
     class Meta:
         model = Company

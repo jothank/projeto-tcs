@@ -15,11 +15,7 @@ class Company(models.Model):
         User,
         verbose_name=_('Users'),
         related_name='companies',
-    )
-    owner = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        verbose_name=_("Owner"),
+        through='CompanyUser',
     )
     name = models.CharField(
         unique=True,

@@ -59,9 +59,7 @@ export  default  function Login() {
     
   });
 
-  const handleNavigate = () => {
-    navigate('/home');
-  };
+
 
   return (
     <>
@@ -186,7 +184,7 @@ export  default  function Login() {
                       marginLeft: "20%",
                       width: "50%",
                     }}
-                    onClick={handleNavigate}
+                 
                   >
                     Login
                   </Button>

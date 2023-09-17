@@ -17,9 +17,7 @@ from app.feedstock.models.feedstock import Feedstock
 # Main Admin Models
 ###
 class FeedstockAdmin(admin.ModelAdmin):
-    list_display = ('value', 'mass')
-    search_fields = ('value', 'mass')
-    list_filter = ('value', 'mass')
+    list_display = ('name',)
 
 
 admin.site.register(Feedstock, FeedstockAdmin)

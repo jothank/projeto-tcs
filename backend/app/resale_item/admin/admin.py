@@ -17,7 +17,7 @@ from app.resale_item.models.resale_item import ResaleItem
 # Main Admin Models
 ###
 class ResaleItensAdmin(admin.ModelAdmin):
-    ...
+    list_display = ["name", "description", "purchase_price"]
 
 
 admin.site.register(ResaleItem, ResaleItensAdmin)

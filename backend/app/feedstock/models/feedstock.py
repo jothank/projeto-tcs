@@ -3,8 +3,7 @@
 ###
 from django.utils.translation import gettext as _
 from django.db import models
-from measurement.measures import Mass
-from measurement.utils import guess
+from app.utils.models.unit import Unit
 
 
 ###
@@ -12,15 +11,21 @@ from measurement.utils import guess
 ###
 
 class Feedstock(models.Model):
-    value = models.FloatField()
-    mass = models.CharField(max_length=50)
+    name = models.CharField(max_length=100, verbose_name=_('Name'))
+    quantity = models.FloatField(verbose_name=_('Quantity'))
+    units = models.ForeignKey(
+        Unit,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Units')
+    )
+    value = models.FloatField(verbose_name=_('Value'))
 
-    def get_mass_measurement(self):
-        return Mass(self.value, guess(self.mass))
+    def __str__(self):
+        return self.name
 
-    def save(self, *args, **kwargs):
-        try:
-            Mass(self.value, guess(self.mass))
-        except ValueError:
-            raise ValueError("Invalid mass unit.")
-        super().save(*args, **kwargs)
+    class Meta:
+        verbose_name = _('Feedstock')
+        verbose_name_plural = _('Feedstocks')
+        ordering = ['id']

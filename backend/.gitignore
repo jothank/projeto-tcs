@@ -108,4 +108,3 @@ docker/db2/
 
 # Mac
 .DS_STORE
-app/accounts/migrations/0001_initial.py

@@ -40,6 +40,9 @@ ALLOWED_HOSTS = [
     "*",
 ]
 
+# Desactive slash in the end of url
+APPEND_SLASH = False
+
 
 # Application definition
 
@@ -58,11 +61,11 @@ INSTALLED_APPS = [
     "app.company",
     "app.feedstock",
     "app.fixed_expense",
-    # "app.ingredient",
     "app.pricing",
     "app.product",
     "app.product_registration",
     "app.resale_item",
+    "app.utils",
     "app.variable_expense",
 
     # CorsHeaders
@@ -77,6 +80,9 @@ INSTALLED_APPS = [
     "dj_rest_auth.registration",
     "allauth",
     "allauth.account",
+
+    # Swagger
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -207,7 +213,6 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 20,
 }
-
 ###
 # Frontend
 ###

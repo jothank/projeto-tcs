@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+import {useEffect} from 'react'
 import Home from "../pages/Home/Home";
 import ConfirmPasswordReset from "../pages/Login/Components/ConfirmPasswordReset";
 import PasswordReset from "../pages/Login/Components/PasswordReset";
@@ -6,10 +6,32 @@ import Register from "../pages/Login/Components/Register";
 import Login from "../pages/Login/Login";
 import { Navigate, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoutes/ProtectedRoutes";
-import PrivateRoute from "./ProtectedRoutes/ProtectedRoutes";
 
-export const AppRouts = () => {
+
+import { useDraweContext } from "shared/context";
+import Profile from 'pages/Profile/Profile';
+import FeedStock from 'pages/FeedStock/FeedStock';
+
+export const AppRouts: React.FC = () => {
+  const {toggleDrawerOpen, setDrawerOptions} = useDraweContext();
+
+        useEffect(() => {
+          setDrawerOptions([
+          {
+            path: '/home',
+           label: 'Home'
+          },
+          {
+            path: '/profile',
+           label: 'Empresa'
+          },
+
+        ])
+        })
+
   return (
+    <>
+    
     <Routes>
       <Route path="/" element={<Register />} />
       <Route path="/login" element={<Login />} />
@@ -18,58 +40,19 @@ export const AppRouts = () => {
         path="/password-reset-cofirm/:UID/:Token"
         element={<ConfirmPasswordReset />}
       />
-      <Route path="/home" element={<ProtectedRoute element={<Home />} />} />
+      <Route path="/feed-stoc" element={<FeedStock />} />
+      <Route path='/profile' element={<Profile />} />
+      {/* <Route path="/home" element={<ProtectedRoute element={<Home />} />} /> */}
+      <Route path="/home" element={<Home />}  />
+      
     </Routes>
+    </>
   );
 };
-=======
-import Home from '../pages/Home/Home';
-import ConfirmPasswordReset from '../pages/Login/Components/ConfirmPasswordReset';
-import PasswordReset from '../pages/Login/Components/PasswordReset';
-import Register from '../pages/Login/Components/Register';
-import Login from '../pages/Login/Login';
-import { Navigate, Route, Routes } from 'react-router-dom'
-import ProtectedRoute from './ProtectedRoutes/ProtectedRoutes';
-import PrivateRoute from './ProtectedRoutes/ProtectedRoutes';
-import Profile from 'pages/Profile/Profile';
 
-export const AppRouts = () => {
 
-    return (
-        <Routes>
-        <Route path="/" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/password/reset/" element={<PasswordReset />} />
-        <Route
-          path="/password-reset-cofirm/:UID/:Token"
-          element={<ConfirmPasswordReset />}
-        />
-        {/* <Route path='/home' element={<ProtectedRoute element={<Home />} />} /> */}
-     <Route path="/home" element={<Home />}  />
 
-   
-      </Routes>
-     
-    );
-}
 
->>>>>>> 48048c210546df889f2d79e74ad8fe1f568aa439
 
-// export const AppRouts = () => {
 
-//     return (
-//         // <Routes>
-//         //     <Route path="/" element={<Register />} />
-//         //     <Route path="/login" element={<Login />} />
-//         //     <Route path="/password/reset/" element={<PasswordReset />} />
-//         //     <Route path="/password-reset-cofirm/:UID/:Token" element={<ConfirmPasswordReset />} />
 
-//         //     <Route element={<ProtectedRoute />}>
-//         //          {/* Inserir todas rotas protegidas aqui dentro do ProtectRoute  */}
-//         //         <Route path="/home" element={<Home />} />
-//         //         <Route path="/products" element={<Home />} />
-//         //         <Route path="/etc" element={<Home />} />
-//         //     </Route>
-
-//         // </Routes>
-//     );

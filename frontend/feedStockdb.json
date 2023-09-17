@@ -1,11 +1,11 @@
 {
-    "feedStock": [
-        {
-            "id": 1,
-            "name": "rosquinha",
-            "quantity": 4,
-            "units": "kg",
-            "value": 5.00
-        }
-    ]
+  "feedStock": [
+    {
+      "id": 1,
+      "name": "rosquinha",
+      "quantity": 4,
+      "units": "kg",
+      "value": 5
+    }
+  ]
 }

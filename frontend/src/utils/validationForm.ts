@@ -11,12 +11,13 @@ const passwordSchema = Yup.string()
   )
   .required("Este campo é obrigatório!");
 
-const emailSchema = Yup.string()
+export const emailSchema = Yup.string()
   .matches(
     /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
     "Este não é um email válido."
   )
   .required("Este campo é obrigatório!");
+
 const usernameSchema = Yup.string()
   .min(3, "O nome de usuário deve ter pelo menos 3 caracteres.")
   .max(20, "O nome de usuário não deve exceder 20 caracteres.")

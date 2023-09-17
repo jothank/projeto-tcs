@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { validationToken, refreshToken } from "services/auth.service";
+import NavBar from "components/NavBar/NavBar";
 
 const PrivateRoute: React.FC<{ children: React.ReactElement }> = ({
   children,
@@ -35,7 +36,14 @@ const PrivateRoute: React.FC<{ children: React.ReactElement }> = ({
 
   const Loader = () => <div>Loading...</div>;
 
-  return isValid === null ? <Loader /> : isValid ? children : null;
+  return isValid === null ? (
+    <Loader />
+  ) : isValid ? (
+    <>
+      <NavBar />
+      {children}
+    </>
+  ) : null;
 };
 
 export default PrivateRoute;

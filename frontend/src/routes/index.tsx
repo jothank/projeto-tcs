@@ -4,7 +4,8 @@ import Register from "pages/Login/Components/Register";
 import Login from "pages/Login/Login";
 import ConfirmEmail from "pages/Login/Components/ConfirmEmail";
 import { Routes, Route } from "react-router-dom";
-import PrivateRoute from "./ProtectedRoutes/PrivateRoute";
+import PrivateRoute from "hooks/ProtectedRoutes/PrivateRoute";
+import Company from "pages/Company/Company";
 
 export const AppRoutes = () => {
   return (
@@ -21,6 +22,14 @@ export const AppRoutes = () => {
         element={
           <PrivateRoute>
             <Home />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/company"
+        element={
+          <PrivateRoute>
+            <Company />
           </PrivateRoute>
         }
       />

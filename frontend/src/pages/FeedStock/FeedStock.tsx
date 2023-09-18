@@ -7,6 +7,7 @@ import { LayoutBasePage } from 'layout';
 import { TablePaginationActions } from 'components/TableActions/TableActions';
 import TablePagination from '@mui/material/TablePagination';
 import AddFeedStock from './components/AddFeedStock';
+import UpdatedFeedStock from './components/EditFeedStock';
 
 
 export default function FeedStock() {
@@ -42,7 +43,7 @@ export default function FeedStock() {
     try {
       const response = await listAllFeedStock();
       console.log(response.data)
-      setFeedStockData(response.data);
+      setFeedStockData(response.data || []);
     } catch (error) {
       console.error('Erro ao buscar dados do serviço:', error);
     }
@@ -91,7 +92,7 @@ export default function FeedStock() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {feedStockData.map((item) => (
+              {feedStockData?.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell>
                     <Typography variant="subtitle2" noWrap>
@@ -116,8 +117,8 @@ export default function FeedStock() {
                         onClose={handleClosePopover}
 
                       >
-                        <MenuItem>Editar</MenuItem>
-                        <MenuItem>Visualizar</MenuItem>
+                        <MenuItem><UpdatedFeedStock /></MenuItem>
+                     
                         <MenuItem
                           onClick={() => {
                             if (item.id !== undefined) {

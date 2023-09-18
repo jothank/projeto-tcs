@@ -11,9 +11,10 @@ import ProtectedRoute from "./ProtectedRoutes/ProtectedRoutes";
 import { useDraweContext } from "shared/context";
 import Profile from 'pages/Profile/Profile';
 import FeedStock from 'pages/FeedStock/FeedStock';
+import FixedExpense from 'pages/fixedExpense/FixedExpense';
 
 export const AppRouts: React.FC = () => {
-  const {toggleDrawerOpen, setDrawerOptions} = useDraweContext();
+  const { setDrawerOptions} = useDraweContext();
 
         useEffect(() => {
           setDrawerOptions([
@@ -24,6 +25,14 @@ export const AppRouts: React.FC = () => {
           {
             path: '/profile',
            label: 'Empresa'
+          },
+          {
+            path: '/feed-stock',
+           label: 'Feed Stock'
+          },
+          {
+            path: '/fixed-expense',
+           label: 'Fixed Expense'
           },
 
         ])
@@ -40,6 +49,7 @@ export const AppRouts: React.FC = () => {
         path="/password-reset-cofirm/:UID/:Token"
         element={<ConfirmPasswordReset />}
       />
+      <Route path='/fixed-expense' element={<FixedExpense /> } />
       <Route path="/feed-stock" element={<FeedStock />} />
       <Route path='/profile' element={<Profile />} />
       {/* <Route path="/home" element={<ProtectedRoute element={<Home />} />} /> */}

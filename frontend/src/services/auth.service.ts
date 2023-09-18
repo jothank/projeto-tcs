@@ -25,7 +25,7 @@ export const register = async (
   lastName: string
 ) => {
   try {
-    const response = await axios.post(BASE_URL + "register/", {
+    const response = await axios.post(BASE_URL + "accounts/register/", {
       username,
       email,
       password1,
@@ -41,13 +41,11 @@ export const register = async (
 
 export const login = async (username: string, password: string) => {
   try {
-    const response = await axios.post(BASE_URL + "login/", {
+    const response = await axios.post(BASE_URL + "accounts/login/", {
       username,
       password,
     });
     setUserLocalStorage(response.data);
-    console.log("access", localStorage.getItem("accessToken"));
-    console.log("refresh", localStorage.getItem("refreshToken"));
     return response.data;
   } catch (error: any) {
     throw new Error(getLoginResponse(error));
@@ -56,12 +54,11 @@ export const login = async (username: string, password: string) => {
 
 export const passwordReset = async (email: string) => {
   try {
-    const response = await axios.post(BASE_URL + "password/reset/", {
+    const response = await axios.post(BASE_URL + "accounts/password/reset/", {
       email,
     });
     return response.data;
   } catch (error: any) {
-    console.log(error);
     throw new Error(error.response.data.email[0]);
   }
 };
@@ -82,7 +79,7 @@ export const confirmPasswordReset = async (
   const { UID, TOKEN } = getURLParams(url);
   try {
     const response = await axios.post(
-      `${BASE_URL}password/reset/confirm/${UID}/${TOKEN}`,
+      `${BASE_URL}accounts/password/reset/confirm/${UID}/${TOKEN}`,
       {
         uid: UID,
         token: TOKEN,
@@ -93,6 +90,18 @@ export const confirmPasswordReset = async (
     return response.data;
   } catch (error: any) {
     throw new Error(getResetPasswordConfirmResponse(error));
+  }
+};
+
+export const confirmEmail = async (url: string) => {
+  const { TOKEN } = getURLParams(url);
+  try {
+    const response = await axios.post(`${BASE_URL}accounts/verify-email/`, {
+      key: TOKEN,
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error);
   }
 };
 
@@ -115,7 +124,7 @@ export const refreshToken = async () => {
     : null;
 
   try {
-    const response = await axios.post(BASE_URL + "token/refresh/", {
+    const response = await axios.post(BASE_URL + "accounts/token/refresh/", {
       refresh: refreshToken,
     });
     localStorage.setItem("accessToken", JSON.stringify(response.data.access));
@@ -132,11 +141,22 @@ export const validationToken = async () => {
     : null;
 
   try {
-    const response = await axios.post(BASE_URL + "token/verify/", {
+    const response = await axios.post(BASE_URL + "accounts/token/verify/", {
       token: accessToken,
     });
     return response;
   } catch (error: any) {
     throw new Error(error?.response.status);
+  }
+};
+
+export const getResendEmail = async (email: string) => {
+  try {
+    const response = await axios.post(BASE_URL + "accounts/resend-email/", {
+      email,
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error);
   }
 };

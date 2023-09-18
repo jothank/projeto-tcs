@@ -1,9 +1,8 @@
-import MenuLateral from "Layout/meuLateral/MenuLateral";
+import SideBar from "components/NavBar/NavBar";
 
 export default function Home() {
   return (
     <div>
-      <MenuLateral />
     </div>
   );
 }

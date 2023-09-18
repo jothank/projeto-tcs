@@ -3,8 +3,9 @@ import { Button, Modal, Container, Grid, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Formik, Form } from "formik";
 import { passwordReset } from "services/auth.service";
-import FormInput from "components/FormGroup/FormInput";
+import { FormInput } from "components/FormGroup";
 import { PasswordResetValidation } from "utils/validationForm";
+import { getErro, getSuccess } from "utils/ModalAlert";
 
 interface PasswordResetModalProps {
   isOpen: boolean;
@@ -22,10 +23,10 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({
   const handlepasswordReset = async (values: typeof PasswordResetValues) => {
     try {
       await passwordReset(values.email);
-      console.log("Email enviado com sucesso.");
+      getSuccess("Email enviado com sucesso.");
       onClose();
     } catch (error: any) {
-      console.log(error.message);
+      getErro(error.message);
     }
   };
 

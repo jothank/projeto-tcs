@@ -11,6 +11,7 @@
       "@config/*": ["src/config/*"],
       "@utils/*": ["src/utils/*"],
       "@hooks/*": ["src/hooks/*"],
+      "@assets*": ["src/assets/*"], 
     },
     "allowJs": true,
     "skipLibCheck": true,

@@ -3,13 +3,13 @@
 ##
 from django.urls import path, include
 from rest_framework import routers
-from app.feedstock.api.v1.views.feedstock_views import FeedstockViewSet
+from app.utils.api.v1.views.views import MassUnitList
 
-# Routers
+# # Routers
 router = routers.SimpleRouter()
-router.register(r'feedstock', FeedstockViewSet, basename='feedstock')
+router.register(r'units', MassUnitList, basename='units')
 
-# URLs
+# # URLs
 urlpatterns = [
     path('', include(router.urls)),
 ]

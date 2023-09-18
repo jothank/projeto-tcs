@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import { Container, Grid } from "@mui/material";
+import { TitleForms } from "components/FormGroup";
 
 interface ContainerFormsProps {
   children: ReactNode;
@@ -40,21 +41,13 @@ const ContainerForms: React.FC<ContainerFormsProps> = ({
           },
         }}
       >
-        <Grid
-          sx={{
-            width: "100%",
-            height: "100px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+        <TitleForms>
           <h1>{titleForm}</h1>
-        </Grid>
+        </TitleForms>
         {children}
       </Container>
     </Grid>
   );
 };
 
-export default ContainerForms;
+export { ContainerForms };

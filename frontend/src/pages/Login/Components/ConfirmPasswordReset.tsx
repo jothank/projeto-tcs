@@ -1,12 +1,11 @@
 import React from "react";
-import Swal from "sweetalert2";
 import { Formik, Form } from "formik";
 import { confirmPasswordReset } from "services/auth.service";
 import { ConfirmPasswordResetIUser } from "types/user.type";
 import { ConfirmPasswordResetValidation } from "utils/validationForm";
-import FormInput from "components/FormGroup/FormInput";
-import FormContainer from "components/FormGroup/FormContainer";
-import { Button, Grid } from "@mui/material";
+import { ContainerForms, FormInput, ButtonForms } from "components/FormGroup";
+import { Button } from "@mui/material";
+import { getErro, getSuccess } from "utils/ModalAlert";
 
 const ConfirmPasswordReset: React.FC = () => {
   const currentURL = window.location.href;
@@ -22,19 +21,14 @@ const ConfirmPasswordReset: React.FC = () => {
 
     try {
       await confirmPasswordReset(currentURL, newPassword1, newPassword2);
-      Swal.fire({
-        title: "Password reset Success",
-        text: "Email enviado com sucesso.",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
+      getSuccess("Senha alterada.");
     } catch (error: any) {
-      console.log(error.message);
+      getErro(error.message);
     }
   };
 
   return (
-    <FormContainer sizeForm="400px" titleForm="Redefinição de senha">
+    <ContainerForms sizeForm="400px" titleForm="Redefinição de senha">
       <Formik
         initialValues={ConfirmPasswordResetValues}
         validationSchema={ConfirmPasswordResetValidation}
@@ -47,21 +41,14 @@ const ConfirmPasswordReset: React.FC = () => {
             label="Confirme a senha"
             type="password"
           />
-          <Grid
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-            }}
-          >
+          <ButtonForms>
             <Button variant="contained" type="submit" sx={{ width: "50%" }}>
               Redefinir senha
             </Button>
-          </Grid>
+          </ButtonForms>
         </Form>
       </Formik>
-    </FormContainer>
+    </ContainerForms>
   );
 };
 

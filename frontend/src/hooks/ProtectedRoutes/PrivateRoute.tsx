@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { validationToken, refreshToken } from "services/auth.service";
+import NavBar from "components/NavBar/NavBar";
 
 const PrivateRoute: React.FC<{ children: React.ReactElement }> = ({
   children,
@@ -14,10 +15,8 @@ const PrivateRoute: React.FC<{ children: React.ReactElement }> = ({
         await validationToken();
         setIsValid(true);
       } catch (error: any) {
-        console.log(error.status)
         if (error.message.includes("401")) {
           try {
-            console.log("Refreshing token...");
             await refreshToken();
             await validationToken();
             setIsValid(true);
@@ -26,10 +25,8 @@ const PrivateRoute: React.FC<{ children: React.ReactElement }> = ({
               navigate("/login");
             }
           }
-        } else if (error.message.includes("400")) {
-          navigate("/login");
         } else {
-          console.error("Unknown error during token validation:", error);
+          navigate("/login");
         }
       }
     };
@@ -39,7 +36,14 @@ const PrivateRoute: React.FC<{ children: React.ReactElement }> = ({
 
   const Loader = () => <div>Loading...</div>;
 
-  return isValid === null ? <Loader /> : isValid ? children : null;
+  return isValid === null ? (
+    <Loader />
+  ) : isValid ? (
+    <>
+      <NavBar />
+      {children}
+    </>
+  ) : null;
 };
 
 export default PrivateRoute;

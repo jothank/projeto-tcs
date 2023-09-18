@@ -11,8 +11,11 @@ const passwordSchema = Yup.string()
   )
   .required("Este campo é obrigatório!");
 
-const emailSchema = Yup.string()
-  .email("Este não é um email válido.")
+export const emailSchema = Yup.string()
+  .matches(
+    /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+    "Este não é um email válido."
+  )
   .required("Este campo é obrigatório!");
 
 const usernameSchema = Yup.string()
@@ -51,4 +54,8 @@ export const RegisterValidation = Yup.object().shape({
     .required("Este campo é obrigatório!"),
   firstName: nameSchema("nome"),
   lastName: nameSchema("sobrenome"),
+});
+
+export const ConfirmEmailValidation = Yup.object({
+  email: emailSchema,
 });

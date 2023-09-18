@@ -20,4 +20,4 @@ const ButtonForms: React.FC<ContainerFormsProps> = ({ children }) => {
   );
 };
 
-export default ButtonForms;
+export { ButtonForms };

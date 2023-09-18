@@ -1,10 +1,11 @@
 {
-   "fixedExpense": [
-      {
-         "name": "teste",
-         "value": 6.60,
-         "description": "Loren Ipsus",
-         "date": "18-09-2023"
-      }
-   ]
+  "fixedExpense": [
+    {
+      "id": 1,
+      "name": "teste",
+      "value": 6.6,
+      "description": "Loren Ipsus",
+      "date": "18-09-2023"
+    }
+  ]
 }

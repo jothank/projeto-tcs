@@ -90,7 +90,6 @@ export default function AddFeedStock() {
   const handleClose = () => setOpen(false);
   const methods = useForm<FormValues>();
   const { setError } = methods;
-  const formValues = methods.watch();
 
 
   const handleAddFeedStock = async (feedStockProduct: IFeedStock) => {
@@ -105,8 +104,6 @@ export default function AddFeedStock() {
 
   const handleFormSubmit = async () => {
     const { name, quantity , units, value } = methods.getValues();
-
-
       const newFeedStock: IFeedStock =  {
        
         name: name,
@@ -124,7 +121,7 @@ export default function AddFeedStock() {
        setError('name', {type: 'manual', message: 'Nome Inválido'})
    
       }
-    }
+    };
   
 
   return (

@@ -5,10 +5,13 @@ import { Icon } from '@iconify/react';
 import { LayoutBasePage } from 'layout';
 import { TablePaginationActions } from 'components/TableActions/TableActions';
 import TablePagination from '@mui/material/TablePagination';
+import AddFixedExpense from './components/AddFixedExpense';
+import { IFixedExpense, deleteFixedExpense, listAllFixedExpense } from 'services/fixedExpense.service';
+import UpdateFixedExpense from './components/UpdateFixedExpense';
 
 
 export default function FixedExpense() {
-    // const [feedStockData, setFeedStockData] = useState<IFeedStock[]>([]);
+    const [ fixedExpenseData, setfixedExpenseData] = useState<IFixedExpense[]>([]);
     const [openPopover, setOpenPopover] = useState<HTMLElement | null>(null);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -36,31 +39,31 @@ export default function FixedExpense() {
       setOpenPopover(null);
     };
   
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await listAllFeedStock();
-    //     console.log(response.data)
-    //     setFeedStockData(response.data || []);
-    //   } catch (error) {
-    //     console.error('Erro ao buscar dados do serviço:', error);
-    //   }
-    // };
+    const fetchData = async () => {
+      try {
+        const response = await listAllFixedExpense();
+        console.log(response.data)
+        setfixedExpenseData(response.data || []);
+      } catch (error) {
+        console.error('Erro ao buscar dados do serviço:', error);
+      }
+    };
   
-    // useEffect(() => {
-    //   fetchData();
-    // }, []);
+    useEffect(() => {
+      fetchData();
+    }, []);
   
-    // const handleDelete = async (id: number) => {
-    //   try {
-    //     // await deleteFeedStock(id); 
-    //     const updatedData = feedStockData.filter((item) => item.id !== id); 
-    //     setFeedStockData(updatedData); 
-    //     handleClosePopover(); 
-    //     console.log('Item excluído com sucesso!');
-    //   } catch (error) {
-    //     console.error('Erro ao excluir o item:', error);
-    //   }
-    // };
+    const handleDelete = async (id: number) => {
+      try {
+        await deleteFixedExpense(id); 
+        const updatedData = fixedExpenseData.filter((item) => item.id !== id); 
+        setfixedExpenseData(updatedData); 
+        handleClosePopover(); 
+        console.log('Item excluído com sucesso!');
+      } catch (error) {
+        console.error('Erro ao excluir o item:', error);
+      }
+    };
   
   
     return (
@@ -75,7 +78,7 @@ export default function FixedExpense() {
   
               }}
             >
-              {/* <AddFeedStock /> */}
+            <AddFixedExpense />
             </Grid>
             <Table>
   
@@ -89,21 +92,21 @@ export default function FixedExpense() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {/* {feedStockData?.map((item) => ( */}
+                {fixedExpenseData?.map((item) => (
                   <TableRow  >
                     <TableCell>
                       <Typography variant="subtitle2" noWrap>
-                        {/* {item.name} */}
+                        {item.name}
                       </Typography>
                     </TableCell>
                     <TableCell align="left">
-                        {/* {item.quantity} */}
+                      R$ {item.value}
                         </TableCell>
                     <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-                      {/* {item.units} */}
+                      {item.description}
                     </TableCell>
                     <TableCell align="left"> 
-                    {/* {item.value} */}
+                    {item.date}
                     </TableCell>
                     <TableCell align="right">
                       <div
@@ -118,16 +121,16 @@ export default function FixedExpense() {
                           onClose={handleClosePopover}
   
                         >
-                          {/* <MenuItem><UpdatedFeedStock /></MenuItem> */}
+                          <MenuItem><UpdateFixedExpense /></MenuItem>
                        
                           <MenuItem
-                            // onClick={() => {
-                            //   if (item.id !== undefined) {
-                            //     handleDelete(item.id); // Passe o ID do item ao chamar handleDelete
-                            //   } else {
-                            //     console.error('ID do item é indefinido');
-                            //   }
-                            // }}
+                             onClick={() => {
+                              if (item.id !== undefined) {
+                                handleDelete(item.id); 
+                              } else {
+                                console.error('ID do item é indefinido');
+                              }
+                            }}
                             sx={{ color: 'error.main' }}
                           >
                             Delete
@@ -136,19 +139,19 @@ export default function FixedExpense() {
                       )}
                     </TableCell>
                   </TableRow>
-                {/* ))} */}
+                 ))} 
               </TableBody>
             </Table>
-            {/* <TablePagination
+            <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
               component="div"
-              count={length}
+              count={fixedExpenseData.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
               ActionsComponent={TablePaginationActions}
-            /> */}
+            />
           </Paper>
         </LayoutBasePage>
       </>

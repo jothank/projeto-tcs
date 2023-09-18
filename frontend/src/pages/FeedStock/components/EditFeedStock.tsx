@@ -245,7 +245,7 @@ export default function UpdatedFeedStock() {
           </Grid>
           <Grid item >
             <Button variant="contained" onClick={handleFormSubmit}>
-              Adicionar
+              Editar
             </Button>
           </Grid>
           </Grid>

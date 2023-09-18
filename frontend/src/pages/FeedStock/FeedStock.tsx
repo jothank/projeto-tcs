@@ -7,7 +7,6 @@ import { LayoutBasePage } from 'layout';
 import { TablePaginationActions } from 'components/TableActions/TableActions';
 import TablePagination from '@mui/material/TablePagination';
 import AddFeedStock from './components/AddFeedStock';
-import DeletFeedStock from './components/DeleteFeedStock';
 
 
 export default function FeedStock() {
@@ -55,10 +54,10 @@ export default function FeedStock() {
 
   const handleDelete = async (id: number) => {
     try {
-      await deleteFeedStock(id); // Chame a função deleteFeedStock passando o ID do item que deseja excluir
-      const updatedData = feedStockData.filter((item) => item.id !== id); // Remova o item excluído dos dados locais
-      setFeedStockData(updatedData); // Atualize o estado dos dados
-      handleClosePopover(); // Feche o popover após a exclusão (se desejar)
+      await deleteFeedStock(id); 
+      const updatedData = feedStockData.filter((item) => item.id !== id); 
+      setFeedStockData(updatedData); 
+      handleClosePopover(); 
       console.log('Item excluído com sucesso!');
     } catch (error) {
       console.error('Erro ao excluir o item:', error);

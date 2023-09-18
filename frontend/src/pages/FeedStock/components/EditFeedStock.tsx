@@ -83,7 +83,7 @@ const options = [
 ];
 
 
-export default function AddFeedStock() {
+export default function UpdatedFeedStock() {
   const [modalOpen, setModalOpen] = useState(false);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -93,31 +93,44 @@ export default function AddFeedStock() {
   const formValues = methods.watch();
 
 
-  const handleUpdateFeedStock = async (feedStockProduct: IFeedStock) => {
+  const handleUpdateFeedStock = async (feedStockProduct: IFeedStock | undefined) => {
     try {
-      await updateFeedStock(feedStockProduct.id);
-      console.log('Produto adicionado com sucesso');
+      if (feedStockProduct) {
+      
+        await updateFeedStock(feedStockProduct);
+        console.log('Produto atualizado com sucesso');
+      } else {
+        console.error('feedStockProduct é indefinido');
+      
+      }
     } catch (error) {
-      console.error('Erro ao adicionar Produto:', error);
-      // setAddError('erro ao adicionar o usuário')
+      console.error('Erro ao atualizar Produto:', error);
+      
     }
   };
-
+  
+  
   const handleFormSubmit = async () => {
+    const { name, quantity , units, value } = methods.getValues();
+    const updateFeedStock: IFeedStock =  {
+       
+      name: name,
+      quantity: parseFloat(quantity) ,
+      units: units,
+      value: value
+    };
 
-      
-      };
 
-      try {
-        await handleUpdateFeedStock(newFeedStock);
-        methods.reset();
-        handleClose();
-      } catch (error) {
-        console.error('Erro ao adicionar produto:', error);
-       setError('name', {type: 'manual', message: 'Nome Inválido'})
-   
-      }
+    try {
+      await handleUpdateFeedStock(updateFeedStock);
+      methods.reset();
+      handleClose();
+    } catch (error) {
+      console.error('Erro ao adicionar produto:', error);
+      // Lide com o erro de forma apropriada aqui
+      // setError('name', { type: 'manual', message: 'Nome Inválido' })
     }
+  };
   
 
   return (

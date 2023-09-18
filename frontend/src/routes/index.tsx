@@ -40,7 +40,7 @@ export const AppRouts: React.FC = () => {
         path="/password-reset-cofirm/:UID/:Token"
         element={<ConfirmPasswordReset />}
       />
-      <Route path="/feed-stoc" element={<FeedStock />} />
+      <Route path="/feed-stock" element={<FeedStock />} />
       <Route path='/profile' element={<Profile />} />
       {/* <Route path="/home" element={<ProtectedRoute element={<Home />} />} /> */}
       <Route path="/home" element={<Home />}  />

@@ -9,7 +9,6 @@ from rest_framework.pagination import PageNumberPagination
 from django_filters import rest_framework as filters
 from app.feedstock.models.feedstock import Feedstock
 from app.feedstock.api.v1.serializers.feedstock.default import DefaultFeedStockSerializer
-from app.feedstock.api.v1.serializers.feedstock.create import CreateFeedStockSerializer
 from app.feedstock.api.v1.filters.feedstock.feedstock_filter import FeedstockFilter
 ###
 # Viewsets
@@ -38,9 +37,4 @@ class FeedstockViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = FeedstockFilter
     pagination_class = CustomPagination
-
-    def get_serializer_class(self):
-        if self.action == 'create':
-            return CreateFeedStockSerializer
-        else:
-            return DefaultFeedStockSerializer
+    serializer_class = DefaultFeedStockSerializer

@@ -5,8 +5,4 @@ class UnitFilter(django_filters.FilterSet):
 
     class Meta:
         model = Unit
-        fields = {
-            'abbreviation': ['icontains'],
-            'full_name': ['icontains'],
-            'value_in_base_unit': ['icontains'],
-        }
+        fields = '__all__'

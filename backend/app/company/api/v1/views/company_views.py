@@ -19,8 +19,12 @@ from app.company.api.v1.permissions import IsCompanyOwner
 class CompanyViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
-        user = self.request.user
-        return user.companies.all()
+        user = self.request.user   
+             
+        if user.is_authenticated:
+            return user.companies.all()
+        else:
+            return CompanyUser.objects.none()
 
     def get_serializer_class(self):
         if self.action == 'create':

@@ -1,47 +1,27 @@
-from django.utils.translation import gettext as _
 from django.db import models
-from app.utils.constants import UNIT_CHOICES
+from django.utils.translation import gettext as _
+from django.db.models.signals import post_migrate
+from django.dispatch import receiver
 
 class Unit(models.Model):
-    abbreviation = models.CharField(
-        max_length=4, 
-        choices=UNIT_CHOICES, 
-        unique=True, 
-        verbose_name=_("Abbreviation")
-    )
-    full_name = models.CharField(
-        max_length=255, 
-        choices=UNIT_CHOICES, 
-        unique=True,
-        verbose_name=_("Full name")
-    )
-    value_in_base_unit = models.FloatField(verbose_name=_("Value in base unit")) 
+    QUILO = 'Quilo'
+    VOLUME = 'Volume'
+    UNIDADE = 'Unidade'
 
-    @staticmethod
-    def get_sorted_choices():
-        unit_values = {
-            'kg': 1000,
-            'g': 1,
-            'mg': 0.001,
-            't': 1000000,
-            'lb': 453.592,
-            'oz': 28.3495,
-            'l': 1000,
-            'ml': 1,
-            'gal': 3785.41,
-            'pt': 473.176,
-            'qt': 946.353,
-            'floz': 29.5735,
-            # Defina outros valores aqui
-        }
+    UNIDADE_CHOICES = [
+        (QUILO, 'Quilo'),
+        (VOLUME, 'Volume'),
+        (UNIDADE, 'Unidade'),
+    ]
 
-        sorted_choices = sorted(Unit.UNIT_CHOICES, key=lambda unit: unit_values[unit[0]], reverse=True)
-        return sorted_choices
+    id = models.AutoField(primary_key=True)
+    nome = models.CharField(max_length=100, choices=UNIDADE_CHOICES)
 
     def __str__(self):
-        return self.full_name
+        return self.nome
 
-    class Meta:
-        verbose_name = _('Unidade')
-        verbose_name_plural = _('Unidades')
-        ordering = ['id']        
+# Signal to create units after migrations
+@receiver(post_migrate)
+def create_units(sender, **kwargs):
+    for choice in Unit.UNIDADE_CHOICES:
+        unit, created = Unit.objects.get_or_create(nome=choice[0])

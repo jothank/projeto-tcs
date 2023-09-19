@@ -13,7 +13,7 @@ from app.utils.models.unit import Unit
 class Feedstock(models.Model):
     name = models.CharField(max_length=100, verbose_name=_('Name'))
     quantity = models.FloatField(verbose_name=_('Quantity'))
-    units = models.ForeignKey(
+    unit = models.ForeignKey(
         Unit,
         blank=True,
         null=True,

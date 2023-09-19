@@ -5,14 +5,19 @@ from measurement.measures import Mass, Volume
 from app.product.models.product import Product
 from app.feedstock.models.feedstock import Feedstock as FeedS
 from app.utils.models.unit import Unit
+from .product_registration import ProductRegistration
 
 
-class ProductRegistration(models.Model):
-    products = models.ManyToManyField(
+class ProductRegistrationProduct(models.Model):
+    
+    product = models.ForeignKey(
         Product, 
-        
-        # through='ProductRegistrationProduct',
-        verbose_name=_('Product Registration'))
+        related_name='product_product_registration',
+         verbose_name=_('Products')) 
+    product_registration = models.ForeignKey(
+        ProductRegistration, 
+        related_name='product_registration_product',
+         verbose_name=_('Products'))
     producion_price = models.FloatField(verbose_name=_('Production Price'))
 
     def sum(self):

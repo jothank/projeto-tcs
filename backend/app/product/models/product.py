@@ -15,7 +15,7 @@ class Product(models.Model):
         verbose_name=_('Name')
     )
     feedstock = models.ForeignKey(
-        FeedS,
+        FeedS, on_delete=models.CASCADE, verbose_name=_('Feedstock')
 
     )
 

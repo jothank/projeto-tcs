@@ -39,9 +39,6 @@ class FixedExpense(models.Model):
 
     @property
     def total_fixed_expense(self):
-<<<<<<< HEAD
         total= sum([fixed_expense.value for fixed_expense in FixedExpense.objects.all()])
         return total
-=======
-        return sum([fixed_expense.value for fixed_expense in FixedExpense.objects.all()])
->>>>>>> c5dfec54f9173e9515309b6e26c2c3224ed23700
+      

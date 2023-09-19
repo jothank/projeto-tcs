@@ -18,9 +18,24 @@ export const addFixedExpense = async (FixedExpenseProduct: IFixedExpense): Promi
 
 };
 
-export const updateFixedExpense = async (FeedStockProduct: IFixedExpense): Promise<AxiosResponse<IFixedExpense[]>> => {
-    return await axios.put("http://localhost:5000/fixedExpense", FeedStockProduct);
-}
+
+
+export const updateFixedExpense = async (FixedExpenseProduct: IFixedExpense): Promise<IFixedExpense[]> => {
+  try {
+    const response: AxiosResponse<IFixedExpense[]> = await axios.put("http://localhost:5000/fixedExpense", FixedExpenseProduct);
+    return response.data;
+  } catch (error) {
+    // Trate erros aqui, por exemplo:
+    if (axios.isAxiosError(error)) {
+      // Erro de rede ou erro HTTP
+      console.error("Erro de rede:", error.message);
+    } else {
+      // Erro não relacionado à rede (por exemplo, erro no servidor)
+      console.error("Erro no servidor:");
+    }
+    throw error; // Rejeitar a promessa para que o chamador possa lidar com o erro.
+  }
+};
 
 export const deleteFixedExpense = async (id: number): Promise<void> => {
     await axios.delete(`http://localhost:5000/fixedExpense/${id}/`);

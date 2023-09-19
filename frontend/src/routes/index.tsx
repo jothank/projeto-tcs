@@ -12,6 +12,7 @@ import { useDraweContext } from "shared/context";
 import Profile from 'pages/Profile/Profile';
 import FeedStock from 'pages/FeedStock/FeedStock';
 import FixedExpense from 'pages/fixedExpense/FixedExpense';
+import { MenuLateral } from 'shared/components';
 
 export const AppRouts: React.FC = () => {
   const { setDrawerOptions} = useDraweContext();
@@ -49,11 +50,13 @@ export const AppRouts: React.FC = () => {
         path="/password-reset-cofirm/:UID/:Token"
         element={<ConfirmPasswordReset />}
       />
+      {/* <Route element={ <MenuLateral/>} > */}
       <Route path='/fixed-expense' element={<FixedExpense /> } />
       <Route path="/feed-stock" element={<FeedStock />} />
       <Route path='/profile' element={<Profile />} />
       {/* <Route path="/home" element={<ProtectedRoute element={<Home />} />} /> */}
       <Route path="/home" element={<Home />}  />
+      {/* </Route> */}
       
     </Routes>
     </>

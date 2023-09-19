@@ -37,7 +37,7 @@ const NavBar: React.FC = () => {
   };
 
   return (
-    <div>
+    <div style={{ marginBlockEnd: "2%" }}>
       <CustomAppBar
         pageTitle={pageTitle}
         handleDrawerOpen={handleDrawerOpen}

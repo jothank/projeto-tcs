@@ -1,7 +1,7 @@
 export interface CompanyType {
   id?: any | null;
-  users?: Array<any> | null;
   name: string;
+  users?: Array<any> | null;
   cnpj: string;
   email: string;
   phone: string;
@@ -14,4 +14,13 @@ export interface CompanyType {
   zipcode: string;
 }
 
-export {};
+export interface CompanyInputProps {
+  name: string;
+  label: string;
+  type: string;
+}
+
+export interface CPPJCompanyInputProps {
+  name: string;
+  label: string;
+}

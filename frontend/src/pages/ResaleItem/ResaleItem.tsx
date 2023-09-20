@@ -21,6 +21,19 @@ export const ResaleItem = () => {
         handleGet();
       }, []);
       
+      const data = [
+        {
+            name: 'Produto 1',
+            description: 'unidades',
+            purchase_price: 20.99,
+        },
+        {
+          name: 'Produto 1',
+          description: 'unidades',
+          purchase_price: 20.99,
+        },
+       
+    ];
 
     return (
         <>
@@ -30,7 +43,7 @@ export const ResaleItem = () => {
             >
               
                 <ResaleItemTable
-                    data={Resaledata}
+                    data={data}
 
                 />
             </ContainerResaleItem>

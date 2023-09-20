@@ -31,6 +31,8 @@ export const AddResaleItem = () => {
             getErro(error.message)
         }
     }
+
+    
   
     return (
       <div>

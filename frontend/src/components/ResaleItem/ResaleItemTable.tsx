@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import { Table, TableHead, TableBody, TableRow, TableCell, Typography, Grid } from '@mui/material';
 import AddResaleItem from './AddResaleItem';
-import DeleteIcon from '@mui/icons-material/Delete'; 
-import EditIcon from '@mui/icons-material/Edit'; 
+import { EditResaleItem } from './EditResaleItem';
+import { DeleteResaleItem } from './DeleteResaleItem';
 type CustomTableProps<T> = {
   data: T[]; 
 };
@@ -37,14 +37,15 @@ export function ResaleItemTable<T extends Record<string, any>>(props: CustomTabl
             <TableCell>{item.description}</TableCell>
             <TableCell>{item.purchase_price}</TableCell>
             <TableCell>
-                {/* Ícone de exclusão */}
-                <DeleteIcon
-                  style={{ cursor: 'pointer', marginRight: '10px' }}
-                />
-                {/* Ícone de edição */}
-                <EditIcon
-                  style={{ cursor: 'pointer' }}
-                />
+              <Grid
+              sx={{
+                display: 'flex',
+                flexDirection: 'row'
+              }}
+              >
+                  <DeleteResaleItem />
+                  <EditResaleItem  />
+                  </Grid>
               </TableCell>
           </TableRow>
         ))}

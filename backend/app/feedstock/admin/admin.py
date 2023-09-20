@@ -17,7 +17,7 @@ from app.feedstock.models.feedstock import Feedstock
 # Main Admin Models
 ###
 class FeedstockAdmin(admin.ModelAdmin):
-    ...
+    list_display = ('name', 'quantity', 'unit', 'price',)
 
 
 admin.site.register(Feedstock, FeedstockAdmin)

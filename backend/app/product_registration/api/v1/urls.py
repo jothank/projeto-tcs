@@ -8,7 +8,7 @@ from app.product_registration.api.v1.views.product_registration_views import Pro
 
 # Routers
 router = routers.SimpleRouter()
-router.register(r'productregistration', ProductRegistrationViewSet, basename='product registration')
+router.register(r'productregistration', ProductRegistrationViewSet, basename='product_registration')
 
 # URLs
 urlpatterns = [

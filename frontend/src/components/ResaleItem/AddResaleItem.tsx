@@ -58,7 +58,7 @@ export const AddResaleItem = () => {
             >
             <Form>
             <ResaleItemInput name='name' label='Nome' type='text'   /> 
-            <ResaleItemInput name='descripiton' label='Descrição' type='text'   /> 
+            <ResaleItemInput name='description' label='Descrição' type='text'   /> 
             <ResaleItemInput name='purchase_price' label='Preço de compra' type='text'   /> 
             <ButtonContainer>
             <Button variant='outlined' onClick={handleClose}>Fechar</Button>

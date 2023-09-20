@@ -35,6 +35,6 @@ class CustomPagination(PageNumberPagination):
 class FeedstockViewSet(viewsets.ModelViewSet):
     queryset = Feedstock.objects.all()
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = FeedstockFilter
-    pagination_class = CustomPagination
+    # filterset_class = FeedstockFilter
+    # pagination_class = CustomPagination
     serializer_class = DefaultFeedStockSerializer

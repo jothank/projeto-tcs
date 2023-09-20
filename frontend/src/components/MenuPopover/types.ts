@@ -14,8 +14,15 @@ export type MenuPopoverArrowValue =
   | 'right-center'
   | 'right-bottom';
 
+  export interface MenuItem {
+    label: string;
+    onClick: () => void;
+    modalComponent?: React.ReactNode; 
+  }
+
 export interface MenuPopoverProps extends Omit<PopoverProps, 'open'> {
   open: HTMLElement | null;
   arrow?: MenuPopoverArrowValue;
   disabledArrow?: boolean;
+  menuItems: MenuItem[];
 }

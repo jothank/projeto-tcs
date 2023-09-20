@@ -1,0 +1,6 @@
+Olá, {{ user.username }}!
+
+Obrigado por se registrar. Por favor, clique no link abaixo para confirmar seu email:
+
+
+

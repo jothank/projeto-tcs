@@ -1,12 +1,13 @@
 import * as React from 'react';
 import Modal from '@mui/material/Modal';
 import { StyleModal } from 'components/StyleModal/StyleModal';
-import {Typography, Button, Box, Divider } from '@mui/material'
+import {Typography, Button, Box, Divider, Grid } from '@mui/material'
 import { ResaleItemInput } from './InputResaleItem';
 import { Form, Formik } from 'formik';
 import { ResaleItemType } from 'types/resaleItem.types';
 import { setResaleItem } from 'services/resealeItem.service';
 import { getErro, getSuccess } from 'utils/ModalAlert';
+import { ResaleItemValidation } from 'utils/validationResaleItem';
 
 const ResaleItemValues: ResaleItemType = {
     name: "",
@@ -49,16 +50,27 @@ export const AddResaleItem = () => {
             <Divider />
             <Formik
              initialValues={ResaleItemValues}
-            //  validationSchema={CompanyValidation}
+             validationSchema={ResaleItemValidation}
              onSubmit={handleRegister}
             >
             <Form>
             <ResaleItemInput name='name' label='Nome' type='text'   /> 
             <ResaleItemInput name='descripiton' label='Descrição' type='text'   /> 
             <ResaleItemInput name='purchase_price' label='Preço de compra' type='text'   /> 
+            <Grid
+            sx={{
+                display: 'flex',
+                alignItems: 'end',
+                justifyContent: 'end',
+                gap: '20px',
+                marginTop: '2%'
+            }}
+            >
+            <Button variant='outlined' onClick={handleClose}>Fechar</Button>
             <Button variant='contained' type='submit' >
                 Cadastrar
             </Button>
+            </Grid>
             </Form>
 
             </Formik>

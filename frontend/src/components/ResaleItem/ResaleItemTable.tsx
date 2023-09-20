@@ -1,30 +1,14 @@
 import React, {useState} from 'react';
 import { Table, TableHead, TableBody, TableRow, TableCell, Typography, Grid } from '@mui/material';
-import { ContainerResaleItem } from './ContainerResaleItem';
 import AddResaleItem from './AddResaleItem';
-import { TablePaginationActions } from 'components/TableActions/TablePaginationActions';
-
+import DeleteIcon from '@mui/icons-material/Delete'; 
+import EditIcon from '@mui/icons-material/Edit'; 
 type CustomTableProps<T> = {
   data: T[]; 
 };
 
 export function ResaleItemTable<T extends Record<string, any>>(props: CustomTableProps<T>) {
   const { data } = props;
-
-  const [openPopover, setOpenPopover] = useState<HTMLElement | null>(null);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  
-
-  const handleOpenPopover = (event: React.MouseEvent<HTMLElement>) => {
-    setOpenPopover(event.currentTarget);
-  };
-
-  const handleClosePopover = () => {
-    setOpenPopover(null);
-  };
-
 
   return (
     <>
@@ -52,7 +36,16 @@ export function ResaleItemTable<T extends Record<string, any>>(props: CustomTabl
             <TableCell>{item.name}</TableCell>
             <TableCell>{item.description}</TableCell>
             <TableCell>{item.purchase_price}</TableCell>
-            <TableCell>{item.action}</TableCell>
+            <TableCell>
+                {/* Ícone de exclusão */}
+                <DeleteIcon
+                  style={{ cursor: 'pointer', marginRight: '10px' }}
+                />
+                {/* Ícone de edição */}
+                <EditIcon
+                  style={{ cursor: 'pointer' }}
+                />
+              </TableCell>
           </TableRow>
         ))}
       </TableBody>

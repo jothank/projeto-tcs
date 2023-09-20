@@ -15,23 +15,7 @@ export function ResaleItemTable<T extends Record<string, any>>(props: CustomTabl
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const startIndex = page * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-  const displayedData = data.slice(startIndex, endIndex);
+  
 
   const handleOpenPopover = (event: React.MouseEvent<HTMLElement>) => {
     setOpenPopover(event.currentTarget);
@@ -59,7 +43,7 @@ export function ResaleItemTable<T extends Record<string, any>>(props: CustomTabl
           <TableCell>Nome</TableCell>
           <TableCell>Descrição</TableCell>
           <TableCell>Preço de compra</TableCell>
-          {/* <TableCell>Valor</TableCell> */}
+          <TableCell>Ações</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -68,7 +52,7 @@ export function ResaleItemTable<T extends Record<string, any>>(props: CustomTabl
             <TableCell>{item.name}</TableCell>
             <TableCell>{item.description}</TableCell>
             <TableCell>{item.purchase_price}</TableCell>
-            {/* <TableCell>{item.value}</TableCell> */}
+            <TableCell>{item.action}</TableCell>
           </TableRow>
         ))}
       </TableBody>

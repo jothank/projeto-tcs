@@ -1,17 +1,18 @@
 import { ContainerCompany } from "components/Company/ContainerCompany";
-import { CustomTable } from "components/Table/CustomTable";
-import React from "react"
-
+import { ContainerResaleItem } from "components/ResaleItem/ContainerResaleItem";
+import { ResaleItemTable } from "components/ResaleItem/ResaleItemTable";
+import React, { useState } from "react"
+import Typography from '@mui/material/Typography';
 
 
 export const ResaleItem = () => {
+    const [openPopover, setOpenPopover] = useState<HTMLElement | null>(null);
+    const handleOpenPopover = (event: React.MouseEvent<HTMLElement>) => {
+        setOpenPopover(event.currentTarget);
+    };
 
-    const columns = [
-        { header: 'Nome', field: 'name' },
-        { header: 'Quantidade', field: 'quantity' },
-        { header: 'Unidades', field: 'units' },
-        { header: 'Valor', field: 'value' },
-    ];
+
+
 
     const data = [
         {
@@ -37,17 +38,20 @@ export const ResaleItem = () => {
         },
     ];
 
+    console.log(data)
+
     return (
         <>
-            
-                <CustomTable
-                    columns={columns}
+            <ContainerResaleItem
+                sizeForm='800px'
+                heightForm='800px'
+            >
+              
+                <ResaleItemTable
                     data={data}
-                    openPopover={false}
-                    handleClosePopover={() => {
-                        // Lógica para fechar o popover
-                    }}
+
                 />
+            </ContainerResaleItem>
         </>
     )
 

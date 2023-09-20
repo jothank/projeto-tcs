@@ -18,33 +18,24 @@ export const ResaleItem = () => {
         {
 
             name: 'Produto 1',
-            quantity: 10,
-            units: 'unidades',
-            value: 20.99,
+            description: 'teste',
+            purchase_price: 20.99,
         },
         {
 
             name: 'Produto 2',
-            quantity: 5,
-            units: 'caixas',
-            value: 50.75,
+            description: 'teste2',
+            purchase_price: 20.99,
+           
         },
-        {
-
-            name: 'Produto 3',
-            quantity: 25,
-            units: 'unidades',
-            value: 10.49,
-        },
+      
     ];
-
-    console.log(data)
 
     return (
         <>
             <ContainerResaleItem
                 sizeForm='800px'
-                heightForm='800px'
+                heightForm='650px'
             >
               
                 <ResaleItemTable

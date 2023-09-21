@@ -1,19 +1,30 @@
-import React, { useState } from 'react';
-import { Table, TableHead, TableBody, TableRow, TableCell, Button, Grid } from '@mui/material';
-import AddResaleItem from './AddResaleItem';
-import { EditResaleItem } from './EditResaleItem';
+import {
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Button,
+  Grid,
+} from "@mui/material";
+import AddResaleItem from "./AddResaleItem";
+import { EditResaleItem } from "./EditResaleItem";
+import { ResaleItemType } from "types/resaleItem.types";
 
-import { deleteReleaseItem, getAllReleaseItems } from 'services/resealeItem.service';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { getErro } from 'utils/ModalAlert';
-type CustomTableProps<T> = {
-  data: T[];
+import {
+  deleteReleaseItem,
+  getAllReleaseItems,
+} from "services/resealeItem.service";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { getErro } from "utils/ModalAlert";
+
+type CustomTableProps = {
+  data: ResaleItemType[];
 };
 
-export function ResaleItemTable<T extends Record<string, any>>(props: CustomTableProps<T>) {
+export function ResaleItemTable(props: CustomTableProps) {
   const { data } = props;
 
-  
   const handleDelete = async (itemId: number) => {
     try {
       await deleteReleaseItem(itemId);
@@ -22,13 +33,14 @@ export function ResaleItemTable<T extends Record<string, any>>(props: CustomTabl
       getErro(`Erro ao excluir o item com ID ${itemId}`);
     }
   };
+
   return (
     <>
       <Grid
         sx={{
-          display: 'flex',
-          alignItems: 'end',
-          justifyContent: 'end'
+          display: "flex",
+          alignItems: "end",
+          justifyContent: "end",
         }}
       >
         <AddResaleItem />
@@ -51,26 +63,26 @@ export function ResaleItemTable<T extends Record<string, any>>(props: CustomTabl
               <TableCell>
                 <Grid
                   sx={{
-                    display: 'flex',
-                    flexDirection: 'row'
+                    display: "flex",
+                    flexDirection: "row",
                   }}
                 >
-                  <Button
-                    onClick={() => handleDelete(item.id)}
-                  >
+                  <Button onClick={() => item.id && handleDelete(item.id)}>
                     <DeleteIcon
-                      style={{ cursor: 'pointer', marginRight: '10px', color: 'red' }}
+                      style={{
+                        cursor: "pointer",
+                        marginRight: "10px",
+                        color: "red",
+                      }}
                     />
                   </Button>
-                  <EditResaleItem />
+                  <EditResaleItem item={item} onClose={() => {}} />
                 </Grid>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
-
       </Table>
     </>
   );
-
 }

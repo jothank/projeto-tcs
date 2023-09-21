@@ -38,7 +38,7 @@ export const EditResaleItem = ({
         values.description,
         values.purchase_price
       );
-      console.log(values);
+      window.location.reload();
       getSuccess("Resale Item registered Successfully");
       handleClose();
     } catch (error: any) {

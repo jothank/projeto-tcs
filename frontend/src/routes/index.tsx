@@ -7,12 +7,13 @@ import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "hooks/ProtectedRoutes/PrivateRoute";
 import Company from "pages/Company/Company";
 import ResaleItem from "pages/ResaleItem/ResaleItem";
+import { FeedStock } from "pages/FeedStock/FeedStock";
 
 export const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Register />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/cadastro" element={<Register />} />
+      <Route path="/" element={<Login />} />
       <Route
         path="/password-reset-cofirm/:UID/:Token"
         element={<ConfirmPasswordReset />}
@@ -41,6 +42,15 @@ export const AppRoutes = () => {
           <ResaleItem />
         </PrivateRoute>
       } />
+
+      <Route 
+      path="/feed-stock"
+      element={
+        <PrivateRoute>
+          <FeedStock />
+        </PrivateRoute>
+      }
+      />
     
     </Routes>
   );

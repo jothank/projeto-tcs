@@ -6,6 +6,10 @@ import Modal from '@mui/material/Modal';
 import { StyleModal } from 'components/StyleModal/StyleModal';
 import { FeedStockType } from 'types/FeedStock.type';
 import EditIcon from "@mui/icons-material/Edit";
+import { Divider } from '@mui/material';
+import { FeedStockInput } from './InputFeedStock';
+import { Form, Formik } from 'formik';
+import { getErro, getSuccess } from 'utils/ModalAlert';
 export const EditFeedStock = ({
     item,
     onClose,
@@ -15,7 +19,27 @@ export const EditFeedStock = ({
   }) => {
     const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    onClose();
+  };
+
+  const handleUpdate = async (values: FeedStockType ) => {
+    try {
+      await updateResealeItem(
+        values.id || 0,
+        values.name,
+        values.quantity,
+        values.unity
+      );
+      window.location.reload();
+      getSuccess("Resale Item registered Successfully");
+      handleClose();
+    } catch (error: any) {
+      getErro(error.message);
+    }
+  };
+
 
   return (
     <div>
@@ -28,11 +52,20 @@ export const EditFeedStock = ({
       >
         <Box sx={StyleModal}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+            Editar Insumos
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+          <Divider />
+          <Formik
+           initialValues={formData}
+           validationSchema={ResaleItemValidation}
+           onSubmit={handleUpdate}
+          >
+            <Form >
+         <FeedStockInput name='name' label='Nome' type='text' />
+         <FeedStockInput name='price' label='Preço' type='text' />
+         <FeedStockInput name='unity' label='Unidade' type='text' />
+         </Form>
+         </Formik>
         </Box>
       </Modal>
     </div>

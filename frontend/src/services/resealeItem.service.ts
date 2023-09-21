@@ -30,6 +30,38 @@ export const setResaleItem = async (
     return response.data;
   } catch (error) {
     throw new Error("não foi dessa vez");
+  };
+};
+
+export const updateResealeItem = async(
+  name: string,
+  description: string,
+  purchase_price: number
+) => {
+  const localStorageAccessToken = localStorage.getItem("accessToken");
+  const accessToken = localStorageAccessToken
+    ? JSON.parse(localStorageAccessToken)
+    : null;
+
+  const headers = {
+    Authorization: `Bearer ${accessToken}`,
+  };
+  try {
+    const response = await axios.put(
+      BASE_URL + "resale_item/",
+      {
+        name,
+        description,
+        purchase_price,
+      },
+      {
+        headers,
+      }
+     
+    );
+     return response.data
+  } catch (error) {
+    throw new Error("não foi dessa vez");
   }
 };
 

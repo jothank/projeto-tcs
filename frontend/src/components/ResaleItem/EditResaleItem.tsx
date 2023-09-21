@@ -6,7 +6,7 @@ import { ResaleItemInput } from './InputResaleItem';
 import { Form, Formik } from 'formik';
 import { ResaleItemType } from 'types/resaleItem.types';
 import { ResaleItemValidation } from 'utils/validationResaleItem';
-import { setResaleItem } from 'services/resealeItem.service';
+import { setResaleItem, updateResealeItem } from 'services/resealeItem.service';
 import { getErro, getSuccess } from 'utils/ModalAlert';
 import { ButtonContainer } from 'components/ButtonContainer/ButtonContainer';
 
@@ -22,12 +22,12 @@ export const EditResaleItem = () => {
     const handleClose = () => setOpen(false);
   
     const handleUpdate = async (
-      AddResaleItem: ResaleItemType,
+      UpdateResaleItem: ResaleItemType,
       { resetForm }: { resetForm: () => void }
   ) => {
       try {
-          setResaleItem(AddResaleItem.name, AddResaleItem.description, AddResaleItem.purchase_price);
-          console.log(AddResaleItem)
+        updateResealeItem( UpdateResaleItem.name, UpdateResaleItem.description, UpdateResaleItem.purchase_price);
+          console.log(UpdateResaleItem)
           getSuccess("Resale Item registered Succesfully");
       } catch (error: any) {
           getErro(error.message)

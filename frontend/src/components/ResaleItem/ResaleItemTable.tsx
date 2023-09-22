@@ -10,11 +10,7 @@ import {
 import AddResaleItem from "./AddResaleItem";
 import { EditResaleItem } from "./EditResaleItem";
 import { ResaleItemType } from "types/resaleItem.types";
-
-import {
-  deleteReleaseItem,
-  getAllReleaseItems,
-} from "services/resealeItem.service";
+import { deleteReleaseItem } from "services/resealeItem.service";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { getErro } from "utils/ModalAlert";
 
@@ -27,7 +23,7 @@ export function ResaleItemTable(props: CustomTableProps) {
 
   const handleDelete = async (itemId: number) => {
     try {
-      await deleteReleaseItem(itemId);
+      deleteReleaseItem(itemId);
       console.log(`Item com ID ${itemId} foi excluído com sucesso.`);
     } catch (error) {
       getErro(`Erro ao excluir o item com ID ${itemId}`);

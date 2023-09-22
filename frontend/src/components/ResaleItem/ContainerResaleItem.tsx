@@ -1,13 +1,13 @@
 import React, { ReactNode } from "react";
 import { Paper, Grid } from "@mui/material";
 
-interface ContainerResaleItem {
+interface ContainerResaleItemValues {
     children: ReactNode;
     sizeForm: string;
     heightForm: string;
 }
 
-export const ContainerResaleItem: React.FC<ContainerResaleItem> = ({
+export const ContainerResaleItem: React.FC<ContainerResaleItemValues> = ({
     children,
     sizeForm,
     heightForm

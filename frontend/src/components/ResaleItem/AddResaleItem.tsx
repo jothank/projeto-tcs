@@ -1,7 +1,7 @@
 import * as React from "react";
 import Modal from "@mui/material/Modal";
 import { StyleModal } from "components/StyleModal/StyleModal";
-import { Typography, Button, Box, Divider, Grid } from "@mui/material";
+import { Typography, Button, Box, Divider } from "@mui/material";
 import { ResaleItemInput } from "./InputResaleItem";
 import { Form, Formik } from "formik";
 import { ResaleItemType } from "types/resaleItem.types";

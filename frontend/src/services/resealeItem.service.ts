@@ -32,7 +32,7 @@ export const updateResealeItem = async (
   purchase_price: number
 ) => {
   try {
-    const response = await axios.put(
+    const response = await axios.post(
       BASE_URL + `resale_item/${id}/`,
       {
         name,

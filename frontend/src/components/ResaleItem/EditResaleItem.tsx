@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Divider, Modal, Typography, Button, Box, Grid } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Divider, Modal, Typography, Button, Box } from "@mui/material";
 import { StyleModal } from "components/StyleModal/StyleModal";
 import EditIcon from "@mui/icons-material/Edit";
 import { ResaleItemInput } from "./InputResaleItem";
@@ -32,7 +32,7 @@ export const EditResaleItem = ({
 
   const handleUpdate = async (values: ResaleItemType) => {
     try {
-      await updateResealeItem(
+      updateResealeItem(
         values.id || 0,
         values.name,
         values.description,

@@ -6,7 +6,7 @@ import { ResaleItemInput } from "./InputResaleItem";
 import { Form, Formik } from "formik";
 import { ResaleItemType } from "types/resaleItem.types";
 import { setResaleItem } from "services/resealeItem.service";
-import { getErro, getSuccess } from "utils/ModalAlert";
+import { getErro, getSuccessWarning } from "utils/ModalAlert";
 import { ResaleItemValidation } from "utils/validationResaleItem";
 import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
 
@@ -31,8 +31,7 @@ export const AddResaleItem = () => {
         AddResaleItem.purchase_price
       );
       handleClose();
-      window.location.reload();
-      getSuccess("Resale Item registered Succesfully");
+      getSuccessWarning("Resale Item registered Succesfully");
     } catch (error: any) {
       getErro(error.message);
     }

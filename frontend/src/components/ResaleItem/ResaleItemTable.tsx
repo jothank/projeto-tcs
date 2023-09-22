@@ -28,7 +28,6 @@ export function ResaleItemTable(props: CustomTableProps) {
   const handleDelete = async (itemId: number) => {
     try {
       await deleteReleaseItem(itemId);
-      window.location.reload();
       console.log(`Item com ID ${itemId} foi excluído com sucesso.`);
     } catch (error) {
       getErro(`Erro ao excluir o item com ID ${itemId}`);

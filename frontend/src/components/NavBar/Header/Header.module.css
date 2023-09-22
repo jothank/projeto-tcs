@@ -1,0 +1,14 @@
+.theme {
+  background: radial-gradient(50% 50% at 50% 50%, #fcf49b 0%, #e9df87 100%);
+}
+
+.title {
+  color: radial-gradient(
+    50% 50% at 50% 50%,
+    #534e52 0%,
+    #707070 100%
+  ) !important;
+  flex-grow: 1;
+  text-align: center;
+  color: #534e52;
+}

@@ -1,0 +1,12 @@
+.text {
+  color: radial-gradient(50% 50% at 50% 50%, #965d62 0%, #b08085 100%);
+}
+
+.text_dividr {
+  color: radial-gradient(50% 50% at 50% 50%, #965d62 0%, #b08085 100%);
+  width: 100%;
+}
+
+.theme {
+  background: radial-gradient(50% 50% at 50% 50%, #fcf49b 0%, #e9df87 100%);
+}

@@ -11,8 +11,8 @@ from rest_framework import serializers
 ###
 
 
-class DefaultfeedstockSerializer(serializers.ModelSerializer):
+class RetrievefeedstockSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = feedstock
-        fields = "__all__"
+        fields = ('id', 'name', 'price', 'quantity', 'unit')

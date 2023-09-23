@@ -13,7 +13,7 @@ from app.product.models.product import Product
 ###
 
 
-class ProductRegistrationSerializer(serializers.ModelSerializer):
+class CreateProductRegistrationSerializer(serializers.ModelSerializer):
     products = serializers.PrimaryKeyRelatedField(
         queryset=Product.objects.all(), many=True)
 
@@ -30,4 +30,4 @@ class ProductRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductRegistration
-        fields = ["products", "producion_price",]
+        fields = ["products", "producion_price", "name",]

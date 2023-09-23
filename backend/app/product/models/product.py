@@ -14,9 +14,7 @@ class Product(models.Model):
     feedstock = models.ForeignKey(
         feedstock, on_delete=models.CASCADE, verbose_name=_('feedstock')
     )
-    quantity = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
+    quantity = models.FloatField(
         verbose_name=_('Quantity')
     )
     unit = models.CharField(

@@ -3,9 +3,8 @@ import axios from "axios";
 import { getAuthorizationHeader } from "utils/GetHeader";
 
 export const setProduct = async (
-  name: string,
-  price: number,
   feedstock_type: number,
+  price: number,
   quantity: number,
   unit: string
 ) => {
@@ -13,16 +12,16 @@ export const setProduct = async (
     const response = await axios.post(
       BASE_URL + "product/",
       {
-        name,
         price,
         quantity,
-        feedstock_type,
+        feedstock : feedstock_type,
         unit,
       },
       {
         headers: await getAuthorizationHeader(),
       }
     );
+    console.log(response.data);
     return response.data;
   } catch (error) {
     return error;
@@ -31,7 +30,6 @@ export const setProduct = async (
 
 export const updateProduct = async (
   id: number,
-  name: string,
   price: number,
   quantity: number,
   feedstock_type: number,
@@ -41,7 +39,6 @@ export const updateProduct = async (
     const response = await axios.put(
       BASE_URL + `product/${id}/`,
       {
-        name,
         price,
         quantity,
         feedstock_type,

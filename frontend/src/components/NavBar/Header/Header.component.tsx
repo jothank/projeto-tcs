@@ -30,13 +30,22 @@ const CustomAppBar: React.FC<AppBarProps> = ({
 }) => (
   <AppBar position="sticky" className={styles.theme}>
     <Toolbar>
-      <IconButton edge="start" color="inherit" onClick={handleDrawerOpen}>
+      <IconButton
+        edge="start"
+        color="inherit"
+        sx={{ color: "black" }}
+        onClick={handleDrawerOpen}
+      >
         <MenuIcon />
       </IconButton>
       <Typography variant="h6" className={styles.title}>
         {pageTitle}
       </Typography>
-      <IconButton color="inherit" onClick={handleMenuOpen}>
+      <IconButton
+        sx={{ color: "black" }}
+        color="inherit"
+        onClick={handleMenuOpen}
+      >
         <AccountCircle />
       </IconButton>
       <Menu

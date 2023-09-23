@@ -8,7 +8,10 @@ import { Form, Formik } from "formik";
 import { Divider } from "@mui/material";
 import { FeedstockType } from "types/Feedstock.type";
 import { FeedstockValidation } from "utils/validations/validationFeedstock";
-import { FeedstockInput, FeedstockSelect } from "components/Feedstock/InputFeedstock";
+import {
+  FeedstockInput,
+  FeedstockSelect,
+} from "components/Feedstock/InputFeedstock";
 import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
 import { options } from "components/Feedstock/FeedstockUnit";
 import { getErro, getSuccess } from "utils/ModalAlert";
@@ -31,6 +34,12 @@ export const AddFeedstock = () => {
     { resetForm }: { resetForm: () => void }
   ) => {
     try {
+      if (Addfeedstock.unit === "g") {
+        Addfeedstock.quantity = Addfeedstock.quantity / 1000;
+      }
+      if (Addfeedstock.unit === "ml") {
+        Addfeedstock.quantity = Addfeedstock.quantity / 1000;
+      }
       setfeedstock(
         Addfeedstock.name,
         Addfeedstock.price,

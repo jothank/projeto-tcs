@@ -6,6 +6,8 @@ from app.product.models.product import Product
 
 class ProductRegistration(models.Model):
 
+    name = models.CharField(max_length=255, verbose_name=_('Name'))
+
     products = models.ManyToManyField(
         Product,
         through='ProductRegistrationProduct',

@@ -8,20 +8,8 @@ export const options = [
     label: "g",
   },
   {
-    value: "mg",
-    label: "mg",
-  },
-  {
-    value: "t",
-    label: "t",
-  },
-  {
-    value: "lb",
-    label: "lb",
-  },
-  {
-    value: "oz",
-    label: "oz",
+    value: "und",
+    label: "und",
   },
   {
     value: "l",
@@ -30,21 +18,5 @@ export const options = [
   {
     value: "ml",
     label: "ml",
-  },
-  {
-    value: "gal",
-    label: "gal",
-  },
-  {
-    value: "pt",
-    label: "pt",
-  },
-  {
-    value: "qt",
-    label: "qt",
-  },
-  {
-    value: "floz",
-    label: "floz",
   },
 ];

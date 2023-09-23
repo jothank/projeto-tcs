@@ -5,9 +5,9 @@ API V1: Product Views
 # Libraries
 ###
 from rest_framework import viewsets
-from django_filters import rest_framework as filters
 from app.product.models.product import Product
 from app.product.api.v1.serializers.product.default import DefaultProductSerializer
+from app.product.api.v1.serializers.product.retrieve import RetrieveProductSerializer
 
 
 ###
@@ -15,4 +15,9 @@ from app.product.api.v1.serializers.product.default import DefaultProductSeriali
 ###
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
-    serializer_class = DefaultProductSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return RetrieveProductSerializer
+        else:
+            return DefaultProductSerializer

@@ -16,6 +16,7 @@ import { deleteFeedStock } from "services/feedStock.service";
 import { useReactToPrint } from 'react-to-print';
 import PrintIcon from '@mui/icons-material/Print';
 import React from 'react'
+import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
 type CustomTableProps = {
   data: FeedStockType[];
 };
@@ -51,16 +52,15 @@ export function FeedStockTable(props: CustomTableProps) {
         }}
       >  
    
-       
+       <ButtonContainer>
         <AddFeedStock />
         <Button onClick={handlePrint} variant="outlined">
-        
           <PrintIcon />
         </Button>
+        </ButtonContainer>
         
       </Grid>
       <Table>
-    
         <TableHead>
           <TableRow>
             <TableCell>Nome</TableCell>

@@ -4,10 +4,15 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { StyleModal } from 'components/StyleModal/StyleModal';
-import { Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import {Divider} from '@mui/material'
 import { FeedStockType } from 'types/FeedStock.type';
 import { FeedStockValidation } from 'utils/validationFeedStock';
+import { FeedStockInput, FeedStockSelect } from './InputFeedStock';
+import { ButtonContainer } from 'components/ButtonContainer/ButtonContainer';
+import { options } from './FeedStockUnity';
+import { getErro, getSuccess } from 'utils/ModalAlert';
+import { setFeedStock } from 'services/feedStock.service';
 
 const FeedStockValues: FeedStockType = {
   name: "",
@@ -21,6 +26,24 @@ export const AddFeedStock = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const handleRegister = async (
+    AddFeedStock: FeedStockType,
+    { resetForm }: { resetForm: () => void }
+  ) => {
+    try {
+      setFeedStock(
+        AddFeedStock.name,
+        AddFeedStock.price,
+        AddFeedStock.quantity,
+        AddFeedStock.unity
+      );
+      handleClose();
+      window.location.reload();
+      getSuccess("Resale Item registered Succesfully");
+    } catch (error: any) {
+      getErro(error.message);
+    }
+  };
 
   return (
     <div>
@@ -39,8 +62,21 @@ export const AddFeedStock = () => {
           <Formik
             initialValues={FeedStockValues}
             validationSchema={FeedStockValidation}
-            onSubmit={handleUpdate}
-          ></Formik>
+            onSubmit={handleRegister}
+          >
+            <Form>
+            <FeedStockInput name='name' label='Nome' type='text' />
+              <FeedStockInput name='price' label='Preço' type='text' />
+              <FeedStockInput name='quantity' label='Quantidade' type='text' />
+              <FeedStockSelect name='unity' label='Unidade' options={options} />
+              <ButtonContainer>
+                <Button variant='outlined' onClick={handleClose}>Fechar</Button>
+                <Button variant='contained' type='submit'>Adicionar</Button>
+              </ButtonContainer>
+            </Form>
+
+
+          </Formik>
         </Box>
       </Modal>
     </div>

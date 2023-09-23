@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Divider,
   Box,
@@ -24,12 +24,17 @@ export const EditFeedStock = ({
   onClose: () => void;
 }) => {
   const [open, setOpen] = React.useState(false);
+  
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
     onClose();
   };
   const [formData, setFormData] = useState<FeedStockType>(item);
+
+ useEffect(() => {
+  setFormData(item)
+ },[item])
 
   const handleUpdate = async (values: FeedStockType) => {
     try {

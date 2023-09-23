@@ -2,6 +2,7 @@ import { BASE_URL } from "../config";
 import axios from "axios";
 import { validationToken, refreshToken } from "./auth.service";
 import Swal from "sweetalert2";
+import { FeedStockType } from "types/FeedStock.type";
 
 const forceLogout = () => {
   console.log("Chamando forceLogout"); // Adicione este log para depuração
@@ -51,6 +52,31 @@ const getAuthorizationHeader = async (): Promise<{ Authorization: string }> => {
   }
 };
 
+export const setFeedStock = async (
+  name: string,
+  price: number,
+  quantity: number,
+  unity: string
+) => {
+  try {
+    const response = await axios.post(
+      BASE_URL + "feedstock/",
+      {
+        name,
+        price,
+        quantity,
+        unity
+      },
+      {
+        headers: await getAuthorizationHeader(),
+      }
+    );
+    return response.data;
+  } catch (error) {
+    handleRequestError(error);
+  }
+};
+
 const handleRequestError = (error: any) => {
   if (error.response) {
     throw new Error(error.response.data?.detail || "Erro na requisição.");
@@ -69,7 +95,7 @@ export const updateFeedStock = async (
   ) => {
     try {
       const response = await axios.put(
-        BASE_URL + `resale_item/${id}/`,
+        BASE_URL + `feedstock/${id}/`,
         {
           name,
           price,
@@ -83,5 +109,28 @@ export const updateFeedStock = async (
       return response.data;
     } catch (error) {
       handleRequestError(error);
+    }
+  };
+
+  export const deleteFeedStock = async (id: number): Promise<void> => {
+    try {
+      const response = await axios.delete(BASE_URL + `feedstock/${id}/`, {
+        headers: await getAuthorizationHeader(),
+      });
+      return response.data;
+    } catch (error) {
+      handleRequestError(error);
+    }
+  };
+
+
+  export const getAllFeedStocks = async (): Promise<FeedStockType[]> => {
+    try {
+      const response = await axios.get(BASE_URL + "feedstock/", {
+        headers: await getAuthorizationHeader(),
+      });
+      return response.data?.results;
+    } catch (error) {
+      throw new Error("Não foi possível obter os itens de lançamento.");
     }
   };

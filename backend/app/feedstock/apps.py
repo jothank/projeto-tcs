@@ -6,7 +6,7 @@ from django.apps import AppConfig
 ###
 # Config
 ###
-class FeedstockConfig(AppConfig):
+class feedstockConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'app.feedstock'
 

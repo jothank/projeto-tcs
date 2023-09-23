@@ -7,6 +7,8 @@ import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "hooks/ProtectedRoutes/PrivateRoute";
 import Company from "pages/Company/Company";
 import ResaleItem from "pages/ResaleItem/ResaleItem";
+import { Feedstock } from "pages/Feedstock/Feedstock";
+import { Product } from "pages/Product/Product";
 
 export const AppRoutes = () => {
   return (
@@ -35,13 +37,29 @@ export const AppRoutes = () => {
         }
       />
       <Route
-      path="/resale-item"
-      element={
-        <PrivateRoute>
-          <ResaleItem />
-        </PrivateRoute>
-      } />
-    
+        path="/resale-item"
+        element={
+          <PrivateRoute>
+            <ResaleItem />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/feed-stock"
+        element={
+          <PrivateRoute>
+            <Feedstock />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/product"
+        element={
+          <PrivateRoute>
+            <Product />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 };

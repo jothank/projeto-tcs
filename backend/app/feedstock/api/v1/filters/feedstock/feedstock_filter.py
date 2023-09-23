@@ -1,8 +1,8 @@
 from django_filters import rest_framework as filters
-from app.feedstock.models.feedstock import Feedstock
+from app.feedstock.models.feedstock import feedstock
 
-class FeedstockFilter(filters.FilterSet):
+class feedstockFilter(filters.FilterSet):
 
     class Meta:
-        model = Feedstock
+        model = feedstock
         fields = '__all__'

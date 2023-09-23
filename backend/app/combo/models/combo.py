@@ -3,8 +3,7 @@
 ###
 from django.utils.translation import gettext as _
 from django.db import models
-from app.resale_item.models.resale_item import ResaleItem
-from app.product.models.product import Product
+from app.product_registration.models import ProductRegistration
 
 
 ###
@@ -15,14 +14,9 @@ class Combo(models.Model):
         max_length=255,
         verbose_name=_('Name')
     )
-    resale_item = models.ForeignKey(
-        ResaleItem,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        verbose_name=_('Resale Item'),
-    )
-    products = models.ManyToManyField(
-        Product,
-        verbose_name=_('Products'),
+    registration = models.ManyToManyField(
+        ProductRegistration,
+        through='ComboProductRegistration',
+        related_name='combos',  
+        verbose_name=_('Registration')
     )

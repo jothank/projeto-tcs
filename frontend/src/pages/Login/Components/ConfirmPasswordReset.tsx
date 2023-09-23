@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form } from "formik";
 import { confirmPasswordReset } from "services/auth.service";
 import { ConfirmPasswordResetIUser } from "types/user.type";
-import { ConfirmPasswordResetValidation } from "utils/validationForm";
+import { ConfirmPasswordResetValidation } from "utils/validations/validationForm";
 import { ContainerForms, FormInput, ButtonForms } from "components/FormGroup";
 import { Button } from "@mui/material";
 import { getErro, getSuccess } from "utils/ModalAlert";

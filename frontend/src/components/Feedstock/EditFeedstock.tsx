@@ -1,42 +1,46 @@
-import { useState, useEffect } from "react";
-import { Divider, Modal, Typography, Button, Box } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Divider, Box, Button, Typography, Modal } from "@mui/material";
 import { StyleModal } from "components/StyleModal/StyleModal";
+import { FeedstockType } from "types/Feedstock.type";
 import EditIcon from "@mui/icons-material/Edit";
-import { ResaleItemInput } from "./InputResaleItem";
+import {
+  FeedstockInput,
+  FeedstockSelect,
+} from "components/Feedstock/InputFeedstock";
 import { Form, Formik } from "formik";
-import { ResaleItemType } from "types/resaleItem.types";
-import { ResaleItemValidation } from "utils/validations/validationResaleItem";
-import { updateResealeItem } from "services/resealeItem.service";
 import { getErro, getSuccess } from "utils/ModalAlert";
+import { FeedstockValidation } from "utils/validations/validationFeedstock";
+import { options } from "components/Feedstock/FeedstockUnit";
+import { updatefeedstock } from "services/feedstock.service";
 import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
-
-export const EditResaleItem = ({
+export const EditFeedstock = ({
   item,
   onClose,
 }: {
-  item: ResaleItemType;
+  item: FeedstockType;
   onClose: () => void;
 }) => {
-  const [open, setOpen] = useState(false);
-  const [formData, setFormData] = useState<ResaleItemType>(item);
-
-  useEffect(() => {
-    setFormData(item);
-  }, [item]);
+  const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
     onClose();
   };
+  const [formData, setFormData] = useState<FeedstockType>(item);
 
-  const handleUpdate = async (values: ResaleItemType) => {
+  useEffect(() => {
+    setFormData(item);
+  }, [item]);
+
+  const handleUpdate = async (values: FeedstockType) => {
     try {
-      updateResealeItem(
+      updatefeedstock(
         values.id || 0,
         values.name,
-        values.description,
-        values.purchase_price
+        values.price,
+        values.quantity,
+        values.unit
       );
       getSuccess("Resale Item registered Successfully");
       handleClose();
@@ -48,6 +52,7 @@ export const EditResaleItem = ({
   return (
     <div>
       <Button onClick={handleOpen}>
+        {" "}
         <EditIcon style={{ cursor: "pointer", color: "black" }} />
       </Button>
       <Modal
@@ -58,26 +63,19 @@ export const EditResaleItem = ({
       >
         <Box sx={StyleModal}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Editar Produto
+            Editar Insumos
           </Typography>
           <Divider />
           <Formik
             initialValues={formData}
-            validationSchema={ResaleItemValidation}
+            validationSchema={FeedstockValidation}
             onSubmit={handleUpdate}
           >
             <Form>
-              <ResaleItemInput name="name" label="nome" type="text" />
-              <ResaleItemInput
-                name="description"
-                label="Descrição"
-                type="text"
-              />
-              <ResaleItemInput
-                name="purchase_price"
-                label="Preço de compra"
-                type="text"
-              />
+              <FeedstockInput name="name" label="Nome" type="text" />
+              <FeedstockInput name="price" label="Preço" type="text" />
+              <FeedstockInput name="quantity" label="Quantidade" type="text" />
+              <FeedstockSelect name="unit" label="Unidade" options={options} />
               <ButtonContainer>
                 <Button variant="outlined" onClick={handleClose}>
                   Fechar
@@ -93,3 +91,5 @@ export const EditResaleItem = ({
     </div>
   );
 };
+
+export default EditFeedstock;

@@ -2,7 +2,7 @@ from django.utils.translation import gettext as _
 from django.db import models
 from app.utils.models.models import Unit
 
-class Feedstock(models.Model):
+class feedstock(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     quantity = models.FloatField()

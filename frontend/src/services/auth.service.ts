@@ -4,7 +4,7 @@ import {
   getLoginResponse,
   getRegisterResponse,
   getResetPasswordConfirmResponse,
-} from "utils/validationResponse";
+} from "utils/validations/validationResponse";
 
 const setUserLocalStorage = (userData: {
   user: any;

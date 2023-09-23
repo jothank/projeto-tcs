@@ -11,6 +11,8 @@ const NavBar: React.FC = () => {
     { text: "Home", href: "/home", title: "Bem-vindo ao GastroCustos" },
     { text: "Empresa", href: "/company", title: "Empresa" },
     { text: "Revenda", href: "/resale-item", title: "Revenda" },
+    { text: "Insumos", href: "/feed-stock", title: "Insumos" },
+    { text: "Product", href: "/product", title: "Produtos" },
   ];
   const currentPath = new URL(window.location.href).pathname;
   const matchedItem = menuItems.find((item) => currentPath === item.href);

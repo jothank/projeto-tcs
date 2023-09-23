@@ -2,7 +2,7 @@ import { Button, Stack } from "@mui/material";
 import { Form, Formik } from "formik";
 import React from "react";
 import { CompanyType } from "types/company.types";
-import { CompanyValidation } from "utils/validationCompany";
+import { CompanyValidation } from "utils/validations/validationCompany";
 import { getErro, getSuccess } from "utils/ModalAlert";
 import { ContainerCompany } from "components/Company/ContainerCompany";
 import {

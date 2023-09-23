@@ -1,10 +1,10 @@
 from django_filters import rest_framework as filters
-from app.feedstock.models.models import Feedstock
+from app.feedstock.models.models import feedstock
 
-class FeedstockFilter(filters.FilterSet):
+class feedstockFilter(filters.FilterSet):
     
     class Meta:
-        model = Feedstock
+        model = feedstock
         fields = {
             'name': ['icontains'],
             'quantity': ['icontains'],

@@ -9,7 +9,7 @@ class ProductRegistration(models.Model):
     products = models.ManyToManyField(
         Product,
         through='ProductRegistrationProduct',
-        related_name='product_registrations',
+        related_name='products',
         verbose_name=_('Products'),
     )
 

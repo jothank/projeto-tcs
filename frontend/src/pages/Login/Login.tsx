@@ -4,7 +4,7 @@ import { Formik, Form } from "formik";
 import { useNavigate } from "react-router-dom";
 import { login } from "services/auth.service";
 import { LoginIUser } from "types/user.type";
-import { validationLogin } from "utils/validationForm";
+import { validationLogin } from "utils/validations/validationForm";
 import { FormInput, ContainerForms, ButtonForms } from "components/FormGroup";
 import PasswordResetModal from "pages/Login/Components/PasswordReset";
 import { getErro } from "utils/ModalAlert";

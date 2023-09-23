@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from app.feedstock.models.models import Feedstock
+from app.feedstock.models.models import feedstock
 from app.utils.models.models import Unit
 from app.utils.api.v1.serializers.units.serializer import UnitSerializer
 from rest_framework import serializers
@@ -16,9 +16,9 @@ class CustomUnitSerializer(UnitSerializer):
             'value_in_base_unit': {'required': True}
         }
 
-class FeedstockSerializer(serializers.ModelSerializer):
+class feedstockSerializer(serializers.ModelSerializer):
     units = CustomUnitSerializer(many=True, read_only=True)
 
     class Meta:
-        model = Feedstock
+        model = feedstock
         fields = '__all__'

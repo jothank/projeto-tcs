@@ -12,7 +12,7 @@ import {
   TitleForms,
 } from "components/FormGroup";
 
-import { ConfirmEmailValidation } from "utils/validationForm";
+import { ConfirmEmailValidation } from "utils/validations/validationForm";
 
 const ConfirmEmailValues: ConfirmEmailIUser = {
   email: "",

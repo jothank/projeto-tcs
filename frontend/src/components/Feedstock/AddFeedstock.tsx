@@ -1,37 +1,44 @@
 import * as React from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { StyleModal } from "components/StyleModal/StyleModal";
-import { Typography, Button, Box, Divider } from "@mui/material";
-import { ResaleItemInput } from "./InputResaleItem";
 import { Form, Formik } from "formik";
-import { ResaleItemType } from "types/resaleItem.types";
-import { setResaleItem } from "services/resealeItem.service";
-import { getErro, getSuccessWarning } from "utils/ModalAlert";
-import { ResaleItemValidation } from "utils/validations/validationResaleItem";
+import { Divider } from "@mui/material";
+import { FeedstockType } from "types/Feedstock.type";
+import { FeedstockValidation } from "utils/validations/validationFeedstock";
+import { FeedstockInput, FeedstockSelect } from "components/Feedstock/InputFeedstock";
 import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
+import { options } from "components/Feedstock/FeedstockUnit";
+import { getErro, getSuccess } from "utils/ModalAlert";
+import { setfeedstock } from "services/feedstock.service";
 
-const ResaleItemValues: ResaleItemType = {
+const FeedstockValues: FeedstockType = {
   name: "",
-  description: "",
-  purchase_price: 0,
+  price: 0,
+  quantity: 0,
+  unit: "",
 };
 
-export const AddResaleItem = () => {
+export const AddFeedstock = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const handleRegister = async (
-    AddResaleItem: ResaleItemType,
+    Addfeedstock: FeedstockType,
     { resetForm }: { resetForm: () => void }
   ) => {
     try {
-      setResaleItem(
-        AddResaleItem.name,
-        AddResaleItem.description,
-        AddResaleItem.purchase_price
+      setfeedstock(
+        Addfeedstock.name,
+        Addfeedstock.price,
+        Addfeedstock.quantity,
+        Addfeedstock.unit
       );
       handleClose();
-      getSuccessWarning("Resale Item registered Succesfully");
+      getSuccess("Resale Item registered Succesfully");
     } catch (error: any) {
       getErro(error.message);
     }
@@ -40,7 +47,7 @@ export const AddResaleItem = () => {
   return (
     <div>
       <Button onClick={handleOpen} variant="contained">
-        <Typography variant="subtitle2">Adicionar</Typography>
+        Adicionar
       </Button>
       <Modal
         open={open}
@@ -50,32 +57,25 @@ export const AddResaleItem = () => {
       >
         <Box sx={StyleModal}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Adicionar Item de Revenda
+            Adicionar insumo
           </Typography>
           <Divider />
           <Formik
-            initialValues={ResaleItemValues}
-            validationSchema={ResaleItemValidation}
+            initialValues={FeedstockValues}
+            validationSchema={FeedstockValidation}
             onSubmit={handleRegister}
           >
             <Form>
-              <ResaleItemInput name="name" label="Nome" type="text" />
-              <ResaleItemInput
-                name="description"
-                label="Descrição"
-                type="text"
-              />
-              <ResaleItemInput
-                name="purchase_price"
-                label="Preço de compra"
-                type="text"
-              />
+              <FeedstockInput name="name" label="Nome" type="text" />
+              <FeedstockInput name="price" label="Preço" type="text" />
+              <FeedstockInput name="quantity" label="Quantidade" type="text" />
+              <FeedstockSelect name="unit" label="Unidade" options={options} />
               <ButtonContainer>
                 <Button variant="outlined" onClick={handleClose}>
                   Fechar
                 </Button>
                 <Button variant="contained" type="submit">
-                  Cadastrar
+                  Adicionar
                 </Button>
               </ButtonContainer>
             </Form>
@@ -85,5 +85,3 @@ export const AddResaleItem = () => {
     </div>
   );
 };
-
-export default AddResaleItem;

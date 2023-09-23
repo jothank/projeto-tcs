@@ -1,5 +1,5 @@
 """
-API V1: Feedstock Views
+API V1: feedstock Views
 """
 ###
 # Libraries
@@ -7,9 +7,9 @@ API V1: Feedstock Views
 from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
 from django_filters import rest_framework as filters
-from app.feedstock.models.feedstock import Feedstock
-from app.feedstock.api.v1.serializers.feedstock.default import DefaultFeedStockSerializer
-from app.feedstock.api.v1.filters.feedstock.feedstock_filter import FeedstockFilter
+from app.feedstock.models.feedstock import feedstock
+from app.feedstock.api.v1.serializers.feedstock.default import DefaultfeedstockSerializer
+from app.feedstock.api.v1.filters.feedstock.feedstock_filter import feedstockFilter
 ###
 # Viewsets
 ###
@@ -32,9 +32,9 @@ class CustomPagination(PageNumberPagination):
         return super().get_previous_link()
 
 
-class FeedstockViewSet(viewsets.ModelViewSet):
-    queryset = Feedstock.objects.all()
+class feedstockViewSet(viewsets.ModelViewSet):
+    queryset = feedstock.objects.all()
     filter_backends = [filters.DjangoFilterBackend]
-    # filterset_class = FeedstockFilter
+    # filterset_class = feedstockFilter
     # pagination_class = CustomPagination
-    serializer_class = DefaultFeedStockSerializer
+    serializer_class = DefaultfeedstockSerializer

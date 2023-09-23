@@ -17,7 +17,6 @@ from app.product.models.product import Product
 # Main Admin Models
 ###
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name",)
-
+    ...
 
 admin.site.register(Product, ProductAdmin)

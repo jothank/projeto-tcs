@@ -2,7 +2,7 @@ import { Button, Link, Stack } from "@mui/material";
 import { Form, Formik } from "formik";
 import React from "react";
 import { RegisterIUser } from "types/user.type";
-import { RegisterValidation } from "utils/validationForm";
+import { RegisterValidation } from "utils/validations/validationForm";
 import { register } from "services/auth.service";
 import { ButtonForms, ContainerForms, FormInput } from "components/FormGroup";
 import { getErro, getSuccess } from "utils/ModalAlert";

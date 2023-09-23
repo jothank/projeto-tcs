@@ -1,19 +1,21 @@
-import { BASE_URL } from "config";
+import { BASE_URL } from "../config";
 import axios from "axios";
 import { getAuthorizationHeader } from "utils/GetHeader";
 
-export const setResaleItem = async (
+export const setfeedstock = async (
   name: string,
-  description: string,
-  purchase_price: number
+  price: number,
+  quantity: number,
+  unit: string
 ) => {
   try {
     const response = await axios.post(
-      BASE_URL + "resale_item/",
+      BASE_URL + "feedstock/",
       {
         name,
-        description,
-        purchase_price,
+        price,
+        quantity,
+        unit,
       },
       {
         headers: await getAuthorizationHeader(),
@@ -25,19 +27,21 @@ export const setResaleItem = async (
   }
 };
 
-export const updateResealeItem = async (
+export const updatefeedstock = async (
   id: number,
   name: string,
-  description: string,
-  purchase_price: number
+  price: number,
+  quantity: number,
+  unit: string
 ) => {
   try {
-    const response = await axios.post(
-      BASE_URL + `resale_item/${id}/`,
+    const response = await axios.put(
+      BASE_URL + `feedstock/${id}/`,
       {
         name,
-        description,
-        purchase_price,
+        price,
+        quantity,
+        unit,
       },
       {
         headers: await getAuthorizationHeader(),
@@ -49,9 +53,9 @@ export const updateResealeItem = async (
   }
 };
 
-export const deleteReleaseItem = async (id: number) => {
+export const deletefeedstock = async (id: number) => {
   try {
-    const response = await axios.delete(BASE_URL + `resale_item/${id}/`, {
+    const response = await axios.delete(BASE_URL + `feedstock/${id}/`, {
       headers: await getAuthorizationHeader(),
     });
     return response.data;
@@ -60,9 +64,9 @@ export const deleteReleaseItem = async (id: number) => {
   }
 };
 
-export const getAllReleaseItems = async () => {
+export const getAllfeedstocks = async () => {
   try {
-    const response = await axios.get(BASE_URL + "resale_item/", {
+    const response = await axios.get(BASE_URL + "feedstock/", {
       headers: await getAuthorizationHeader(),
     });
     return response.data?.results;

@@ -2,9 +2,9 @@ from rest_framework import viewsets, status
 from rest_framework.pagination import PageNumberPagination  
 from rest_framework.response import Response
 from django_filters import rest_framework as filters
-from app.feedstock.models.models import Feedstock
-from app.feedstock.api.v1.serializers.feedstock.serializer import FeedstockSerializer
-from app.feedstock.api.v1.filters.feedstock.filters import FeedstockFilter
+from app.feedstock.models.models import feedstock
+from app.feedstock.api.v1.serializers.feedstock.serializer import feedstockSerializer
+from app.feedstock.api.v1.filters.feedstock.filters import feedstockFilter
 from app.utils.api.v1.serializers.units.serializer import UnitSerializer
 from app.utils.models.models import Unit
 
@@ -24,11 +24,11 @@ class CustomPagination(PageNumberPagination):
             return 0
         return super().get_previous_link()
 
-class FeedstockViewSet(viewsets.ModelViewSet):
-    queryset = Feedstock.objects.all()
-    serializer_class = FeedstockSerializer
+class feedstockViewSet(viewsets.ModelViewSet):
+    queryset = feedstock.objects.all()
+    serializer_class = feedstockSerializer
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_class = FeedstockFilter
+    filterset_class = feedstockFilter
     pagination_class = CustomPagination  
 
     def create(self, request, *args, **kwargs):

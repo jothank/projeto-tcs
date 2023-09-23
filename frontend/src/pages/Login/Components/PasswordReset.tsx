@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Formik, Form } from "formik";
 import { passwordReset } from "services/auth.service";
 import { FormInput } from "components/FormGroup";
-import { PasswordResetValidation } from "utils/validationForm";
+import { PasswordResetValidation } from "utils/validations/validationForm";
 import { getErro, getSuccess } from "utils/ModalAlert";
 
 interface PasswordResetModalProps {

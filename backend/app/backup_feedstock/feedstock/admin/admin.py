@@ -1,7 +1,7 @@
 from django.contrib import admin
-from app.feedstock.models.models import Feedstock
+from app.feedstock.models.models import feedstock
 
-@admin.register(Feedstock)
-class FeedstockAdmin(admin.ModelAdmin):
+@admin.register(feedstock)
+class feedstockAdmin(admin.ModelAdmin):
     list_display = ('name',)
     filter_horizontal = ('units',)

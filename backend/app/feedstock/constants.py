@@ -1,5 +1,5 @@
 """
-Feedstock Constants
+feedstock Constants
 """
 ###
 # Libraries

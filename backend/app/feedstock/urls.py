@@ -1,5 +1,5 @@
 """
-Feedstock URL Configuration
+feedstock URL Configuration
 """
 ###
 # Libraries

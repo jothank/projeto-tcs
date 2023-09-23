@@ -1,19 +1,23 @@
-import { BASE_URL } from "config";
+import { BASE_URL } from "../config";
 import axios from "axios";
 import { getAuthorizationHeader } from "utils/GetHeader";
 
-export const setResaleItem = async (
+export const setProduct = async (
   name: string,
-  description: string,
-  purchase_price: number
+  price: number,
+  feedstock_type: number,
+  quantity: number,
+  unit: string
 ) => {
   try {
     const response = await axios.post(
-      BASE_URL + "resale_item/",
+      BASE_URL + "product/",
       {
         name,
-        description,
-        purchase_price,
+        price,
+        quantity,
+        feedstock_type,
+        unit,
       },
       {
         headers: await getAuthorizationHeader(),
@@ -25,19 +29,23 @@ export const setResaleItem = async (
   }
 };
 
-export const updateResealeItem = async (
+export const updateProduct = async (
   id: number,
   name: string,
-  description: string,
-  purchase_price: number
+  price: number,
+  quantity: number,
+  feedstock_type: number,
+  unit: string
 ) => {
   try {
-    const response = await axios.post(
-      BASE_URL + `resale_item/${id}/`,
+    const response = await axios.put(
+      BASE_URL + `product/${id}/`,
       {
         name,
-        description,
-        purchase_price,
+        price,
+        quantity,
+        feedstock_type,
+        unit,
       },
       {
         headers: await getAuthorizationHeader(),
@@ -49,9 +57,9 @@ export const updateResealeItem = async (
   }
 };
 
-export const deleteReleaseItem = async (id: number) => {
+export const deleteProduct = async (id: number) => {
   try {
-    const response = await axios.delete(BASE_URL + `resale_item/${id}/`, {
+    const response = await axios.delete(BASE_URL + `product/${id}/`, {
       headers: await getAuthorizationHeader(),
     });
     return response.data;
@@ -60,13 +68,13 @@ export const deleteReleaseItem = async (id: number) => {
   }
 };
 
-export const getAllReleaseItems = async () => {
+export const getAllProducts = async () => {
   try {
-    const response = await axios.get(BASE_URL + "resale_item/", {
+    const response = await axios.get(BASE_URL + "product/", {
       headers: await getAuthorizationHeader(),
     });
     return response.data?.results;
   } catch (error) {
-    return new Error("Não foi possível obter os itens de lançamento.");
+    return new Error("Não foi possível obter os produtos.");
   }
 };

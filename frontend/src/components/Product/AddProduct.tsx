@@ -8,9 +8,12 @@ import {
   InputLabel,
   TextField,
   Button,
+  Typography,
+  Divider
 } from "@mui/material";
 import { FeedstockType } from "types/Feedstock.type";
 import { options } from "components/Feedstock/FeedstockUnit";
+import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
 
 interface ProductModalProps {
   open: boolean;
@@ -43,11 +46,16 @@ const ProductModal: React.FC<ProductModalProps> = ({
           width: 300,
           padding: 2,
           backgroundColor: "white",
+          marginTop: '10%',
           display: "flex",
           flexDirection: "column",
           gap: 2,
         }}
       >
+        <Typography>
+          Adicionar Produto
+        </Typography>
+        <Divider />
         <FormControl>
           <InputLabel>Insumo</InputLabel>
           <Select
@@ -86,7 +94,10 @@ const ProductModal: React.FC<ProductModalProps> = ({
           type="number"
           onChange={(e) => setQuantityOfUse(Number(e.target.value))}
         />
-        <Button onClick={onAddItem}>Adicionar</Button>
+        <ButtonContainer>
+          <Button onClick={onClose} variant="outlined" >Fechar</Button>
+          <Button onClick={onAddItem} variant="contained">Adicionar</Button>
+        </ButtonContainer>
       </Box>
     </Modal>
   );

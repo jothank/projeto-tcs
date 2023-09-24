@@ -70,7 +70,7 @@ export function FeedstockTable(props: CustomTableProps) {
             {data.map((item, rowIndex) => (
               <TableRow key={rowIndex}>
                 <TableCell>{item.name}</TableCell>
-                <TableCell>{item.price}</TableCell>
+                <TableCell>R${item.price},00</TableCell>
                 <TableCell>{item.quantity}</TableCell>
                 <TableCell>{item.unit}</TableCell>
 

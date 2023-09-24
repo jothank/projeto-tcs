@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Table,
   TableHead,
@@ -13,12 +14,15 @@ import { ResaleItemType } from "types/resaleItem.types";
 import { deleteReleaseItem } from "services/resealeItem.service";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { getErro } from "utils/ModalAlert";
-
+import { useReactToPrint } from "react-to-print";
+import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
+import PrintIcon from "@mui/icons-material/Print";
 type CustomTableProps = {
   data: ResaleItemType[];
 };
 
 export function ResaleItemTable(props: CustomTableProps) {
+  const componentRef = React.useRef(null);
   const { data } = props;
 
   const handleDelete = async (itemId: number) => {
@@ -30,8 +34,12 @@ export function ResaleItemTable(props: CustomTableProps) {
     }
   };
 
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   return (
     <>
+     <div ref={componentRef}>
       <Grid
         sx={{
           display: "flex",
@@ -39,7 +47,12 @@ export function ResaleItemTable(props: CustomTableProps) {
           justifyContent: "end",
         }}
       >
+        <ButtonContainer>
         <AddResaleItem />
+          <Button onClick={handlePrint} variant="outlined">
+            <PrintIcon />
+          </Button>
+        </ButtonContainer>
       </Grid>
       <Table>
         <TableHead>
@@ -55,7 +68,7 @@ export function ResaleItemTable(props: CustomTableProps) {
             <TableRow key={rowIndex}>
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.description}</TableCell>
-              <TableCell>{item.purchase_price}</TableCell>
+              <TableCell>R${item.purchase_price},00</TableCell>
               <TableCell>
                 <Grid
                   sx={{
@@ -79,6 +92,7 @@ export function ResaleItemTable(props: CustomTableProps) {
           ))}
         </TableBody>
       </Table>
+      </div>
     </>
   );
 }

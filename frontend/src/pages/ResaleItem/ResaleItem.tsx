@@ -1,3 +1,4 @@
+import React from "react";
 import { ContainerResaleItem } from "components/ResaleItem/ContainerResaleItem";
 import { ResaleItemTable } from "components/ResaleItem/ResaleItemTable";
 import { useEffect, useState } from "react";

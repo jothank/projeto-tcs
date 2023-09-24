@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Divider, Modal, Typography, Button, Box } from "@mui/material";
 import { StyleModal } from "components/StyleModal/StyleModal";
 import EditIcon from "@mui/icons-material/Edit";

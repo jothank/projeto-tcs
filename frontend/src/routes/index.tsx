@@ -1,3 +1,4 @@
+import React from "react";
 import Home from "pages/Home/Home";
 import ConfirmPasswordReset from "pages/Login/Components/ConfirmPasswordReset";
 import Register from "pages/Login/Components/Register";

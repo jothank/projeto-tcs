@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Table,
@@ -7,6 +7,8 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Grid,
+  Typography
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { FeedstockType } from "types/Feedstock.type";
@@ -14,7 +16,9 @@ import { setProduct } from "services/product.service";
 import { setProducts } from "services/registration.service";
 import ProductModal from "components/Product/AddProduct";
 import { AddedFeedstockType, ProductTableProps } from "types/Product.types";
-
+import { useReactToPrint } from "react-to-print";
+import PrintIcon from "@mui/icons-material/Print";
+import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
 export function ProductTable({ feedstocks }: ProductTableProps) {
   const [open, setOpen] = useState(false);
   const [selectedFeedstock, setSelectedFeedstock] =
@@ -27,7 +31,7 @@ export function ProductTable({ feedstocks }: ProductTableProps) {
     []
   );
   const [name, setName] = useState<string>("");
-
+  const componentRef = React.useRef(null);
   const handleAddItem = () => {
     if (
       !selectedFeedstock ||
@@ -88,17 +92,33 @@ export function ProductTable({ feedstocks }: ProductTableProps) {
     console.log("preços", purchasedPrice);
     setProducts(name, idProduct, purchasedPrice);
   };
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   return (
-    <div>
-      <Button onClick={() => setOpen(true)}>Cadastrar</Button>
+    <div ref={componentRef}>
+      <Grid
+       sx={{
+        display: "flex",
+        alignItems: "end",
+        justifyContent: "end",
+      }}
+      >
+        <ButtonContainer>
+        <Button onClick={() => setOpen(true)} variant="contained">Cadastrar</Button>
+       <Button onClick={handlePrint} variant="outlined">  <PrintIcon /> </Button>
+       </ButtonContainer>
+      </Grid>
       <Table>
         <TableHead>
           <TableRow>
             <TableCell>Insumo</TableCell>
-            <TableCell>Unidade de medida fabricar</TableCell>
-            <TableCell>qtd/Uso</TableCell>
-            <TableCell>Preço de aquisição</TableCell>
+            <TableCell>
+              <Typography variant="subtitle2">Unidade de medida Fábrica</Typography>
+            </TableCell>
+            <TableCell>Quantidade / Uso</TableCell>
+            <TableCell>Preço de Compra</TableCell>
             <TableCell>Unidade de medida</TableCell>
             <TableCell>Custo unitário</TableCell>
             <TableCell>Ação</TableCell>
@@ -110,24 +130,39 @@ export function ProductTable({ feedstocks }: ProductTableProps) {
               <TableCell>{feedstock.name}</TableCell>
               <TableCell>{feedstock.unitFabrication}</TableCell>
               <TableCell>{feedstock.quantityOfUse}</TableCell>
-              <TableCell>{feedstock.price}</TableCell>
+              <TableCell>R${feedstock.price},00</TableCell>
               <TableCell>{feedstock.unit}</TableCell>
-              <TableCell>{feedstock.costUnit}</TableCell>
+              <TableCell>R${feedstock.costUnit},00</TableCell>
               <TableCell>
                 <Button onClick={() => handleDeleteItem(feedstock)}>
-                  <DeleteIcon />
+                  <DeleteIcon 
+                  style={{
+                    cursor: "pointer",
+                    marginRight: "10px",
+                    color: "red",
+                  }}
+                  />
                 </Button>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      <Grid
+      sx={{
+        marginTop: '2%',
+        display: 'flex',
+        justifyContent: 'space-between'
+      }}
+      >
       <TextField
         label="Nome do Produto"
         type="text"
         onChange={(e) => setName(e.target.value)}
+        sx={{width: '50%'}}
       />
-      <Button onClick={handleSaveRows}>Salvar Produto</Button>
+      <Button onClick={handleSaveRows} variant="contained" sx={{height: '50%', marginTop: '1%'}}>Salvar </Button>
+      </Grid>
       <ProductModal
         open={open}
         onClose={() => setOpen(false)}

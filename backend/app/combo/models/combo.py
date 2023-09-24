@@ -14,9 +14,10 @@ class Combo(models.Model):
         max_length=255,
         verbose_name=_('Name')
     )
-    registration = models.ManyToManyField(
+    registrations = models.ManyToManyField(
         ProductRegistration,
         through='ComboProductRegistration',
-        related_name='combos',  
+        related_name='combos',
         verbose_name=_('Registration')
     )
+    purchase_price = models.FloatField(verbose_name=_('Purchase price'))

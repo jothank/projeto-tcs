@@ -13,6 +13,7 @@ const NavBar: React.FC = () => {
     { text: "Revenda", href: "/resale-item", title: "Revenda" },
     { text: "Insumos", href: "/feed-stock", title: "Insumos" },
     { text: "Produto", href: "/product", title: "Produtos" },
+    { text: "Combo", href: "/registration", title: "Combos" },
   ];
   const currentPath = new URL(window.location.href).pathname;
   const matchedItem = menuItems.find((item) => currentPath === item.href);

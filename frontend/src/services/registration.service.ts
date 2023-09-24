@@ -24,3 +24,14 @@ export const setProducts = async (
     return error;
   }
 };
+
+export const getAllRegistration = async () => {
+  try {
+    const response = await axios.get(BASE_URL + "productregistration/", {
+      headers: await getAuthorizationHeader(),
+    });
+    return response.data?.results;
+  } catch (error) {
+    return new Error("Não foi possível obter os itens de lançamento.");
+  }
+};

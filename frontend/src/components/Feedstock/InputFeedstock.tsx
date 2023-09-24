@@ -1,8 +1,14 @@
 import React from "react";
 import { Field } from "formik";
-import { TextField } from "@mui/material";
+import {
+  TextField,
+  InputLabel,
+  MenuItem,
+  Select,
+  FormControl,
+  FormHelperText,
+} from "@mui/material";
 import { FeedstockInputProps, SelectFieldProps } from "types/Feedstock.type";
-import { InputLabel, MenuItem, Select, FormControl } from "@mui/material";
 
 export const FeedstockInput: React.FC<FeedstockInputProps> = ({
   name,
@@ -40,7 +46,6 @@ export const FeedstockSelect: React.FC<SelectFieldProps> = ({
             label={label}
             {...field}
             error={meta.touched && meta.error !== undefined}
-            helperText={meta.touched && meta.error ? meta.error : ""}
             onChange={(e) => form.setFieldValue(name, e.target.value)}
           >
             {optionValues.map((optionValue) => (
@@ -49,6 +54,9 @@ export const FeedstockSelect: React.FC<SelectFieldProps> = ({
               </MenuItem>
             ))}
           </Select>
+          {meta.touched && meta.error ? (
+            <FormHelperText error={true}>{meta.error}</FormHelperText>
+          ) : null}
         </FormControl>
       )}
     </Field>

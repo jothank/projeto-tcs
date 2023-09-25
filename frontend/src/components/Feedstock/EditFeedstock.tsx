@@ -35,7 +35,7 @@ export const EditFeedstock = ({
 
   const handleUpdate = async (values: FeedstockType) => {
     try {
-      updatefeedstock(
+      await updatefeedstock(
         values.id || 0,
         values.name,
         values.price,
@@ -44,6 +44,8 @@ export const EditFeedstock = ({
       );
       getSuccess("Resale Item registered Successfully");
       handleClose();
+  
+      window.location.reload();
     } catch (error: any) {
       getErro(error.message);
     }

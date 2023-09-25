@@ -19,10 +19,13 @@ export const FeedstockInput: React.FC<FeedstockInputProps> = ({
         margin="dense"
         error={meta.touched && meta.error !== undefined}
         helperText={meta.touched && meta.error ? meta.error : ""}
+        placeholder={label} 
+        value={field.value === 0 ? '' : field.value} 
       />
     )}
   </Field>
 );
+
 
 export const FeedstockSelect: React.FC<SelectFieldProps> = ({
   name,

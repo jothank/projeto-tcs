@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Table,
   TableHead,
@@ -6,6 +7,11 @@ import {
   TableCell,
   Button,
   Grid,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { getErro } from "utils/ModalAlert";
@@ -15,29 +21,56 @@ import { AddFeedstock } from "components/Feedstock/AddFeedstock";
 import { deletefeedstock } from "services/feedstock.service";
 import { useReactToPrint } from "react-to-print";
 import PrintIcon from "@mui/icons-material/Print";
-import React from "react";
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
+
 type CustomTableProps = {
   data: FeedstockType[];
 };
 
 export function FeedstockTable(props: CustomTableProps) {
   const componentRef = React.useRef(null);
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [itemToDelete, setItemToDelete] = React.useState<FeedstockType | null>(null);
 
   const { data } = props;
 
-  const handleDelete = async (itemId: number) => {
-    try {
-      deletefeedstock(itemId);
-      console.log(`Item com ID ${itemId} foi excluído com sucesso.`);
-    } catch (error) {
-      getErro(`Erro ao excluir o item com ID ${itemId}`);
+  const handleDelete = (item: FeedstockType) => {
+    setItemToDelete(item);
+    setDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (itemToDelete && itemToDelete.id) {
+      try {
+        await deletefeedstock(itemToDelete.id);
+        console.log(`Item com ID ${itemToDelete.id} foi excluído com sucesso.`);
+        window.location.reload();
+      } catch (error) {
+        getErro(`Erro ao excluir o item com ID ${itemToDelete.id}`);
+      }
     }
+    setDialogOpen(false);
   };
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
+
+  const exportToCSV = () => {
+    const header = 'Nome,Preço,Quantidade,Unidade';
+  
+    const csvData = data.map(item => `${item.name},${item.price},${item.quantity},${item.unit}`).join('\n');
+  
+    const csvContent = `${header}\n${csvData}`;
+  
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'feedstock_data.csv';
+    a.click();
+  };
 
   return (
     <>
@@ -53,6 +86,9 @@ export function FeedstockTable(props: CustomTableProps) {
             <AddFeedstock />
             <Button onClick={handlePrint} variant="outlined">
               <PrintIcon />
+            </Button>
+            <Button onClick={exportToCSV} variant="outlined">
+              <CloudDownloadIcon />
             </Button>
           </ButtonContainer>
         </Grid>
@@ -81,7 +117,7 @@ export function FeedstockTable(props: CustomTableProps) {
                       flexDirection: "row",
                     }}
                   >
-                    <Button onClick={() => item.id && handleDelete(item.id)}>
+                    <Button onClick={() => handleDelete(item)}>
                       <DeleteIcon
                         style={{
                           cursor: "pointer",
@@ -98,6 +134,21 @@ export function FeedstockTable(props: CustomTableProps) {
           </TableBody>
         </Table>
       </div>
+
+      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+        <DialogTitle>Confirmação</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Tem certeza de que deseja excluir este item?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDialogOpen(false)}>Cancelar</Button>
+          <Button onClick={confirmDelete} color="error">
+            Confirmar Exclusão
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

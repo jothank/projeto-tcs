@@ -12,12 +12,8 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { FeedstockType } from "types/Feedstock.type";
-import { setProduct } from "services/product.service";
-import { setProducts } from "services/registration.service";
 import ProductModal from "components/Product/AddProduct";
 import { AddedFeedstockType, ProductTableProps } from "types/Product.types";
-import { useReactToPrint } from "react-to-print";
-import PrintIcon from "@mui/icons-material/Print";
 import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
 export function ProductTable({ feedstocks }: ProductTableProps) {
   const [open, setOpen] = useState(false);
@@ -71,31 +67,6 @@ export function ProductTable({ feedstocks }: ProductTableProps) {
     );
   };
 
-  const handleSaveRows = async () => {
-    let idProduct: any[] = [];
-    var purchasedPrice = 0;
-
-    for (const product of addedFeedstocks) {
-      if (product.id !== undefined) {
-        const productId = await setProduct(
-          product.id,
-          product.costUnit,
-          product.quantityOfUse,
-          product.unitFabrication
-        );
-        idProduct.push(productId.id);
-        purchasedPrice += Number(productId.price);
-      }
-    }
-
-    console.log(idProduct);
-    console.log("preços", purchasedPrice);
-    setProducts(name, idProduct, purchasedPrice);
-  };
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
-
   return (
     <div ref={componentRef}>
       <Grid
@@ -107,7 +78,7 @@ export function ProductTable({ feedstocks }: ProductTableProps) {
       >
         <ButtonContainer>
         <Button onClick={() => setOpen(true)} variant="contained">Cadastrar</Button>
-       <Button onClick={handlePrint} variant="outlined">  <PrintIcon /> </Button>
+       {/* <Button onClick={handlePrint} variant="outlined">  <PrintIcon /> </Button> */}
        </ButtonContainer>
       </Grid>
       <Table>
@@ -161,7 +132,7 @@ export function ProductTable({ feedstocks }: ProductTableProps) {
         onChange={(e) => setName(e.target.value)}
         sx={{width: '50%'}}
       />
-      <Button onClick={handleSaveRows} variant="contained" sx={{height: '50%', marginTop: '1%'}}>Salvar </Button>
+      {/* <Button onClick={handleSaveRows} variant="contained" sx={{height: '50%', marginTop: '1%'}}>Salvar </Button> */}
       </Grid>
       <ProductModal
         open={open}

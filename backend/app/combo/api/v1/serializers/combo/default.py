@@ -7,6 +7,7 @@ API V1: Combo Serializers
 from rest_framework import serializers
 from app.combo.models.combo import Combo
 from app.product_registration.models.product_registration import ProductRegistration
+from app.product_registration.api.v1.serializers.product_registration.retrieve import RetrieveProductRegistrationSerializer
 
 ###
 # Serializers
@@ -14,20 +15,8 @@ from app.product_registration.models.product_registration import ProductRegistra
 
 
 class DefaultComboSerializer(serializers.ModelSerializer):
-    registrations = serializers.PrimaryKeyRelatedField(
-        queryset=ProductRegistration.objects.all(), many=True)
-
-    def validate(self, attr):
-        registrations_ids = self.initial_data.get('registrations', None)
-
-        if registrations_ids is None:
-            raise serializers.ValidationError()
-
-        registrations = list(ProductRegistration.objects.filter(
-            id__in=registrations_ids).values_list('id', flat=True))
-        attr['registrations'] = set(registrations)
-        return attr
+    registrations = RetrieveProductRegistrationSerializer(many=True)
 
     class Meta:
         model = Combo
-        fields = ["name", "registrations",]
+        fields = ["id", "name", "registrations", "purchase_price"]

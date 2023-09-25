@@ -17,7 +17,6 @@ export interface RegistrationType {
   products: any;
   id: number;
   name: string;
-  // Assuming these are derived from products
   unitFabrication?: string;
   quantityOfUse?: number;
   costUnit?: number; // Placeholder, but if you have logic, implement it

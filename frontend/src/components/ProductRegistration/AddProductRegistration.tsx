@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
   Modal,
@@ -9,20 +10,21 @@ import {
   Button,
 } from "@mui/material";
 import { options } from "components/Feedstock/FeedstockUnit";
-import { RegistrationType } from "./RegistrationTable";
+import { ProductRegistrationType } from "types/ProductRegistration.types";
+
 
 interface RegistrationModalProps {
   open: boolean;
   onClose: () => void;
-  registrations: RegistrationType[];
+  registrations: ProductRegistrationType[];
   onAddItem: () => void;
   setSelectedRegistration: React.Dispatch<
-    React.SetStateAction<RegistrationType | null>
+    React.SetStateAction<ProductRegistrationType | null>
   >;
-  selectedRegistration: RegistrationType | null;
+  selectedRegistration: ProductRegistrationType | null;
 }
 
-const RegistrationModal: React.FC<RegistrationModalProps> = ({
+const AddProductRegistration: React.FC<RegistrationModalProps> = ({
   open,
   onClose,
   registrations,
@@ -84,4 +86,4 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({
   );
 };
 
-export default RegistrationModal;
+export default AddProductRegistration;

@@ -11,6 +11,7 @@ import ResaleItem from "pages/ResaleItem/ResaleItem";
 import { Feedstock } from "pages/Feedstock/Feedstock";
 import { Product } from "pages/Product/Product";
 import { Registration } from "pages/Registrations/Registrations";
+import ProductRegistration from "pages/ProductRegistration/ProductRegistration";
 
 export const AppRoutes = () => {
   return (
@@ -67,6 +68,14 @@ export const AppRoutes = () => {
         element={
           <PrivateRoute>
             <Registration />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/product-registration"
+        element={
+          <PrivateRoute>
+            <ProductRegistration />
           </PrivateRoute>
         }
       />

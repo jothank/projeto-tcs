@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Modal,
   Box,
@@ -9,7 +9,7 @@ import {
   TextField,
   Button,
   Typography,
-  Divider
+  Divider,
 } from "@mui/material";
 import { FeedstockType } from "types/Feedstock.type";
 import { options } from "components/Feedstock/FeedstockUnit";
@@ -38,6 +38,11 @@ const ProductModal: React.FC<ProductModalProps> = ({
   setQuantityOfUse,
   setSelectedUnitFabrication,
 }) => {
+  const [selectedUnit, setSelectedUnit] = useState<string | "">("");
+  const [selectedFeedstockName, setSelectedFeedstockName] = useState<
+    string | ""
+  >("");
+
   return (
     <Modal open={open} onClose={onClose}>
       <Box
@@ -46,24 +51,24 @@ const ProductModal: React.FC<ProductModalProps> = ({
           width: 300,
           padding: 2,
           backgroundColor: "white",
-          marginTop: '10%',
+          marginTop: "10%",
           display: "flex",
           flexDirection: "column",
           gap: 2,
         }}
       >
-        <Typography>
-          Adicionar Produto
-        </Typography>
+        <Typography>Adicionar Produto</Typography>
         <Divider />
         <FormControl>
           <InputLabel>Insumo</InputLabel>
           <Select
+            value={selectedFeedstockName}
             onChange={(e) => {
               const feedstock = feedstocks.find(
                 (f) => f.name === e.target.value
               );
               setSelectedFeedstock(feedstock || null);
+              setSelectedFeedstockName(e.target.value);
             }}
           >
             {feedstocks.map((feedstock) => (
@@ -75,12 +80,12 @@ const ProductModal: React.FC<ProductModalProps> = ({
         </FormControl>
         <FormControl>
           <InputLabel>Unidade de medida</InputLabel>
-        </FormControl>
-        <FormControl>
           <Select
-            onChange={(e) =>
-              setSelectedUnitFabrication(e.target.value as string)
-            }
+            value={selectedUnit}
+            onChange={(e) => {
+              setSelectedUnitFabrication(e.target.value as string);
+              setSelectedUnit(e.target.value as string);
+            }}
           >
             {options.map((optionValue) => (
               <MenuItem key={optionValue.value} value={optionValue.label}>
@@ -95,8 +100,12 @@ const ProductModal: React.FC<ProductModalProps> = ({
           onChange={(e) => setQuantityOfUse(Number(e.target.value))}
         />
         <ButtonContainer>
-          <Button onClick={onClose} variant="outlined" >Fechar</Button>
-          <Button onClick={onAddItem} variant="contained">Adicionar</Button>
+          <Button onClick={onClose} variant="outlined">
+            Fechar
+          </Button>
+          <Button onClick={onAddItem} variant="contained">
+            Adicionar
+          </Button>
         </ButtonContainer>
       </Box>
     </Modal>

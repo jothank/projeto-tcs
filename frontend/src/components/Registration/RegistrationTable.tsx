@@ -70,8 +70,8 @@ export function RegistrationTable({ registrations }: RegistrationTableProps) {
     <div>
       <Grid
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between'
+          display: "flex",
+          justifyContent: "space-between",
         }}
       >
         <TextField
@@ -79,13 +79,14 @@ export function RegistrationTable({ registrations }: RegistrationTableProps) {
           value={comboName}
           onChange={(e) => setComboName(e.target.value)}
         />
-        <Grid
-          display="flex"
-
-        >
+        <Grid display="flex">
           <ButtonContainer>
-            <Button onClick={() => setOpen(true)} variant="contained" >Cadastrar</Button>
-            <Button onClick={handleSaveRows} variant="contained">Salvar</Button>
+            <Button onClick={() => setOpen(true)} variant="contained">
+              Cadastrar
+            </Button>
+            <Button onClick={handleSaveRows} variant="contained">
+              Salvar
+            </Button>
           </ButtonContainer>
         </Grid>
       </Grid>
@@ -115,12 +116,12 @@ export function RegistrationTable({ registrations }: RegistrationTableProps) {
 
               <TableCell>
                 <Button onClick={() => handleDeleteItem(registration)}>
-                  <DeleteIcon 
-                  sx={{
-                    cursor: "pointer",
-                    marginRight: "10px",
-                    color: "red",
-                  }}
+                  <DeleteIcon
+                    sx={{
+                      cursor: "pointer",
+                      marginRight: "10px",
+                      color: "red",
+                    }}
                   />
                 </Button>
               </TableCell>
@@ -128,7 +129,6 @@ export function RegistrationTable({ registrations }: RegistrationTableProps) {
           ))}
         </TableBody>
       </Table>
-
       <RegistrationModal
         open={open}
         onClose={() => setOpen(false)}

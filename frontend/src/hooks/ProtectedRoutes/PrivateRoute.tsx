@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { validationToken, refreshToken } from "services/auth.service";
 import NavBar from "components/NavBar/NavBar";
+import { getLoginWarning } from "utils/ModalAlert";
 
 const PrivateRoute: React.FC<{ children: React.ReactElement }> = ({
   children,
@@ -22,11 +23,13 @@ const PrivateRoute: React.FC<{ children: React.ReactElement }> = ({
             setIsValid(true);
           } catch (innerError: any) {
             if (innerError.message.includes("401")) {
-              navigate("/login");
+              getLoginWarning(
+                "Erro ao autenticar usuário faça login novamente"
+              );
             }
           }
         } else {
-          navigate("/login");
+          getLoginWarning("Erro ao autenticar usuário faça login novamente");
         }
       }
     };

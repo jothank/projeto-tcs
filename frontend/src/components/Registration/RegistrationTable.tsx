@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Button,
+  Grid,
   Table,
   TableBody,
   TableCell,
@@ -11,6 +12,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import RegistrationModal from "components/Registration/AddRegistration";
 import { setCombo } from "services/combo.service";
+import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
 
 export interface RegistrationType {
   producion_price: number;
@@ -66,7 +68,27 @@ export function RegistrationTable({ registrations }: RegistrationTableProps) {
 
   return (
     <div>
-      <Button onClick={() => setOpen(true)}>Cadastrar</Button>
+      <Grid
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between'
+        }}
+      >
+        <TextField
+          label="Nome do Combo"
+          value={comboName}
+          onChange={(e) => setComboName(e.target.value)}
+        />
+        <Grid
+          display="flex"
+
+        >
+          <ButtonContainer>
+            <Button onClick={() => setOpen(true)} variant="contained" >Cadastrar</Button>
+            <Button onClick={handleSaveRows} variant="contained">Salvar</Button>
+          </ButtonContainer>
+        </Grid>
+      </Grid>
       <Table>
         <TableHead>
           <TableRow>
@@ -93,19 +115,20 @@ export function RegistrationTable({ registrations }: RegistrationTableProps) {
 
               <TableCell>
                 <Button onClick={() => handleDeleteItem(registration)}>
-                  <DeleteIcon />
+                  <DeleteIcon 
+                  sx={{
+                    cursor: "pointer",
+                    marginRight: "10px",
+                    color: "red",
+                  }}
+                  />
                 </Button>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <TextField
-        label="Nome do Combo"
-        value={comboName}
-        onChange={(e) => setComboName(e.target.value)}
-      />
-      <Button onClick={handleSaveRows}>Salvar</Button>
+
       <RegistrationModal
         open={open}
         onClose={() => setOpen(false)}

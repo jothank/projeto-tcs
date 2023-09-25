@@ -7,9 +7,12 @@ import {
   FormControl,
   InputLabel,
   Button,
+  Typography,
+  Divider,
 } from "@mui/material";
 import { options } from "components/Feedstock/FeedstockUnit";
 import { RegistrationType } from "./RegistrationTable";
+import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
 
 interface RegistrationModalProps {
   open: boolean;
@@ -42,9 +45,16 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({
           backgroundColor: "white",
           display: "flex",
           flexDirection: "column",
+          marginTop: '10%',
           gap: 2,
         }}
       >
+        <Box>
+          <Typography>
+            Produtos
+          </Typography>
+        </Box>
+        <Divider />
         <FormControl>
           <InputLabel>Produtos</InputLabel>
           <Select
@@ -77,8 +87,10 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({
             ))}
           </Select>
         </FormControl>
-
-        <Button onClick={onAddItem}>Adicionar</Button>
+        <ButtonContainer>
+          <Button onClick={onClose} variant="outlined">Fechar</Button>
+          <Button onClick={onAddItem} variant="contained">Adicionar</Button>
+        </ButtonContainer>
       </Box>
     </Modal>
   );

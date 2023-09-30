@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { Container, Grid } from "@mui/material";
+import { Container, Grid, Typography, Divider } from "@mui/material";
 import { TitleForms } from "components/FormGroup";
 
 interface ContainerFormsProps {
@@ -17,7 +17,7 @@ const ContainerForms: React.FC<ContainerFormsProps> = ({
     <Grid
       item
       sx={{
-        background:
+        background: // '#fdfdfd',
           "radial-gradient(50% 50% at 50% 50%, #fcf49b 0%, #e9df87 100%)",
         height: "100vh",
         width: "100%",
@@ -42,7 +42,7 @@ const ContainerForms: React.FC<ContainerFormsProps> = ({
         }}
       >
         <TitleForms>
-          <h1>{titleForm}</h1>
+         <Typography variant="h3"> {titleForm}</Typography>
         </TitleForms>
         {children}
       </Container>

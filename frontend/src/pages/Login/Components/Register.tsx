@@ -1,4 +1,4 @@
-import { Button, Link, Stack } from "@mui/material";
+import { Button, Link, Stack, Grid } from "@mui/material";
 import { Form, Formik } from "formik";
 import React from "react";
 import { RegisterIUser } from "types/user.type";
@@ -6,6 +6,7 @@ import { RegisterValidation } from "utils/validations/validationForm";
 import { register } from "services/auth.service";
 import { ButtonForms, ContainerForms, FormInput } from "components/FormGroup";
 import { getErro, getSuccess } from "utils/ModalAlert";
+import gastro from "../../../assets/gastro.png"
 
 const RegisterValues: RegisterIUser = {
   username: "",
@@ -39,6 +40,16 @@ const Register: React.FC = () => {
   };
 
   return (
+    <Grid container spacing={2}
+    sx={{
+      display: 'flex',
+      flexDirection: 'row'
+    }}
+    >
+      <Grid item xs={6}>
+        <img src={gastro} style={{ width: '100%', height: '100%' }}></img>
+      </Grid>
+      <Grid item xs={6}>
     <ContainerForms sizeForm="600px" titleForm="Cadastro">
       <Formik
         initialValues={RegisterValues}
@@ -62,13 +73,15 @@ const Register: React.FC = () => {
             <Button variant="contained" type="submit" sx={{ width: "50%" }}>
               Cadastrar
             </Button>
-            <Link href="/login" underline="hover" variant="subtitle2">
+            <Link href="/" underline="hover" variant="subtitle2">
               Já possui tem uma conta?
             </Link>
           </ButtonForms>
         </Form>
       </Formik>
     </ContainerForms>
+    </Grid>
+    </Grid>
   );
 };
 

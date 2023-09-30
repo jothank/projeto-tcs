@@ -1,4 +1,4 @@
-import { Button, Link } from "@mui/material";
+import { Button, Grid, Link, Divider } from "@mui/material";
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import { validationLogin } from "utils/validations/validationForm";
 import { FormInput, ContainerForms, ButtonForms } from "components/FormGroup";
 import PasswordResetModal from "pages/Login/Components/PasswordReset";
 import { getErro } from "utils/ModalAlert";
-
+import gastro from "../../assets/gastro.png"
 const LoginValues: LoginIUser = {
   username: "",
   password: "",
@@ -28,7 +28,18 @@ const Login: React.FC = () => {
   };
 
   return (
+    <Grid container spacing={2}
+    sx={{
+      display: 'flex',
+      flexDirection: 'row'
+    }}
+    >
+      <Grid item xs={6}>
+        <img src={gastro} style={{ width: '100%', height: '100%' }}></img>
+      </Grid>
+      <Grid item xs={6}>
     <ContainerForms sizeForm="400px" titleForm="Entrar">
+      <Divider />
       <Formik
         initialValues={LoginValues}
         validationSchema={validationLogin}
@@ -41,7 +52,7 @@ const Login: React.FC = () => {
             <Button variant="contained" type="submit" sx={{ width: "50%" }}>
               Acessar
             </Button>
-            <Link href="/" underline="hover" variant="subtitle2">
+            <Link href="/register" underline="hover" variant="subtitle2">
               Ainda não tem uma conta?
             </Link>
             <Link
@@ -59,6 +70,8 @@ const Login: React.FC = () => {
         </Form>
       </Formik>
     </ContainerForms>
+    </Grid>
+    </Grid>
   );
 };
 

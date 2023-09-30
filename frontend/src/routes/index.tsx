@@ -16,8 +16,8 @@ import ProductRegistration from "pages/ProductRegistration/ProductRegistration";
 export const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Register />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/" element={<Login />} />
       <Route
         path="/password-reset-cofirm/:UID/:Token"
         element={<ConfirmPasswordReset />}

@@ -3,16 +3,15 @@ import { Divider, Box, Button, Typography, Modal } from "@mui/material";
 import { StyleModal } from "components/StyleModal/StyleModal";
 import { FeedstockType } from "types/Feedstock.type";
 import EditIcon from "@mui/icons-material/Edit";
-import {
-  FeedstockInput,
-  FeedstockSelect,
-} from "components/Feedstock/InputFeedstock";
+import { FeedstockInput } from "components/Feedstock/InputFeedstock";
+import { FeedstockSelect } from "components/SelectOptions/SelectOptions";
 import { Form, Formik } from "formik";
-import { getErro, getSuccess } from "utils/ModalAlert";
+import { getErro, getSuccessWarning } from "utils/ModalAlert";
 import { FeedstockValidation } from "utils/validations/validationFeedstock";
-import { options } from "components/Feedstock/FeedstockUnit";
+import { options } from "utils/FeedstockUnit";
 import { updatefeedstock } from "services/feedstock.service";
 import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
+import { calculateAdjustedPriceAndQuantity } from "utils/calculations/pricing";
 export const EditFeedstock = ({
   item,
   onClose,
@@ -35,17 +34,16 @@ export const EditFeedstock = ({
 
   const handleUpdate = async (values: FeedstockType) => {
     try {
+      const adjustedFeedstock = calculateAdjustedPriceAndQuantity(values);
       await updatefeedstock(
-        values.id || 0,
-        values.name,
-        values.price,
-        values.quantity,
-        values.unit
+        adjustedFeedstock.id || 0,
+        adjustedFeedstock.name,
+        adjustedFeedstock.price,
+        adjustedFeedstock.quantity,
+        adjustedFeedstock.unit
       );
-      getSuccess("Resale Item registered Successfully");
       handleClose();
-  
-      window.location.reload();
+      getSuccessWarning("Item atualizado com sucesso");
     } catch (error: any) {
       getErro(error.message);
     }
@@ -54,7 +52,6 @@ export const EditFeedstock = ({
   return (
     <div>
       <Button onClick={handleOpen}>
-        {" "}
         <EditIcon style={{ cursor: "pointer", color: "black" }} />
       </Button>
       <Modal

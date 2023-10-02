@@ -1,190 +1,122 @@
 import React, { useState } from "react";
 import {
-  Button,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  TextField,
-  Grid,
+  Paper,
   Typography,
+  Select,
+  MenuItem,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { FeedstockType } from "types/Feedstock.type";
-import ProductModal from "components/Product/AddProduct";
-import { AddedFeedstockType, ProductTableProps } from "types/Product.types";
-import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
-import { setProduct } from "services/product.service";
-import { useReactToPrint } from "react-to-print";
-import PrintIcon from "@mui/icons-material/Print";
-import { setProducts } from "services/registration.service";
+import AddProductModal from "components/Product/AddProduct";
+import { formatToBRL } from "utils/calculations/pricing";
 
-export function ProductTable({ feedstocks }: ProductTableProps) {
-  const [open, setOpen] = useState(false);
-  const [selectedFeedstock, setSelectedFeedstock] =
-    useState<FeedstockType | null>(null);
-  const [quantityOfUse, setQuantityOfUse] = useState<number | null>(null);
-  const [selectedUnitFabrication, setSelectedUnitFabrication] = useState<
-    string | null
-  >(null);
-  const [addedFeedstocks, setAddedFeedstocks] = useState<AddedFeedstockType[]>(
-    []
+export interface ProductTableProps {
+  data: {
+    results: {
+      id: number;
+      name: string;
+      producion_price: number;
+      products: {
+        id: number;
+        feedstock: {
+          name: string;
+          price: number;
+          unit: string;
+        };
+        quantity: number;
+        unit: string;
+        price: number;
+      }[];
+    }[];
+  };
+}
+
+const ProductTable = ({ data }: ProductTableProps) => {
+  if (!data || !data.results || data.results.length === 0) {
+    return <Typography>No data available</Typography>;
+  }
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [selectedProductId, setSelectedProductId] = useState<number>(
+    data.results[0].id
   );
-  const [name, setName] = useState<string>("");
-  const componentRef = React.useRef(null);
-  const handleAddItem = () => {
-    if (
-      !selectedFeedstock ||
-      !quantityOfUse ||
-      !selectedUnitFabrication ||
-      !selectedFeedstock.id
-    )
-      return;
+  const product = data.results.find(
+    (product) => product.id === selectedProductId
+  );
 
-    let newQuantityOfUse = quantityOfUse;
-    if (selectedUnitFabrication === "g" || selectedUnitFabrication === "ml") {
-      newQuantityOfUse = newQuantityOfUse / 1000;
-    }
-
-    const factor = 100;
-    const costUnit =
-      Math.floor(newQuantityOfUse * selectedFeedstock.price * factor) / factor;
-
-    const newItem: AddedFeedstockType = {
-      id: selectedFeedstock.id,
-      quantityOfUse: newQuantityOfUse,
-      costUnit,
-      unitFabrication: selectedUnitFabrication,
-      name: selectedFeedstock.name,
-      price: selectedFeedstock.price,
-      quantity: 0,
-      unit: selectedFeedstock.unit,
-    };
-
-    setAddedFeedstocks((prev) => [...prev, newItem]);
-    setOpen(false);
-  };
-
-  const handleDeleteItem = (itemToDelete: AddedFeedstockType) => {
-    setAddedFeedstocks((prev) =>
-      prev.filter((feedstock) => feedstock !== itemToDelete)
-    );
-  };
-
-  const handleSaveRows = async () => {
-    let idProduct: any[] = [];
-    var purchasedPrice = 0;
-
-    for (const product of addedFeedstocks) {
-      if (product.id !== undefined) {
-        const productId = await setProduct(
-          product.id,
-          product.costUnit,
-          product.quantityOfUse,
-          product.unitFabrication
-        );
-        idProduct.push(productId.id);
-        purchasedPrice += Number(productId.price);
-      }
-    }
-    setProducts(name, idProduct, purchasedPrice);
-  };
-
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
+  if (!product) {
+    return <Typography>Error: Product not found</Typography>;
+  }
 
   return (
-    <div ref={componentRef}>
-      <Grid
-        sx={{
+    <Paper>
+      <div
+        style={{
           display: "flex",
-          alignItems: "end",
-          justifyContent: "end",
+          justifyContent: "space-between",
+          padding: 16,
         }}
       >
-        <ButtonContainer>
-          <Button onClick={() => setOpen(true)} variant="contained">
-            Cadastrar
-          </Button>
-          <Button onClick={handlePrint} variant="outlined">
-            <PrintIcon />
-          </Button>
-        </ButtonContainer>
-      </Grid>
+        <Typography variant="h6" component="div">
+          {product.name}
+        </Typography>
+        <AddProductModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+        <Select
+          value={selectedProductId}
+          onChange={(event) =>
+            setSelectedProductId(event.target.value as number)
+          }
+        >
+          {data.results.map((productItem) => (
+            <MenuItem key={productItem.id} value={productItem.id}>
+              {productItem.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </div>
       <Table>
         <TableHead>
           <TableRow>
             <TableCell>Insumo</TableCell>
-            <TableCell>
-              <Typography variant="subtitle2">
-                Unidade de medida Fábrica
-              </Typography>
-            </TableCell>
-            <TableCell>Quantidade / Uso</TableCell>
-            <TableCell>Preço de Compra</TableCell>
-            <TableCell>Unidade de medida</TableCell>
-            <TableCell>Custo unitário</TableCell>
-            <TableCell>Ação</TableCell>
+            <TableCell align="right">Unidade de Fabricação</TableCell>
+            <TableCell align="right">Quantidade de uso</TableCell>
+            <TableCell align="right">Unidade de aquisição</TableCell>
+
+            <TableCell align="right">Valor de aquisição</TableCell>
+            <TableCell align="right">Valor unitario</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {addedFeedstocks.map((feedstock, index) => (
-            <TableRow key={index}>
-              <TableCell>{feedstock.name}</TableCell>
-              <TableCell>{feedstock.unitFabrication}</TableCell>
-              <TableCell>{feedstock.quantityOfUse}</TableCell>
-              <TableCell>R${feedstock.price}</TableCell>
-              <TableCell>{feedstock.unit}</TableCell>
-              <TableCell>R${feedstock.costUnit}</TableCell>
-              <TableCell>
-                <Button onClick={() => handleDeleteItem(feedstock)}>
-                  <DeleteIcon
-                    style={{
-                      cursor: "pointer",
-                      marginRight: "10px",
-                      color: "red",
-                    }}
-                  />
-                </Button>
+          {product.products.map((productItem, index) => (
+            <TableRow key={`${productItem.id}-${index}`}>
+              <TableCell component="th" scope="row">
+                {productItem.feedstock.name}
+              </TableCell>
+              <TableCell align="right">{productItem.unit}</TableCell>
+              <TableCell align="right">{productItem.quantity}</TableCell>
+              <TableCell align="right">{productItem.feedstock.unit}</TableCell>
+              <TableCell align="right">
+                {formatToBRL(productItem.feedstock.price)}
+              </TableCell>
+              <TableCell align="right">
+                {formatToBRL(productItem.price)}
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <Grid
-        sx={{
-          marginTop: "2%",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <TextField
-          label="Nome do Produto"
-          type="text"
-          onChange={(e) => setName(e.target.value)}
-          sx={{ width: "50%" }}
-        />
-        <Button
-          onClick={handleSaveRows}
-          variant="contained"
-          sx={{ height: "50%", marginTop: "1%" }}
-        >
-          Salvar{" "}
-        </Button>
-      </Grid>
-      <ProductModal
-        open={open}
-        onClose={() => setOpen(false)}
-        feedstocks={feedstocks}
-        onAddItem={handleAddItem}
-        setSelectedFeedstock={setSelectedFeedstock}
-        setQuantityOfUse={setQuantityOfUse}
-        setSelectedUnitFabrication={setSelectedUnitFabrication}
-      />
-    </div>
+      <Typography variant="subtitle1" align="right" style={{ padding: 16 }}>
+        Total Price: {product.producion_price}
+      </Typography>
+    </Paper>
   );
-}
+};
 
 export default ProductTable;

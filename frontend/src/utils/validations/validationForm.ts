@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import { emailSchema } from "./validationBase";
 
 const passwordRegex =
   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&.\\])[A-Za-z\d@$!%*#?&.\\]{8,}$/;
@@ -8,13 +9,6 @@ const passwordSchema = Yup.string()
     "password",
     "A senha deve ter pelo menos 8 caracteres, incluir pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial (@$!%*#?&.).",
     (value: any) => passwordRegex.test(value)
-  )
-  .required("Este campo é obrigatório!");
-
-export const emailSchema = Yup.string()
-  .matches(
-    /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-    "Este não é um email válido."
   )
   .required("Este campo é obrigatório!");
 

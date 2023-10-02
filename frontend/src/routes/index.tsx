@@ -9,9 +9,7 @@ import PrivateRoute from "hooks/ProtectedRoutes/PrivateRoute";
 import Company from "pages/Company/Company";
 import ResaleItem from "pages/ResaleItem/ResaleItem";
 import { Feedstock } from "pages/Feedstock/Feedstock";
-import { Product } from "pages/Product/Product";
-import { Registration } from "pages/Registrations/Registrations";
-import ProductRegistration from "pages/ProductRegistration/ProductRegistration";
+import Product from "pages/Product/Product";
 
 export const AppRoutes = () => {
   return (
@@ -60,22 +58,6 @@ export const AppRoutes = () => {
         element={
           <PrivateRoute>
             <Product />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/registration"
-        element={
-          <PrivateRoute>
-            <Registration />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/product-registration"
-        element={
-          <PrivateRoute>
-            <ProductRegistration />
           </PrivateRoute>
         }
       />

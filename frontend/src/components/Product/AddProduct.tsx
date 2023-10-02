@@ -1,115 +1,89 @@
-import React, { useState } from "react";
-import {
-  Modal,
-  Box,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  TextField,
-  Button,
-  Typography,
-  Divider,
-} from "@mui/material";
-import { FeedstockType } from "types/Feedstock.type";
-import { options } from "components/Feedstock/FeedstockUnit";
-import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
+import React, { useEffect, useState } from "react";
+import { Dialog, DialogActions, DialogTitle, Button } from "@mui/material";
+import { calculatePricePerKiloOrLiter } from "utils/calculations/pricing";
+import { getAllfeedstocks } from "services/feedstock.service";
+import { setProducts } from "services/product.service";
+import { ProductType } from "types/Product.types";
+import { setProductRegistration } from "services/productRegistration.service";
+import ProductForm from "./ProductForm";
 
-interface ProductModalProps {
-  open: boolean;
-  onClose: () => void;
-  feedstocks: FeedstockType[];
-  onAddItem: () => void;
-  setSelectedFeedstock: React.Dispatch<
-    React.SetStateAction<FeedstockType | null>
-  >;
-  setQuantityOfUse: React.Dispatch<React.SetStateAction<number | null>>;
-  setSelectedUnitFabrication: React.Dispatch<
-    React.SetStateAction<string | null>
-  >;
+export interface Feedstock {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  unit: string;
 }
 
-const ProductModal: React.FC<ProductModalProps> = ({
-  open,
-  onClose,
-  feedstocks,
-  onAddItem,
-  setSelectedFeedstock,
-  setQuantityOfUse,
-  setSelectedUnitFabrication,
-}) => {
-  const [selectedUnit, setSelectedUnit] = useState<string | "">("");
-  const [selectedFeedstockName, setSelectedFeedstockName] = useState<
-    string | ""
-  >("");
+interface AddProductModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen }) => {
+  const [feedstockList, setFeedstockList] = useState<Feedstock[]>([]);
+  const [open, setOpen] = useState(isOpen);
+
+  useEffect(() => {
+    const fetchFeedstocks = async () => {
+      try {
+        const result = await getAllfeedstocks();
+        setFeedstockList(result);
+      } catch (error) {
+        console.error("Failed to fetch feedstocks:", error);
+      }
+    };
+    fetchFeedstocks();
+  }, []);
+
+  const handleSubmit = async (values: any) => {
+    try {
+      let totalPrice = 0;
+
+      const products = values.products.map((product: any) => {
+        const calculatedPrice = calculatePricePerKiloOrLiter(
+          product.feedstock.price,
+          product.quantity,
+          product.unit
+        );
+        totalPrice += calculatedPrice;
+        return {
+          feedstock: product.feedstock.id,
+          quantity: product.quantity,
+          unit: product.unit,
+          price: calculatedPrice,
+        };
+      });
+      const regiProds = await setProducts({ products });
+      const idsProducts = regiProds.map((product: ProductType) => product.id);
+
+      setProductRegistration({
+        name: values.productRegistrationName,
+        products: idsProducts,
+        purchasedPrice: totalPrice,
+      });
+      setOpen(false);
+    } catch (error) {
+      console.error("Failed to add product:", error);
+    }
+  };
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <Box
-        sx={{
-          margin: "auto",
-          width: 300,
-          padding: 2,
-          backgroundColor: "white",
-          marginTop: "10%",
-          display: "flex",
-          flexDirection: "column",
-          gap: 2,
-        }}
-      >
-        <Typography>Adicionar Produto</Typography>
-        <Divider />
-        <FormControl>
-          <InputLabel>Insumo</InputLabel>
-          <Select
-            value={selectedFeedstockName}
-            onChange={(e) => {
-              const feedstock = feedstocks.find(
-                (f) => f.name === e.target.value
-              );
-              setSelectedFeedstock(feedstock || null);
-              setSelectedFeedstockName(e.target.value);
-            }}
-          >
-            {feedstocks.map((feedstock) => (
-              <MenuItem key={feedstock.name} value={feedstock.name}>
-                {feedstock.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl>
-          <InputLabel>Unidade de medida</InputLabel>
-          <Select
-            value={selectedUnit}
-            onChange={(e) => {
-              setSelectedUnitFabrication(e.target.value as string);
-              setSelectedUnit(e.target.value as string);
-            }}
-          >
-            {options.map((optionValue) => (
-              <MenuItem key={optionValue.value} value={optionValue.label}>
-                {optionValue.label}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <TextField
-          label="Quantidade de Uso"
-          type="number"
-          onChange={(e) => setQuantityOfUse(Number(e.target.value))}
+    <div>
+      <Button variant="outlined" onClick={() => setOpen(true)}>
+        Add Product
+      </Button>
+
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>Cadastrar produto</DialogTitle>
+        <ProductForm
+          feedstockList={feedstockList}
+          onSubmit={handleSubmit}
+          onCancel={() => setOpen(false)}
         />
-        <ButtonContainer>
-          <Button onClick={onClose} variant="outlined">
-            Fechar
-          </Button>
-          <Button onClick={onAddItem} variant="contained">
-            Adicionar
-          </Button>
-        </ButtonContainer>
-      </Box>
-    </Modal>
+      </Dialog>
+    </div>
   );
 };
 
-export default ProductModal;
+export default AddProductModal;

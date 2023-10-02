@@ -1,7 +1,9 @@
 import { validationToken, refreshToken } from "services/auth.service";
 import { getLoginWarning } from "utils/ModalAlert";
 
-export const getAuthorizationHeader = async (): Promise<{ Authorization: string }> => {
+export const getAuthorizationHeader = async (): Promise<{
+  Authorization: string;
+}> => {
   try {
     await validationToken();
     const localStorageAccessToken = localStorage.getItem("accessToken");

@@ -10,7 +10,7 @@ import {
   Typography,
   Divider,
 } from "@mui/material";
-import { options } from "components/Feedstock/FeedstockUnit";
+import { options } from "utils/FeedstockUnit";
 import { RegistrationType } from "./RegistrationTable";
 import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
 

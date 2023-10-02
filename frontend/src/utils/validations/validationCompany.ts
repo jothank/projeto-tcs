@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { emailSchema } from "./validationForm";
+import { emailSchema } from "./validationBase";
 
 export const CompanyValidation = Yup.object().shape({
   name: Yup.string()

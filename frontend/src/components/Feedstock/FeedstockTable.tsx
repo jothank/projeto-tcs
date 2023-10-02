@@ -21,8 +21,9 @@ import { AddFeedstock } from "components/Feedstock/AddFeedstock";
 import { deletefeedstock } from "services/feedstock.service";
 import { useReactToPrint } from "react-to-print";
 import PrintIcon from "@mui/icons-material/Print";
-import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
+import { formatToBRL } from "utils/calculations/pricing";
 
 type CustomTableProps = {
   data: FeedstockType[];
@@ -31,7 +32,9 @@ type CustomTableProps = {
 export function FeedstockTable(props: CustomTableProps) {
   const componentRef = React.useRef(null);
   const [dialogOpen, setDialogOpen] = React.useState(false);
-  const [itemToDelete, setItemToDelete] = React.useState<FeedstockType | null>(null);
+  const [itemToDelete, setItemToDelete] = React.useState<FeedstockType | null>(
+    null
+  );
 
   const { data } = props;
 
@@ -58,40 +61,42 @@ export function FeedstockTable(props: CustomTableProps) {
   });
 
   const exportToCSV = () => {
-    const header = 'Nome,Preço,Quantidade,Unidade';
-  
-    const csvData = data.map(item => `${item.name},${item.price},${item.quantity},${item.unit}`).join('\n');
-  
+    const header = "Nome,Preço,Quantidade,Unidade";
+
+    const csvData = data
+      .map((item) => `${item.name},${item.price},${item.quantity},${item.unit}`)
+      .join("\n");
+
     const csvContent = `${header}\n${csvData}`;
-  
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+
+    const blob = new Blob([csvContent], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'feedstock_data.csv';
+    a.download = "feedstock_data.csv";
     a.click();
   };
 
   return (
     <>
+      <Grid
+        sx={{
+          display: "flex",
+          alignItems: "end",
+          justifyContent: "end",
+        }}
+      >
+        <ButtonContainer>
+          <AddFeedstock />
+          <Button onClick={handlePrint} variant="outlined">
+            <PrintIcon />
+          </Button>
+          <Button onClick={exportToCSV} variant="outlined">
+            <CloudDownloadIcon />
+          </Button>
+        </ButtonContainer>
+      </Grid>
       <div ref={componentRef}>
-        <Grid
-          sx={{
-            display: "flex",
-            alignItems: "end",
-            justifyContent: "end",
-          }}
-        >
-          <ButtonContainer>
-            <AddFeedstock />
-            <Button onClick={handlePrint} variant="outlined">
-              <PrintIcon />
-            </Button>
-            <Button onClick={exportToCSV} variant="outlined">
-              <CloudDownloadIcon />
-            </Button>
-          </ButtonContainer>
-        </Grid>
         <Table>
           <TableHead>
             <TableRow>
@@ -106,10 +111,9 @@ export function FeedstockTable(props: CustomTableProps) {
             {data.map((item, rowIndex) => (
               <TableRow key={rowIndex}>
                 <TableCell>{item.name}</TableCell>
-                <TableCell>R${item.price},00</TableCell>
+                <TableCell>{formatToBRL(item.price)}</TableCell>
                 <TableCell>{item.quantity}</TableCell>
                 <TableCell>{item.unit}</TableCell>
-
                 <TableCell>
                   <Grid
                     sx={{
@@ -134,7 +138,6 @@ export function FeedstockTable(props: CustomTableProps) {
           </TableBody>
         </Table>
       </div>
-
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
         <DialogTitle>Confirmação</DialogTitle>
         <DialogContent>

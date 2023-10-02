@@ -8,14 +8,13 @@ import { Form, Formik } from "formik";
 import { Divider } from "@mui/material";
 import { FeedstockType } from "types/Feedstock.type";
 import { FeedstockValidation } from "utils/validations/validationFeedstock";
-import {
-  FeedstockInput,
-  FeedstockSelect,
-} from "components/Feedstock/InputFeedstock";
+import { FeedstockInput } from "components/Feedstock/InputFeedstock";
+import { FeedstockSelect } from "components/SelectOptions/SelectOptions";
 import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
-import { options } from "components/Feedstock/FeedstockUnit";
+import { options } from "utils/FeedstockUnit";
 import { getErro, getSuccess } from "utils/ModalAlert";
 import { setfeedstock } from "services/feedstock.service";
+import { calculateAdjustedPriceAndQuantity } from "utils/calculations/pricing";
 
 const FeedstockValues: FeedstockType = {
   name: "",
@@ -34,18 +33,15 @@ export const AddFeedstock = () => {
     { resetForm }: { resetForm: () => void }
   ) => {
     try {
-      if (Addfeedstock.unit === "g") {
-        Addfeedstock.quantity = Addfeedstock.quantity / 1000;
-      }
-      if (Addfeedstock.unit === "ml") {
-        Addfeedstock.quantity = Addfeedstock.quantity / 1000;
-      }
+      const adjustedFeedstock = calculateAdjustedPriceAndQuantity(Addfeedstock);
+
       setfeedstock(
-        Addfeedstock.name,
-        Addfeedstock.price,
-        Addfeedstock.quantity,
-        Addfeedstock.unit
+        adjustedFeedstock.name,
+        adjustedFeedstock.price,
+        adjustedFeedstock.quantity,
+        adjustedFeedstock.unit
       );
+
       handleClose();
       getSuccess("Resale Item registered Succesfully");
       window.location.reload();

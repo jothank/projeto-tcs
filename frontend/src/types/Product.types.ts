@@ -20,17 +20,22 @@ export interface SelectFieldProps {
   options: { value: string; label: string }[];
 }
 
-export interface AddedFeedstockType {
-  id?: number;
-  quantityOfUse: number;
-  costUnit: number;
-  unitFabrication: string;
-  name: string;
-  price: number;
+export interface AddedProduct {
+  feedstock : FeedstockType;
   quantity: number;
   unit: string;
+  price: number;
+
 }
 
 export interface ProductTableProps {
   feedstocks: FeedstockType[];
+}
+
+export interface Feedstock {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  unit: string;
 }

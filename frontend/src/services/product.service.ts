@@ -2,27 +2,23 @@ import { BASE_URL } from "../config";
 import axios from "axios";
 import { getAuthorizationHeader } from "utils/GetHeader";
 
-export const setProduct = async (
-  feedstock_type: number,
-  price: number,
-  quantity: number,
-  unit: string
-) => {
+interface Product {
+  feedstock_type: number;
+  price: number;
+  quantity: number;
+  unit: string;
+}
+
+export const setProducts = async (data: {
+  products: Product[];
+}): Promise<any> => {
   try {
-    const response = await axios.post(
-      BASE_URL + "product/",
-      {
-        price,
-        quantity,
-        feedstock : feedstock_type,
-        unit,
-      },
-      {
-        headers: await getAuthorizationHeader(),
-      }
-    );
+    const response = await axios.post(`${BASE_URL}product/`, data, {
+      headers: await getAuthorizationHeader(),
+    });
     console.log(response.data);
-    return response.data;
+
+    return response.data.products;
   } catch (error) {
     return error;
   }

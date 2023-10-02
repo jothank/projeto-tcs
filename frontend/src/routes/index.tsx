@@ -12,6 +12,7 @@ import { Feedstock } from "pages/Feedstock/Feedstock";
 import { Product } from "pages/Product/Product";
 import { Registration } from "pages/Registrations/Registrations";
 import ProductRegistration from "pages/ProductRegistration/ProductRegistration";
+import FixedExpense from "pages/FixedExpense/FixedExpense";
 
 export const AppRoutes = () => {
   return (
@@ -76,6 +77,14 @@ export const AppRoutes = () => {
         element={
           <PrivateRoute>
             <ProductRegistration />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/fixed-expense"
+        element={
+          <PrivateRoute>
+            <FixedExpense />
           </PrivateRoute>
         }
       />

@@ -6,8 +6,9 @@ API V1: Product Registration Views
 ###
 from rest_framework import viewsets
 from app.product_registration.models.product_registration import ProductRegistration
-from app.product_registration.api.v1.serializers.product_registration.default_serializer import CreateProductRegistrationSerializer
+from app.product_registration.api.v1.serializers.product_registration.create import CreateProductRegistrationSerializer
 from app.product_registration.api.v1.serializers.product_registration.retrieve import RetrieveProductRegistrationSerializer
+from app.product_registration.api.v1.serializers.product_registration.default import DefaultProductRegistrationSerializer
 
 ###
 # Viewsets
@@ -21,5 +22,7 @@ class ProductRegistrationViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return RetrieveProductRegistrationSerializer
-        else:
+        elif self.action == 'create':
             return CreateProductRegistrationSerializer
+        else:
+            return DefaultProductRegistrationSerializer

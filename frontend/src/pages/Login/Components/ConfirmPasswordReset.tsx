@@ -1,14 +1,16 @@
 import React from "react";
-import { Formik, Form } from "formik";
+import { Formik, Form, } from "formik";
 import { confirmPasswordReset } from "services/auth.service";
 import { ConfirmPasswordResetIUser } from "types/user.type";
 import { ConfirmPasswordResetValidation } from "utils/validations/validationForm";
 import { ContainerForms, FormInput, ButtonForms } from "components/FormGroup";
 import { Button } from "@mui/material";
 import { getErro, getSuccess } from "utils/ModalAlert";
+import { useNavigate } from "react-router-dom";
 
 const ConfirmPasswordReset: React.FC = () => {
   const currentURL = window.location.href;
+  const navigate = useNavigate();
 
   const ConfirmPasswordResetValues: ConfirmPasswordResetIUser = {
     url: "",
@@ -22,6 +24,7 @@ const ConfirmPasswordReset: React.FC = () => {
     try {
       await confirmPasswordReset(currentURL, newPassword1, newPassword2);
       getSuccess("Senha alterada.");
+      navigate("/login");
     } catch (error: any) {
       getErro(error.message);
     }

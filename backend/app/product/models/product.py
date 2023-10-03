@@ -21,8 +21,6 @@ class Product(models.Model):
         max_length=255,
         verbose_name=_('Unit')
     )
-    price = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
+    price = models. FloatField(
         verbose_name=_('Price')
     )

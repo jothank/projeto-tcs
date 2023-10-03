@@ -39,6 +39,7 @@ urlpatterns = [
     path('accounts/', include('app.accounts.urls')),
     path('', include('app.combo.urls')),
     path('', include('app.company.urls')),
+    path('', include('app.expense.urls')),
     path('', include('app.feedstock.urls')),
     path('', include('app.fixed_expense.urls')),
     path('', include('app.pricing.urls')),

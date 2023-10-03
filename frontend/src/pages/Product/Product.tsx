@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { getAllProductRegistration } from "services/productRegistration.service";
-import { FeedstockType } from "types/Feedstock.type";
-import { ContainerResaleItem } from "components/ResaleItem/ContainerResaleItem";
 import ProductTable, {
   ProductTableProps,
 } from "components/Product/ProductTable";

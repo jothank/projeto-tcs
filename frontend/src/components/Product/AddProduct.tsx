@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Dialog, DialogActions, DialogTitle, Button } from "@mui/material";
+import { Dialog, DialogTitle, Button, Grid } from "@mui/material";
 import { calculatePricePerKiloOrLiter } from "utils/calculations/pricing";
 import { getAllfeedstocks } from "services/feedstock.service";
 import { setProducts } from "services/product.service";
@@ -73,14 +73,19 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen }) => {
       <Button variant="outlined" onClick={() => setOpen(true)}>
         Add Product
       </Button>
+      <Button variant="outlined" onClick={() => setOpen(true)}>
+        Add Revenda
+      </Button>
 
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Cadastrar produto</DialogTitle>
-        <ProductForm
-          feedstockList={feedstockList}
-          onSubmit={handleSubmit}
-          onCancel={() => setOpen(false)}
-        />
+        <Grid>
+          <ProductForm
+            feedstockList={feedstockList}
+            onSubmit={handleSubmit}
+            onCancel={() => setOpen(false)}
+          />
+        </Grid>
       </Dialog>
     </div>
   );

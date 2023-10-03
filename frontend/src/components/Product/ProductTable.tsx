@@ -9,9 +9,14 @@ import {
   Typography,
   Select,
   MenuItem,
+  Button,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 import AddProductModal from "components/Product/AddProduct";
 import { formatToBRL } from "utils/calculations/pricing";
+import { useReactToPrint } from "react-to-print";
+import PrintIcon from "@mui/icons-material/Print";
 
 export interface ProductTableProps {
   data: {
@@ -33,24 +38,20 @@ export interface ProductTableProps {
     }[];
   };
 }
-
 const ProductTable = ({ data }: ProductTableProps) => {
-  if (!data || !data.results || data.results.length === 0) {
-    return <Typography>No data available</Typography>;
-  }
+  const componentRef = React.useRef(null);
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [selectedProductId, setSelectedProductId] = useState<number>(
-    data.results[0].id
-  );
-  const product = data.results.find(
-    (product) => product.id === selectedProductId
+  const [selectedProductId, setSelectedProductId] = useState<number | null>(
+    data && data.results.length > 0 ? data.results[0].id : null
   );
 
-  if (!product) {
-    return <Typography>Error: Product not found</Typography>;
-  }
+  const product = selectedProductId
+    ? data.results.find((product) => product.id === selectedProductId)
+    : null;
 
   return (
     <Paper>
@@ -61,60 +62,90 @@ const ProductTable = ({ data }: ProductTableProps) => {
           padding: 16,
         }}
       >
-        <Typography variant="h6" component="div">
-          {product.name}
-        </Typography>
+        {data && data.results.length > 0 ? (
+          <Typography variant="h6" component="div">
+            {product ? product.name : ""}
+          </Typography>
+        ) : (
+          <Typography variant="h6" component="div">
+            Nenhum produto criado
+          </Typography>
+        )}
+        <Button onClick={handlePrint} variant="outlined">
+          <PrintIcon />
+        </Button>
+
         <AddProductModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
-        <Select
-          value={selectedProductId}
-          onChange={(event) =>
-            setSelectedProductId(event.target.value as number)
-          }
-        >
-          {data.results.map((productItem) => (
-            <MenuItem key={productItem.id} value={productItem.id}>
-              {productItem.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </div>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Insumo</TableCell>
-            <TableCell align="right">Unidade de Fabricação</TableCell>
-            <TableCell align="right">Quantidade de uso</TableCell>
-            <TableCell align="right">Unidade de aquisição</TableCell>
 
-            <TableCell align="right">Valor de aquisição</TableCell>
-            <TableCell align="right">Valor unitario</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {product.products.map((productItem, index) => (
-            <TableRow key={`${productItem.id}-${index}`}>
-              <TableCell component="th" scope="row">
-                {productItem.feedstock.name}
-              </TableCell>
-              <TableCell align="right">{productItem.unit}</TableCell>
-              <TableCell align="right">{productItem.quantity}</TableCell>
-              <TableCell align="right">{productItem.feedstock.unit}</TableCell>
-              <TableCell align="right">
-                {formatToBRL(productItem.feedstock.price)}
-              </TableCell>
-              <TableCell align="right">
-                {formatToBRL(productItem.price)}
-              </TableCell>
+        {data && data.results.length > 0 && (
+          <FormControl sx={{width: "70%"}}>
+            <InputLabel>Selecione o produto</InputLabel>
+            <Select
+              value={selectedProductId || ""}
+              onChange={(event) =>
+                setSelectedProductId(event.target.value as number)
+              }
+            >
+              {data.results.map((productItem) => (
+                <MenuItem key={productItem.id} value={productItem.id}>
+                  {productItem.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
+      </div>
+      <div ref={componentRef}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Insumo</TableCell>
+              <TableCell align="right">Unidade de Fabricação</TableCell>
+              <TableCell align="right">Quantidade de uso</TableCell>
+              <TableCell align="right">Unidade de aquisição</TableCell>
+              <TableCell align="right">Valor de aquisição</TableCell>
+              <TableCell align="right">Valor unitario</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <Typography variant="subtitle1" align="right" style={{ padding: 16 }}>
-        Total Price: {product.producion_price}
-      </Typography>
+          </TableHead>
+          <TableBody>
+            {product ? (
+              product.products.map((productItem, index) => (
+                <TableRow key={`${productItem.id}-${index}`}>
+                  <TableCell component="th" scope="row">
+                    {productItem.feedstock.name}
+                  </TableCell>
+                  <TableCell align="right">{productItem.unit}</TableCell>
+                  <TableCell align="right">{productItem.quantity}</TableCell>
+                  <TableCell align="right">
+                    {productItem.feedstock.unit}
+                  </TableCell>
+                  <TableCell align="right">
+                    {formatToBRL(productItem.feedstock.price)}
+                  </TableCell>
+                  <TableCell align="right">
+                    {formatToBRL(productItem.price)}
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={6} align="center">
+                  Nenhum produto selecionado
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+
+        {product && (
+          <Typography variant="subtitle1" align="right" style={{ padding: 16 }}>
+            Total Price: {formatToBRL(product.producion_price)}
+          </Typography>
+        )}
+      </div>
     </Paper>
   );
 };

@@ -5,6 +5,7 @@ const Unit = {
   MILLILITER: "ml",
   KILOGRAM: "kg",
   LITER: "l",
+  Unit: "un",
 };
 
 export const calculatePricePerKiloOrLiter = (
@@ -17,10 +18,11 @@ export const calculatePricePerKiloOrLiter = (
     result = price * (quantity / 1000);
   } else if ([Unit.KILOGRAM, Unit.LITER].includes(unit)) {
     result = price * quantity;
+  } else if ([Unit.Unit].includes(unit)) {
+    result = price * quantity;
   } else {
     throw new Error("Unidade desconhecida ou inválida: " + unit);
   }
-
   return parseFloat(result.toFixed(2));
 };
 
@@ -29,7 +31,13 @@ export const calculateAdjustedPriceAndQuantity = (feedstock: FeedstockType) => {
     feedstock.price = parseFloat(
       ((feedstock.price / feedstock.quantity) * 1000).toFixed(2)
     );
+    feedstock.quantity = 1;
   } else if ([Unit.KILOGRAM, Unit.LITER].includes(feedstock.unit)) {
+    feedstock.price = parseFloat(
+      (feedstock.price / feedstock.quantity).toFixed(2)
+    );
+    feedstock.quantity = 1;
+  } else if ([Unit.Unit].includes(feedstock.unit)) {
     feedstock.price = parseFloat(
       (feedstock.price / feedstock.quantity).toFixed(2)
     );

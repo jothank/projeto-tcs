@@ -36,6 +36,17 @@ export const setProductRegistration = async ({
   }
 };
 
+export const getProductRegistration = async (id: number) => {
+  try {
+    const response = await axios.get(BASE_URL + `productregistration/${id}/`, {
+      headers: await getAuthorizationHeader(),
+    });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}
+
 export const getAllProductRegistration = async () => {
   try {
     const response = await axios.get(BASE_URL + "productregistration/", {

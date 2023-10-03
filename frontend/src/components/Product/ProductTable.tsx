@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Table,
   TableBody,
@@ -13,10 +13,13 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
-import AddProductModal from "components/Product/AddProduct";
-import { formatToBRL } from "utils/calculations/pricing";
 import { useReactToPrint } from "react-to-print";
 import PrintIcon from "@mui/icons-material/Print";
+import AddProductModal from "components/Product/AddProduct";
+import { formatToBRL } from "utils/calculations/pricing";
+import { deleteProduct } from "services/product.service";
+import { getProductRegistration } from "services/productRegistration.service";
+import EditDialog, { Product } from "./EditProduct";
 
 export interface ProductTableProps {
   data: {
@@ -27,6 +30,7 @@ export interface ProductTableProps {
       products: {
         id: number;
         feedstock: {
+          id?: number;
           name: string;
           price: number;
           unit: string;
@@ -38,20 +42,35 @@ export interface ProductTableProps {
     }[];
   };
 }
+
 const ProductTable = ({ data }: ProductTableProps) => {
-  const componentRef = React.useRef(null);
+  const componentRef = useRef(null);
+
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
-    data && data.results.length > 0 ? data.results[0].id : null
+    data?.results.length ? data.results[0].id : null
   );
 
-  const product = selectedProductId
-    ? data.results.find((product) => product.id === selectedProductId)
-    : null;
+  const selectedProduct = data.results.find(
+    (product) => product.id === selectedProductId
+  );
+
+  const handleDelete = async (productId: number) => {
+    try {
+      console.log(productId);
+      await getProductRegistration(productId);
+      await deleteProduct(productId);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Paper>
@@ -62,41 +81,33 @@ const ProductTable = ({ data }: ProductTableProps) => {
           padding: 16,
         }}
       >
-        {data && data.results.length > 0 ? (
-          <Typography variant="h6" component="div">
-            {product ? product.name : ""}
-          </Typography>
-        ) : (
-          <Typography variant="h6" component="div">
-            Nenhum produto criado
-          </Typography>
-        )}
+        <Typography variant="h6" component="div">
+          {selectedProduct
+            ? selectedProduct.name
+            : "Nenhum produto selecionado"}
+        </Typography>
         <Button onClick={handlePrint} variant="outlined">
           <PrintIcon />
         </Button>
-
         <AddProductModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
-
-        {data && data.results.length > 0 && (
-          <FormControl sx={{width: "70%"}}>
-            <InputLabel>Selecione o produto</InputLabel>
-            <Select
-              value={selectedProductId || ""}
-              onChange={(event) =>
-                setSelectedProductId(event.target.value as number)
-              }
-            >
-              {data.results.map((productItem) => (
-                <MenuItem key={productItem.id} value={productItem.id}>
-                  {productItem.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        )}
+        <FormControl sx={{ width: "70%" }}>
+          <InputLabel>Selecione o produto</InputLabel>
+          <Select
+            value={selectedProductId || ""}
+            onChange={(event) =>
+              setSelectedProductId(event.target.value as number)
+            }
+          >
+            {data.results.map((productItem) => (
+              <MenuItem key={productItem.id} value={productItem.id}>
+                {productItem.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </div>
       <div ref={componentRef}>
         <Table>
@@ -107,12 +118,13 @@ const ProductTable = ({ data }: ProductTableProps) => {
               <TableCell align="right">Quantidade de uso</TableCell>
               <TableCell align="right">Unidade de aquisição</TableCell>
               <TableCell align="right">Valor de aquisição</TableCell>
-              <TableCell align="right">Valor unitario</TableCell>
+              <TableCell align="right">Valor unitário</TableCell>
+              <TableCell align="right">Ações</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {product ? (
-              product.products.map((productItem, index) => (
+            {selectedProduct ? (
+              selectedProduct.products.map((productItem, index) => (
                 <TableRow key={`${productItem.id}-${index}`}>
                   <TableCell component="th" scope="row">
                     {productItem.feedstock.name}
@@ -128,24 +140,47 @@ const ProductTable = ({ data }: ProductTableProps) => {
                   <TableCell align="right">
                     {formatToBRL(productItem.price)}
                   </TableCell>
+                  <TableCell align="right">
+                    <Button
+                      onClick={() => handleDelete(productItem.id)}
+                      color="error"
+                    >
+                      Remover
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setEditingProduct(productItem);
+                        setIsEditModalOpen(true);
+                      }}
+                      color="primary"
+                    >
+                      Editar
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={6} align="center">
+                <TableCell colSpan={7} align="center">
                   Nenhum produto selecionado
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
-
-        {product && (
+        {selectedProduct && (
           <Typography variant="subtitle1" align="right" style={{ padding: 16 }}>
-            Total Price: {formatToBRL(product.producion_price)}
+            Total Price: {formatToBRL(selectedProduct.producion_price)}
           </Typography>
         )}
       </div>
+      {editingProduct && (
+        <EditDialog
+          open={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          initialValues={editingProduct}
+        />
+      )}
     </Paper>
   );
 };

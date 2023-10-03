@@ -44,7 +44,6 @@ export const AddFeedstock = () => {
 
       handleClose();
       getSuccess("Resale Item registered Succesfully");
-      window.location.reload();
     } catch (error: any) {
       getErro(error.message);
     }

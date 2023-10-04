@@ -14,7 +14,6 @@ import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
 import { options } from "utils/FeedstockUnit";
 import { getErro, getSuccess } from "utils/ModalAlert";
 import { setfeedstock } from "services/feedstock.service";
-import { calculateAdjustedPriceAndQuantity } from "utils/calculations/pricing";
 
 const FeedstockValues: FeedstockType = {
   name: "",
@@ -33,13 +32,12 @@ export const AddFeedstock = () => {
     { resetForm }: { resetForm: () => void }
   ) => {
     try {
-      const adjustedFeedstock = calculateAdjustedPriceAndQuantity(Addfeedstock);
 
       setfeedstock(
-        adjustedFeedstock.name,
-        adjustedFeedstock.price,
-        adjustedFeedstock.quantity,
-        adjustedFeedstock.unit
+        Addfeedstock.name,
+        Addfeedstock.price,
+        Addfeedstock.quantity,
+        Addfeedstock.unit
       );
 
       handleClose();

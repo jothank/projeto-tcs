@@ -17,35 +17,45 @@ const UnitAdjustments = {
 };
 
 export const calculatePricePerKiloOrLiter = (
-  price: number,
+  feedstockPrice: number,
+  feedstockQuantity: number,
+  feedstockUnit: string,
   quantity: number,
   unit: string
 ): number => {
-  const smallUnits = [Units.GRAM, Units.MILLILITER];
-  const bigUnits = [Units.KILOGRAM, Units.LITER, Units.UNIT];
-  const result = smallUnits.includes(unit)
-    ? price * (quantity / 1000)
-    : bigUnits.includes(unit)
-    ? price * quantity
-    : undefined;
-  if (result === undefined) {
-    throw new Error("Unidade desconhecida ou inválida: " + unit);
+  const smallUnits = ["GRAM", "MILLILITER", "g", "ml"]; // Include "g" and "ml" as valid units
+  const bigUnits = ["KILOGRAM", "LITER", "UNIT"];
+
+  if (!smallUnits.includes(feedstockUnit) && !bigUnits.includes(feedstockUnit)) {
+    throw new Error("Unknown or invalid feedstock unit: " + feedstockUnit);
   }
-  return parseFloat(result.toFixed(2));
+
+  if (!smallUnits.includes(unit) && !bigUnits.includes(unit)) {
+    throw new Error("Unknown or invalid product unit: " + unit);
+  }
+
+  const feedstockWeightInKiloOrLiter =
+    smallUnits.includes(feedstockUnit)
+      ? feedstockQuantity / 1000 // Convert small units to kilograms (or liters)
+      : bigUnits.includes(feedstockUnit)
+      ? feedstockQuantity
+      : undefined;
+
+  if (feedstockWeightInKiloOrLiter === undefined) {
+    throw new Error("Unknown or invalid feedstock unit: " + feedstockUnit);
+  }
+
+  const feedstockCostPerKiloOrLiter = feedstockPrice / feedstockWeightInKiloOrLiter;
+
+  if (smallUnits.includes(unit)) {
+    return parseFloat((feedstockCostPerKiloOrLiter * (quantity / 1000)).toFixed(2));
+  } else if (bigUnits.includes(unit)) {
+    return parseFloat((feedstockCostPerKiloOrLiter * quantity).toFixed(2));
+  } else {
+    throw new Error("Unknown or invalid product unit: " + unit);
+  }
 };
 
-export const calculateAdjustedPriceAndQuantity = (feedstock: FeedstockType) => {
-  const { unit, price, quantity } = feedstock;
-  const adjustment = UnitAdjustments[unit];
-  if (!adjustment) {
-    throw new Error("Unidade desconhecida ou inválida: " + unit);
-  }
-  feedstock.price = (price / quantity) * adjustment.adjustmentFactor;
-  feedstock.unit = adjustment.convertTo;
-  feedstock.quantity = 1;
-
-  return feedstock;
-};
 
 export const formatToBRL = (value: number) => {
   return new Intl.NumberFormat("pt-BR", {

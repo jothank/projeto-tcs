@@ -11,7 +11,7 @@ import { FeedstockValidation } from "utils/validations/validationFeedstock";
 import { options } from "utils/FeedstockUnit";
 import { updatefeedstock } from "services/feedstock.service";
 import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
-import { calculateAdjustedPriceAndQuantity } from "utils/calculations/pricing";
+
 export const EditFeedstock = ({
   item,
   onClose,
@@ -34,13 +34,12 @@ export const EditFeedstock = ({
 
   const handleUpdate = async (values: FeedstockType) => {
     try {
-      const adjustedFeedstock = calculateAdjustedPriceAndQuantity(values);
       await updatefeedstock(
-        adjustedFeedstock.id || 0,
-        adjustedFeedstock.name,
-        adjustedFeedstock.price,
-        adjustedFeedstock.quantity,
-        adjustedFeedstock.unit
+        values.id || 0,
+        values.name,
+        values.price,
+        values.quantity,
+        values.unit
       );
       handleClose();
       getSuccessWarning("Item atualizado com sucesso");

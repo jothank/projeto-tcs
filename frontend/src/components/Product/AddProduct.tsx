@@ -61,6 +61,8 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen }) => {
       const products = values.products.map((product: any) => {
         const calculatedPrice = calculatePricePerKiloOrLiter(
           product.feedstock.price,
+          product.feedstock.quantity,
+          product.feedstock.unit,
           product.quantity,
           product.unit
         );

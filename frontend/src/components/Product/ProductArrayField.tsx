@@ -30,7 +30,7 @@ const ProductArrayField: React.FC<ProductArrayFieldProps> = ({
 }) => {
   return (
     <FieldArray name="products">
-      {({ push, remove }) => (
+      {({ push, remove }: any) => (
         <>
           {values.products.map((product: any, index: number) => (
             <div key={index}>

@@ -11,8 +11,8 @@ export const CompanyValidation = Yup.object().shape({
     .length(18, `O CNPJ deve ser válido.`)
     .required("Este campo é obrigatório!"),
   phone: Yup.string()
-    .min(11, `O telefone deve ser válido.`)
-    .max(13, `O telefone deve ser válido.`)
+    .min(8, `O telefone deve ser válido.`)
+    .max(17, `O telefone deve ser válido.`)
     .required("Este campo é obrigatório!"),
   street: Yup.string()
     .min(3, `A rua deve ter pelo menos 3 caracteres.`)

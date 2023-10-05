@@ -23,10 +23,13 @@ export const calculatePricePerKiloOrLiter = (
   quantity: number,
   unit: string
 ): number => {
-  const smallUnits = ["GRAM", "MILLILITER", "g", "ml"]; // Include "g" and "ml" as valid units
-  const bigUnits = ["KILOGRAM", "LITER", "UNIT"];
+  const smallUnits = ["GRAM", "MILLILITER", "g", "ml"];
+  const bigUnits = ["KILOGRAM", "LITER", "UNIT", "kg", "l", "un"];
 
-  if (!smallUnits.includes(feedstockUnit) && !bigUnits.includes(feedstockUnit)) {
+  if (
+    !smallUnits.includes(feedstockUnit) &&
+    !bigUnits.includes(feedstockUnit)
+  ) {
     throw new Error("Unknown or invalid feedstock unit: " + feedstockUnit);
   }
 
@@ -34,28 +37,29 @@ export const calculatePricePerKiloOrLiter = (
     throw new Error("Unknown or invalid product unit: " + unit);
   }
 
-  const feedstockWeightInKiloOrLiter =
-    smallUnits.includes(feedstockUnit)
-      ? feedstockQuantity / 1000 // Convert small units to kilograms (or liters)
-      : bigUnits.includes(feedstockUnit)
-      ? feedstockQuantity
-      : undefined;
+  const feedstockWeightInKiloOrLiter = smallUnits.includes(feedstockUnit)
+    ? feedstockQuantity / 1000
+    : bigUnits.includes(feedstockUnit)
+    ? feedstockQuantity
+    : undefined;
 
   if (feedstockWeightInKiloOrLiter === undefined) {
     throw new Error("Unknown or invalid feedstock unit: " + feedstockUnit);
   }
 
-  const feedstockCostPerKiloOrLiter = feedstockPrice / feedstockWeightInKiloOrLiter;
+  const feedstockCostPerKiloOrLiter =
+    feedstockPrice / feedstockWeightInKiloOrLiter;
 
   if (smallUnits.includes(unit)) {
-    return parseFloat((feedstockCostPerKiloOrLiter * (quantity / 1000)).toFixed(2));
+    return parseFloat(
+      (feedstockCostPerKiloOrLiter * (quantity / 1000)).toFixed(2)
+    );
   } else if (bigUnits.includes(unit)) {
     return parseFloat((feedstockCostPerKiloOrLiter * quantity).toFixed(2));
   } else {
     throw new Error("Unknown or invalid product unit: " + unit);
   }
 };
-
 
 export const formatToBRL = (value: number) => {
   return new Intl.NumberFormat("pt-BR", {

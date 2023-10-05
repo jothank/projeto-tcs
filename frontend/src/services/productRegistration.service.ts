@@ -2,29 +2,29 @@ import { BASE_URL } from "../config";
 import axios from "axios";
 import { getAuthorizationHeader } from "utils/GetHeader";
 
-interface Product {
+interface supply {
   feedstock: number;
   quantity: number;
   unit: string;
   price: number;
 }
 
-export const setProductRegistration = async ({
+export const setProduct = async ({
   name,
-  products,
-  purchasedPrice,
+  supplies,
+  price,
 }: {
   name: string;
-  products: Product[];
-  purchasedPrice: number;
+  supplies: supply[];
+  price: number;
 }) => {
   try {
     const response = await axios.post(
-      `${BASE_URL}productregistration/`,
+      `${BASE_URL}product/`,
       {
         name,
-        products,
-        producion_price: purchasedPrice,
+        supplies,
+        price: price,
       },
       {
         headers: await getAuthorizationHeader(),
@@ -36,20 +36,20 @@ export const setProductRegistration = async ({
   }
 };
 
-export const getProductRegistration = async (id: number) => {
+export const getProduct = async (id: number) => {
   try {
-    const response = await axios.get(BASE_URL + `productregistration/${id}/`, {
+    const response = await axios.get(BASE_URL + `product/${id}/`, {
       headers: await getAuthorizationHeader(),
     });
     return response.data;
   } catch (error) {
     return error;
   }
-}
+};
 
-export const getAllProductRegistration = async () => {
+export const getAllProduct = async () => {
   try {
-    const response = await axios.get(BASE_URL + "productregistration/", {
+    const response = await axios.get(BASE_URL + "product/", {
       headers: await getAuthorizationHeader(),
     });
     return response.data.results;

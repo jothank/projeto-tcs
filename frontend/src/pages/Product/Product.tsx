@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllProductRegistration } from "services/productRegistration.service";
+import { getAllProduct } from "services/productRegistration.service";
 import ProductTable, {
   ProductTableProps,
 } from "components/Product/ProductTable";
@@ -14,7 +14,7 @@ const Product: React.FC = () => {
   useEffect(() => {
     const fetchFeedstocks = async () => {
       try {
-        const data = await getAllProductRegistration();
+        const data = await getAllProduct();
         setFeedstocks({ data: { results: data } });
       } catch (error: any) {
         console.error("Failed to fetch feedstocks:", error.message);

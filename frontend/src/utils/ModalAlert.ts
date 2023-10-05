@@ -1,3 +1,4 @@
+import { logout } from "services/auth.service";
 import Swal from "sweetalert2";
 
 export function getSuccess(message: string) {
@@ -41,6 +42,24 @@ export function getSuccessWarning(message: string) {
   }).then((result) => {
     if (result.isConfirmed) {
       window.location.reload();
+    }
+  });
+}
+
+export function getLogout(message: string) {
+  Swal.fire({
+    icon: "warning",
+    title: "Aviso!",
+    text: message,
+    showConfirmButton: true,
+    showCancelButton: true,
+    confirmButtonText: "Sair",
+    cancelButtonText: "Cancelar",
+    reverseButtons: true,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      logout();
+      window.location.href = "/login";
     }
   });
 }

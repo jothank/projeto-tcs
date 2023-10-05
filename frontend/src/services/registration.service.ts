@@ -3,17 +3,17 @@ import axios from "axios";
 import { getAuthorizationHeader } from "utils/GetHeader";
 
 export const setProducts = async (
-  name : String,
-  products: Array<{}>,
-  prurchedPrice : number,
+  name: String,
+  supplies: Array<{}>,
+  prurchedPrice: number
 ) => {
   try {
     const response = await axios.post(
-      BASE_URL + "productregistration/",
+      BASE_URL + "product/",
       {
         name,
-        products,
-        producion_price : prurchedPrice,
+        supplies,
+        producion_price: prurchedPrice,
       },
       {
         headers: await getAuthorizationHeader(),
@@ -25,9 +25,9 @@ export const setProducts = async (
   }
 };
 
-export const getAllRegistration = async () => {
+export const getAllProduct = async () => {
   try {
-    const response = await axios.get(BASE_URL + "productregistration/", {
+    const response = await axios.get(BASE_URL + "product/", {
       headers: await getAuthorizationHeader(),
     });
     return response.data?.results;

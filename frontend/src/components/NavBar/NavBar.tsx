@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import logo from "assets/logo/logo.png";
-import { logout } from "services/auth.service";
 import CustomAppBar from "./Header/Header.component";
 import CustomDrawer from "./SideBar/SideBar.compenent";
+import { getLogout } from "utils/ModalAlert";
 
 const NavBar: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -10,11 +10,9 @@ const NavBar: React.FC = () => {
   const menuItems = [
     { text: "Home", href: "/home", title: "Bem-vindo ao GastroCustos" },
     { text: "Empresa", href: "/company", title: "Empresa" },
-    { text: "Revenda", href: "/resale-item", title: "Revenda" },
     { text: "Insumos", href: "/feed-stock", title: "Insumos" },
     { text: "Produto", href: "/product", title: "Produtos" },
     { text: "Combo", href: "/registration", title: "Combos" },
-    { text: "Registro de Produto", href: "/product-registration", title: "Registro de Produto" },
   ];
   const currentPath = new URL(window.location.href).pathname;
   const matchedItem = menuItems.find((item) => currentPath === item.href);
@@ -37,8 +35,7 @@ const NavBar: React.FC = () => {
   };
 
   const handleLogout = () => {
-    logout();
-    window.location.reload();
+    getLogout("Deseja realmente sair?");
   };
 
   return (

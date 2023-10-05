@@ -17,17 +17,15 @@ import { useReactToPrint } from "react-to-print";
 import PrintIcon from "@mui/icons-material/Print";
 import AddProductModal from "components/Product/AddProduct";
 import { formatToBRL } from "utils/calculations/pricing";
-import { deleteProduct } from "services/product.service";
-import { getProductRegistration } from "services/productRegistration.service";
-import EditDialog, { Product } from "./EditProduct";
+import { deleteSupply } from "services/product.service";
 
 export interface ProductTableProps {
   data: {
     results: {
       id: number;
       name: string;
-      producion_price: number;
-      products: {
+      price: number;
+      supplies: {
         id: number;
         feedstock: {
           id?: number;
@@ -50,9 +48,8 @@ const ProductTable = ({ data }: ProductTableProps) => {
     content: () => componentRef.current,
   });
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddModalOpen, setisAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
     data?.results.length ? data.results[0].id : null
@@ -65,8 +62,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
   const handleDelete = async (productId: number) => {
     try {
       console.log(productId);
-      await getProductRegistration(productId);
-      await deleteProduct(productId);
+      await deleteSupply(productId);
     } catch (err) {
       console.log(err);
     }
@@ -90,8 +86,8 @@ const ProductTable = ({ data }: ProductTableProps) => {
           <PrintIcon />
         </Button>
         <AddProductModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          isOpen={isAddModalOpen}
+          onClose={() => setisAddModalOpen(false)}
         />
         <FormControl sx={{ width: "70%" }}>
           <InputLabel>Selecione o produto</InputLabel>
@@ -124,37 +120,29 @@ const ProductTable = ({ data }: ProductTableProps) => {
           </TableHead>
           <TableBody>
             {selectedProduct ? (
-              selectedProduct.products.map((productItem, index) => (
-                <TableRow key={`${productItem.id}-${index}`}>
+              console.log(selectedProduct),
+              selectedProduct.supplies.map((supply, index) => (
+                <TableRow key={`${supply.id}-${index}`}>
                   <TableCell component="th" scope="row">
-                    {productItem.feedstock.name}
+                    {supply.feedstock.name}
                   </TableCell>
-                  <TableCell align="right">{productItem.unit}</TableCell>
-                  <TableCell align="right">{productItem.quantity}</TableCell>
+                  <TableCell align="right">{supply.unit}</TableCell>
+                  <TableCell align="right">{supply.quantity}</TableCell>
                   <TableCell align="right">
-                    {productItem.feedstock.unit}
-                  </TableCell>
-                  <TableCell align="right">
-                    {formatToBRL(productItem.feedstock.price)}
+                    {supply.feedstock.unit}
                   </TableCell>
                   <TableCell align="right">
-                    {formatToBRL(productItem.price)}
+                    {formatToBRL(supply.feedstock.price)}
+                  </TableCell>
+                  <TableCell align="right">
+                    {formatToBRL(supply.price)}
                   </TableCell>
                   <TableCell align="right">
                     <Button
-                      onClick={() => handleDelete(productItem.id)}
+                      onClick={() => handleDelete(supply.id)}
                       color="error"
                     >
                       Remover
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setEditingProduct(productItem);
-                        setIsEditModalOpen(true);
-                      }}
-                      color="primary"
-                    >
-                      Editar
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -170,17 +158,10 @@ const ProductTable = ({ data }: ProductTableProps) => {
         </Table>
         {selectedProduct && (
           <Typography variant="subtitle1" align="right" style={{ padding: 16 }}>
-            Total Price: {formatToBRL(selectedProduct.producion_price)}
+            Total Price: {formatToBRL(selectedProduct.price)}
           </Typography>
         )}
       </div>
-      {editingProduct && (
-        <EditDialog
-          open={isEditModalOpen}
-          onClose={() => setIsEditModalOpen(false)}
-          initialValues={editingProduct}
-        />
-      )}
     </Paper>
   );
 };

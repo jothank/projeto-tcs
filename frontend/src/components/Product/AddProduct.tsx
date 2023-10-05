@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Dialog, DialogTitle, Button, Grid } from "@mui/material";
 import { calculatePricePerKiloOrLiter } from "utils/calculations/pricing";
 import { getAllfeedstocks } from "services/feedstock.service";
-import { setProducts } from "services/product.service";
+import { setSupplies, Supply } from "services/product.service";
 import { ProductType } from "types/Product.types";
-import { setProductRegistration } from "services/productRegistration.service";
+import { setProduct } from "services/productRegistration.service";
 import ProductForm from "./ProductForm";
 
 export interface Feedstock {
@@ -58,7 +58,9 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen }) => {
     try {
       let totalPrice = 0;
 
-      const products = values.products.map((product: any) => {
+      console.log("1",values);
+
+      const supplies = values.products.map((product: any) => {
         const calculatedPrice = calculatePricePerKiloOrLiter(
           product.feedstock.price,
           product.feedstock.quantity,
@@ -74,13 +76,15 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen }) => {
           price: calculatedPrice,
         };
       });
-      const regiProds = await setProducts({ products });
-      const idsProducts = regiProds.map((product: ProductType) => product.id);
+      const regiProds = await setSupplies({ supplies });
+      console.log("2",values);
 
-      setProductRegistration({
+      const idssupplies = regiProds.map((supply: ProductType) => supply.id);
+
+      setProduct({
         name: values.productRegistrationName,
-        products: idsProducts,
-        purchasedPrice: totalPrice,
+        supplies: idssupplies,
+        price: totalPrice,
       });
       setOpen(false);
     } catch (error) {

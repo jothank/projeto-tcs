@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { RegisterInputProps } from "types/user.type";
 import { Feedstock } from "components/Product/AddProduct";
-import { Product } from "./EditProduct";
+import { Product } from "./editProduct";
 
 export const ProductInput: React.FC<RegisterInputProps> = ({
   name,

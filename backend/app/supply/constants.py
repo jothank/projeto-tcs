@@ -1,5 +1,5 @@
 """
-ProductRegistration Constants
+Product Constants
 """
 ###
 # Libraries

@@ -5,7 +5,7 @@ feedstock admin
 # Libraries
 ###
 from django.contrib import admin
-from app.feedstock.models.feedstock import feedstock
+from app.feedstock.models.feedstock import Feedstock
 
 
 ###
@@ -16,8 +16,8 @@ from app.feedstock.models.feedstock import feedstock
 ###
 # Main Admin Models
 ###
-class feedstockAdmin(admin.ModelAdmin):
+class FeedstockAdmin(admin.ModelAdmin):
     list_display = ('name', 'quantity', 'unit', 'price',)
 
 
-admin.site.register(feedstock, feedstockAdmin)
+admin.site.register(Feedstock, FeedstockAdmin)

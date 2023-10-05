@@ -6,14 +6,14 @@ Combo admin
 ###
 from django.contrib import admin
 from app.combo.models.combo import Combo
-from app.combo.models.combo_product_registration import ComboProductRegistration
+from app.combo.models.combo_product_registration import ComboProduct
 
 
 ###
 # Inline Admin Models
 ###
-class ComboProductRegistrationInline(admin.TabularInline):
-    model = ComboProductRegistration
+class ComboProductInline(admin.TabularInline):
+    model = ComboProduct
     extra = 0
 
 ###
@@ -23,8 +23,8 @@ class ComboProductRegistrationInline(admin.TabularInline):
 
 class ComboAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', )
-    inlines = [ComboProductRegistrationInline, ]
+    inlines = [ComboProductInline, ]
 
 
 admin.site.register(Combo, ComboAdmin)
-admin.site.register(ComboProductRegistration)
+admin.site.register(ComboProduct)

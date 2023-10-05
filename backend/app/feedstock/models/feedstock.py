@@ -9,7 +9,7 @@ from django.db import models
 ###
 
 
-class feedstock(models.Model):
+class Feedstock(models.Model):
     name = models.CharField(max_length=100, verbose_name=_('Name'))
     price = models.FloatField(verbose_name=_('Price'))
     quantity = models.FloatField(verbose_name=_('Quantity'))
@@ -17,3 +17,4 @@ class feedstock(models.Model):
 
     def __str__(self):
         return self.name
+    

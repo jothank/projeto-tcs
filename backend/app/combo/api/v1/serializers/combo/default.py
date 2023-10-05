@@ -6,8 +6,8 @@ API V1: Combo Serializers
 ###
 from rest_framework import serializers
 from app.combo.models.combo import Combo
-from app.product_registration.models.product_registration import ProductRegistration
-from app.product_registration.api.v1.serializers.product_registration.retrieve import RetrieveProductRegistrationSerializer
+from app.product.models.product_registration import Product
+from app.product.api.v1.serializers.product_registration.retrieve import RetrieveProductSerializer
 
 ###
 # Serializers
@@ -15,8 +15,8 @@ from app.product_registration.api.v1.serializers.product_registration.retrieve i
 
 
 class DefaultComboSerializer(serializers.ModelSerializer):
-    registrations = RetrieveProductRegistrationSerializer(many=True)
+    products = RetrieveProductSerializer(many=True)
 
     class Meta:
         model = Combo
-        fields = ["id", "name", "registrations", "purchase_price"]
+        fields = ["id", "name", "products", "purchase_price"]

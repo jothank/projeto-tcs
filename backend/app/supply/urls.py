@@ -1,5 +1,5 @@
 """
-ProductRegistration URL Configuration
+Product URL Configuration
 """
 ###
 # Libraries
@@ -13,5 +13,5 @@ from django.urls import path, include
 
 
 urlpatterns = [
-    path('', include('app.product.api.v1.urls'))
+    path('', include('app.supply.api.v1.urls'))
 ]

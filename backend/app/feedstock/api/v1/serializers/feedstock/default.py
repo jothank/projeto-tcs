@@ -2,7 +2,7 @@
 # Libraries
 ###
 from rest_framework import serializers
-from app.feedstock.models.feedstock import feedstock
+from app.feedstock.models.feedstock import Feedstock
 from rest_framework import serializers
 
 
@@ -11,8 +11,8 @@ from rest_framework import serializers
 ###
 
 
-class DefaultfeedstockSerializer(serializers.ModelSerializer):
+class DefaultFeedstockSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = feedstock
+        model = Feedstock
         fields = "__all__"

@@ -64,8 +64,8 @@ INSTALLED_APPS = [
     "app.fixed_expense",
     "app.pricing",
     "app.product",
-    "app.product_registration",
     "app.resale_item",
+    "app.supply",
     "app.utils",
     "app.variable_expense",
 

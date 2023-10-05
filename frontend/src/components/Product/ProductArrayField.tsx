@@ -4,7 +4,7 @@ import {
   ProductInput,
 } from "components/Product/InputProduct";
 import FeedstockSelect from "components/SelectOptions/SelectOptions";
-import { Feedstock } from "types/Product.types";
+import { FeedstockType } from "types/Feedstock.type";
 import { IconButton } from "@mui/material";
 import React from "react";
 import AddIcon from "@mui/icons-material/Add";
@@ -14,12 +14,12 @@ import { options } from "utils/FeedstockUnit";
 
 interface ProductArrayFieldProps {
   values: any;
-  feedstockList: Feedstock[];
+  feedstockList: FeedstockType[];
 }
 
 interface ProductArrayFieldProps {
   values: any;
-  feedstockList: Feedstock[];
+  feedstockList: FeedstockType[];
   setFieldValue: (field: string, value: any) => void;
 }
 

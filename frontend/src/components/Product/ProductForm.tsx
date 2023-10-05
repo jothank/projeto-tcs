@@ -1,12 +1,12 @@
 import { Formik, Form } from "formik";
 import { ProductInput } from "components/Product/InputProduct";
-import { Feedstock } from "types/Product.types";
+import { FeedstockType } from "types/Feedstock.type";
 import ProductArrayField from "./ProductArrayField";
 import { productValidationSchema } from "utils/validations/validationProductModal";
 import { Button, DialogActions } from "@mui/material";
 
 interface ProductFormProps {
-  feedstockList: Feedstock[];
+  feedstockList: FeedstockType[];
   onSubmit: (values: any) => void;
   onCancel: () => void;
 }

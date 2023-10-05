@@ -18,28 +18,7 @@ import PrintIcon from "@mui/icons-material/Print";
 import AddProductModal from "components/Product/AddProduct";
 import { formatToBRL } from "utils/calculations/pricing";
 import { deleteSupply } from "services/product.service";
-
-export interface ProductTableProps {
-  data: {
-    results: {
-      id: number;
-      name: string;
-      price: number;
-      supplies: {
-        id: number;
-        feedstock: {
-          id?: number;
-          name: string;
-          price: number;
-          unit: string;
-        };
-        quantity: number;
-        unit: string;
-        price: number;
-      }[];
-    }[];
-  };
-}
+import { ProductTableProps } from "types/Product.types";
 
 const ProductTable = ({ data }: ProductTableProps) => {
   const componentRef = useRef(null);
@@ -62,7 +41,8 @@ const ProductTable = ({ data }: ProductTableProps) => {
   const handleDelete = async (productId: number) => {
     try {
       console.log(productId);
-      await deleteSupply(productId);
+      // Substitua esta linha pela chamada à função deleteSupply correta
+      // await deleteSupply(productId);
     } catch (err) {
       console.log(err);
     }
@@ -120,26 +100,23 @@ const ProductTable = ({ data }: ProductTableProps) => {
           </TableHead>
           <TableBody>
             {selectedProduct ? (
-              console.log(selectedProduct),
-              selectedProduct.supplies.map((supply, index) => (
-                <TableRow key={`${supply.id}-${index}`}>
+              selectedProduct.supplies.map((product, index) => (
+                <TableRow key={`${product.id}-${index}`}>
                   <TableCell component="th" scope="row">
-                    {supply.feedstock.name}
+                    {product.feedstock.name}
                   </TableCell>
-                  <TableCell align="right">{supply.unit}</TableCell>
-                  <TableCell align="right">{supply.quantity}</TableCell>
+                  <TableCell align="right">{product.unit}</TableCell>
+                  <TableCell align="right">{product.quantity}</TableCell>
+                  <TableCell align="right">{product.feedstock.unit}</TableCell>
                   <TableCell align="right">
-                    {supply.feedstock.unit}
-                  </TableCell>
-                  <TableCell align="right">
-                    {formatToBRL(supply.feedstock.price)}
+                    {formatToBRL(product.feedstock.price)}
                   </TableCell>
                   <TableCell align="right">
-                    {formatToBRL(supply.price)}
+                    {formatToBRL(product.price)}
                   </TableCell>
                   <TableCell align="right">
                     <Button
-                      onClick={() => handleDelete(supply.id)}
+                      onClick={() => handleDelete(product.id)}
                       color="error"
                     >
                       Remover
@@ -158,7 +135,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
         </Table>
         {selectedProduct && (
           <Typography variant="subtitle1" align="right" style={{ padding: 16 }}>
-            Total Price: {formatToBRL(selectedProduct.price)}
+            Preço Total: {formatToBRL(selectedProduct.price)}
           </Typography>
         )}
       </div>

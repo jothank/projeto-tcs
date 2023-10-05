@@ -1,30 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { getAllProduct } from "services/productRegistration.service";
-import ProductTable, {
-  ProductTableProps,
-} from "components/Product/ProductTable";
+import ProductTable from "components/Product/ProductTable";
+import { ProductTableProps } from "types/Product.types";
 
 const Product: React.FC = () => {
-  const [feedstocks, setFeedstocks] = useState<ProductTableProps>({
+  const [supplies, setSupplies] = useState<ProductTableProps>({
     data: {
       results: [],
     },
   });
 
   useEffect(() => {
-    const fetchFeedstocks = async () => {
+    const fetchProducts = async () => {
       try {
         const data = await getAllProduct();
-        setFeedstocks({ data: { results: data } });
+        setSupplies({ data: { results: data } });
       } catch (error: any) {
         console.error("Failed to fetch feedstocks:", error.message);
       }
     };
 
-    fetchFeedstocks();
+    fetchProducts();
   }, []);
 
-  return <ProductTable data={feedstocks.data} />;
+  return <ProductTable data={supplies.data} />;
 };
 
 export default Product;

@@ -10,8 +10,7 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import { RegisterInputProps } from "types/user.type";
-import { Feedstock } from "components/Product/AddProduct";
-import { Product } from "./editProduct";
+import { FeedstockType } from "types/Feedstock.type";
 
 export const ProductInput: React.FC<RegisterInputProps> = ({
   name,
@@ -35,9 +34,9 @@ export const ProductInput: React.FC<RegisterInputProps> = ({
 interface FeedstockSelectProps {
   label: string;
   name: string;
-  feedstocks: Feedstock[];
+  feedstocks: FeedstockType[];
   value?: string;
-  onChange?: (value: string, feedstock: Feedstock) => void;
+  onChange?: (value: string, feedstock: FeedstockType) => void;
 }
 
 export const FeedstocksSelect: React.FC<FeedstockSelectProps> = ({
@@ -85,11 +84,6 @@ export const FeedstocksSelect: React.FC<FeedstockSelectProps> = ({
   );
 };
 
-interface FeedstockType {
-  id: string | number;
-  name: string;
-}
-
 interface GetFeedstocksSelectProps {
   label: string;
   name: string;
@@ -102,17 +96,20 @@ interface GetFeedstocksSelectProps {
   feedstocks: FeedstockType[];
 }
 
-export const GetFeedstocksSelect: React.FC<GetFeedstocksSelectProps> = ({ feedstocks, ...props }) => {
+export const GetFeedstocksSelect: React.FC<GetFeedstocksSelectProps> = ({
+  feedstocks,
+  ...props
+}) => {
   return (
-      <Field {...props} as={Select}>
-          <MenuItem value="" disabled>
-              Select a feedstock
-          </MenuItem>
-          {feedstocks.map((feedstock) => (
-              <MenuItem key={feedstock.id} value={feedstock.id}>
-                  {feedstock.name}
-              </MenuItem>
-          ))}
-      </Field>
+    <Field {...props} as={Select}>
+      <MenuItem value="" disabled>
+        Select a feedstock
+      </MenuItem>
+      {feedstocks.map((feedstock) => (
+        <MenuItem key={feedstock.id} value={feedstock.id}>
+          {feedstock.name}
+        </MenuItem>
+      ))}
+    </Field>
   );
 };

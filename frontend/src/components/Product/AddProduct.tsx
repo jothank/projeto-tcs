@@ -6,14 +6,7 @@ import { setSupplies, Supply } from "services/product.service";
 import { ProductType } from "types/Product.types";
 import { setProduct } from "services/productRegistration.service";
 import ProductForm from "./ProductForm";
-
-export interface Feedstock {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  unit: string;
-}
+import { FeedstockType } from "types/Feedstock.type";
 
 interface AddProductModalProps {
   isOpen: boolean;
@@ -21,7 +14,7 @@ interface AddProductModalProps {
 }
 
 const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen }) => {
-  const [feedstockList, setFeedstockList] = useState<Feedstock[]>([]);
+  const [feedstockList, setFeedstockList] = useState<FeedstockType[]>([]);
   const [open, setOpen] = useState(isOpen);
   const [modalType, setModalType] = useState("");
 
@@ -58,7 +51,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen }) => {
     try {
       let totalPrice = 0;
 
-      console.log("1",values);
+      console.log("1", values);
 
       const supplies = values.products.map((product: any) => {
         const calculatedPrice = calculatePricePerKiloOrLiter(
@@ -77,7 +70,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen }) => {
         };
       });
       const regiProds = await setSupplies({ supplies });
-      console.log("2",values);
+      console.log("2", values);
 
       const idssupplies = regiProds.map((supply: ProductType) => supply.id);
 

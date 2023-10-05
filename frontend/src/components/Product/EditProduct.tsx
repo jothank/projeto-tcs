@@ -12,7 +12,7 @@ import { FeedstockSelect } from "components/SelectOptions/SelectOptions";
 import { options } from "utils/FeedstockUnit";
 import EditIcon from "@mui/icons-material/Edit";
 import { getAllfeedstocks } from "services/feedstock.service";
-import { Feedstock } from "types/Product.types";
+import { FeedstockType } from "types/Feedstock.type";
 import {
   GetFeedstocksSelect,
   ProductInput,
@@ -42,7 +42,7 @@ const EditDialog: React.FC<EditDialogProps> = ({
   onClose,
   initialValues,
 }) => {
-  const [feedstockList, setFeedstockList] = useState<Feedstock[]>([]);
+  const [feedstockList, setFeedstockList] = useState<FeedstockType[]>([]);
 
   useEffect(() => {
     const fetchFeedstocks = async () => {
@@ -92,11 +92,7 @@ const EditDialog: React.FC<EditDialogProps> = ({
                   label="Quantidade"
                   type="number"
                 />
-                <GetFeedstocksSelect
-                  name="feedstock"
-                  label="Matéria-prima"
-                  feedstocks={feedstockList}
-                />
+
 
                 <FeedstockSelect
                   name="unit"

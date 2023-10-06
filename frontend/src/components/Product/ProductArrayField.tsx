@@ -55,6 +55,7 @@ const ProductArrayField: React.FC<ProductArrayFieldProps> = ({
                 name={`products[${index}].unit`}
                 label="Unidade"
                 options={options}
+                valueUnit=""
               />
               <IconButton onClick={() => remove(index)}>
                 <RemoveIcon />

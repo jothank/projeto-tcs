@@ -32,7 +32,6 @@ export const AddFeedstock = () => {
     { resetForm }: { resetForm: () => void }
   ) => {
     try {
-
       setfeedstock(
         Addfeedstock.name,
         Addfeedstock.price,
@@ -72,7 +71,12 @@ export const AddFeedstock = () => {
               <FeedstockInput name="name" label="Nome" type="text" />
               <FeedstockInput name="price" label="Preço" type="text" />
               <FeedstockInput name="quantity" label="Quantidade" type="text" />
-              <FeedstockSelect name="unit" label="Unidade" options={options} />
+              <FeedstockSelect
+                name="unit"
+                label="Unidade"
+                options={options}
+                valueUnit=""
+              />
               <ButtonContainer>
                 <Button variant="outlined" onClick={handleClose}>
                   Fechar

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -17,8 +17,11 @@ import { useReactToPrint } from "react-to-print";
 import PrintIcon from "@mui/icons-material/Print";
 import AddProductModal from "components/Product/AddProduct";
 import { formatToBRL } from "utils/calculations/pricing";
-import { deleteSupply } from "services/product.service";
-import { ProductTableProps } from "types/Product.types";
+import { deleteSupply, Supply } from "services/product.service";
+import { ProductTableProps, ProductType } from "types/Product.types";
+import EditDialog from "./EditProduct";
+import { getAllfeedstocks } from "services/feedstock.service";
+import { FeedstockType } from "types/Feedstock.type";
 
 const ProductTable = ({ data }: ProductTableProps) => {
   const componentRef = useRef(null);
@@ -34,6 +37,8 @@ const ProductTable = ({ data }: ProductTableProps) => {
     data?.results.length ? data.results[0].id : null
   );
 
+  const [selectedSupply, setSelectedSupply] = useState<any | null>(null);
+
   const selectedProduct = data.results.find(
     (product) => product.id === selectedProductId
   );
@@ -41,12 +46,25 @@ const ProductTable = ({ data }: ProductTableProps) => {
   const handleDelete = async (productId: number) => {
     try {
       console.log(productId);
-      // Substitua esta linha pela chamada à função deleteSupply correta
-      // await deleteSupply(productId);
+      await deleteSupply(productId);
     } catch (err) {
       console.log(err);
     }
   };
+
+  const [feedstockList, setFeedstockList] = useState<FeedstockType[]>([]);
+
+  useEffect(() => {
+    const fetchFeedstocks = async () => {
+      try {
+        const result = await getAllfeedstocks();
+        setFeedstockList(result);
+      } catch (error) {
+        console.error("Failed to fetch feedstocks:", error);
+      }
+    };
+    fetchFeedstocks();
+  }, []);
 
   return (
     <Paper>
@@ -121,6 +139,14 @@ const ProductTable = ({ data }: ProductTableProps) => {
                     >
                       Remover
                     </Button>
+                    <Button
+                      onClick={() => {
+                        setIsEditModalOpen(true);
+                        setSelectedSupply(product);
+                      }}
+                    >
+                      Editar
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))
@@ -139,6 +165,12 @@ const ProductTable = ({ data }: ProductTableProps) => {
           </Typography>
         )}
       </div>
+      <EditDialog
+        open={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        selectedSupply={selectedSupply}
+        feedstockList={feedstockList}
+      />
     </Paper>
   );
 };

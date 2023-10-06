@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
   Button,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
-import { Formik, Form } from "formik";
+import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { FeedstockSelect } from "components/SelectOptions/SelectOptions";
 import { options } from "utils/FeedstockUnit";
-import EditIcon from "@mui/icons-material/Edit";
-import { getAllfeedstocks } from "services/feedstock.service";
 import { FeedstockType } from "types/Feedstock.type";
-import {
-  GetFeedstocksSelect,
-  ProductInput,
-} from "components/Product/InputProduct";
 
 export interface Product {
   feedstock: {
@@ -34,32 +33,16 @@ export interface Product {
 interface EditDialogProps {
   open: boolean;
   onClose: () => void;
-  initialValues: Product;
+  selectedSupply: any;
+  feedstockList: FeedstockType[];
 }
 
 const EditDialog: React.FC<EditDialogProps> = ({
   open,
   onClose,
-  initialValues,
+  selectedSupply,
+  feedstockList,
 }) => {
-  const [feedstockList, setFeedstockList] = useState<FeedstockType[]>([]);
-
-  useEffect(() => {
-    const fetchFeedstocks = async () => {
-      try {
-        console.log(initialValues);
-        const result = await getAllfeedstocks();
-        setFeedstockList(result);
-        console.log("Feedstocks:", result);
-      } catch (error) {
-        console.error("Failed to fetch feedstocks:", error);
-      }
-    };
-    if (open) {
-      fetchFeedstocks();
-    }
-  }, [open]);
-
   const validationSchema = Yup.object({
     unit: Yup.string().required("Unidade é obrigatório"),
     feedstock: Yup.object().shape({
@@ -80,28 +63,45 @@ const EditDialog: React.FC<EditDialogProps> = ({
       <Dialog open={open} onClose={onClose}>
         <DialogTitle>Editar Item</DialogTitle>
         <Formik
-          initialValues={initialValues}
+          initialValues={selectedSupply}
           validationSchema={validationSchema}
           onSubmit={handleEdit}
         >
           {({ isSubmitting }) => (
             <Form>
               <DialogContent>
-                <ProductInput
+                <Field
+                  type="number"
                   name="quantity"
                   label="Quantidade"
-                  type="number"
+                  margin="dense"
+                  fullWidth
+                  as={TextField}
                 />
-
-
+                <FormControl fullWidth margin="dense">
+                  <InputLabel htmlFor="feedstock">Matéria-prima</InputLabel>
+                  <Field
+                    as={Select}
+                    name="feedstock.id"
+                    label="Matéria-prima"
+                    fullWidth
+                  >
+                    {feedstockList.map(({ id, name }) => (
+                      <MenuItem key={id} value={id}>
+                        {name}
+                      </MenuItem>
+                    ))}
+                  </Field>
+                </FormControl>
                 <FeedstockSelect
                   name="unit"
                   label="Unidade"
                   options={options}
+                  valueUnit={selectedSupply.unit}
                 />
               </DialogContent>
               <DialogActions>
-                <Button onClick={onClose} color="primary">
+                <Button onClick={() => onClose()} color="primary">
                   Cancelar
                 </Button>
                 <Button type="submit" color="primary" disabled={isSubmitting}>
@@ -115,5 +115,4 @@ const EditDialog: React.FC<EditDialogProps> = ({
     </>
   );
 };
-
 export default EditDialog;

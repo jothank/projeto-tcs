@@ -43,7 +43,15 @@ export const AddFixedExpenses = ({
 
   return (
     <form onSubmit={handleSubmit}>
-      <Grid container spacing={2}>
+      <Grid container spacing={4}
+      sx={{
+      display: "flex",
+      marginLeft: '15%',
+      marginTop: '2%'
+     
+      }}
+      >
+        <Grid sx={{display: 'flex', gap: '20px'}}>
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
             <TextField
@@ -66,7 +74,7 @@ export const AddFixedExpenses = ({
             />
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12}  sm={6}>
           <FormControl fullWidth>
             <TextField
               name="description"
@@ -88,21 +96,11 @@ export const AddFixedExpenses = ({
             />
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth>
-            <TextField
-              name="totalValue"
-              label="Valor Total"
-              variant="outlined"
-              value={expense.totalValue}
-              onChange={handleChange}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12}  sm={6}>
           <Button type="submit" variant="contained" color="primary">
             Adicionar
           </Button>
+        </Grid>
         </Grid>
       </Grid>
     </form>

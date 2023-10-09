@@ -19,10 +19,7 @@ schema_view = get_schema_view(
     openapi.Info(
         title="GastroCustos API",
         default_version='v1',
-        description="# GastroCustos API\n\nBem-vindo à **GastroCustos API**, sua solução para o gerenciamento eficiente de custos no setor de gastronomia. Nossa API oferece uma variedade de recursos para ajudar você a controlar suas despesas, acompanhar suas receitas e otimizar seus processos de negócios.\n\nCom a GastroCustos API, você pode:\n\n- Acessar facilmente informações sobre contas, administradores e muito mais.\n- Personalizar suas configurações para atender às suas necessidades específicas.\n- Simplificar a gestão de custos e melhorar a eficiência de sua operação.\n\n## Documentação\n\nExplore nossa documentação interativa usando as seguintes ferramentas:\n\n- [Swagger UI](/swagger/): Uma interface interativa para explorar e testar os endpoints da API.\n- [ReDoc](/redoc/): Uma documentação de API interativa e responsiva.\n\nPara obter mais informações ou entrar em contato conosco, envie um email para [gastrocustos@gmail.com](mailto:gastrocustos@gmail.com).\n\nAproveite nossa API e comece a simplificar a gestão de custos hoje mesmo!",
-        terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="gastrocustos@gmail.com"),
-        license=openapi.License(name="BSD License"),
+        description="Bem-vindo à **GastroCustos API**, sua solução para o gerenciamento eficiente de custos no setor de gastronomia. \n\n## Documentação\n\nExplore nossa documentação interativa usando as seguintes ferramentas:\n\n- [Swagger UI](/swagger/): Uma interface interativa para explorar e testar os endpoints da API.\n- [ReDoc](/redoc/): Uma documentação de API interativa e responsiva.\n\nPara obter mais informações ou entrar em contato conosco, envie um email para [gastrocustos@gmail.com](mailto:gastrocustos@gmail.com).\n\nAproveite nossa API e comece a simplificar a gestão de custos hoje mesmo!",
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),

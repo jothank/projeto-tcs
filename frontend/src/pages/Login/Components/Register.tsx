@@ -64,7 +64,7 @@ const Register: React.FC = () => {
             <Button variant="contained" type="submit" sx={{ width: "50%" }}>
               Cadastrar
             </Button>
-            <Link href="/login" underline="hover" variant="subtitle2">
+            <Link href="/" underline="hover" variant="subtitle2">
               Já possui tem uma conta?
             </Link>
           </ButtonForms>

@@ -12,10 +12,22 @@ import {
   Typography
 } from "@mui/material";
 import { AddFixedExpenses, Expense } from "./AddFixedExpenses";
+import { setfixedExpense } from "services/fixedexpense.service";
+import { getErro, getSuccess } from "utils/ModalAlert";
+import { FixedExpensestype } from "types/FixedExpenses.types";
 
+const FixedExpenseValues: FixedExpensestype = {
+  name: "",
+  description: "",
+  date: new Date,
+  total_price: 0,
+};
 const FixedExpensesTable = ({ expenses }: { expenses: Expense[] }) => {
-  const [totalValue, setTotalValue] = useState<number | string>("");
+  const [totalValue, setTotalValue] = useState<number>(0);
   const [manualTotalInput, setManualTotalInput] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const calculateTotal = () => {
     let total = 0;
@@ -37,7 +49,30 @@ const FixedExpensesTable = ({ expenses }: { expenses: Expense[] }) => {
   };
 
   const handleTotalValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTotalValue(event.target.value);
+    setTotalValue(parseFloat(event.target.value) || 0);
+  };
+
+  const handleRegister = async () => {
+    try {
+      const AddfixedExpense: FixedExpensestype = {
+        name: FixedExpenseValues.name,
+        description: FixedExpenseValues.description,
+        date: FixedExpenseValues.date,
+        total_price: totalValue,
+      };
+  
+      setfixedExpense(
+        AddfixedExpense.name,
+        AddfixedExpense.description,
+        AddfixedExpense.date,
+        AddfixedExpense.total_price
+      );
+      
+      handleClose();
+      getSuccess("Resale Item registered Succesfully");
+    } catch (error: any) {
+      getErro(error.message);
+    }
   };
 
   return (
@@ -75,7 +110,7 @@ const FixedExpensesTable = ({ expenses }: { expenses: Expense[] }) => {
           marginTop: "1%",
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-between",
+          marginLeft: "30%",
           gap: "20px"
         }}
         >
@@ -97,7 +132,7 @@ const FixedExpensesTable = ({ expenses }: { expenses: Expense[] }) => {
           <Typography variant="subtitle2">Gastos totais: R${totalValue},00</Typography>
         )}
     
-          <Button>Salvar</Button>
+          <Button onClick={handleRegister} variant="outlined">Salvar</Button>
         </Grid>
       </Paper>
     </>

@@ -1,5 +1,5 @@
 
-export interface FixedExpenses {
+export interface FixedExpensestype {
     name: string;
     description: string;
     date: Date;

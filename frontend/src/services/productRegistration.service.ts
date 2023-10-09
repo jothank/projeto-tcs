@@ -15,7 +15,7 @@ export const setProduct = async ({
   price,
 }: {
   name: string;
-  supplies: supply[];
+  supplies: number[];
   price: number;
 }) => {
   try {
@@ -24,6 +24,35 @@ export const setProduct = async ({
       {
         name,
         supplies,
+        price: price,
+      },
+      {
+        headers: await getAuthorizationHeader(),
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const updateProduct = async ({
+  id,
+  name,
+  supplies,
+  price,
+}: {
+  id: number;
+  name: string;
+  supplies: number[];
+  price: number;
+}) => {
+  try {
+    const response = await axios.put(
+      `${BASE_URL}product/${id}/`,
+      {
+        name,
+        supplies: supplies,
         price: price,
       },
       {

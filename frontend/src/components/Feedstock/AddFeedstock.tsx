@@ -9,7 +9,7 @@ import { Divider } from "@mui/material";
 import { FeedstockType } from "types/Feedstock.type";
 import { FeedstockValidation } from "utils/validations/validationFeedstock";
 import { FeedstockInput } from "components/Feedstock/InputFeedstock";
-import { FeedstockSelect } from "components/SelectOptions/SelectOptions";
+import UnitSelect from "components/SelectOptions/SelectOptions";
 import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
 import { options } from "utils/FeedstockUnit";
 import { getErro, getSuccess } from "utils/ModalAlert";
@@ -71,11 +71,10 @@ export const AddFeedstock = () => {
               <FeedstockInput name="name" label="Nome" type="text" />
               <FeedstockInput name="price" label="Preço" type="text" />
               <FeedstockInput name="quantity" label="Quantidade" type="text" />
-              <FeedstockSelect
+              <UnitSelect
                 name="unit"
                 label="Unidade"
                 options={options}
-                valueUnit=""
               />
               <ButtonContainer>
                 <Button variant="outlined" onClick={handleClose}>

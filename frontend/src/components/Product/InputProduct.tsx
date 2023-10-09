@@ -1,5 +1,5 @@
 import React from "react";
-import { Field, useField, useFormikContext } from "formik";
+import { Field } from "formik";
 import {
   FormControl,
   InputLabel,
@@ -7,7 +7,6 @@ import {
   Select,
   FormHelperText,
   TextField,
-  SelectChangeEvent,
 } from "@mui/material";
 import { RegisterInputProps } from "types/user.type";
 import { FeedstockType } from "types/Feedstock.type";
@@ -80,36 +79,6 @@ export const FeedstocksSelect: React.FC<FeedstockSelectProps> = ({
           )}
         </FormControl>
       )}
-    </Field>
-  );
-};
-
-interface GetFeedstocksSelectProps {
-  label: string;
-  name: string;
-  feedstocks: FeedstockType[];
-}
-
-interface GetFeedstocksSelectProps {
-  label: string;
-  name: string;
-  feedstocks: FeedstockType[];
-}
-
-export const GetFeedstocksSelect: React.FC<GetFeedstocksSelectProps> = ({
-  feedstocks,
-  ...props
-}) => {
-  return (
-    <Field {...props} as={Select}>
-      <MenuItem value="" disabled>
-        Select a feedstock
-      </MenuItem>
-      {feedstocks.map((feedstock) => (
-        <MenuItem key={feedstock.id} value={feedstock.id}>
-          {feedstock.name}
-        </MenuItem>
-      ))}
     </Field>
   );
 };

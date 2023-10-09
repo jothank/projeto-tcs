@@ -9,6 +9,7 @@ from app.product.models.product_registration import Product
 from app.product.api.v1.serializers.product_registration.create import CreateProductSerializer
 from app.product.api.v1.serializers.product_registration.default import DefaultProductSerializer
 from app.product.api.v1.serializers.product_registration.retrieve import RetrieveProductSerializer
+from app.product.api.v1.serializers.product_registration.update import UpdateProductSerializer
 
 ###
 # Viewsets
@@ -24,5 +25,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             return RetrieveProductSerializer
         elif self.action == 'create':
             return CreateProductSerializer
+        elif self.action == 'update':
+            return UpdateProductSerializer
         else:
             return DefaultProductSerializer

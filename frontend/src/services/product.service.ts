@@ -10,9 +10,7 @@ export interface Supply {
   unit: string;
 }
 
-export const setSupplies = async (data: {
-  supplies: any;
-}): Promise<any> => {
+export const setSupplies = async (data: { supplies: any }): Promise<any> => {
   try {
     const response = await axios.post(`${BASE_URL}supply/`, data, {
       headers: await getAuthorizationHeader(),
@@ -24,12 +22,37 @@ export const setSupplies = async (data: {
     return error;
   }
 };
+export const setSupply = async (
+  feedstock: number,
+  price: number,
+  quantity: number,
+  unit: string
+): Promise<any> => {
+  const data = {
+    supplies: [
+      {
+        feedstock: feedstock,
+        price: price,
+        quantity: quantity,
+        unit: unit,
+      },
+    ],
+  };
+  try {
+    const response = await axios.post(`${BASE_URL}supply/`, data, {
+      headers: await getAuthorizationHeader(),
+    });
+    return response.data.supplies;
+  } catch (error) {
+    return error;
+  }
+};
 
 export const updateSupply = async (
   id: number,
+  feedstock: number,
   price: number,
   quantity: number,
-  feedstock_type: number,
   unit: string
 ) => {
   try {
@@ -38,7 +61,7 @@ export const updateSupply = async (
       {
         price,
         quantity,
-        feedstock_type,
+        feedstock: feedstock,
         unit,
       },
       {

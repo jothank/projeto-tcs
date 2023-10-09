@@ -11,15 +11,13 @@ import {
 interface SelectFieldProps {
   name: string;
   label: string;
-  valueUnit: string;
   options: { value: string; label: string }[];
 }
 
-export const FeedstockSelect: React.FC<SelectFieldProps> = ({
+export const UnitSelect: React.FC<SelectFieldProps> = ({
   name,
   label,
   options,
-  valueUnit = "",
 }) => {
   return (
     <Field name={name}>
@@ -28,7 +26,7 @@ export const FeedstockSelect: React.FC<SelectFieldProps> = ({
           <InputLabel>{label}</InputLabel>
           <Select
             label={label}
-            value={valueUnit || ""}
+            value=""
             {...field}
             error={meta.touched && meta.error !== undefined}
             onChange={(e) => form.setFieldValue(name, e.target.value)}
@@ -48,4 +46,6 @@ export const FeedstockSelect: React.FC<SelectFieldProps> = ({
   );
 };
 
-export default FeedstockSelect;
+export default UnitSelect;
+
+

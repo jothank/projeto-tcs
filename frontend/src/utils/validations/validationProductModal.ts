@@ -2,18 +2,17 @@ import * as Yup from "yup";
 
 export const productValidationSchema = Yup.object().shape({
   productRegistrationName: Yup.string().required(
-    "Product Registration Name is required"
+    "Nome é obrigatório"
   ),
   products: Yup.array().of(
     Yup.object().shape({
       feedstock: Yup.object()
         .shape({
-          id: Yup.string().required("Feedstock ID is required"),
+          id: Yup.string().required("Insumo é obrigatório"),
         })
         .required("Feedstock is required"),
-      quantity: Yup.number().required("Quantity is required"),
-      unit: Yup.string().required("Unit is required"),
-      price: Yup.number().required("Price is required"),
+      quantity: Yup.number().required("Quantidade é obrigatória"),
+      unit: Yup.string().required("Unidade é obrigatória"),
     })
   ),
 });

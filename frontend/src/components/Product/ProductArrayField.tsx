@@ -3,13 +3,12 @@ import {
   FeedstocksSelect,
   ProductInput,
 } from "components/Product/InputProduct";
-import FeedstockSelect from "components/SelectOptions/SelectOptions";
+import UnitSelect from "components/SelectOptions/SelectOptions";
 import { FeedstockType } from "types/Feedstock.type";
 import { IconButton } from "@mui/material";
 import React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-
 import { options } from "utils/FeedstockUnit";
 
 interface ProductArrayFieldProps {
@@ -30,7 +29,7 @@ const ProductArrayField: React.FC<ProductArrayFieldProps> = ({
 }) => {
   return (
     <FieldArray name="products">
-      {({ push, remove }: any) => (
+      {({ push, remove }) => (
         <>
           {values.products.map((product: any, index: number) => (
             <div key={index}>
@@ -51,11 +50,10 @@ const ProductArrayField: React.FC<ProductArrayFieldProps> = ({
                 label="Quantidade"
                 type="number"
               />
-              <FeedstockSelect
+              <UnitSelect
                 name={`products[${index}].unit`}
                 label="Unidade"
                 options={options}
-                valueUnit=""
               />
               <IconButton onClick={() => remove(index)}>
                 <RemoveIcon />

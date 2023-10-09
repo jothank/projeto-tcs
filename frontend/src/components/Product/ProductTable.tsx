@@ -12,17 +12,17 @@ import {
   Button,
   InputLabel,
   FormControl,
-  TableContainer,
 } from "@mui/material";
 import { useReactToPrint } from "react-to-print";
 import PrintIcon from "@mui/icons-material/Print";
-import AddProductModal from "components/Product/AddProduct";
+import AddProductModal from "components/Product/AddProducts";
 import { formatToBRL } from "utils/calculations/pricing";
 import { deleteSupply, Supply } from "services/product.service";
 import { ProductTableProps, ProductType } from "types/Product.types";
 import EditDialog from "./EditProduct";
 import { getAllfeedstocks } from "services/feedstock.service";
 import { FeedstockType } from "types/Feedstock.type";
+import AddProduct from "./AddProduct";
 
 const ProductTable = ({ data }: ProductTableProps) => {
   const componentRef = useRef(null);
@@ -33,6 +33,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
 
   const [isAddModalOpen, setisAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isAddProductOpne, setIsAddProductOpen] = useState(false);
 
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
     data?.results.length ? data.results[0].id : null
@@ -48,6 +49,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
     try {
       console.log(productId);
       await deleteSupply(productId);
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
@@ -87,6 +89,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
         <AddProductModal
           isOpen={isAddModalOpen}
           onClose={() => setisAddModalOpen(false)}
+          feedstockList={feedstockList}
         />
         <FormControl sx={{ width: "70%" }}>
           <InputLabel>Selecione o produto</InputLabel>
@@ -105,7 +108,6 @@ const ProductTable = ({ data }: ProductTableProps) => {
         </FormControl>
       </div>
       <div ref={componentRef}>
-        <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
@@ -161,11 +163,23 @@ const ProductTable = ({ data }: ProductTableProps) => {
             )}
           </TableBody>
         </Table>
-        </TableContainer>
         {selectedProduct && (
-          <Typography variant="subtitle1" align="right" style={{ padding: 16 }}>
-            Preço Total: {formatToBRL(selectedProduct.price)}
-          </Typography>
+          <>
+            <Typography
+              variant="subtitle1"
+              align="right"
+              style={{ padding: 16 }}
+            >
+              Preço Total: {formatToBRL(selectedProduct.price)}
+            </Typography>
+            <Button
+              onClick={() => {
+                setIsAddProductOpen(true);
+              }}
+            >
+              Adicionar Itens
+            </Button>
+          </>
         )}
       </div>
       <EditDialog
@@ -173,6 +187,12 @@ const ProductTable = ({ data }: ProductTableProps) => {
         onClose={() => setIsEditModalOpen(false)}
         selectedSupply={selectedSupply}
         feedstockList={feedstockList}
+      />
+      <AddProduct
+        selectProduct={selectedProduct}
+        feedstockList={feedstockList}
+        onClose={() => setIsAddProductOpen(false)}
+        open={isAddProductOpne}
       />
     </Paper>
   );

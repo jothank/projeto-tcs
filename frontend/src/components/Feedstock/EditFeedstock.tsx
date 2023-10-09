@@ -4,7 +4,7 @@ import { StyleModal } from "components/StyleModal/StyleModal";
 import { FeedstockType } from "types/Feedstock.type";
 import EditIcon from "@mui/icons-material/Edit";
 import { FeedstockInput } from "components/Feedstock/InputFeedstock";
-import { FeedstockSelect } from "components/SelectOptions/SelectOptions";
+import UnitSelect from "components/SelectOptions/SelectOptions";
 import { Form, Formik } from "formik";
 import { getErro, getSuccessWarning } from "utils/ModalAlert";
 import { FeedstockValidation } from "utils/validations/validationFeedstock";
@@ -73,12 +73,7 @@ export const EditFeedstock = ({
               <FeedstockInput name="name" label="Nome" type="text" />
               <FeedstockInput name="price" label="Preço" type="text" />
               <FeedstockInput name="quantity" label="Quantidade" type="text" />
-              <FeedstockSelect
-                name="unit"
-                label="Unidade"
-                options={options}
-                valueUnit=""
-              />
+              <UnitSelect name="unit" label="Unidade" options={options} />
               <ButtonContainer>
                 <Button variant="outlined" onClick={handleClose}>
                   Fechar

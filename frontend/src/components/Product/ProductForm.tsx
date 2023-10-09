@@ -13,7 +13,7 @@ interface ProductFormProps {
 
 const initialValues = {
   productRegistrationName: "",
-  products: [{ feedstock: { id: "" }, quantity: 0, unit: "", price: 0 }],
+  products: [{ feedstock: { id: "" }, quantity: "", unit: "", price: 0 }],
 };
 
 const ProductForm: React.FC<ProductFormProps> = ({

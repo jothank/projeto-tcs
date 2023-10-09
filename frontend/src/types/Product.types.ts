@@ -2,7 +2,13 @@ import { FeedstockType } from "types/Feedstock.type";
 
 export interface ProductType {
   id?: number;
-  feedstockType: FeedstockType;
+  feedstock: {
+    id?: number;
+    name: string;
+    price: number;
+    quantity: number;
+    unit: string;
+  };
   quantity: number;
   unit: string;
   price: number;

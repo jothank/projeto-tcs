@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -13,12 +13,16 @@ import {
 } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { FeedstockSelect } from "components/SelectOptions/SelectOptions";
+import UnitSelect from "components/SelectOptions/SelectOptions";
 import { options } from "utils/FeedstockUnit";
 import { FeedstockType } from "types/Feedstock.type";
+import { ProductInput } from "./InputProduct";
+import { updateSupply } from "services/product.service";
+import { calculatePricePerKiloOrLiter } from "utils/calculations/pricing";
 
 export interface Product {
   feedstock: {
+    [x: string]: any;
     id?: number;
     name: string;
     price: number;
@@ -45,18 +49,37 @@ const EditDialog: React.FC<EditDialogProps> = ({
 }) => {
   const validationSchema = Yup.object({
     unit: Yup.string().required("Unidade é obrigatório"),
-    feedstock: Yup.object().shape({
-      id: Yup.number().required("Matéria-prima é obrigatório"),
-    }),
+    feedstock: Yup.object({
+      id: Yup.number().moreThan(0, "Insumo é obrigatório"),
+      name: Yup.string().required("Nome do insumo é obrigatório"),      
+    }).required("Insumo é obrigatório"),
+    quantity: Yup.number().required("Quantidade é obrigatório"),
   });
 
   const handleEdit = async (values: Product) => {
     try {
       console.log(values);
+      const calculatedPrice = calculatePricePerKiloOrLiter(
+        values.feedstock.price,
+        values.feedstock.quantity,
+        values.feedstock.unit,
+        values.quantity,
+        values.unit
+      );
+      const edit = await updateSupply(
+        values.id,
+        values.feedstock.id || 0,
+        calculatedPrice,
+        values.quantity,
+        values.unit
+      );
     } catch (err) {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+  }, [selectedSupply]);
 
   return (
     <>
@@ -66,17 +89,15 @@ const EditDialog: React.FC<EditDialogProps> = ({
           initialValues={selectedSupply}
           validationSchema={validationSchema}
           onSubmit={handleEdit}
+          enableReinitialize
         >
-          {({ isSubmitting }) => (
+          {({ setFieldValue }) => (
             <Form>
               <DialogContent>
-                <Field
+                <ProductInput
                   type="number"
                   name="quantity"
                   label="Quantidade"
-                  margin="dense"
-                  fullWidth
-                  as={TextField}
                 />
                 <FormControl fullWidth margin="dense">
                   <InputLabel htmlFor="feedstock">Matéria-prima</InputLabel>
@@ -85,6 +106,15 @@ const EditDialog: React.FC<EditDialogProps> = ({
                     name="feedstock.id"
                     label="Matéria-prima"
                     fullWidth
+                    onChange={(event: { target: { value: any } }) => {
+                      const id = event.target.value;
+                      const selectedFeedstock = feedstockList.find(
+                        (f) => f.id === id
+                      );
+                      if (selectedFeedstock) {
+                        setFieldValue("feedstock", selectedFeedstock);
+                      }
+                    }}
                   >
                     {feedstockList.map(({ id, name }) => (
                       <MenuItem key={id} value={id}>
@@ -93,18 +123,17 @@ const EditDialog: React.FC<EditDialogProps> = ({
                     ))}
                   </Field>
                 </FormControl>
-                <FeedstockSelect
+                <UnitSelect
                   name="unit"
                   label="Unidade"
                   options={options}
-                  valueUnit={selectedSupply.unit}
                 />
               </DialogContent>
               <DialogActions>
                 <Button onClick={() => onClose()} color="primary">
                   Cancelar
                 </Button>
-                <Button type="submit" color="primary" disabled={isSubmitting}>
+                <Button type="submit" color="primary">
                   Salvar
                 </Button>
               </DialogActions>

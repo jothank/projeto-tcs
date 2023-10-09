@@ -1,111 +1,164 @@
-import React, { useEffect, useState } from "react";
-import { Dialog, DialogTitle, Button, Grid } from "@mui/material";
-import { calculatePricePerKiloOrLiter } from "utils/calculations/pricing";
-import { getAllfeedstocks } from "services/feedstock.service";
-import { setSupplies, Supply } from "services/product.service";
-import { ProductType } from "types/Product.types";
-import { setProduct } from "services/productRegistration.service";
-import ProductForm from "./ProductForm";
+import React from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText,
+} from "@mui/material";
+import * as Yup from "yup";
 import { FeedstockType } from "types/Feedstock.type";
+import { ProductInput } from "./InputProduct";
+import UnitSelect from "components/SelectOptions/SelectOptions";
+import { options } from "utils/FeedstockUnit";
+import { ProductType } from "types/Product.types";
+import { setSupply } from "services/product.service";
+import { calculatePricePerKiloOrLiter } from "utils/calculations/pricing";
+import {
+  setProduct,
+  updateProduct,
+} from "services/productRegistration.service";
 
-interface AddProductModalProps {
-  isOpen: boolean;
+interface ProductFormProps {
+  open: boolean;
   onClose: () => void;
+  feedstockList: FeedstockType[];
+  selectProduct: any;
 }
 
-const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen }) => {
-  const [feedstockList, setFeedstockList] = useState<FeedstockType[]>([]);
-  const [open, setOpen] = useState(isOpen);
-  const [modalType, setModalType] = useState("");
+const validationSchema = Yup.object({
+  feedstock: Yup.object({
+    id: Yup.number().notOneOf([0], "Insumo é obrigatório"),
+  }).required("Insumo é obrigatório"),
+  quantity: Yup.number().required("Quantidade é obrigatório"),
+  unit: Yup.string().required("Unidade é obrigatório"),
+  price: Yup.number().required("Preço é obrigatório"),
+});
 
-  const handleOpen = (type: string) => {
-    setModalType(type);
-    setOpen(true);
-  };
+const initialValues: ProductType = {
+  feedstock: {
+    id: 0,
+    name: "",
+    price: 0,
+    quantity: 0,
+    unit: "",
+  },
+  quantity: 0,
+  unit: "",
+  price: 0,
+};
 
-  const getTitle = () => {
-    if (modalType === "product") {
-      return "Cadastrar produto";
-    } else if (modalType === "revenda") {
-      return "Cadastrar item de revenda";
-    } else {
-      return "";
-    }
-  };
-
-  useEffect(() => {
-    const fetchFeedstocks = async () => {
-      try {
-        const result = await getAllfeedstocks();
-        setFeedstockList(result);
-      } catch (error) {
-        console.error("Failed to fetch feedstocks:", error);
-      }
-    };
-    if (open) {
-      fetchFeedstocks();
-    }
-  }, [open]);
-
-  const handleSubmit = async (values: any) => {
+const AddProduct: React.FC<ProductFormProps> = ({
+  open,
+  onClose,
+  feedstockList,
+  selectProduct,
+}) => {
+  const handleAddProduct = async (values: ProductType) => {
     try {
-      let totalPrice = 0;
-
-      console.log("1", values);
-
-      const supplies = values.products.map((product: any) => {
-        const calculatedPrice = calculatePricePerKiloOrLiter(
-          product.feedstock.price,
-          product.feedstock.quantity,
-          product.feedstock.unit,
-          product.quantity,
-          product.unit
-        );
-        totalPrice += calculatedPrice;
-        return {
-          feedstock: product.feedstock.id,
-          quantity: product.quantity,
-          unit: product.unit,
-          price: calculatedPrice,
-        };
-      });
-      const regiProds = await setSupplies({ supplies });
-      console.log("2", values);
-
-      const idssupplies = regiProds.map((supply: ProductType) => supply.id);
-
-      setProduct({
-        name: values.productRegistrationName,
-        supplies: idssupplies,
-        price: totalPrice,
-      });
-      setOpen(false);
-    } catch (error) {
-      console.error("Failed to add product:", error);
+      const calculatedPrice = calculatePricePerKiloOrLiter(
+        values.feedstock.price,
+        values.feedstock.quantity,
+        values.feedstock.unit,
+        values.quantity,
+        values.unit
+      );
+      values.price = calculatedPrice;
+      const regiProds = await setSupply(
+        values.feedstock.id || 0,
+        calculatedPrice,
+        values.quantity,
+        values.unit
+      );
+      const todosOsIds = selectProduct.supplies.map(
+        (supply: { id: any }) => supply.id
+      );
+      const id = regiProds[0].id;
+      const idsUnicos = [...new Set(todosOsIds), id];
+        console.log(idsUnicos);
+      const price = selectProduct.price + calculatedPrice;
+      const product = {
+        id: selectProduct.id,
+        name: selectProduct.name,
+        price: price,
+        supplies: idsUnicos,
+      };
+      updateProduct(product);
+      onClose();
+    } catch (err) {
+      console.log(err);
     }
   };
 
   return (
-    <div>
-      <Button variant="outlined" onClick={() => handleOpen("product")}>
-        Add Product
-      </Button>
-      <Button variant="outlined" onClick={() => handleOpen("revenda")}>
-        Add Revenda
-      </Button>
-
-      <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>{getTitle()}</DialogTitle>
-        <Grid>
-          <ProductForm
-            feedstockList={feedstockList}
-            onSubmit={handleSubmit}
-            onCancel={() => setOpen(false)}
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>Adicionar item</DialogTitle>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleAddProduct}
+        validationSchema={validationSchema}
+      >
+        <Form>
+          <Field
+            name="feedstock"
+            label="Insumo"
+            component={({
+              field,
+              form: { setFieldValue, setFieldTouched, submitCount },
+            }: any) => (
+              <FormControl
+                fullWidth
+                margin="dense"
+                error={!!(submitCount > 0 && field.value.id === 0)}
+              >
+                <InputLabel>Insumo</InputLabel>
+                <Select
+                  {...field}
+                  fullWidth
+                  onChange={(e) => {
+                    const selectedId = Number(e.target.value);
+                    const selectedFeedstock = feedstockList.find(
+                      (fs) => fs.id === selectedId
+                    );
+                    setFieldValue("feedstock", selectedFeedstock ?? "");
+                    setFieldTouched("feedstock", true);
+                  }}
+                  value={field.value?.id || ""}
+                >
+                  {feedstockList.map((feedstock) => (
+                    <MenuItem key={feedstock.id} value={feedstock.id}>
+                      {feedstock.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                {submitCount > 0 && (
+                  <ErrorMessage
+                    name="feedstock.id"
+                    component={FormHelperText}
+                  />
+                )}
+              </FormControl>
+            )}
           />
-        </Grid>
-      </Dialog>
-    </div>
+          <ProductInput name="quantity" label="Quantidade" type="text" />
+          <UnitSelect name="unit" label="Unidade" options={options} />
+          <DialogActions>
+            <Button onClick={onClose} color="primary">
+              Cancelar
+            </Button>
+            <Button type="submit" color="primary">
+              Salvar
+            </Button>
+          </DialogActions>
+        </Form>
+      </Formik>
+    </Dialog>
   );
 };
 
-export default AddProductModal;
+export default AddProduct;

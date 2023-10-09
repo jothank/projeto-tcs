@@ -11,7 +11,7 @@ import {
   TextField,
   Typography
 } from "@mui/material";
-import { AddFixedExpenses, Expense } from "./AddFixedExpenses";
+import { Expense } from "./AddFixedExpenses";
 import { setfixedExpense } from "services/fixedexpense.service";
 import { getErro, getSuccess } from "utils/ModalAlert";
 import { FixedExpensestype } from "types/FixedExpenses.types";

@@ -6,6 +6,7 @@ import { RegisterValidation } from "utils/validations/validationForm";
 import { register } from "services/auth.service";
 import { ButtonForms, ContainerForms, FormInput } from "components/FormGroup";
 import { getErro, getSuccess } from "utils/ModalAlert";
+import LoginPageStyle from "components/LoginPageStyle/LoginPageStyle";
 
 const RegisterValues: RegisterIUser = {
   username: "",
@@ -39,6 +40,7 @@ const Register: React.FC = () => {
   };
 
   return (
+    <LoginPageStyle>
     <ContainerForms sizeForm="600px" titleForm="Cadastro">
       <Formik
         initialValues={RegisterValues}
@@ -69,6 +71,7 @@ const Register: React.FC = () => {
         </Form>
       </Formik>
     </ContainerForms>
+    </LoginPageStyle>
   );
 };
 

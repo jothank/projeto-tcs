@@ -15,8 +15,8 @@ import { FixedExpense } from "pages/FixedExpenses/FixedExpenses";
 export const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Register />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/" element={<Login />} />
       <Route
         path="/password-reset-cofirm/:UID/:Token"
         element={<ConfirmPasswordReset />}

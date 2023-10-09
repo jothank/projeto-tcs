@@ -8,6 +8,7 @@ import { validationLogin } from "utils/validations/validationForm";
 import { FormInput, ContainerForms, ButtonForms } from "components/FormGroup";
 import PasswordResetModal from "pages/Login/Components/PasswordReset";
 import { getErro } from "utils/ModalAlert";
+import LoginPageStyle from "components/LoginPageStyle/LoginPageStyle";
 
 const LoginValues: LoginIUser = {
   username: "",
@@ -28,6 +29,7 @@ const Login: React.FC = () => {
   };
 
   return (
+    <LoginPageStyle>
     <ContainerForms sizeForm="400px" titleForm="Entrar">
       <Formik
         initialValues={LoginValues}
@@ -41,7 +43,7 @@ const Login: React.FC = () => {
             <Button variant="contained" type="submit" sx={{ width: "50%" }}>
               Acessar
             </Button>
-            <Link href="/" underline="hover" variant="subtitle2">
+            <Link href="/register" underline="hover" variant="subtitle2">
               Ainda não tem uma conta?
             </Link>
             <Link
@@ -59,6 +61,7 @@ const Login: React.FC = () => {
         </Form>
       </Formik>
     </ContainerForms>
+    </LoginPageStyle>
   );
 };
 

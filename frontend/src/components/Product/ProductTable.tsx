@@ -12,6 +12,7 @@ import {
   Button,
   InputLabel,
   FormControl,
+  TableContainer,
 } from "@mui/material";
 import { useReactToPrint } from "react-to-print";
 import PrintIcon from "@mui/icons-material/Print";
@@ -104,6 +105,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
         </FormControl>
       </div>
       <div ref={componentRef}>
+        <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
@@ -159,6 +161,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
             )}
           </TableBody>
         </Table>
+        </TableContainer>
         {selectedProduct && (
           <Typography variant="subtitle1" align="right" style={{ padding: 16 }}>
             Preço Total: {formatToBRL(selectedProduct.price)}

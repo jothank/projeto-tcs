@@ -12,6 +12,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  TableContainer,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { getErro } from "utils/ModalAlert";
@@ -97,6 +98,7 @@ export function FeedstockTable(props: CustomTableProps) {
         </ButtonContainer>
       </Grid>
       <div ref={componentRef}>
+        <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
@@ -137,6 +139,7 @@ export function FeedstockTable(props: CustomTableProps) {
             ))}
           </TableBody>
         </Table>
+        </TableContainer>
       </div>
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
         <DialogTitle>Confirmação</DialogTitle>

@@ -5,6 +5,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TableRow,
   TextField,
@@ -90,6 +91,7 @@ export function RegistrationTable({ registrations }: RegistrationTableProps) {
           </ButtonContainer>
         </Grid>
       </Grid>
+      <TableContainer>
       <Table>
         <TableHead>
           <TableRow>
@@ -129,6 +131,7 @@ export function RegistrationTable({ registrations }: RegistrationTableProps) {
           ))}
         </TableBody>
       </Table>
+      </TableContainer>
       <RegistrationModal
         open={open}
         onClose={() => setOpen(false)}

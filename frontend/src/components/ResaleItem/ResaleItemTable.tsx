@@ -7,6 +7,7 @@ import {
   TableCell,
   Button,
   Grid,
+  TableContainer,
 } from "@mui/material";
 import AddResaleItem from "./AddResaleItem";
 import { EditResaleItem } from "./EditResaleItem";
@@ -54,6 +55,7 @@ export function ResaleItemTable(props: CustomTableProps) {
           </Button>
         </ButtonContainer>
       </Grid>
+      <TableContainer>
       <Table>
         <TableHead>
           <TableRow>
@@ -92,6 +94,7 @@ export function ResaleItemTable(props: CustomTableProps) {
           ))}
         </TableBody>
       </Table>
+      </TableContainer>
       </div>
     </>
   );

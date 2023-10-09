@@ -9,7 +9,8 @@ import {
   Paper,
   Button,
   TextField,
-  Typography
+  Typography,
+  TableContainer
 } from "@mui/material";
 import { Expense } from "./AddFixedExpenses";
 import { setfixedExpense } from "services/fixedexpense.service";
@@ -84,6 +85,7 @@ const FixedExpensesTable = ({ expenses }: { expenses: Expense[] }) => {
         }}
       >
         <Grid>
+          <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
@@ -104,6 +106,7 @@ const FixedExpensesTable = ({ expenses }: { expenses: Expense[] }) => {
               ))}
             </TableBody>
           </Table>
+          </TableContainer>
         </Grid>
         <Grid
         sx={{

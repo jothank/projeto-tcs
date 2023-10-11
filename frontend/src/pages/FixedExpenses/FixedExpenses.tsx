@@ -1,14 +1,14 @@
-import AddFixedExpenses, { Expense } from "components/FixedExpenses/AddFixedExpenses";
+import AddFixedExpenses, { ExpenseValueType } from "components/FixedExpenses/AddFixedExpenses";
 import FixedExpensesTable from "components/FixedExpenses/FixedExpensesTable";
 import React, { useState } from "react";
 
 export const FixedExpense = () => {
-    const [expenses, setExpenses] = useState<Expense[]>([]); 
+    const [expenses, setExpenses] = useState<ExpenseValueType[]>([]); 
   
     return (
       <>
-        <AddFixedExpenses expenses={expenses} setExpenses={setExpenses} /> 
-        <FixedExpensesTable expenses={expenses} />
+        <AddFixedExpenses expensesValue={expenses} setExpenses={setExpenses} /> 
+        <FixedExpensesTable expensesValue={expenses} />
       </>
     );
   };

@@ -12,7 +12,7 @@ import {
   Typography,
   TableContainer
 } from "@mui/material";
-import { Expense } from "./AddFixedExpenses";
+import { ExpenseValueType } from "./AddFixedExpenses";
 import { setfixedExpense } from "services/fixedexpense.service";
 import { getErro, getSuccess } from "utils/ModalAlert";
 import { FixedExpensestype } from "types/FixedExpenses.types";
@@ -20,10 +20,11 @@ import { FixedExpensestype } from "types/FixedExpenses.types";
 const FixedExpenseValues: FixedExpensestype = {
   name: "",
   description: "",
+  expenses: 0,
   date: new Date,
   total_price: 0,
 };
-const FixedExpensesTable = ({ expenses }: { expenses: Expense[] }) => {
+const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType[] }) => {
   const [totalValue, setTotalValue] = useState<number>(0);
   const [manualTotalInput, setManualTotalInput] = useState(false);
   const [open, setOpen] = React.useState(false);
@@ -32,8 +33,8 @@ const FixedExpensesTable = ({ expenses }: { expenses: Expense[] }) => {
 
   const calculateTotal = () => {
     let total = 0;
-    expenses.forEach((item: Expense) => {
-      total += Number(item.value);
+    expensesValue.forEach((item: ExpenseValueType) => {
+      total += Number(item.expenses);
     });
     return total;
   };
@@ -43,7 +44,7 @@ const FixedExpensesTable = ({ expenses }: { expenses: Expense[] }) => {
       const newTotalValue = calculateTotal();
       setTotalValue(newTotalValue);
     }
-  }, [expenses, manualTotalInput]);
+  }, [expensesValue, manualTotalInput]);
 
   const toggleManualTotalInput = () => {
     setManualTotalInput(!manualTotalInput);
@@ -56,21 +57,23 @@ const FixedExpensesTable = ({ expenses }: { expenses: Expense[] }) => {
   const handleRegister = async () => {
     try {
       const AddfixedExpense: FixedExpensestype = {
-        name: FixedExpenseValues.name,
+        name: FixedExpenseValues.name, 
+        expenses: FixedExpenseValues.expenses,
         description: FixedExpenseValues.description,
         date: FixedExpenseValues.date,
         total_price: totalValue,
       };
   
-      setfixedExpense(
+      await setfixedExpense(
         AddfixedExpense.name,
         AddfixedExpense.description,
+        AddfixedExpense.expenses,
         AddfixedExpense.date,
         AddfixedExpense.total_price
       );
-      
+  
       handleClose();
-      getSuccess("Resale Item registered Succesfully");
+      getSuccess("Resale Item registered Successfully");
     } catch (error: any) {
       getErro(error.message);
     }
@@ -96,11 +99,11 @@ const FixedExpensesTable = ({ expenses }: { expenses: Expense[] }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {expenses.map((item: Expense, rowIndex: number) => (
+              {expensesValue.map((item: ExpenseValueType, rowIndex: number) => (
                 <TableRow key={rowIndex}>
                   <TableCell>{item.name}</TableCell>
                   <TableCell>{item.description}</TableCell>
-                  <TableCell>R${item.value},00</TableCell>
+                  <TableCell>R${item.expenses},00</TableCell>
                   <TableCell>{item.date}</TableCell>
                 </TableRow>
               ))}
@@ -125,12 +128,26 @@ const FixedExpensesTable = ({ expenses }: { expenses: Expense[] }) => {
           </Button>
         </div>
         {manualTotalInput ? (
+          <>
+          <TextField
+            label="nome"
+            variant="outlined"
+            value={FixedExpenseValues.name}
+            onChange={handleTotalValueChange}
+          />
           <TextField
             label="Valor Total"
             variant="outlined"
             value={totalValue}
             onChange={handleTotalValueChange}
           />
+          <TextField
+            label="Data"
+            variant="outlined"
+            value={FixedExpenseValues.date}
+            onChange={handleTotalValueChange}
+          />
+          </>
         ) : (
           <Typography variant="subtitle2">Gastos totais: R${totalValue},00</Typography>
         )}

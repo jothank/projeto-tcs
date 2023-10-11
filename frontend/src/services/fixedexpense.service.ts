@@ -5,6 +5,7 @@ import { getAuthorizationHeader } from "utils/GetHeader";
 export const setfixedExpense = async (
     name: string,
     description: string,
+    expenses: number,
     date: Date,
     total_price: number,
   ) => {
@@ -14,6 +15,7 @@ export const setfixedExpense = async (
         {
           name,
           description,
+          expenses,
           date,
           total_price,
         },

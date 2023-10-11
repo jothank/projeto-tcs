@@ -1,24 +1,24 @@
 import { Button, FormControl, Grid, TextField } from "@mui/material";
 import React, { useState } from "react";
 
-export interface Expense {
+export interface ExpenseValueType {
   name: string;
-  value: string;
+  expenses: string;
   description: string;
   date: string;
   totalValue: string;
 }
 
 export const AddFixedExpenses = ({
-  expenses,
+  expensesValue,
   setExpenses,
 }: {
-  expenses: Expense[];
-  setExpenses: React.Dispatch<React.SetStateAction<Expense[]>>;
+  expensesValue: ExpenseValueType[];
+  setExpenses: React.Dispatch<React.SetStateAction<ExpenseValueType[]>>;
 }) => {
-  const [expense, setExpense] = useState<Expense>({
+  const [expense, setExpense] = useState<ExpenseValueType>({
     name: "",
-    value: "",
+    expenses: "",
     description: "",
     date: "",
     totalValue: "",
@@ -31,10 +31,15 @@ export const AddFixedExpenses = ({
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    setExpenses([...expenses, expense]);
+    const expenseToSend = {
+      ...expense,
+      expenses: expense.expenses,
+    };
+
+    setExpenses([...expensesValue, expenseToSend]);
     setExpense({
       name: "",
-      value: "",
+      expenses: "",
       description: "",
       date: "",
       totalValue: "",
@@ -66,10 +71,10 @@ export const AddFixedExpenses = ({
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
             <TextField
-              name="value"
+              name="expenses"
               label="Valor"
               variant="outlined"
-              value={expense.value}
+              value={expense.expenses}
               onChange={handleChange}
             />
           </FormControl>

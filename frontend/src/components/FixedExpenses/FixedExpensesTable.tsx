@@ -20,8 +20,8 @@ import { FixedExpensestype } from "types/FixedExpenses.types";
 const FixedExpenseValues: FixedExpensestype = {
   name: "",
   description: "",
-  expenses: 0,
-  date: new Date,
+  price: 0,
+  date: "",
   total_price: 0,
 };
 const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType[] }) => {
@@ -34,7 +34,7 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
   const calculateTotal = () => {
     let total = 0;
     expensesValue.forEach((item: ExpenseValueType) => {
-      total += Number(item.expenses);
+      total += Number(item.price);
     });
     return total;
   };
@@ -55,23 +55,24 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
   };
 
   const handleRegister = async () => {
+    const firstExpense = expensesValue[0];
     try {
       const AddfixedExpense: FixedExpensestype = {
-        name: FixedExpenseValues.name, 
-        expenses: FixedExpenseValues.expenses,
-        description: FixedExpenseValues.description,
-        date: FixedExpenseValues.date,
-        total_price: totalValue,
+      name: firstExpense.name,
+      price: firstExpense.price,
+      description: firstExpense.description,
+      date: firstExpense.date,
+      total_price: totalValue,
       };
-  
+
       await setfixedExpense(
         AddfixedExpense.name,
         AddfixedExpense.description,
-        AddfixedExpense.expenses,
+        AddfixedExpense.price,
         AddfixedExpense.date,
         AddfixedExpense.total_price
       );
-  
+
       handleClose();
       getSuccess("Resale Item registered Successfully");
     } catch (error: any) {
@@ -89,69 +90,69 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
       >
         <Grid>
           <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Nome</TableCell>
-                <TableCell>Descrição</TableCell>
-                <TableCell>Valor</TableCell>
-                <TableCell>Data</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {expensesValue.map((item: ExpenseValueType, rowIndex: number) => (
-                <TableRow key={rowIndex}>
-                  <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.description}</TableCell>
-                  <TableCell>R${item.expenses},00</TableCell>
-                  <TableCell>{item.date}</TableCell>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Nome</TableCell>
+                  <TableCell>Descrição</TableCell>
+                  <TableCell>Valor</TableCell>
+                  <TableCell>Data</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHead>
+              <TableBody>
+                {expensesValue.map((item: ExpenseValueType, rowIndex: number) => (
+                  <TableRow key={rowIndex}>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell>{item.description}</TableCell>
+                    <TableCell>R${item.price},00</TableCell>
+                    <TableCell>{item.date}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </TableContainer>
         </Grid>
         <Grid
-        sx={{
-          marginTop: "1%",
-          display: "flex",
-          flexDirection: "row",
-          marginLeft: "30%",
-          gap: "20px"
-        }}
+          sx={{
+            marginTop: "1%",
+            display: "flex",
+            flexDirection: "row",
+            marginLeft: "30%",
+            gap: "20px"
+          }}
         >
-        <div>
-          <Button onClick={toggleManualTotalInput} variant="outlined">
-            {manualTotalInput
-              ? "Usar Cálculo Automático"
-              : "Inserir Valor Manualmente"}
-          </Button>
-        </div>
-        {manualTotalInput ? (
-          <>
-          <TextField
-            label="nome"
-            variant="outlined"
-            value={FixedExpenseValues.name}
-            onChange={handleTotalValueChange}
-          />
-          <TextField
-            label="Valor Total"
-            variant="outlined"
-            value={totalValue}
-            onChange={handleTotalValueChange}
-          />
-          <TextField
-            label="Data"
-            variant="outlined"
-            value={FixedExpenseValues.date}
-            onChange={handleTotalValueChange}
-          />
-          </>
-        ) : (
-          <Typography variant="subtitle2">Gastos totais: R${totalValue},00</Typography>
-        )}
-    
+          <div>
+            <Button onClick={toggleManualTotalInput} variant="outlined">
+              {manualTotalInput
+                ? "Usar Cálculo Automático"
+                : "Inserir Valor Manualmente"}
+            </Button>
+          </div>
+          {manualTotalInput ? (
+            <>
+              <TextField
+                label="nome"
+                variant="outlined"
+                value={FixedExpenseValues.name}
+                onChange={handleTotalValueChange}
+              />
+              <TextField
+                label="Valor Total"
+                variant="outlined"
+                value={totalValue}
+                onChange={handleTotalValueChange}
+              />
+              <TextField
+                label="Data"
+                variant="outlined"
+                value={FixedExpenseValues.date}
+                onChange={handleTotalValueChange}
+              />
+            </>
+          ) : (
+            <Typography variant="subtitle2">Gastos totais: R${totalValue},00</Typography>
+          )}
+
           <Button onClick={handleRegister} variant="outlined">Salvar</Button>
         </Grid>
       </Paper>

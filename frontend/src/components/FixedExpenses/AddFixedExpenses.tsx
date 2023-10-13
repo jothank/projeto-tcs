@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 export interface ExpenseValueType {
   name: string;
-  expenses: string;
+  price: number;
   description: string;
   date: string;
   totalValue: string;
@@ -18,7 +18,7 @@ export const AddFixedExpenses = ({
 }) => {
   const [expense, setExpense] = useState<ExpenseValueType>({
     name: "",
-    expenses: "",
+    price: 0,
     description: "",
     date: "",
     totalValue: "",
@@ -31,15 +31,10 @@ export const AddFixedExpenses = ({
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    const expenseToSend = {
-      ...expense,
-      expenses: expense.expenses,
-    };
-
-    setExpenses([...expensesValue, expenseToSend]);
+    setExpenses([...expensesValue, expense]);
     setExpense({
       name: "",
-      expenses: "",
+      price: 0,
       description: "",
       date: "",
       totalValue: "",
@@ -48,64 +43,57 @@ export const AddFixedExpenses = ({
 
   return (
     <form onSubmit={handleSubmit}>
-      <Grid container spacing={4}
-      sx={{
-      display: "flex",
-      marginLeft: '15%',
-      marginTop: '2%'
-     
-      }}
-      >
-        <Grid sx={{display: 'flex', gap: '20px'}}>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth>
-            <TextField
-              name="name"
-              label="Nome"
-              variant="outlined"
-              value={expense.name}
-              onChange={handleChange}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth>
-            <TextField
-              name="expenses"
-              label="Valor"
-              variant="outlined"
-              value={expense.expenses}
-              onChange={handleChange}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={12}  sm={6}>
-          <FormControl fullWidth>
-            <TextField
-              name="description"
-              label="Descrição"
-              variant="outlined"
-              value={expense.description}
-              onChange={handleChange}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth>
-            <TextField
-              type="date"
-              name="date"
-              variant="outlined"
-              value={expense.date}
-              onChange={handleChange}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={12}  sm={6}>
-          <Button type="submit" variant="contained" color="primary">
-            Adicionar
-          </Button>
-        </Grid>
+      <Grid container spacing={4} sx={{ display: "flex", marginLeft: '15%', marginTop: '2%' }}>
+        <Grid sx={{ display: 'flex', gap: '20px' }}>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <TextField
+                name="name"
+                label="Nome"
+                variant="outlined"
+                value={expense.name}
+                onChange={handleChange}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <TextField
+                name="expenses"
+                label="Valor"
+                variant="outlined"
+                value={expense.price}
+                onChange={handleChange}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <TextField
+                name="description"
+                label="Descrição"
+                variant="outlined"
+                value={expense.description}
+                onChange={handleChange}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <TextField
+                type="date"
+                name="date"
+                variant="outlined"
+                value={expense.date}
+                onChange={handleChange}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Button type="submit" variant="contained" color="primary">
+              Adicionar
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
     </form>

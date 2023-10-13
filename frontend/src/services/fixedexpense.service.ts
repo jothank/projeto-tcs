@@ -6,7 +6,7 @@ export const setfixedExpense = async (
     name: string,
     description: string,
     expenses: number,
-    date: Date,
+    date: string,
     total_price: number,
   ) => {
     try {

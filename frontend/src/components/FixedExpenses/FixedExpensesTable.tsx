@@ -23,6 +23,7 @@ const FixedExpenseValues: FixedExpensestype = {
   price: 0,
   date: "",
   total_price: 0,
+  expenses: [],
 };
 const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType[] }) => {
   const [totalValue, setTotalValue] = useState<number>(0);
@@ -55,30 +56,36 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
   };
 
   const handleRegister = async () => {
-    const firstExpense = expensesValue[0];
     try {
-      const AddfixedExpense: FixedExpensestype = {
-      name: firstExpense.name,
-      price: firstExpense.price,
-      description: firstExpense.description,
-      date: firstExpense.date,
-      total_price: totalValue,
+      const fixedExpense: FixedExpensestype = {
+        name: expensesValue[0].name,
+        description: expensesValue[0].description,
+        price: expensesValue[0].price,
+        expenses: expensesValue.map((item) => ({
+          name: item.name,
+          price: item.price,
+          description: item.description,
+        })),
+        date: expensesValue[0].date,
+        total_price: totalValue,
       };
 
       await setfixedExpense(
-        AddfixedExpense.name,
-        AddfixedExpense.description,
-        AddfixedExpense.price,
-        AddfixedExpense.date,
-        AddfixedExpense.total_price
+        fixedExpense.name,
+        fixedExpense.description,
+        fixedExpense.price,
+        fixedExpense.expenses,
+        fixedExpense.date,
+        fixedExpense.total_price
       );
 
-      handleClose();
-      getSuccess("Resale Item registered Successfully");
+      getSuccess("Items de despesa registrados com sucesso");
     } catch (error: any) {
       getErro(error.message);
     }
   };
+
+  
 
   return (
     <>

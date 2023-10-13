@@ -1,8 +1,12 @@
-
-export interface FixedExpensestype {
+export type FixedExpensestype = {
+  name: string;
+  description: string;
+  price: number;
+  date: string;
+  total_price: number;
+  expenses: { 
     name: string;
-    description: string;
     price: number;
-    date: string;
-    total_price: number;
-}
+    description: string;
+  }[];
+};

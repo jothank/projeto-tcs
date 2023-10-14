@@ -15,9 +15,10 @@ import {
 import { ExpenseValueType } from "./AddFixedExpenses";
 import { setfixedExpense } from "services/fixedexpense.service";
 import { getErro, getSuccess } from "utils/ModalAlert";
-import { FixedExpensestype } from "types/FixedExpenses.types";
+import { FixedExpenseType } from "types/FixedExpenses.types";
 
-const FixedExpenseValues: FixedExpensestype = {
+const FixedExpenseValues: FixedExpenseType = {
+  id: 0,
   name: "",
   description: "",
   price: 0,
@@ -57,7 +58,7 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
 
   const handleRegister = async () => {
     try {
-      const fixedExpense: FixedExpensestype = {
+      const fixedExpense: FixedExpenseType = {
         name: expensesValue[0].name,
         description: expensesValue[0].description,
         price: expensesValue[0].price,
@@ -70,7 +71,7 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
         total_price: totalValue,
       };
 
-      await setfixedExpense(
+      const response = await setfixedExpense(
         fixedExpense.name,
         fixedExpense.description,
         fixedExpense.price,
@@ -79,12 +80,15 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
         fixedExpense.total_price
       );
 
-      getSuccess("Items de despesa registrados com sucesso");
+      if (response) {
+        getSuccess("Items de despesa registrados com sucesso");
+      } else {
+        getErro("Falha ao registrar despesas");
+      }
     } catch (error: any) {
       getErro(error.message);
     }
   };
-
   
 
   return (

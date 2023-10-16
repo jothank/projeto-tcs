@@ -5,8 +5,10 @@ import { RegisterIUser } from "types/user.type";
 import { RegisterValidation } from "utils/validations/validationForm";
 import { register } from "services/auth.service";
 import { ButtonForms, ContainerForms, FormInput } from "components/FormGroup";
-import { getErro, getSuccess } from "utils/ModalAlert";
+import { getErro, getRegister } from "utils/ModalAlert";
 import LoginPageStyle from "components/LoginPageStyle/LoginPageStyle";
+
+
 
 const RegisterValues: RegisterIUser = {
   username: "",
@@ -18,11 +20,15 @@ const RegisterValues: RegisterIUser = {
 };
 
 const Register: React.FC = () => {
+  const [loading, setLoading] = React.useState(false);
+
   const handleRegister = async (
     formValue: RegisterIUser,
     { resetForm }: { resetForm: () => void }
   ) => {
     try {
+      setLoading(true);
+
       await register(
         formValue.username,
         formValue.email,
@@ -31,11 +37,13 @@ const Register: React.FC = () => {
         formValue.firstName,
         formValue.lastName
       );
-      getSuccess("Verifique seu email para ativar sua conta.");
+      getRegister("Verifique seu email para ativar sua conta.");
 
       resetForm();
     } catch (error: any) {
       getErro(error.message);
+    } finally {
+      setLoading(false); 
     }
   };
 
@@ -61,8 +69,13 @@ const Register: React.FC = () => {
             type="password"
           />
           <ButtonForms>
-            <Button variant="contained" type="submit" sx={{ width: "50%" }}>
-              Cadastrar
+            <Button
+              variant="contained"
+              type="submit"
+              sx={{ width: "50%" }}
+              disabled={loading}
+            >
+              {loading ? "Cadastrando..." : "Cadastrar"}
             </Button>
             <Link href="/" underline="hover" variant="subtitle2">
               Já possui tem uma conta?

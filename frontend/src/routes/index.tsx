@@ -11,6 +11,7 @@ import ResaleItem from "pages/ResaleItem/ResaleItem";
 import { Feedstock } from "pages/Feedstock/Feedstock";
 import Product from "pages/Product/Product";
 import { FixedExpense } from "pages/FixedExpenses/FixedExpenses";
+import Princing from "pages/Pricing/Pricing";
 
 export const AppRoutes = () => {
   return (
@@ -67,6 +68,14 @@ export const AppRoutes = () => {
         element={
           <PrivateRoute>
             <FixedExpense />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/pricing"
+        element={
+          <PrivateRoute>
+            <Princing />
           </PrivateRoute>
         }
       />

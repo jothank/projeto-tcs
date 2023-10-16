@@ -14,6 +14,7 @@ const NavBar: React.FC = () => {
     { text: "Produto", href: "/product", title: "Produtos" },
     { text: "Combo", href: "/registration", title: "Combos" },
     { text: "Gastos Fixos", href: "/fixed-expense", title: "Gastos Fixos" },
+    { text: "Simulador de Precificação", href: "/pricing", title: "Simulador de precificação" },
   ];
   const currentPath = new URL(window.location.href).pathname;
   const matchedItem = menuItems.find((item) => currentPath === item.href);

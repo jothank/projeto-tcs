@@ -12,6 +12,8 @@ import {
   Button,
   InputLabel,
   FormControl,
+  Grid,
+  TableContainer,
 } from "@mui/material";
 import { useReactToPrint } from "react-to-print";
 import PrintIcon from "@mui/icons-material/Print";
@@ -108,6 +110,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
         </FormControl>
       </div>
       <div ref={componentRef}>
+        <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
@@ -141,7 +144,6 @@ const ProductTable = ({ data }: ProductTableProps) => {
                       onClick={() => handleDelete(product.id)}
                       color="error"
                     >
-                      Remover
                     </Button>
                     <Button
                       onClick={() => {
@@ -163,6 +165,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
             )}
           </TableBody>
         </Table>
+        </TableContainer>
         {selectedProduct && (
           <>
             <Typography

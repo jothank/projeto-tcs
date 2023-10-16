@@ -16,7 +16,7 @@ import { ExpenseValueType } from "./AddFixedExpenses";
 import { setfixedExpense } from "services/fixedexpense.service";
 import { getErro, getSuccess } from "utils/ModalAlert";
 import { FixedExpenseType } from "types/FixedExpenses.types";
-
+import DeleteIcon from "@mui/icons-material/Delete";
 const FixedExpenseValues: FixedExpenseType = {
   id: 0,
   name: "",
@@ -89,7 +89,13 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
       getErro(error.message);
     }
   };
-  
+
+  const handleDelete = (rowIndex: any) => {
+    const updatedExpenses = [...expensesValue];
+    updatedExpenses.splice(rowIndex, 1);
+    expensesValue = updatedExpenses;
+  };
+
 
   return (
     <>
@@ -108,6 +114,7 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
                   <TableCell>Descrição</TableCell>
                   <TableCell>Valor</TableCell>
                   <TableCell>Data</TableCell>
+                  <TableCell>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -117,6 +124,14 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
                     <TableCell>{item.description}</TableCell>
                     <TableCell>R${item.price},00</TableCell>
                     <TableCell>{item.date}</TableCell>
+                    <TableCell>
+                      <Button
+                        color="error"
+                        onClick={() => handleDelete(rowIndex)}
+                      >
+                        <DeleteIcon />
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

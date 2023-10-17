@@ -12,7 +12,7 @@ import { FeedstockInput } from "components/Feedstock/InputFeedstock";
 import UnitSelect from "components/SelectOptions/SelectOptions";
 import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
 import { options } from "utils/FeedstockUnit";
-import { getErro, getSuccess } from "utils/ModalAlert";
+import { getErro, getAddReload } from "utils/ModalAlert";
 import { setfeedstock } from "services/feedstock.service";
 
 const FeedstockValues: FeedstockType = {
@@ -40,7 +40,7 @@ export const AddFeedstock = () => {
       );
 
       handleClose();
-      getSuccess("Resale Item registered Succesfully");
+      getAddReload("Resale Item registered Succesfully");
     } catch (error: any) {
       getErro(error.message);
     }

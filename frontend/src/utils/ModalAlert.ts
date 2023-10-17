@@ -75,7 +75,7 @@ export function getLogout(message: string) {
   }).then((result) => {
     if (result.isConfirmed) {
       logout();
-      window.location.href = "/login";
+      window.location.href = "/";
     }
   });
 }

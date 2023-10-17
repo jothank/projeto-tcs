@@ -72,8 +72,8 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, feedstockList
   };
 
   return (
-    <div>
-      <Button variant="outlined" onClick={() => handleOpen("product")}>
+    <Grid>
+      <Button variant="outlined" onClick={() => handleOpen("product")} sx={{ mr: 2 }}>
         Add Product
       </Button>
       <Button variant="outlined" onClick={() => handleOpen("revenda")}>
@@ -90,7 +90,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, feedstockList
           />
         </Grid>
       </Dialog>
-    </div>
+    </Grid>
   );
 };
 

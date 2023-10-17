@@ -23,6 +23,7 @@ import { deleteSupply, Supply } from "services/product.service";
 import { ProductTableProps, ProductType } from "types/Product.types";
 import EditDialog from "./EditProduct";
 import { getAllfeedstocks } from "services/feedstock.service";
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import { FeedstockType } from "types/Feedstock.type";
 import AddProduct from "./AddProduct";
 
@@ -35,7 +36,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
 
   const [isAddModalOpen, setisAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isAddProductOpne, setIsAddProductOpen] = useState(false);
+  const [isAddProductOpen, setIsAddProductOpen] = useState(false);
 
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
     data?.results.length ? data.results[0].id : null
@@ -71,6 +72,38 @@ const ProductTable = ({ data }: ProductTableProps) => {
     fetchFeedstocks();
   }, []);
 
+  const handleExportToCSV = () => {
+    if (selectedProduct) {
+      const csvContent =
+        "Insumo,Unidade de Fabricacao,Quantidade de uso,Unidade de aquisicao,Valor de aquisicao,Valor unitario\n" +
+        selectedProduct.supplies
+          .map((product) => {
+            const row = [
+              product.feedstock.name,
+              product.unit,
+              product.quantity,
+              product.feedstock.unit,
+              formatToBRL(product.feedstock.price),
+              formatToBRL(product.price),
+            ];
+            return row.join(",");
+          })
+          .join("\n");
+
+      const blob = new Blob([csvContent], { type: "text/csv" });
+      const link = document.createElement("a");
+
+      if (link.download !== undefined) {
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", "product_data.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    }
+  };
+
   return (
     <Paper>
       <div
@@ -85,15 +118,20 @@ const ProductTable = ({ data }: ProductTableProps) => {
             ? selectedProduct.name
             : "Nenhum produto selecionado"}
         </Typography>
-        <Button onClick={handlePrint} variant="outlined">
+        <Grid>
+        <Button onClick={handlePrint} variant="outlined" sx={{ mr: 2 }}>
           <PrintIcon />
         </Button>
+        <Button onClick={handleExportToCSV} variant="outlined">
+          <CloudDownloadIcon />
+        </Button>
+        </Grid>
         <AddProductModal
           isOpen={isAddModalOpen}
           onClose={() => setisAddModalOpen(false)}
           feedstockList={feedstockList}
         />
-        <FormControl sx={{ width: "70%" }}>
+        <FormControl sx={{ width: "40%" }}>
           <InputLabel>Selecione o produto</InputLabel>
           <Select
             value={selectedProductId || ""}
@@ -111,75 +149,63 @@ const ProductTable = ({ data }: ProductTableProps) => {
       </div>
       <div ref={componentRef}>
         <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Insumo</TableCell>
-              <TableCell align="right">Unidade de Fabricação</TableCell>
-              <TableCell align="right">Quantidade de uso</TableCell>
-              <TableCell align="right">Unidade de aquisição</TableCell>
-              <TableCell align="right">Valor de aquisição</TableCell>
-              <TableCell align="right">Valor unitário</TableCell>
-              <TableCell align="right">Ações</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {selectedProduct ? (
-              selectedProduct.supplies.map((product, index) => (
-                <TableRow key={`${product.id}-${index}`}>
-                  <TableCell component="th" scope="row">
-                    {product.feedstock.name}
-                  </TableCell>
-                  <TableCell align="right">{product.unit}</TableCell>
-                  <TableCell align="right">{product.quantity}</TableCell>
-                  <TableCell align="right">{product.feedstock.unit}</TableCell>
-                  <TableCell align="right">
-                    {formatToBRL(product.feedstock.price)}
-                  </TableCell>
-                  <TableCell align="right">
-                    {formatToBRL(product.price)}
-                  </TableCell>
-                  <TableCell align="right">
-                    <Button
-                      onClick={() => handleDelete(product.id)}
-                      color="error"
-                    >
-                    </Button>
-                    <Button
-                      onClick={() => {
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Insumo</TableCell>
+                <TableCell align="right">Unidade de Fabricação</TableCell>
+                <TableCell align="right">Quantidade de uso</TableCell>
+                <TableCell align="right">Unidade de aquisição</TableCell>
+                <TableCell align="right">Valor de aquisição</TableCell>
+                <TableCell align="right">Valor unitário</TableCell>
+                <TableCell align="right">Ações</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {selectedProduct ? (
+                selectedProduct.supplies.map((product, index) => (
+                  <TableRow key={`${product.id}-${index}`}>
+                    <TableCell component="th" scope="row">
+                      {product.feedstock.name}
+                    </TableCell>
+                    <TableCell align="right">{product.unit}</TableCell>
+                    <TableCell align="right">{product.quantity}</TableCell>
+                    <TableCell align="right">{product.feedstock.unit}</TableCell>
+                    <TableCell align="right">
+                      {formatToBRL(product.feedstock.price)}
+                    </TableCell>
+                    <TableCell align="right">
+                      {formatToBRL(product.price)}
+                    </TableCell>
+                    <TableCell align="right">
+                      <Button onClick={() => handleDelete(product.id)} color="error">
+                        Delete
+                      </Button>
+                      <Button onClick={() => {
                         setIsEditModalOpen(true);
                         setSelectedSupply(product);
-                      }}
-                    >
-                      Editar
-                    </Button>
+                      }}>
+                        Editar
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={7} align="center">
+                    Nenhum produto selecionado
                   </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={7} align="center">
-                  Nenhum produto selecionado
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+              )}
+            </TableBody>
+          </Table>
         </TableContainer>
         {selectedProduct && (
           <>
-            <Typography
-              variant="subtitle1"
-              align="right"
-              style={{ padding: 16 }}
-            >
+            <Typography variant="subtitle1" align="right" style={{ padding: 16 }}>
               Preço Total: {formatToBRL(selectedProduct.price)}
             </Typography>
-            <Button
-              onClick={() => {
-                setIsAddProductOpen(true);
-              }}
-            >
+            <Button onClick={() => { setIsAddProductOpen(true); }}>
               Adicionar Itens
             </Button>
           </>
@@ -195,7 +221,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
         selectProduct={selectedProduct}
         feedstockList={feedstockList}
         onClose={() => setIsAddProductOpen(false)}
-        open={isAddProductOpne}
+        open={isAddProductOpen}
       />
     </Paper>
   );

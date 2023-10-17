@@ -5,8 +5,8 @@ Product Registration admin
 # Libraries
 ###
 from django.contrib import admin
-from app.product.models.product_registration import Product
-from app.product.models.product_registration_product import ProductSupply
+from app.product.models.product import Product
+from app.product.models.product_supply import ProductSupply
 
 
 ###

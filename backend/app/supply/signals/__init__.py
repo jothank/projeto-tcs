@@ -6,8 +6,8 @@ __all__ = [
 ###
 from django.db.models.signals import pre_delete, post_save
 from django.dispatch import receiver
-from app.supply.models.product import Supply
-from app.product.models.product_registration_product import ProductSupply
+from app.supply.models.supply import Supply
+from app.product.models.product_supply import ProductSupply
 
 
 ###

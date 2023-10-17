@@ -3,7 +3,7 @@
 ###
 from django.utils.translation import gettext as _
 from django.db import models
-from app.product.models.product_registration import Product
+from app.product.models.product import Product
 from app.combo.models.combo import Combo
 
 

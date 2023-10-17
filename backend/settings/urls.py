@@ -42,9 +42,10 @@ urlpatterns = [
     path('', include('app.pricing.urls')),
     path('', include('app.product.urls')),
     path('', include('app.supply.urls')),
-    path('', include('app.resale_item.urls')),
-    path('', include('app.utils.urls')),
     path('', include('app.variable_expense.urls')),
+
+
+    # Swagger
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0),
          name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger',

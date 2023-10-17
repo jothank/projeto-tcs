@@ -3,7 +3,7 @@
 ##
 from django.urls import path, include
 from rest_framework import routers
-from app.supply.api.v1.views.product_views import SupplyViewSet
+from app.supply.api.v1.views.supply_views import SupplyViewSet
 
 
 # Routers

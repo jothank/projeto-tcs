@@ -5,7 +5,7 @@ Product admin
 # Libraries
 ###
 from django.contrib import admin
-from app.supply.models.product import Supply
+from app.supply.models.supply import Supply
 
 
 ###

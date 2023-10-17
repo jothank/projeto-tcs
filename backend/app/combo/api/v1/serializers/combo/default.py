@@ -6,8 +6,8 @@ API V1: Combo Serializers
 ###
 from rest_framework import serializers
 from app.combo.models.combo import Combo
-from app.product.models.product_registration import Product
-from app.product.api.v1.serializers.product_registration.retrieve import RetrieveProductSerializer
+from app.product.models.product import Product
+from app.product.api.v1.serializers.product.retrieve import RetrieveProductSerializer
 
 ###
 # Serializers

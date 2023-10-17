@@ -64,9 +64,7 @@ INSTALLED_APPS = [
     "app.fixed_expense",
     "app.pricing",
     "app.product",
-    "app.resale_item",
     "app.supply",
-    "app.utils",
     "app.variable_expense",
 
     # CorsHeaders

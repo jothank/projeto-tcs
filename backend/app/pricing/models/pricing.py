@@ -3,16 +3,46 @@
 ###
 from django.utils.translation import gettext as _
 from django.db import models
+from app.product.models.product import Product
+from app.combo.models.combo import Combo
 
 
 ###
 # Model
 ###
 class Pricing(models.Model):
-    """
-    unit_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Unit Price'))
-    total_fixed_expenses = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Total Fixed Expenses'))
-    total_variable_expenses = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Total Variable Expenses'))
-    estimated_profit_percentage = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Estimated Profit Percentage'))
-    suggested_selling_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Suggested Selling Price'))
-    """
+    tax = models.FloatField(
+        verbose_name=_('Tax'),
+    )
+    card_tax = models.FloatField(
+        verbose_name=_('Card Tax'),
+    )
+    other = models.FloatField(
+        verbose_name=_('Other'),
+    )
+    profit = models.FloatField(
+        verbose_name=_('Profit'),
+    )
+    suggested_price = models.FloatField(
+        verbose_name=_('Suggested Price'),
+    )
+    delivery_price = models.FloatField(
+        verbose_name=_('Delivery Price'),
+    )
+    condominium = models.FloatField(
+        verbose_name=_('Condominium'),
+    )
+    product = models.ForeignKey(
+        Product,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        verbose_name=_('Product'),
+    )
+    combo = models.ForeignKey(
+        Combo,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        verbose_name=_('Combo'),
+    )

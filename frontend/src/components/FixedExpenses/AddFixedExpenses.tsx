@@ -43,43 +43,16 @@ export const AddFixedExpenses = ({
 
   return (
     <form onSubmit={handleSubmit}>
-      <Grid container spacing={4} sx={{ display: "flex", marginLeft: '15%', marginTop: '2%' }}>
-        <Grid sx={{ display: 'flex', gap: '20px' }}>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <TextField
-                name="name"
-                label="Nome"
-                variant="outlined"
-                value={expense.name}
-                onChange={handleChange}
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <TextField
-                name="expenses"
-                label="Valor"
-                variant="outlined"
-                value={expense.price}
-                onChange={handleChange}
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <TextField
-                name="description"
-                label="Descrição"
-                variant="outlined"
-                value={expense.description}
-                onChange={handleChange}
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
+    <Grid style={{ width: "50%", marginLeft: "20%",  marginTop: '2%' }}>
+      <Grid sx={{display: "flex", flexDirection: "row", gap: "20px", marginBottom: "2%"}}>
+        <FormControl fullWidth>
+          <TextField
+            name=""
+            label="Gasto"
+            variant="outlined"
+          />
+        </FormControl>
+        <FormControl fullWidth>
               <TextField
                 type="date"
                 name="date"
@@ -88,15 +61,48 @@ export const AddFixedExpenses = ({
                 onChange={handleChange}
               />
             </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Button type="submit" variant="contained" color="primary">
-              Adicionar
-            </Button>
-          </Grid>
-        </Grid>
       </Grid>
-    </form>
+      <Grid sx={{display: "flex", flexDirection: "row", gap: "20px"}}>
+        <FormControl fullWidth>
+          <TextField
+            name="name"
+            label="Despesa"
+            variant="outlined"
+            value={expense.name}
+            onChange={handleChange}
+          />
+        </FormControl>
+        <FormControl fullWidth>
+          <TextField
+            name="price"
+            label="Valor"
+            variant="outlined"
+            value={expense.price}
+            onChange={handleChange}
+          />
+        </FormControl>
+        <FormControl fullWidth>
+          <TextField
+            name="description"
+            label="Descrição"
+            variant="outlined"
+            value={expense.description}
+            onChange={handleChange}
+          />
+        </FormControl>
+        <Button type="submit" variant="contained" color="primary"
+        sx={{
+          width: "30%"
+        }}
+        >
+          Adicionar
+        </Button>
+      </Grid>
+    </Grid>
+  </form>
+  
+  
+  
   );
 };
 

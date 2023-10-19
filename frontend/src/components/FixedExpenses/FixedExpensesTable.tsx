@@ -155,26 +155,13 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
             </Button>
           </div>
           {manualTotalInput ? (
-            <>
-              <TextField
-                label="nome"
-                variant="outlined"
-                value={FixedExpenseValues.name}
-                onChange={handleTotalValueChange}
-              />
               <TextField
                 label="Valor Total"
                 variant="outlined"
                 value={totalValue}
                 onChange={handleTotalValueChange}
               />
-              <TextField
-                label="Data"
-                variant="outlined"
-                value={FixedExpenseValues.date}
-                onChange={handleTotalValueChange}
-              />
-            </>
+         
           ) : (
             <Typography variant="subtitle2">Gastos totais: R${totalValue},00</Typography>
           )}

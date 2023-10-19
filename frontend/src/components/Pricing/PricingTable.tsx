@@ -14,8 +14,29 @@ import {
 } from "@mui/material";
 import AddPricing from "./AddPricing";
 import AddProduct from "components/Product/AddProduct";
+import { ProductTableProps } from "types/Product.types";
+import { getAllProduct } from "services/productRegistration.service";
 
 const PricingTable = () => {
+
+  const [supplies, setSupplies] = useState<ProductTableProps>({
+    data: {
+      results: [],
+    },
+  });
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getAllProduct();
+        setSupplies({ data: { results: data } });
+      } catch (error: any) {
+        console.error("Failed to fetch feedstocks:", error.message);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
 return (
     <Grid>

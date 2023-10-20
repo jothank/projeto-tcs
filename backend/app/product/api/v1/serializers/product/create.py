@@ -16,6 +16,7 @@ from app.supply.models.supply import Supply
 class CreateProductSerializer(serializers.ModelSerializer):
     supplies = serializers.PrimaryKeyRelatedField(
         queryset=Supply.objects.all(), many=True)
+    price = serializers.FloatField(required=False)
 
     def validate(self, attr):
         supplies_ids = self.initial_data.get('supplies', None)
@@ -23,9 +24,9 @@ class CreateProductSerializer(serializers.ModelSerializer):
         if supplies_ids is None:
             raise serializers.ValidationError()
 
-        supplies = list(Supply.objects.filter(
-            id__in=supplies_ids).values_list('id', flat=True))
-        attr['supplies'] = set(supplies)
+        supplies = Supply.objects.filter(id__in=supplies_ids)
+        attr['price'] = sum([supply.price for supply in supplies])
+        attr['supplies'] = supplies
         return attr
 
     class Meta:

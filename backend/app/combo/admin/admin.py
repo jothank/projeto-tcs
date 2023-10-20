@@ -6,7 +6,7 @@ Combo admin
 ###
 from django.contrib import admin
 from app.combo.models.combo import Combo
-from app.combo.models.combo_product_registration import ComboProduct
+from app.combo.models.combo_product import ComboProduct
 
 
 ###

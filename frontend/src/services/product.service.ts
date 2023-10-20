@@ -2,67 +2,26 @@ import { BASE_URL } from "../config";
 import axios from "axios";
 import { getAuthorizationHeader } from "utils/GetHeader";
 
-export interface Supply {
-  products: any;
-  feedstock_type: number;
-  price: number;
+interface supply {
+  feedstock: number;
   quantity: number;
   unit: string;
+  price: number;
 }
 
-export const setSupplies = async (data: { supplies: any }): Promise<any> => {
+export const setProduct = async ({
+  name,
+  supplies,
+}: {
+  name: string;
+  supplies: number[];
+}) => {
   try {
-    const response = await axios.post(`${BASE_URL}supply/`, data, {
-      headers: await getAuthorizationHeader(),
-    });
-    console.log(response.data);
-
-    return response.data.supplies;
-  } catch (error) {
-    return error;
-  }
-};
-export const setSupply = async (
-  feedstock: number,
-  price: number,
-  quantity: number,
-  unit: string
-): Promise<any> => {
-  const data = {
-    supplies: [
+    const response = await axios.post(
+      `${BASE_URL}product/`,
       {
-        feedstock: feedstock,
-        price: price,
-        quantity: quantity,
-        unit: unit,
-      },
-    ],
-  };
-  try {
-    const response = await axios.post(`${BASE_URL}supply/`, data, {
-      headers: await getAuthorizationHeader(),
-    });
-    return response.data.supplies;
-  } catch (error) {
-    return error;
-  }
-};
-
-export const updateSupply = async (
-  id: number,
-  feedstock: number,
-  price: number,
-  quantity: number,
-  unit: string
-) => {
-  try {
-    const response = await axios.put(
-      BASE_URL + `supply/${id}/`,
-      {
-        price,
-        quantity,
-        feedstock: feedstock,
-        unit,
+        name,
+        supplies,
       },
       {
         headers: await getAuthorizationHeader(),
@@ -74,9 +33,38 @@ export const updateSupply = async (
   }
 };
 
-export const deleteSupply = async (id: number) => {
+export const updateProduct = async ({
+  id,
+  name,
+  supplies,
+  price,
+}: {
+  id: number;
+  name: string;
+  supplies: number[];
+  price: number;
+}) => {
   try {
-    const response = await axios.delete(BASE_URL + `supply/${id}/`, {
+    const response = await axios.put(
+      `${BASE_URL}product/${id}/`,
+      {
+        name,
+        supplies: supplies,
+        price: price,
+      },
+      {
+        headers: await getAuthorizationHeader(),
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getProduct = async (id: number) => {
+  try {
+    const response = await axios.get(BASE_URL + `product/${id}/`, {
       headers: await getAuthorizationHeader(),
     });
     return response.data;
@@ -85,13 +73,13 @@ export const deleteSupply = async (id: number) => {
   }
 };
 
-export const getAllSupplies = async () => {
+export const getAllProduct = async () => {
   try {
-    const response = await axios.get(BASE_URL + "supply/", {
+    const response = await axios.get(BASE_URL + "product/", {
       headers: await getAuthorizationHeader(),
     });
-    return response.data?.results;
+    return response.data.results;
   } catch (error) {
-    return new Error("Não foi possível obter os produtos.");
+    return error;
   }
 };

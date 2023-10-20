@@ -15,7 +15,7 @@ import {
 import AddPricing from "./AddPricing";
 import AddProduct from "components/Product/AddProduct";
 import { ProductTableProps } from "types/Product.types";
-import { getAllProduct } from "services/productRegistration.service";
+import { getAllProduct } from "services/product.service";
 
 const PricingTable = () => {
 

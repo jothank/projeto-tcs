@@ -5,7 +5,7 @@ import { getAuthorizationHeader } from "utils/GetHeader";
 export const setCombo = async (
   registrations: Array<{}>,
   name: string,
-  price: number,
+  price: number
 ) => {
   try {
     const response = await axios.post(
@@ -20,6 +20,17 @@ export const setCombo = async (
       }
     );
     return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getCombos = async () => {
+  try {
+    const response = await axios.get(BASE_URL + "combo/", {
+      headers: await getAuthorizationHeader(),
+    });
+    return response.data.results;
   } catch (error) {
     return error;
   }

@@ -17,8 +17,7 @@ import UnitSelect from "components/SelectOptions/SelectOptions";
 import { options } from "utils/FeedstockUnit";
 import { FeedstockType } from "types/Feedstock.type";
 import { ProductInput } from "./InputProduct";
-import { updateSupply } from "services/product.service";
-import { calculatePricePerKiloOrLiter } from "utils/calculations/pricing";
+import { updateSupply } from "services/supply.service";
 
 export interface Product {
   feedstock: {
@@ -59,17 +58,9 @@ const EditDialog: React.FC<EditDialogProps> = ({
   const handleEdit = async (values: Product) => {
     try {
       console.log(values);
-      const calculatedPrice = calculatePricePerKiloOrLiter(
-        values.feedstock.price,
-        values.feedstock.quantity,
-        values.feedstock.unit,
-        values.quantity,
-        values.unit
-      );
       const edit = await updateSupply(
         values.id,
         values.feedstock.id || 0,
-        calculatedPrice,
         values.quantity,
         values.unit
       );

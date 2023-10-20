@@ -1,5 +1,3 @@
-import { FeedstockType } from "types/Feedstock.type";
-
 export interface ProductType {
   id?: number;
   feedstock: {

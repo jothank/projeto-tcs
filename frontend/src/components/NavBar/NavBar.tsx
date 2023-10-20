@@ -12,7 +12,7 @@ const NavBar: React.FC = () => {
     { text: "Empresa", href: "/company", title: "Empresa" },
     { text: "Insumos", href: "/feed-stock", title: "Insumos" },
     { text: "Produto", href: "/product", title: "Produtos" },
-    { text: "Combo", href: "/registration", title: "Combos" },
+    { text: "Combo", href: "/combo", title: "Combos" },
     { text: "Gastos Fixos", href: "/fixed-expense", title: "Gastos Fixos" },
     { text: "Simulador de Precificação", href: "/pricing", title: "Simulador de precificação" },
   ];

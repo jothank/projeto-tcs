@@ -12,6 +12,7 @@ import { Feedstock } from "pages/Feedstock/Feedstock";
 import Product from "pages/Product/Product";
 import { FixedExpense } from "pages/FixedExpenses/FixedExpenses";
 import Princing from "pages/Pricing/Pricing";
+import Combo from "pages/Combo/Combo";
 
 export const AppRoutes = () => {
   return (
@@ -76,6 +77,14 @@ export const AppRoutes = () => {
         element={
           <PrivateRoute>
             <Princing />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/combo"
+        element={
+          <PrivateRoute>
+            <Combo />
           </PrivateRoute>
         }
       />

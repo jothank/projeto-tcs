@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Dialog, DialogTitle, Button, Grid } from "@mui/material";
-import { calculatePricePerKiloOrLiter } from "utils/calculations/pricing";
 import { getAllfeedstocks } from "services/feedstock.service";
-import { setSupplies, Supply } from "services/product.service";
+import { setSupplies, Supply } from "services/supply.service";
 import { ProductType } from "types/Product.types";
-import { setProduct } from "services/productRegistration.service";
+import { setProduct } from "services/product.service";
 import ProductForm from "./ProductForm";
 import { FeedstockType } from "types/Feedstock.type";
 
@@ -14,7 +13,10 @@ interface AddProductModalProps {
   feedstockList: FeedstockType[];
 }
 
-const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, feedstockList }) => {
+const AddProductModal: React.FC<AddProductModalProps> = ({
+  isOpen,
+  feedstockList,
+}) => {
   const [open, setOpen] = useState(isOpen);
   const [modalType, setModalType] = useState("");
 
@@ -35,24 +37,12 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, feedstockList
 
   const handleSubmit = async (values: any) => {
     try {
-      let totalPrice = 0;
-
       console.log("1", values);
-
       const supplies = values.products.map((product: any) => {
-        const calculatedPrice = calculatePricePerKiloOrLiter(
-          product.feedstock.price,
-          product.feedstock.quantity,
-          product.feedstock.unit,
-          product.quantity,
-          product.unit
-        );
-        totalPrice += calculatedPrice;
         return {
           feedstock: product.feedstock.id,
           quantity: product.quantity,
           unit: product.unit,
-          price: calculatedPrice,
         };
       });
       const regiProds = await setSupplies({ supplies });
@@ -63,7 +53,6 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, feedstockList
       setProduct({
         name: values.productRegistrationName,
         supplies: idssupplies,
-        price: totalPrice,
       });
       setOpen(false);
     } catch (error) {
@@ -73,7 +62,11 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, feedstockList
 
   return (
     <Grid>
-      <Button variant="outlined" onClick={() => handleOpen("product")} sx={{ mr: 2 }}>
+      <Button
+        variant="outlined"
+        onClick={() => handleOpen("product")}
+        sx={{ mr: 2 }}
+      >
         Add Product
       </Button>
       <Button variant="outlined" onClick={() => handleOpen("revenda")}>

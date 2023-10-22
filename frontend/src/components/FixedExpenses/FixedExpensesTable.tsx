@@ -13,25 +13,20 @@ import {
   TableContainer
 } from "@mui/material";
 import { ExpenseValueType } from "./AddFixedExpenses";
-import { setfixedExpense } from "services/fixedexpense.service";
 import { getErro, getSuccess } from "utils/ModalAlert";
-import { FixedExpenseType } from "types/FixedExpenses.types";
 import DeleteIcon from "@mui/icons-material/Delete";
-const FixedExpenseValues: FixedExpenseType = {
-  id: 0,
-  name: "",
-  description: "",
-  price: 0,
-  date: "",
-  total_price: 0,
-  expenses: [],
-};
-const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType[] }) => {
+import { FixedExpenseType } from "types/FixedExpenses.types";
+import { setfixedExpense } from "services/fixedexpense.service";
+
+const FixedExpensesTable = ({
+  expensesValue,
+  setExpenses, 
+}: {
+  expensesValue: ExpenseValueType[];
+  setExpenses: React.Dispatch<React.SetStateAction<ExpenseValueType[]>>;
+}) => {
   const [totalValue, setTotalValue] = useState<number>(0);
   const [manualTotalInput, setManualTotalInput] = useState(false);
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   const calculateTotal = () => {
     let total = 0;
@@ -59,29 +54,16 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
   const handleRegister = async () => {
     try {
       const fixedExpense: FixedExpenseType = {
+        expenseId: expensesValue.length,
         name: expensesValue[0].name,
-        description: expensesValue[0].description,
-        price: expensesValue[0].price,
-        expenses: expensesValue.map((item) => ({
-          name: item.name,
-          price: item.price,
-          description: item.description,
-        })),
-        date: expensesValue[0].date,
         total_price: totalValue,
       };
 
-      const response = await setfixedExpense(
-        fixedExpense.name,
-        fixedExpense.description,
-        fixedExpense.price,
-        fixedExpense.expenses,
-        fixedExpense.date,
-        fixedExpense.total_price
-      );
+      const response = await setfixedExpense(fixedExpense);
 
       if (response) {
         getSuccess("Items de despesa registrados com sucesso");
+        setExpenses([]); 
       } else {
         getErro("Falha ao registrar despesas");
       }
@@ -90,12 +72,11 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
     }
   };
 
-  const handleDelete = (rowIndex: any) => {
+  const handleDelete = (rowIndex: number) => {
     const updatedExpenses = [...expensesValue];
     updatedExpenses.splice(rowIndex, 1);
-    expensesValue = updatedExpenses;
+    setExpenses(updatedExpenses); // Atualize o estado com a nova lista de despesas após a exclusão
   };
-
 
   return (
     <>
@@ -155,17 +136,15 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
             </Button>
           </div>
           {manualTotalInput ? (
-              <TextField
-                label="Valor Total"
-                variant="outlined"
-                value={totalValue}
-                onChange={handleTotalValueChange}
-              />
-         
+            <TextField
+              label="Valor Total"
+              variant="outlined"
+              value={totalValue}
+              onChange={handleTotalValueChange}
+            />
           ) : (
             <Typography variant="subtitle2">Gastos totais: R${totalValue},00</Typography>
           )}
-
           <Button onClick={handleRegister} variant="outlined">Salvar</Button>
         </Grid>
       </Paper>

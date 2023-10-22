@@ -1,14 +1,13 @@
-export type FixedExpenseType = {
+export type ExpenseType = {
   id?: number; 
   name: string;
-  description: string;
   price: number;
-  date: string;
+  description: string;
+};
+
+export type FixedExpenseType = {
+  id?: number; 
+  expenseId: number;
+  name: string; 
   total_price: number;
-  expenses: { 
-    id?: number; 
-    name: string;
-    price: number;
-    description: string;
-  }[];
 };

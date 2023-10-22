@@ -2,11 +2,11 @@ import { Button, FormControl, Grid, TextField } from "@mui/material";
 import React, { useState } from "react";
 
 export interface ExpenseValueType {
+  nameExpense: string,
   name: string;
-  price: number;
   description: string;
   date: string;
-  totalValue: string;
+  price: number; 
 }
 
 export const AddFixedExpenses = ({
@@ -17,92 +17,87 @@ export const AddFixedExpenses = ({
   setExpenses: React.Dispatch<React.SetStateAction<ExpenseValueType[]>>;
 }) => {
   const [expense, setExpense] = useState<ExpenseValueType>({
+    nameExpense: "",
     name: "",
-    price: 0,
     description: "",
     date: "",
-    totalValue: "",
+    price: 0,
   });
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setExpense({ ...expense, [name]: value });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setExpenses([...expensesValue, expense]);
     setExpense({
+     nameExpense: "",
       name: "",
-      price: 0,
       description: "",
       date: "",
-      totalValue: "",
+      price: 0,
     });
   };
 
   return (
     <form onSubmit={handleSubmit}>
-    <Grid style={{ width: "50%", marginLeft: "20%",  marginTop: '2%' }}>
-      <Grid sx={{display: "flex", flexDirection: "row", gap: "20px", marginBottom: "2%"}}>
-        <FormControl fullWidth>
-          <TextField
-            name=""
-            label="Gasto"
-            variant="outlined"
-          />
-        </FormControl>
-        <FormControl fullWidth>
-              <TextField
-                type="date"
-                name="date"
-                variant="outlined"
-                value={expense.date}
-                onChange={handleChange}
-              />
-            </FormControl>
+      <Grid style={{ width: "50%", marginLeft: "20%", marginTop: "2%" }}>
+        <Grid sx={{ display: "flex", flexDirection: "row", gap: "20px", marginBottom: "2%" }}>
+          <FormControl fullWidth>
+            <TextField
+              name="nameExpense"
+              label="Gasto"
+              variant="outlined"
+              value={expense.nameExpense}
+              onChange={handleChange}
+            />
+          </FormControl>
+          <FormControl fullWidth>
+            <TextField
+              name="name"
+              label="Despesa"
+              variant="outlined"
+              value={expense.name}
+              onChange={handleChange}
+            />
+          </FormControl>
+          <FormControl fullWidth>
+            <TextField
+              type="date"
+              name="date"
+              variant="outlined"
+              value={expense.date}
+              onChange={handleChange}
+            />
+          </FormControl>
+        </Grid>
+        <Grid sx={{ display: "flex", flexDirection: "row", gap: "20px" }}>
+          <FormControl fullWidth>
+            <TextField
+              name="description"
+              label="Descrição"
+              variant="outlined"
+              value={expense.description}
+              onChange={handleChange}
+            />
+          </FormControl>
+          <FormControl fullWidth>
+            <TextField
+              name="price"
+              label="Valor"
+              variant="outlined"
+              value={expense.price}
+              onChange={handleChange}
+            />
+          </FormControl>
+          <Button type="submit" variant="contained" color="primary" sx={{ width: "30%" }}>
+            Adicionar
+          </Button>
+        </Grid>
       </Grid>
-      <Grid sx={{display: "flex", flexDirection: "row", gap: "20px"}}>
-        <FormControl fullWidth>
-          <TextField
-            name="name"
-            label="Despesa"
-            variant="outlined"
-            value={expense.name}
-            onChange={handleChange}
-          />
-        </FormControl>
-        <FormControl fullWidth>
-          <TextField
-            name="price"
-            label="Valor"
-            variant="outlined"
-            value={expense.price}
-            onChange={handleChange}
-          />
-        </FormControl>
-        <FormControl fullWidth>
-          <TextField
-            name="description"
-            label="Descrição"
-            variant="outlined"
-            value={expense.description}
-            onChange={handleChange}
-          />
-        </FormControl>
-        <Button type="submit" variant="contained" color="primary"
-        sx={{
-          width: "30%"
-        }}
-        >
-          Adicionar
-        </Button>
-      </Grid>
-    </Grid>
-  </form>
-  
-  
-  
+    </form>
   );
 };
 

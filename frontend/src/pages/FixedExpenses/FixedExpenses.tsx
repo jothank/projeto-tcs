@@ -8,7 +8,7 @@ export const FixedExpense = () => {
   return (
     <>
       <AddFixedExpenses expensesValue={expenses} setExpenses={setExpenses} />
-      <FixedExpensesTable expensesValue={expenses} />
+      <FixedExpensesTable expensesValue={expenses} setExpenses={setExpenses} /> 
     </>
   );
 };

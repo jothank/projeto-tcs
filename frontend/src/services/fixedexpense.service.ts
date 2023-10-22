@@ -1,30 +1,13 @@
 import { BASE_URL } from "../config";
 import axios from "axios";
 import { getAuthorizationHeader } from "utils/GetHeader";
+import { FixedExpenseType, ExpenseType } from "types/FixedExpenses.types";
 
-export const setfixedExpense = async (
-  name: string,
-  description: string,
-  price: number,
-  expenses: {
-    name: string;
-    description: string;
-    price: number;
-  }[],
-  date: string,
-  total_price: number,
-) => {
+export const setfixedExpense = async (fixedExpense: FixedExpenseType) => {
   try {
     const response = await axios.post(
       BASE_URL + "fixed_expense/",
-      {
-        name,
-        description,
-        price,
-        expenses,
-        date,
-        total_price,
-      },
+      fixedExpense,
       {
         headers: await getAuthorizationHeader(),
       }

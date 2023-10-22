@@ -20,4 +20,4 @@ class Combo(models.Model):
         related_name='combo',
         verbose_name=_('Products')
     )
-    purchase_price = models.FloatField(verbose_name=_('Purchase price'))
+    price = models.FloatField(verbose_name=_('Purchase price'))

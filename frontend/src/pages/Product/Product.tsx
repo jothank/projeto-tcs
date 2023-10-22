@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllProduct } from "services/productRegistration.service";
+import { getAllProduct } from "services/product.service";
 import ProductTable from "components/Product/ProductTable";
 import { ProductTableProps } from "types/Product.types";
 

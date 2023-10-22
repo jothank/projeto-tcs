@@ -19,4 +19,4 @@ class DefaultComboSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Combo
-        fields = ["id", "name", "products", "purchase_price"]
+        fields = "__all__"

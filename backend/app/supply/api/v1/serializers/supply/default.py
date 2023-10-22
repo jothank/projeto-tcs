@@ -13,6 +13,7 @@ from app.supply.models.supply import Supply
 
 
 class DefaultSupplySerializer(serializers.ModelSerializer):
+    price = serializers.FloatField(required=False)
 
     class Meta:
         model = Supply

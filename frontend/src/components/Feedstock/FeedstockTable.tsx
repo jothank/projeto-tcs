@@ -24,7 +24,7 @@ import { useReactToPrint } from "react-to-print";
 import PrintIcon from "@mui/icons-material/Print";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
-import { formatToBRL } from "utils/calculations/pricing";
+import { formatToBRL } from "utils/pricing";
 
 type CustomTableProps = {
   data: FeedstockType[];

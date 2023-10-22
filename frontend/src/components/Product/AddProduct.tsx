@@ -17,12 +17,11 @@ import { ProductInput } from "./InputProduct";
 import UnitSelect from "components/SelectOptions/SelectOptions";
 import { options } from "utils/FeedstockUnit";
 import { ProductType } from "types/Product.types";
-import { setSupply } from "services/product.service";
-import { calculatePricePerKiloOrLiter } from "utils/calculations/pricing";
+import { setSupply } from "services/supply.service";
 import {
   setProduct,
   updateProduct,
-} from "services/productRegistration.service";
+} from "services/product.service";
 
 interface ProductFormProps {
   open: boolean;
@@ -61,34 +60,21 @@ const AddProduct: React.FC<ProductFormProps> = ({
 }) => {
   const handleAddProduct = async (values: ProductType) => {
     try {
-      const calculatedPrice = calculatePricePerKiloOrLiter(
-        values.feedstock.price,
-        values.feedstock.quantity,
-        values.feedstock.unit,
-        values.quantity,
-        values.unit
-      );
-      values.price = calculatedPrice;
-      const regiProds = await setSupply(
+      const supply = await setSupply(
         values.feedstock.id || 0,
-        calculatedPrice,
         values.quantity,
         values.unit
       );
-      const todosOsIds = selectProduct.supplies.map(
-        (supply: { id: any }) => supply.id
-      );
-      const id = regiProds[0].id;
-      const idsUnicos = [...new Set(todosOsIds), id];
-        console.log(idsUnicos);
-      const price = selectProduct.price + calculatedPrice;
-      const product = {
+      const ids = selectProduct.supplies.map((item: { id: number }) => item.id);
+      ids.push(supply[0].id);
+      const updatePrice = selectProduct.price + supply[0].price;
+
+      updateProduct({
         id: selectProduct.id,
         name: selectProduct.name,
-        price: price,
-        supplies: idsUnicos,
-      };
-      updateProduct(product);
+        supplies: ids,
+        price: updatePrice,
+      });
       onClose();
     } catch (err) {
       console.log(err);

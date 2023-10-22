@@ -27,7 +27,6 @@ export function getAddReload(message: string) {
   });
 }
 
-
 export function getErro(message: string) {
   Swal.fire({
     title: "Erro!",
@@ -44,7 +43,7 @@ export function getLoginWarning(message: string) {
     showConfirmButton: true,
   }).then((result) => {
     if (result.isConfirmed) {
-      window.location.href = "/login";
+      window.location.href = "/";
     }
   });
 }
@@ -94,4 +93,3 @@ export function getRegister(message: string) {
     }
   });
 }
-

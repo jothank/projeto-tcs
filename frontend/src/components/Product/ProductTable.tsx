@@ -18,9 +18,9 @@ import {
 import { useReactToPrint } from "react-to-print";
 import PrintIcon from "@mui/icons-material/Print";
 import AddProductModal from "components/Product/AddProducts";
-import { formatToBRL } from "utils/calculations/pricing";
-import { deleteSupply, Supply } from "services/product.service";
-import { ProductTableProps, ProductType } from "types/Product.types";
+import { formatToBRL } from "utils/pricing";
+import { deleteSupply } from "services/supply.service";
+import { ProductTableProps } from "types/Product.types";
 import EditDialog from "./EditProduct";
 import { getAllfeedstocks } from "services/feedstock.service";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
@@ -119,12 +119,12 @@ const ProductTable = ({ data }: ProductTableProps) => {
             : "Nenhum produto selecionado"}
         </Typography>
         <Grid>
-        <Button onClick={handlePrint} variant="outlined" sx={{ mr: 2 }}>
-          <PrintIcon />
-        </Button>
-        <Button onClick={handleExportToCSV} variant="outlined">
-          <CloudDownloadIcon />
-        </Button>
+          <Button onClick={handlePrint} variant="outlined" sx={{ mr: 2 }}>
+            <PrintIcon />
+          </Button>
+          <Button onClick={handleExportToCSV} variant="outlined">
+            <CloudDownloadIcon />
+          </Button>
         </Grid>
         <AddProductModal
           isOpen={isAddModalOpen}
@@ -170,7 +170,9 @@ const ProductTable = ({ data }: ProductTableProps) => {
                     </TableCell>
                     <TableCell align="right">{product.unit}</TableCell>
                     <TableCell align="right">{product.quantity}</TableCell>
-                    <TableCell align="right">{product.feedstock.unit}</TableCell>
+                    <TableCell align="right">
+                      {product.feedstock.unit}
+                    </TableCell>
                     <TableCell align="right">
                       {formatToBRL(product.feedstock.price)}
                     </TableCell>
@@ -178,13 +180,18 @@ const ProductTable = ({ data }: ProductTableProps) => {
                       {formatToBRL(product.price)}
                     </TableCell>
                     <TableCell align="right">
-                      <Button onClick={() => handleDelete(product.id)} color="error">
+                      <Button
+                        onClick={() => handleDelete(product.id)}
+                        color="error"
+                      >
                         Delete
                       </Button>
-                      <Button onClick={() => {
-                        setIsEditModalOpen(true);
-                        setSelectedSupply(product);
-                      }}>
+                      <Button
+                        onClick={() => {
+                          setIsEditModalOpen(true);
+                          setSelectedSupply(product);
+                        }}
+                      >
                         Editar
                       </Button>
                     </TableCell>
@@ -202,10 +209,18 @@ const ProductTable = ({ data }: ProductTableProps) => {
         </TableContainer>
         {selectedProduct && (
           <>
-            <Typography variant="subtitle1" align="right" style={{ padding: 16 }}>
+            <Typography
+              variant="subtitle1"
+              align="right"
+              style={{ padding: 16 }}
+            >
               Preço Total: {formatToBRL(selectedProduct.price)}
             </Typography>
-            <Button onClick={() => { setIsAddProductOpen(true); }}>
+            <Button
+              onClick={() => {
+                setIsAddProductOpen(true);
+              }}
+            >
               Adicionar Itens
             </Button>
           </>

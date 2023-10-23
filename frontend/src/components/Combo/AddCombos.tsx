@@ -17,6 +17,7 @@ import { FieldArray, Formik, Field, Form } from "formik";
 import { ProductInput } from "components/Product/InputProduct";
 import * as Yup from "yup";
 import { setCombo } from "services/combo.service";
+import { getSuccess, getErro } from "utils/ModalAlert";
 
 const validationSchema = Yup.object().shape({
   comboName: Yup.string().required("Nome do Combo é obrigatório"),
@@ -44,8 +45,14 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
   };
 
   const handleRegister = async (values: any) => {
-    console.log(values);
-    // const combo = await setCombo(values.products, values.comboName);
+    try {
+      const combo = await setCombo(values.products, values.comboName);
+      getSuccess("Combo cadastrado com sucesso");
+      setOpen(false);
+    } catch (error) {
+      getErro("Erro ao cadastrar combo");
+      setOpen(false);
+    }
   };
 
   return (

@@ -2,10 +2,7 @@ import { BASE_URL } from "../config";
 import axios from "axios";
 import { getAuthorizationHeader } from "utils/GetHeader";
 
-export const setCombo = async (
-  products: Array<{}>,
-  name: string,
-) => {
+export const setCombo = async (products: Array<{}>, name: string) => {
   try {
     const response = await axios.post(
       BASE_URL + "combo/",
@@ -19,7 +16,7 @@ export const setCombo = async (
     );
     return response.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 
@@ -30,6 +27,6 @@ export const getCombos = async () => {
     });
     return response.data.results;
   } catch (error) {
-    return error;
+    throw error;
   }
 };

@@ -9,7 +9,7 @@ export const FeedstockInput: React.FC<FeedstockInputProps> = ({
   type,
 }) => (
   <Field name={name}>
-    {({ field, meta }: any) => (
+    {({ field, form, meta }: any) => (
       <TextField
         {...field}
         label={label}
@@ -20,6 +20,17 @@ export const FeedstockInput: React.FC<FeedstockInputProps> = ({
         helperText={meta.touched && meta.error ? meta.error : ""}
         placeholder={label}
         value={field.value === 0 ? "" : field.value}
+        onChange={(e) => {
+          let value = e.target.value;
+
+          if (name === "price") {
+            value = value.replace(/[^0-9.,]/g, "").replace(',', '.');
+          } else if (name === "quantity") {
+            value = value.replace(/[^0-9]/g, ""); 
+          }
+          
+          form.setFieldValue(name, value);
+        }}
       />
     )}
   </Field>

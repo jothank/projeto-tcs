@@ -1,3 +1,5 @@
+import { FormikRegistration } from "formik";
+
 export type ExpenseType = {
   id?: number; 
   name: string;
@@ -10,6 +12,8 @@ export type FixedExpenseType = {
   expenseId: number;
   name: string; 
   total_price: number;
+  expenses: number[]
+  date: string
 };
 
 

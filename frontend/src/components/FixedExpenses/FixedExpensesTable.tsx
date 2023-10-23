@@ -38,7 +38,6 @@ const FixedExpensesTable = ({
     return total;
   };
 
-  // Estado para controlar a edição de cada despesa
   const [isEditing, setIsEditing] = useState<boolean[]>(Array(expensesValue.length).fill(false));
 
   const handleEditExpense = (rowIndex: number, fieldName: string, value: any) => {
@@ -51,7 +50,6 @@ const FixedExpensesTable = ({
   };
 
   const handleEdit = (rowIndex: number) => {
-    // Ativar a edição da despesa na linha rowIndex
     const newIsEditing = [...isEditing];
     newIsEditing[rowIndex] = !newIsEditing[rowIndex];
     setIsEditing(newIsEditing);
@@ -78,6 +76,8 @@ const FixedExpensesTable = ({
         expenseId: expensesValue.length,
         name: expensesValue[0].name,
         total_price: totalValue,
+        date: expensesValue[0].date,
+        expenses: []
       };
 
       const response = await setfixedExpense(fixedExpense);

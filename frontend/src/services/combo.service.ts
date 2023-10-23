@@ -3,17 +3,15 @@ import axios from "axios";
 import { getAuthorizationHeader } from "utils/GetHeader";
 
 export const setCombo = async (
-  registrations: Array<{}>,
+  products: Array<{}>,
   name: string,
-  price: number
 ) => {
   try {
     const response = await axios.post(
       BASE_URL + "combo/",
       {
         name,
-        registrations,
-        purchase_price: price,
+        products,
       },
       {
         headers: await getAuthorizationHeader(),

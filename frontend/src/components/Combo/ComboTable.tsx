@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -15,6 +15,8 @@ import {
   Grid,
 } from "@mui/material";
 import { formatToBRL } from "utils/pricing";
+import AddProductModal from "./AddCombos";
+import { getAllProduct } from "services/product.service";
 
 const ComboTable = (props: any) => {
   const { data } = props;
@@ -22,8 +24,23 @@ const ComboTable = (props: any) => {
   const [selectedComboId, setSelectedComboId] = useState<number | null>(
     data?.length ? data[0].id : null
   );
-
   const selectedCombo = data.find((combo: any) => combo.id === selectedComboId);
+
+  const [isAddModalProductOpen, setIsAddModalProductOpen] = useState(false);
+
+  const [products, setProducts] = useState<any>([]);
+
+  useEffect(() => {
+    const fetchFeedstocks = async () => {
+      try {
+        const result = await getAllProduct();
+        setProducts(result);
+      } catch (error) {
+        console.error("Failed to fetch feedstocks:", error);
+      }
+    };
+    fetchFeedstocks();
+  }, []);
 
   return (
     <Paper>
@@ -38,6 +55,11 @@ const ComboTable = (props: any) => {
           <Typography variant="h6" component="div">
             {selectedCombo ? selectedCombo.name : "Nenhum Combo selecionado"}
           </Typography>
+          <AddProductModal
+            isOpen={isAddModalProductOpen}
+            onClose={() => setIsAddModalProductOpen(false)}
+            productsList={products}
+          />
         </Grid>
         <FormControl sx={{ width: "40%" }}>
           <InputLabel>Selecione o produto</InputLabel>
@@ -87,6 +109,13 @@ const ComboTable = (props: any) => {
           </TableBody>
         </Table>
       </TableContainer>
+      {selectedCombo && (
+        <>
+          <Typography variant="subtitle1" align="right" style={{ padding: 16 }}>
+            Preço Total: {formatToBRL(selectedCombo.price)}
+          </Typography>
+        </>
+      )}
     </Paper>
   );
 };

@@ -11,3 +11,10 @@ export type FixedExpenseType = {
   name: string; 
   total_price: number;
 };
+
+
+export interface FixedInputProps {
+  name: string;
+  label: string;
+  type: string;
+}

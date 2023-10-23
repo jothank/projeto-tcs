@@ -10,17 +10,19 @@ import {
   Button,
   TextField,
   Typography,
-  TableContainer
+  TableContainer,
 } from "@mui/material";
+import { formatToBRL } from "utils/pricing";
 import { ExpenseValueType } from "./AddFixedExpenses";
 import { getErro, getSuccess } from "utils/ModalAlert";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import { FixedExpenseType } from "types/FixedExpenses.types";
 import { setfixedExpense } from "services/fixedexpense.service";
 
 const FixedExpensesTable = ({
   expensesValue,
-  setExpenses, 
+  setExpenses,
 }: {
   expensesValue: ExpenseValueType[];
   setExpenses: React.Dispatch<React.SetStateAction<ExpenseValueType[]>>;
@@ -34,6 +36,25 @@ const FixedExpensesTable = ({
       total += Number(item.price);
     });
     return total;
+  };
+
+  // Estado para controlar a edição de cada despesa
+  const [isEditing, setIsEditing] = useState<boolean[]>(Array(expensesValue.length).fill(false));
+
+  const handleEditExpense = (rowIndex: number, fieldName: string, value: any) => {
+    const updatedExpenses = [...expensesValue];
+    updatedExpenses[rowIndex] = {
+      ...updatedExpenses[rowIndex],
+      [fieldName]: value,
+    };
+    setExpenses(updatedExpenses);
+  };
+
+  const handleEdit = (rowIndex: number) => {
+    // Ativar a edição da despesa na linha rowIndex
+    const newIsEditing = [...isEditing];
+    newIsEditing[rowIndex] = !newIsEditing[rowIndex];
+    setIsEditing(newIsEditing);
   };
 
   useEffect(() => {
@@ -63,7 +84,7 @@ const FixedExpensesTable = ({
 
       if (response) {
         getSuccess("Items de despesa registrados com sucesso");
-        setExpenses([]); 
+        setExpenses([]);
       } else {
         getErro("Falha ao registrar despesas");
       }
@@ -75,7 +96,7 @@ const FixedExpensesTable = ({
   const handleDelete = (rowIndex: number) => {
     const updatedExpenses = [...expensesValue];
     updatedExpenses.splice(rowIndex, 1);
-    setExpenses(updatedExpenses); // Atualize o estado com a nova lista de despesas após a exclusão
+    setExpenses(updatedExpenses);
   };
 
   return (
@@ -101,17 +122,68 @@ const FixedExpensesTable = ({
               <TableBody>
                 {expensesValue.map((item: ExpenseValueType, rowIndex: number) => (
                   <TableRow key={rowIndex}>
-                    <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.description}</TableCell>
-                    <TableCell>R${item.price},00</TableCell>
-                    <TableCell>{item.date}</TableCell>
                     <TableCell>
-                      <Button
-                        color="error"
-                        onClick={() => handleDelete(rowIndex)}
-                      >
-                        <DeleteIcon />
-                      </Button>
+                      {isEditing[rowIndex] ? (
+                        <TextField
+                          name="name"
+                          value={item.name}
+                          onChange={(e) => handleEditExpense(rowIndex, "name", e.target.value)}
+                        />
+                      ) : (
+                        item.name
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {isEditing[rowIndex] ? (
+                        <TextField
+                          name="description"
+                          value={item.description}
+                          onChange={(e) =>
+                            handleEditExpense(rowIndex, "description", e.target.value)
+                          }
+                        />
+                      ) : (
+                        item.description
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {isEditing[rowIndex] ? (
+                        <TextField
+                          name="price"
+                          value={item.price}
+                          onChange={(e) =>
+                            handleEditExpense(rowIndex, "price", parseFloat(e.target.value) || 0)
+                          }
+                        />
+                      ) : (
+                        `R$${formatToBRL(item.price)},00`
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {isEditing[rowIndex] ? (
+                        <TextField
+                          type="date"
+                          name="date"
+                          value={item.date}
+                          onChange={(e) => handleEditExpense(rowIndex, "date", e.target.value)}
+                        />
+                      ) : (
+                        item.date
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {isEditing[rowIndex] ? (
+                        <Button onClick={() => handleEdit(rowIndex)}>Salvar</Button>
+                      ) : (
+                        <>
+                          <Button color="error" onClick={() => handleDelete(rowIndex)}>
+                            <DeleteIcon />
+                          </Button>
+                          <Button color="info" onClick={() => handleEdit(rowIndex)}>
+                            <EditIcon />
+                          </Button>
+                        </>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -125,7 +197,7 @@ const FixedExpensesTable = ({
             display: "flex",
             flexDirection: "row",
             marginLeft: "30%",
-            gap: "20px"
+            gap: "20px",
           }}
         >
           <div>
@@ -143,9 +215,11 @@ const FixedExpensesTable = ({
               onChange={handleTotalValueChange}
             />
           ) : (
-            <Typography variant="subtitle2">Gastos totais: R${totalValue},00</Typography>
+            <Typography variant="subtitle2">Gastos totais: R$ {formatToBRL(totalValue)}</Typography>
           )}
-          <Button onClick={handleRegister} variant="outlined">Salvar</Button>
+          <Button onClick={handleRegister} variant="outlined">
+            Salvar
+          </Button>
         </Grid>
       </Paper>
     </>

@@ -47,6 +47,12 @@ export function FeedstockTable(props: CustomTableProps) {
     setDialogOpen(true);
   };
 
+  const handleItemUpdated = (updatedItem: FeedstockType) => {
+    setLocalData((prevData) =>
+      prevData.map((item) => (item.id === updatedItem.id ? updatedItem : item))
+    );
+}
+
   const confirmDelete = async () => {
     if (itemToDelete && itemToDelete.id) {
       try {
@@ -140,7 +146,7 @@ export function FeedstockTable(props: CustomTableProps) {
                           }}
                         />
                       </Button>
-                      <EditFeedstock item={item} onClose={() => {}} />
+                      <EditFeedstock item={item} onClose={() => {}} onUpdated={handleItemUpdated} />
                     </Grid>
                   </TableCell>
                 </TableRow>

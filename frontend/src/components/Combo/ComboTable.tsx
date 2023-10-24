@@ -14,11 +14,13 @@ import {
   TableContainer,
   Grid,
 } from "@mui/material";
+
 import { formatToBRL } from "utils/pricing";
 import AddProductModal from "./AddCombos";
 import { getAllProduct } from "services/product.service";
 
 const ComboTable = (props: any) => {
+
   const { data } = props;
 
   const [selectedComboId, setSelectedComboId] = useState<number | null>(
@@ -90,7 +92,10 @@ const ComboTable = (props: any) => {
           <TableBody>
             {selectedCombo ? (
               selectedCombo.products.map((product: any, index: number) => (
-                <TableRow key={product.id}>
+                <TableRow
+                  key={product.id}
+                  sx={{ backgroundColor: index % 2 === 0 ? '#f2f2f2' : '#ffffff' }}
+                >
                   <TableCell align="right">{product.name}</TableCell>
                   <TableCell align="right">{"Un"}</TableCell>
                   <TableCell align="right">

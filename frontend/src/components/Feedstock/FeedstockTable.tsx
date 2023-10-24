@@ -33,7 +33,9 @@ type CustomTableProps = {
 export function FeedstockTable(props: CustomTableProps) {
   const componentRef = React.useRef(null);
   const [dialogOpen, setDialogOpen] = React.useState(false);
-  const [itemToDelete, setItemToDelete] = React.useState<FeedstockType | null>(null);
+  const [itemToDelete, setItemToDelete] = React.useState<FeedstockType | null>(
+    null
+  );
   const [localData, setLocalData] = React.useState<FeedstockType[]>(props.data);
 
   React.useEffect(() => {
@@ -50,7 +52,9 @@ export function FeedstockTable(props: CustomTableProps) {
       try {
         await deletefeedstock(itemToDelete.id);
         console.log(`Item com ID ${itemToDelete.id} foi excluído com sucesso.`);
-        setLocalData(prevData => prevData.filter(item => item.id !== itemToDelete.id));
+        setLocalData((prevData) =>
+          prevData.filter((item) => item.id !== itemToDelete.id)
+        );
       } catch (error) {
         getErro(`Erro ao excluir o item com ID ${itemToDelete.id}`);
       }
@@ -77,8 +81,7 @@ export function FeedstockTable(props: CustomTableProps) {
     a.href = url;
     a.download = "feedstock_data.csv";
     a.click();
-};
-
+  };
 
   return (
     <>
@@ -113,7 +116,10 @@ export function FeedstockTable(props: CustomTableProps) {
             </TableHead>
             <TableBody>
               {localData.map((item, rowIndex) => (
-                <TableRow key={rowIndex}>
+                <TableRow
+                  key={rowIndex}
+                  sx={{ backgroundColor: rowIndex % 2 === 0 ? '#f2f2f2' : '#ffffff' }}
+                >
                   <TableCell>{item.name}</TableCell>
                   <TableCell>{formatToBRL(item.price)}</TableCell>
                   <TableCell>{item.quantity}</TableCell>

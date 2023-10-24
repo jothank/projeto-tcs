@@ -33,11 +33,12 @@ type CustomTableProps = {
 export function FeedstockTable(props: CustomTableProps) {
   const componentRef = React.useRef(null);
   const [dialogOpen, setDialogOpen] = React.useState(false);
-  const [itemToDelete, setItemToDelete] = React.useState<FeedstockType | null>(
-    null
-  );
+  const [itemToDelete, setItemToDelete] = React.useState<FeedstockType | null>(null);
+  const [localData, setLocalData] = React.useState<FeedstockType[]>(props.data);
 
-  const { data } = props;
+  React.useEffect(() => {
+    setLocalData(props.data);
+  }, [props.data]);
 
   const handleDelete = (item: FeedstockType) => {
     setItemToDelete(item);
@@ -49,7 +50,7 @@ export function FeedstockTable(props: CustomTableProps) {
       try {
         await deletefeedstock(itemToDelete.id);
         console.log(`Item com ID ${itemToDelete.id} foi excluído com sucesso.`);
-        window.location.reload();
+        setLocalData(prevData => prevData.filter(item => item.id !== itemToDelete.id));
       } catch (error) {
         getErro(`Erro ao excluir o item com ID ${itemToDelete.id}`);
       }
@@ -64,19 +65,20 @@ export function FeedstockTable(props: CustomTableProps) {
   const exportToCSV = () => {
     const header = "Nome,Preço,Quantidade,Unidade";
 
-    const csvData = data
+    const csvData = localData
       .map((item) => `${item.name},${item.price},${item.quantity},${item.unit}`)
       .join("\n");
 
-    const csvContent = `${header}\n${csvData}`;
-
-    const blob = new Blob([csvContent], { type: "text/csv" });
+    const BOM = "\uFEFF";
+    const csvContent = BOM + `${header}\n${csvData}`;
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
     a.download = "feedstock_data.csv";
     a.click();
-  };
+};
+
 
   return (
     <>
@@ -99,46 +101,46 @@ export function FeedstockTable(props: CustomTableProps) {
       </Grid>
       <div ref={componentRef}>
         <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Nome</TableCell>
-              <TableCell>Preço</TableCell>
-              <TableCell>Quantidade</TableCell>
-              <TableCell>Unidade</TableCell>
-              <TableCell>Ações</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((item, rowIndex) => (
-              <TableRow key={rowIndex}>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{formatToBRL(item.price)}</TableCell>
-                <TableCell>{item.quantity}</TableCell>
-                <TableCell>{item.unit}</TableCell>
-                <TableCell>
-                  <Grid
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <Button onClick={() => handleDelete(item)}>
-                      <DeleteIcon
-                        style={{
-                          cursor: "pointer",
-                          marginRight: "10px",
-                          color: "red",
-                        }}
-                      />
-                    </Button>
-                    <EditFeedstock item={item} onClose={() => {}} />
-                  </Grid>
-                </TableCell>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Nome</TableCell>
+                <TableCell>Preço</TableCell>
+                <TableCell>Quantidade</TableCell>
+                <TableCell>Unidade</TableCell>
+                <TableCell>Ações</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {localData.map((item, rowIndex) => (
+                <TableRow key={rowIndex}>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{formatToBRL(item.price)}</TableCell>
+                  <TableCell>{item.quantity}</TableCell>
+                  <TableCell>{item.unit}</TableCell>
+                  <TableCell>
+                    <Grid
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                      }}
+                    >
+                      <Button onClick={() => handleDelete(item)}>
+                        <DeleteIcon
+                          style={{
+                            cursor: "pointer",
+                            marginRight: "10px",
+                            color: "red",
+                          }}
+                        />
+                      </Button>
+                      <EditFeedstock item={item} onClose={() => {}} />
+                    </Grid>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </TableContainer>
       </div>
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>

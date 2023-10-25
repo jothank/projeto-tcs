@@ -1,8 +1,8 @@
 """
-feedstock admin
+Feedstock admin
 """
 ###
-# Libraries
+# Libs
 ###
 from django.contrib import admin
 from app.feedstock.models.feedstock import Feedstock

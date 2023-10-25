@@ -2,7 +2,7 @@
 Combo URL Configuration
 """
 ###
-# Libraries
+# Libs
 ###
 from django.urls import path, include
 

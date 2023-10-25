@@ -1,8 +1,8 @@
 """
-API V1: Product Registration Views
+API V1: Product Views
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import viewsets
 from app.product.models.product import Product

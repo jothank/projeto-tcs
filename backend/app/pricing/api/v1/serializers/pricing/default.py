@@ -2,7 +2,7 @@
 API V1: Pricing Serializers
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import serializers
 from app.pricing.models.pricing import Pricing

@@ -2,7 +2,7 @@
 API V1: Expense Views
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import viewsets
 from app.fixed_expense.models.fixed_expense import FixedExpense

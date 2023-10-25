@@ -2,7 +2,7 @@
 API V1: Company Serializers
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import serializers
 from app.company.models.company import Company

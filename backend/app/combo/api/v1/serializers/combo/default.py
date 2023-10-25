@@ -2,7 +2,7 @@
 API V1: Combo Serializers
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import serializers
 from app.combo.models.combo import Combo

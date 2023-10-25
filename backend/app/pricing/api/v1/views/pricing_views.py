@@ -2,7 +2,7 @@
 API V1: Pricing Views
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import viewsets
 from app.pricing.models.pricing import Pricing

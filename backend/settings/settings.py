@@ -101,9 +101,9 @@ SWAGGER_SETTINGS = {
             'type': 'basic'
         }
     },
-    'USE_SESSION_AUTH': False,  
-    'LOGIN_URL': None, 
-    'LOGOUT_URL': None, 
+    'USE_SESSION_AUTH': False,
+    'LOGIN_URL': None,
+    'LOGOUT_URL': None,
 }
 
 ROOT_URLCONF = "settings.urls"
@@ -191,8 +191,9 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 SITE_ID = 1
 
-
+###
 # E-mail settings
+###
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
 EMAIL_HOST = os.environ.get('EMAIL_HOST')
 EMAIL_PORT = os.environ.get('EMAIL_PORT')
@@ -202,6 +203,9 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 ACCOUNT_EMAIL_SUBJECT_PREFIX = os.environ.get('ACCOUNT_EMAIL_SUBJECT_PREFIX')
 
+###
+# Rest Auth
+###
 REST_AUTH = {
     "PASSWORD_RESET_SERIALIZER": "app.accounts.api.v1.serializers.accounts.default.CustomPasswordResetSerializer",
     "REGISTER_SERIALIZER": "app.accounts.api.v1.serializers.accounts.default.CustomRegisterSerializer",

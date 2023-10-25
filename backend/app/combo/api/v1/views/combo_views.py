@@ -2,7 +2,7 @@
 API V1: Combo Views
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import viewsets
 from app.combo.api.v1.serializers.combo.create import CreateComboSerializer

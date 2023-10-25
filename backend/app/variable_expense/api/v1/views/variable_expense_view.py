@@ -2,7 +2,7 @@
 API V1: Variable Expense Views
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import viewsets
 from app.variable_expense.models.variable_expense import VariableExpense

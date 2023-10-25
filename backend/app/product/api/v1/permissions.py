@@ -1,8 +1,8 @@
 """
-API V1: ProductRegistration Permissions
+API V1: Product Permissions
 """
 ###
-# Libraries
+# Libs
 ###
 
 

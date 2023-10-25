@@ -2,7 +2,7 @@
 API V1: Fixed Expense Views
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import viewsets
 from app.fixed_expense.api.v1.serializers.fixed_expense.default import DefaultFixedExpenseSerializer

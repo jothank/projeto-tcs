@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { Button, FormControl, Grid, TextField } from "@mui/material";
 
 export interface ExpenseValueType {
+  id?: number;
   nameExpense: string;
   name: string;
   description: string;

@@ -18,3 +18,14 @@ export const setfixedExpense = async (fixedExpense: FixedExpenseType) => {
     return error;
   }
 };
+
+export const getFixedExpense = async () => {
+  try {
+    const response = await axios.get(BASE_URL + "fixed_expense/", {
+      headers: await getAuthorizationHeader(),
+    });
+    return response.data.results;
+  } catch (error) {
+    throw error;
+  }
+};

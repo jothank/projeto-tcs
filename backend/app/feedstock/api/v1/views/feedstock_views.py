@@ -2,7 +2,7 @@
 API V1: feedstock Views
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import viewsets
 from app.feedstock.models.feedstock import Feedstock

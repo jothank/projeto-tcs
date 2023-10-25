@@ -1,4 +1,6 @@
+###
 # Libs
+###
 from django.utils.translation import gettext as _
 from django.db import models
 from app.supply.models.supply import (
@@ -7,6 +9,9 @@ from app.supply.models.supply import (
 from .product import Product
 
 
+###
+# Models
+###
 class ProductSupply(models.Model):
 
     supply = models.ForeignKey(

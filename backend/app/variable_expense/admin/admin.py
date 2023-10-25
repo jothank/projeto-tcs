@@ -2,7 +2,7 @@
 Variable Expense admin
 """
 ###
-# Libraries
+# Libs
 ###
 from django.contrib import admin
 from app.variable_expense.models.variable_expense import VariableExpense

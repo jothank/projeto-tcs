@@ -2,7 +2,7 @@
 API V1: Expense Serializers
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import serializers
 from app.expense.models.expense import Expense

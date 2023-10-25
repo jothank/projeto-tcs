@@ -2,7 +2,7 @@
 API V1: Accounts Permissions
 """
 ###
-# Libraries
+# Libs
 ###
 
 

@@ -1,8 +1,8 @@
 """
-Product admin
+Supply admin
 """
 ###
-# Libraries
+# Libs
 ###
 from django.contrib import admin
 from app.supply.models.supply import Supply
@@ -17,6 +17,5 @@ from app.supply.models.supply import Supply
 # Main Admin Models
 ###
 class SupplyAdmin(admin.ModelAdmin):
-    ...
-
+    list_display = ('id', 'feedstock', 'price', 'quantity', 'unit')
 admin.site.register(Supply, SupplyAdmin)

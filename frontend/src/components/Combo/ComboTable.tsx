@@ -14,8 +14,10 @@ import {
   TableContainer,
   Grid,
 } from "@mui/material";
+
 import { formatToBRL } from "utils/pricing";
-import AddProductModal from "./AddCombos";
+import AddProductsModal from "./AddCombos";
+import AddProductModal from "./AddCombo";
 import { getAllProduct } from "services/product.service";
 
 const ComboTable = (props: any) => {
@@ -26,6 +28,7 @@ const ComboTable = (props: any) => {
   );
   const selectedCombo = data.find((combo: any) => combo.id === selectedComboId);
 
+  const [isAddsModalProductOpen, setIsAddsModalProductOpen] = useState(false);
   const [isAddModalProductOpen, setIsAddModalProductOpen] = useState(false);
 
   const [products, setProducts] = useState<any>([]);
@@ -55,9 +58,9 @@ const ComboTable = (props: any) => {
           <Typography variant="h6" component="div">
             {selectedCombo ? selectedCombo.name : "Nenhum Combo selecionado"}
           </Typography>
-          <AddProductModal
-            isOpen={isAddModalProductOpen}
-            onClose={() => setIsAddModalProductOpen(false)}
+          <AddProductsModal
+            isOpen={isAddsModalProductOpen}
+            onClose={() => setIsAddsModalProductOpen(false)}
             productsList={products}
           />
         </Grid>
@@ -90,7 +93,12 @@ const ComboTable = (props: any) => {
           <TableBody>
             {selectedCombo ? (
               selectedCombo.products.map((product: any, index: number) => (
-                <TableRow key={product.id}>
+                <TableRow
+                  key={product.id}
+                  sx={{
+                    backgroundColor: index % 2 === 0 ? "#f2f2f2" : "#ffffff",
+                  }}
+                >
                   <TableCell align="right">{product.name}</TableCell>
                   <TableCell align="right">{"Un"}</TableCell>
                   <TableCell align="right">
@@ -114,6 +122,12 @@ const ComboTable = (props: any) => {
           <Typography variant="subtitle1" align="right" style={{ padding: 16 }}>
             Preço Total: {formatToBRL(selectedCombo.price)}
           </Typography>
+          <AddProductModal
+            isOpen={isAddModalProductOpen}
+            onClose={() => setIsAddModalProductOpen(false)}
+            productsList={products}
+            selectedCombo={selectedCombo}
+          />
         </>
       )}
     </Paper>

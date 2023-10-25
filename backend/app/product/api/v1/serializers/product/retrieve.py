@@ -1,5 +1,5 @@
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import serializers
 from app.product.models.product import Product

@@ -2,7 +2,7 @@
 Accounts Form
 """
 ###
-# Libraries
+# Libs
 ###
 from django.contrib.auth.forms import PasswordResetForm
 from settings import settings

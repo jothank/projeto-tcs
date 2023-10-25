@@ -2,7 +2,7 @@
 API V1: Variable Expense Serializers
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import serializers
 from app.variable_expense.models.variable_expense import VariableExpense

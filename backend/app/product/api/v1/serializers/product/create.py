@@ -1,8 +1,8 @@
 """
-API V1: Product Registration Serializers
+API V1: Product Serializers
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import serializers
 from app.product.models.product import Product

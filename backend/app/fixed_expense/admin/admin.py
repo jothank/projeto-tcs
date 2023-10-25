@@ -2,7 +2,7 @@
 Fixed Expense admin
 """
 ###
-# Libraries
+# Libs
 ###
 from django.contrib import admin
 from app.fixed_expense.models.fixed_expense import FixedExpense

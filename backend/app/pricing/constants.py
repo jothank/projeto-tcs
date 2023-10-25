@@ -2,7 +2,7 @@
 Pricing Constants
 """
 ###
-# Libraries
+# Libs
 ###
 from django.utils.translation import gettext as _
 

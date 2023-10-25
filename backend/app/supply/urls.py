@@ -1,8 +1,8 @@
 """
-Product URL Configuration
+Supply URL Configuration
 """
 ###
-# Libraries
+# Libs
 ###
 from django.urls import path, include
 

@@ -2,7 +2,7 @@
 Pricing admin
 """
 ###
-# Libraries
+# Libs
 ###
 from django.contrib import admin
 from app.pricing.models.pricing import Pricing

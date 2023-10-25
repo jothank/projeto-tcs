@@ -2,7 +2,7 @@
 Combo admin
 """
 ###
-# Libraries
+# Libs
 ###
 from django.contrib import admin
 from app.combo.models.combo import Combo

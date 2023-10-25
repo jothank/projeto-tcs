@@ -2,7 +2,7 @@
 API V1: Fixed Expense Serializers
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import serializers
 from app.fixed_expense.models.fixed_expense import FixedExpense

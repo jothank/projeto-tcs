@@ -164,7 +164,12 @@ const ProductTable = ({ data }: ProductTableProps) => {
             <TableBody>
               {selectedProduct ? (
                 selectedProduct.supplies.map((product, index) => (
-                  <TableRow key={`${product.id}-${index}`}>
+                  <TableRow
+                    key={`${product.id}-${index}`}
+                    sx={{
+                      backgroundColor: index % 2 === 0 ? "#f2f2f2" : "#ffffff",
+                    }}
+                  >
                     <TableCell component="th" scope="row">
                       {product.feedstock.name}
                     </TableCell>

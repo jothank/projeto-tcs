@@ -31,12 +31,14 @@ interface AddProductModalProps {
   isOpen: boolean;
   onClose: () => void;
   productsList: any[];
+  selectedCombo: any;
 }
 
-const AddProductsModal: React.FC<AddProductModalProps> = ({
+const AddProductModal: React.FC<AddProductModalProps> = ({
   isOpen,
   onClose,
   productsList,
+  selectedCombo,
 }) => {
   const [open, setOpen] = useState(isOpen);
 
@@ -46,7 +48,14 @@ const AddProductsModal: React.FC<AddProductModalProps> = ({
 
   const handleRegister = async (values: any) => {
     try {
-      const combo = await setCombo(values.products, values.comboName);
+      console.log(selectedCombo);
+      console.log("testa", values);
+
+      //   const combo = await setCombo(values.products, values.comboName);
+      let ids = selectedCombo.products.map((item: { id: number }) => item.id);
+      const list = [...ids, ...values.products];
+      console.log("list", list);
+
       getSuccess("Combo cadastrado com sucesso");
       setOpen(false);
     } catch (error) {
@@ -62,10 +71,10 @@ const AddProductsModal: React.FC<AddProductModalProps> = ({
       </Button>
 
       <Dialog open={open} onClose={onClose}>
-        <DialogTitle>Adicionar combo</DialogTitle>
+        <DialogTitle>Adicionar combossss</DialogTitle>
         <Grid>
           <Formik
-            initialValues={{ comboName: "", products: [null] }}
+            initialValues={{ comboName: selectedCombo.name, products: [null] }}
             validationSchema={validationSchema}
             onSubmit={handleRegister}
           >
@@ -137,4 +146,4 @@ const AddProductsModal: React.FC<AddProductModalProps> = ({
   );
 };
 
-export default AddProductsModal;
+export default AddProductModal;

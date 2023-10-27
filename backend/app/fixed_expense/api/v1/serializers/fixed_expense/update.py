@@ -1,21 +1,11 @@
-"""
-API V1: Fixed Expense Serializers
-"""
-###
-# Libs
-###
 from rest_framework import serializers
-from app.fixed_expense.models.fixed_expense import FixedExpense
 from app.expense.models.expense import Expense
-
-###
-# Serializers
-###
+from app.fixed_expense.models.fixed_expense import FixedExpense
 
 
-class CreateFixedExpenseSerializer(serializers.ModelSerializer):
+class UpdateFixedExpenseSerializer(serializers.ModelSerializer):
     expenses = serializers.PrimaryKeyRelatedField(
-        queryset=Expense.objects.all(), many=True)
+        queryset=Expense.objects.all(), many=True, required=False)
     total_price = serializers.FloatField(required=False)
 
     def validate(self, attr):
@@ -28,9 +18,9 @@ class CreateFixedExpenseSerializer(serializers.ModelSerializer):
             id__in=expenses_ids).values_list('id', flat=True))
         attr['expenses'] = set(expenses)
         attr['total_price'] = sum([expense.price for expense in expenses])
-
         return attr
 
     class Meta:
         model = FixedExpense
-        fields = ["expenses", 'date', 'name', 'total_price', 'description',]
+        fields = ["id", "expenses", 'date',
+                  'name', 'total_price', 'description',]

@@ -15,8 +15,16 @@ from app.expense.api.v1.serializers.expense.create import CreateExpenseSerialize
 # Viewsets
 ###
 class ExpenseViewSet(viewsets.ModelViewSet):
-    queryset = Expense.objects.all()
-    serializer_class = DefaultExpenseSerializer
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return user.expense_set.all()
+        else:
+            return Expense.objects.none()
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(user=user)
 
     def get_serializer_class(self):
         if self.action == 'create':

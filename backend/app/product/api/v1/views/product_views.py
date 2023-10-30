@@ -6,6 +6,7 @@ API V1: Product Views
 ###
 from rest_framework import viewsets
 from app.product.models.product import Product
+from app.product.models.product_supply import ProductSupply
 from app.product.api.v1.serializers.product.create import CreateProductSerializer
 from app.product.api.v1.serializers.product.default import DefaultProductSerializer
 from app.product.api.v1.serializers.product.retrieve import RetrieveProductSerializer
@@ -18,7 +19,22 @@ from app.product.api.v1.serializers.product.update import UpdateProductSerialize
 
 class ProductViewSet(viewsets.ModelViewSet):
 
-    queryset = Product.objects.order_by('id')
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.is_authenticated:
+            return user.product_set.all()
+
+        else:
+            return Product.objects.none()
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        supplies = serializer.validated_data.pop('supplies')
+        product = serializer.save(user=user)
+        for supply in supplies:
+            ProductSupply.objects.create(
+                product=product, supply=supply, user=user)
 
     def get_serializer_class(self):
         if self.action == 'list':

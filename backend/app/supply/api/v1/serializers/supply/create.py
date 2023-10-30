@@ -20,6 +20,7 @@ class CreateSupplySerializer(serializers.Serializer):
 
     def create(self, validated_data):
         supplies_data = validated_data['supplies']
+        user = self.context['request'].user
 
         for item in supplies_data:
             feedstock = item['feedstock']
@@ -31,6 +32,7 @@ class CreateSupplySerializer(serializers.Serializer):
                 item['unit']
             )
             item['price'] = calculated_price
+            item['user'] = user
 
         supplies = Supply.objects.bulk_create(
             [Supply(**item) for item in supplies_data])

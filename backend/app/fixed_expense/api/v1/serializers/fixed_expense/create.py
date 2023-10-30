@@ -28,9 +28,9 @@ class CreateFixedExpenseSerializer(serializers.ModelSerializer):
         if total_price is None and expenses_ids is not None:
             expenses = Expense.objects.filter(id__in=expenses_ids)
             attr['total_price'] = sum(expense.price for expense in expenses)
-            attr['expenses'] = expenses
 
         return attr
+
 
     class Meta:
         model = FixedExpense

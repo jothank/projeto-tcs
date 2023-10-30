@@ -22,16 +22,14 @@ class CreateComboSerializer(serializers.ModelSerializer):
     price = serializers.FloatField(required=False)
 
     def validate(self, attr):
-        products_ids = self.initial_data.get('products', None)
+        product_ids = self.initial_data.get('products', None)
 
-        if products_ids is None:
-            raise serializers.ValidationError()
+        if product_ids is None:
+            raise serializers.ValidationError("Products must be provided.")
 
-        products = list(Product.objects.filter(
-            id__in=products_ids).values_list('id', flat=True))
-        attr['price'] = sum([Product.objects.get(
-            id=product_id).price for product_id in products])
-        attr['products'] = set(products)
+        products = Product.objects.filter(id__in=product_ids)
+        attr['price'] = sum([product.price for product in products])
+        attr['products'] = products
         return attr
 
     class Meta:

@@ -4,6 +4,7 @@
 from django.utils.translation import gettext as _
 from django.db import models
 from app.expense.models.expense import Expense
+from app.accounts.models.user import User
 
 
 ###
@@ -33,4 +34,10 @@ class FixedExpense(models.Model):
         help_text=_('Description'),
         blank=True,
         null=True,
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name=_('User'),
     )

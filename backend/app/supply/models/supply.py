@@ -4,6 +4,7 @@
 from django.utils.translation import gettext as _
 from django.db import models
 from app.feedstock.models.feedstock import Feedstock
+from app.accounts.models.user import User
 
 
 ###
@@ -23,4 +24,9 @@ class Supply(models.Model):
     )
     price = models. FloatField(
         verbose_name=_('Price')
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name=_('User'),
     )

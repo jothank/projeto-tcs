@@ -5,6 +5,7 @@ from django.utils.translation import gettext as _
 from django.db import models
 from app.product.models.product import Product
 from app.combo.models.combo import Combo
+from app.accounts.models.user import User
 
 
 ###
@@ -45,4 +46,9 @@ class Pricing(models.Model):
         null=True,
         on_delete=models.CASCADE,
         verbose_name=_('Combo'),
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name=_('User'),
     )

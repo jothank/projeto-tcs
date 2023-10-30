@@ -15,4 +15,5 @@ class DefaultExpenseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Expense
+        read_only_fields = ('user',)
         fields = '__all__'

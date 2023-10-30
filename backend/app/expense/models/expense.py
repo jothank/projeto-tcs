@@ -3,6 +3,7 @@
 ###
 from django.utils.translation import gettext as _
 from django.db import models
+from app.accounts.models.user import User
 
 
 ###
@@ -22,4 +23,9 @@ class Expense(models.Model):
         verbose_name=_('Description'),
         blank=True,
         null=True,
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name=_('User'),
     )

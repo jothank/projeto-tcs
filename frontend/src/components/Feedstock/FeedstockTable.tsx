@@ -7,11 +7,6 @@ import {
   TableCell,
   Button,
   Grid,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   TableContainer,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -25,6 +20,7 @@ import PrintIcon from "@mui/icons-material/Print";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
 import { formatToBRL } from "utils/pricing";
+import Swal from "sweetalert2";
 
 type CustomTableProps = {
   data: FeedstockType[];
@@ -43,15 +39,48 @@ export function FeedstockTable(props: CustomTableProps) {
   }, [props.data]);
 
   const handleDelete = (item: FeedstockType) => {
-    setItemToDelete(item);
-    setDialogOpen(true);
+    Swal.fire({
+      title: 'Tem certeza de que deseja excluir este item?',
+      text: "Esta ação não pode ser desfeita!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sim, excluir!',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        if (item && item.id) {
+          try {
+            await deletefeedstock(item.id);
+            console.log(`Item com ID ${item.id} foi excluído com sucesso.`);
+            setLocalData((prevData) =>
+              prevData.filter((dataItem) => dataItem.id !== item.id)
+            );
+            Swal.fire(
+              'Excluído!',
+              'O item foi excluído.',
+              'success'
+            );
+          } catch (error) {
+            getErro(`Erro ao excluir o item com ID ${item.id}`);
+          }
+        }
+      } else {
+        Swal.fire(
+          'Cancelado',
+          'O item não foi excluído.',
+          'error'
+        );
+      }
+    });
   };
+
 
   const handleItemUpdated = (updatedItem: FeedstockType) => {
     setLocalData((prevData) =>
       prevData.map((item) => (item.id === updatedItem.id ? updatedItem : item))
     );
-}
+  }
 
   const confirmDelete = async () => {
     if (itemToDelete && itemToDelete.id) {
@@ -146,7 +175,7 @@ export function FeedstockTable(props: CustomTableProps) {
                           }}
                         />
                       </Button>
-                      <EditFeedstock item={item} onClose={() => {}} onUpdated={handleItemUpdated} />
+                      <EditFeedstock item={item} onClose={() => { }} onUpdated={handleItemUpdated} />
                     </Grid>
                   </TableCell>
                 </TableRow>
@@ -155,20 +184,7 @@ export function FeedstockTable(props: CustomTableProps) {
           </Table>
         </TableContainer>
       </div>
-      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-        <DialogTitle>Confirmação</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Tem certeza de que deseja excluir este item?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDialogOpen(false)}>Cancelar</Button>
-          <Button onClick={confirmDelete} color="error">
-            Confirmar Exclusão
-          </Button>
-        </DialogActions>
-      </Dialog>
+
     </>
   );
 }

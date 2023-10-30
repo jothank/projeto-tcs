@@ -22,7 +22,6 @@ const AddFixedExpenses = ({
   const validationSchema = Yup.object().shape({
     nameExpense: Yup.string().required("Campo obrigatório"),
     name: Yup.string().required("Campo obrigatório"),
-    description: Yup.string(),
     date: Yup.string().required("Campo obrigatório"),
     price: Yup.number()
       .typeError("Deve ser um número")
@@ -88,7 +87,6 @@ const AddFixedExpenses = ({
                   label="Descrição"
                   variant="outlined"
                 />
-                <ErrorMessage name="description" component="div" />
               </FormControl>
               <FormControl fullWidth>
                 <Field

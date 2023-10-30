@@ -1,20 +1,19 @@
 import { FormikRegistration } from "formik";
 
-export type ExpenseType = {
-  id: number; 
-  name: string;
+export interface ExpenseType {
+  id?: number;
+  nameExpense: string; 
   price: number;
   description: string;
-};
+}
 
-export type FixedExpenseType = {
-  id?: number; 
-  expenseId: number;
-  name: string; 
-  total_price: number;
-  expenses: ExpenseType[];
+export interface FixedExpenseType {
+  id: number;
   date: string;
-};
+  name: string;
+  description: string;
+  expenses: ExpenseType[]; 
+}
 
 
 export interface FixedInputProps {

@@ -72,16 +72,22 @@ const FixedExpensesTable = ({
 
   const handleRegister = async () => {
     try {
-      const fixedExpense: FixedExpenseType = {
-        expenseId: expensesValue.length,
-        name: expensesValue[0].name,
-        total_price: totalValue,
-        date: expensesValue[0].date,
-        expenses: []
+      const expenses = expensesValue.map((expense) => ({
+        nameExpense: expense.nameExpense,
+        description: expense.description,
+        price: expense.price,
+      }));
+  
+      const fixedExpense = {
+        id: 0,
+        name: expensesValue[0].name, // Use o nome da despesa fixa do seu código atual
+        date: expensesValue[0].date, // Use a data da despesa fixa do seu código atual
+        description: expensesValue[0].description, // Use a descrição da despesa fixa do seu código atual
+        expenses, // Associe as despesas
       };
-
+  
       const response = await setfixedExpense(fixedExpense);
-
+  
       if (response) {
         getSuccess("Items de despesa registrados com sucesso");
         setExpenses([]);

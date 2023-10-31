@@ -45,9 +45,27 @@ const Register: React.FC = () => {
     }
   };
 
+  const overlayStyle = {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(255, 255, 255)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    opacity: 0.4,
+    zIndex: 999,
+  };
+
   return (
     <LoginPageStyle>
       <ContainerForms sizeForm="600px" titleForm="Cadastro">
+        {loading && (
+          <div style={overlayStyle as any}>
+          </div>
+        )}
         <Formik
           initialValues={RegisterValues}
           validationSchema={RegisterValidation}

@@ -74,33 +74,30 @@ const ProductTable = ({ data }: ProductTableProps) => {
 
   const handleExportToCSV = () => {
     if (selectedProduct) {
-      const csvContent =
-        "Insumo,Unidade de Fabricacao,Quantidade de uso,Unidade de aquisicao,Valor de aquisicao,Valor unitario\n" +
-        selectedProduct.supplies
-          .map((product) => {
-            const row = [
-              product.feedstock.name,
-              product.unit,
-              product.quantity,
-              product.feedstock.unit,
-              formatToBRL(product.feedstock.price),
-              formatToBRL(product.price),
-            ];
-            return row.join(",");
-          })
-          .join("\n");
+      const header = "Insumo,Unidade de Fabricacao,Quantidade de uso,Unidade de aquisição,Valor de aquisicao,Valor unitario";
 
-      const blob = new Blob([csvContent], { type: "text/csv" });
-      const link = document.createElement("a");
+      const csvData = selectedProduct.supplies
+        .map((product) => {
+          const row = [
+            product.feedstock.name,
+            product.unit,
+            product.quantity,
+            product.feedstock.unit,
+            formatToBRL(product.feedstock.price),
+            formatToBRL(product.price),
+          ];
+          return row.join(",");
+        })
+        .join("\n");
 
-      if (link.download !== undefined) {
-        const url = URL.createObjectURL(blob);
-        link.setAttribute("href", url);
-        link.setAttribute("download", "product_data.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
+      const BOM = "\uFEFF";
+      const csvContent = BOM + `${header}\n${csvData}`;
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "product_data.csv";
+      a.click();
     }
   };
 

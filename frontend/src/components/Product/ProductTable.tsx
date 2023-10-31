@@ -16,6 +16,8 @@ import {
   TableContainer,
 } from "@mui/material";
 import { useReactToPrint } from "react-to-print";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import PrintIcon from "@mui/icons-material/Print";
 import AddProductModal from "components/Product/AddProducts";
 import { formatToBRL } from "utils/pricing";
@@ -26,6 +28,8 @@ import { getAllfeedstocks } from "services/feedstock.service";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import { FeedstockType } from "types/Feedstock.type";
 import AddProduct from "./AddProduct";
+import Swal from "sweetalert2";
+import { getErro } from "utils/ModalAlert";
 
 const ProductTable = ({ data }: ProductTableProps) => {
   const componentRef = useRef(null);
@@ -48,14 +52,37 @@ const ProductTable = ({ data }: ProductTableProps) => {
     (product) => product.id === selectedProductId
   );
 
-  const handleDelete = async (productId: number) => {
-    try {
-      console.log(productId);
-      await deleteSupply(productId);
-      window.location.reload();
-    } catch (err) {
-      console.log(err);
-    }
+  const handleDelete = (productId: number) => {
+    Swal.fire({
+      title: 'Tem certeza de que deseja excluir este produto?',
+      text: "Esta ação não pode ser desfeita!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sim, excluir!',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await deleteSupply(productId);
+          console.log(`Produto com ID ${productId} foi excluído com sucesso.`);
+          Swal.fire(
+            'Excluído!',
+            'O produto foi excluído.',
+            'success'            
+          );
+        } catch (error) {
+          getErro(`Erro ao excluir o produto com ID ${productId}`);
+          console.error(`Erro ao excluir o produto com ID ${productId}:`, error);
+        }
+      } else {
+        Swal.fire(
+          'Cancelado',
+          'O produto não foi excluído.',
+          'error'
+        );
+      }
+    });
   };
 
   const [feedstockList, setFeedstockList] = useState<FeedstockType[]>([]);
@@ -107,7 +134,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
         style={{
           display: "flex",
           justifyContent: "space-between",
-          padding: 16,
+          padding: 20,
         }}
       >
         <Typography variant="h6" component="div">
@@ -149,13 +176,13 @@ const ProductTable = ({ data }: ProductTableProps) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Insumo</TableCell>
-                <TableCell align="right">Unidade de Fabricação</TableCell>
-                <TableCell align="right">Quantidade de uso</TableCell>
-                <TableCell align="right">Unidade de aquisição</TableCell>
-                <TableCell align="right">Valor de aquisição</TableCell>
-                <TableCell align="right">Valor unitário</TableCell>
-                <TableCell align="right">Ações</TableCell>
+                <TableCell align="center">Insumo</TableCell>
+                <TableCell align="center">Unidade de Fabricação</TableCell>
+                <TableCell align="center">Quantidade de uso</TableCell>
+                <TableCell align="center">Unidade de aquisição</TableCell>
+                <TableCell align="center">Valor de aquisição</TableCell>
+                <TableCell align="center">Valor unitário</TableCell>
+                <TableCell align="center">Ações</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -164,29 +191,29 @@ const ProductTable = ({ data }: ProductTableProps) => {
                   <TableRow
                     key={`${product.id}-${index}`}
                     sx={{
-                      backgroundColor: index % 2 === 0 ? "#f2f2f2" : "#ffffff",
+                      backgroundColor: index % 2 === 0 ? "#f2f2f2" : "#ffffff"
                     }}
                   >
-                    <TableCell component="th" scope="row">
+                    <TableCell align="center" component="th" scope="row">
                       {product.feedstock.name}
                     </TableCell>
-                    <TableCell align="right">{product.unit}</TableCell>
-                    <TableCell align="right">{product.quantity}</TableCell>
-                    <TableCell align="right">
+                    <TableCell align="center">{product.unit}</TableCell>
+                    <TableCell align="center">{product.quantity}</TableCell>
+                    <TableCell align="center">
                       {product.feedstock.unit}
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell align="center">
                       {formatToBRL(product.feedstock.price)}
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell align="center">
                       {formatToBRL(product.price)}
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell align="center">
                       <Button
                         onClick={() => handleDelete(product.id)}
                         color="error"
                       >
-                        Delete
+                        <DeleteIcon />
                       </Button>
                       <Button
                         onClick={() => {
@@ -194,7 +221,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
                           setSelectedSupply(product);
                         }}
                       >
-                        Editar
+                        <EditIcon />
                       </Button>
                     </TableCell>
                   </TableRow>

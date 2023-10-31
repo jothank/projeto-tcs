@@ -74,21 +74,21 @@ const FixedExpensesTable = ({
     try {
       const expense = [
         {
-          id: expensesValue[0].id,
-          name: expensesValue[0].nameExpense,
-          price: expensesValue[0].price,
-          description: expensesValue[0].description,
+          id: 1,
+          // name: expensesValue[0].nameExpense,
+          // price: expensesValue[0].price,
+          // description: expensesValue[0].description,
         },
       ];
   
-      const expenseResponse = await saveExpenses(expense);
+      // const expenseResponse = await saveExpenses(expense);
   
       const fixedExpense: FixedExpenseType = {
         id: 0,
         name: expensesValue[0].name,
         date: expensesValue[0].date,
         description: expensesValue[0].description,
-        expenses: expenseResponse.map((e) => e.id), // Mapeie as IDs de despesa do response
+        expenses: expense.map((e) => e.id), // Mapeie as IDs de despesa do response
       };
   
       const fixedExpenseResponse = await setfixedExpense(fixedExpense);
@@ -196,7 +196,7 @@ const FixedExpensesTable = ({
                         <Button onClick={() => handleEdit(rowIndex)}>Salvar</Button>
                       ) : (
                         <>
-                          <Button color="error" onClick={() => handleDelete(rowIndex)}>
+                          <Button color="error" >
                             <DeleteIcon />
                           </Button>
                           <Button color="info" onClick={() => handleEdit(rowIndex)}>

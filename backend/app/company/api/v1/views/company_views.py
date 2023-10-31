@@ -2,7 +2,7 @@
 API V1: Company Views
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import viewsets, permissions
 from app.company.api.v1.serializers.company.default_serializer import DefaultCompanySerializer
@@ -19,8 +19,8 @@ from app.company.api.v1.permissions import IsCompanyOwner
 class CompanyViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
-        user = self.request.user   
-             
+        user = self.request.user
+
         if user.is_authenticated:
             return user.companies.all()
         else:

@@ -2,7 +2,7 @@
 API V1: Fixed Expense Serializers
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import serializers
 from app.expense.models.expense import Expense
@@ -15,4 +15,5 @@ class DefaultExpenseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Expense
+        read_only_fields = ('user',)
         fields = '__all__'

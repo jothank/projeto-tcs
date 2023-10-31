@@ -1,12 +1,18 @@
+###
 # Libs
+###
 from django.utils.translation import gettext as _
 from django.db import models
 from app.supply.models.supply import (
     Supply
 )
 from .product import Product
+from app.accounts.models.user import User
 
 
+###
+# Models
+###
 class ProductSupply(models.Model):
 
     supply = models.ForeignKey(
@@ -21,4 +27,10 @@ class ProductSupply(models.Model):
         related_name='supply_product',
         verbose_name=_('Product'),
         on_delete=models.CASCADE
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name=_('User'),
     )

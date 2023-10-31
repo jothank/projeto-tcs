@@ -8,91 +8,122 @@ import {
   TableRow,
   Paper,
   Button,
-  TextField,
   Typography,
-  TableContainer
+  TableContainer,
+  Select,
+  MenuItem,
 } from "@mui/material";
-import AddPricing from "./AddPricing";
-import AddProduct from "components/Product/AddProduct";
-import { ProductTableProps } from "types/Product.types";
 import { getAllProduct } from "services/product.service";
+import { getCombos } from "services/combo.service";
 
 const PricingTable = () => {
+  const [itemType, setItemType] = useState("");
+  const [selectedItems, setSelectedItems] = useState<any[]>([]); // Estado para os itens selecionados.
+  const [isProductSelected, setIsProductSelected] = useState(true); // Estado para rastrear se é um produto ou combo selecionado.
 
-  const [supplies, setSupplies] = useState<ProductTableProps>({
-    data: {
-      results: [],
-    },
-  });
+  const [availableItems, setAvailableItems] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const data = await getAllProduct();
-        setSupplies({ data: { results: data } });
-      } catch (error: any) {
-        console.error("Failed to fetch feedstocks:", error.message);
+        const products = await getAllProduct();
+        const combos = await getCombos();
+        setAvailableItems([...combos, ...products]);
+      } catch (error) {
+        // Trate erros adequados aqui.
       }
     };
 
     fetchProducts();
   }, []);
 
-return (
-    <Grid>
-    <TableContainer>
-        {/* <AddProduct /> */}
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>Insumos</TableCell>
-          <TableCell>Uni. Medida</TableCell>
-          <TableCell>Qtd/Uso</TableCell>
-          <TableCell>Uni. Medida</TableCell>
-          <TableCell>Produção</TableCell>
-          <TableCell>Custo de Aquisição</TableCell>
-          <TableCell>Custo Unitario</TableCell>
-          
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {/* {expensesValue.map((item: ExpenseValueType, rowIndex: number) => (
-          <TableRow key={rowIndex}>
-            <TableCell>{item.name}</TableCell>
-            <TableCell>{item.description}</TableCell>
-            <TableCell>R${item.price},00</TableCell>
-            <TableCell>{item.date}</TableCell>
-            <TableCell>
-              <Button
-                color="error"
-                onClick={() => handleDelete(rowIndex)}
-              >
-                <DeleteIcon />
-              </Button>
-            </TableCell>
-          </TableRow>
-        ))} */}
-      </TableBody>
-      <TableCell>Custo Produção</TableCell>
-      <TableCell>15452</TableCell>
-     <Table>
-      <TableCell>Condominio</TableCell>
-      <TableCell>6</TableCell>
-      <TableCell>Imposto</TableCell>
-      <TableCell></TableCell>
-      <TableCell>Cartão Débito/Crédito</TableCell>
-      <TableCell></TableCell>
-      <TableCell>Outros</TableCell>
-      <TableCell></TableCell>
-      <TableCell>Preço sugerido</TableCell>
-      <TableCell></TableCell>
-     </Table>
-      
-    </Table>
-  </TableContainer>
-  </Grid>
-)
+  const addItem = () => {
+    if (!itemType) {
+      alert("Por favor, selecione um tipo de item.");
+      return;
+    }
 
-}
+    // Adicione o item selecionado à lista de itens da tabela.
+    const selectedItem = availableItems.find((item) => item.id === itemType);
+    if (selectedItem) {
+      setSelectedItems([...selectedItems, selectedItem]);
+      setItemType(""); // Limpa a seleção após adicionar o item.
+    }
+  };
+
+  const renderTable = () => {
+    if (isProductSelected) {
+      return (
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Insumo</TableCell>
+              <TableCell align="right">Unidade de Fabricação</TableCell>
+              <TableCell align="right">Quantidade de uso</TableCell>
+              <TableCell align="right">Unidade de aquisição</TableCell>
+              <TableCell align="right">Valor de aquisição</TableCell>
+              <TableCell align="right">Valor unitário</TableCell>
+              <TableCell align="right">Ações</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {selectedItems.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.unity}</TableCell>
+                <TableCell>Quantidade</TableCell>
+                <TableCell>Aquisição Unit</TableCell>
+                <TableCell>Valor Aquisição</TableCell>
+                <TableCell>Valor Unitário</TableCell>
+                <TableCell>
+                  {/* Adicione botões de ações aqui */}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      );
+    } else {
+      // Tabela de Combos
+      // Adicione o código da tabela de Combos aqui.
+      // Use a mesma estrutura, mas com os detalhes específicos dos combos.
+    }
+  };
+
+  return (
+    <Grid container spacing={2}>
+      <Grid item xs={6}>
+        <Typography variant="h6" color="textSecondary">Tipo de Item</Typography>
+      </Grid>
+      <Grid item xs={6}>
+        <Select
+          value={itemType}
+          onChange={(e) => setItemType(e.target.value)}
+          fullWidth
+          variant="outlined"
+        >
+          <MenuItem value="">Selecione um item</MenuItem>
+          {availableItems.map((item) => (
+            <MenuItem key={item.id} value={item.id}>
+              {item.name} - {item.type}
+            </MenuItem>
+          ))}
+        </Select>
+      </Grid>
+      <Grid item xs={12}>
+        <Button onClick={addItem} variant="outlined">
+          Adicionar à tabela
+        </Button>
+        <Button onClick={() => setIsProductSelected(true)}>Exibir Produtos</Button>
+        <Button onClick={() => setIsProductSelected(false)}>Exibir Combos</Button>
+      </Grid>
+      <Grid item xs={12}>
+        <TableContainer component={Paper}>
+          {renderTable()}
+        </TableContainer>
+      </Grid>
+    </Grid>
+  );
+};
 
 export default PricingTable;

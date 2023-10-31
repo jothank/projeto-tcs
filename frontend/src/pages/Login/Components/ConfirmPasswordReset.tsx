@@ -24,7 +24,7 @@ const ConfirmPasswordReset: React.FC = () => {
     try {
       await confirmPasswordReset(currentURL, newPassword1, newPassword2);
       getSuccess("Senha alterada.");
-      navigate("/login");
+      navigate("/");
     } catch (error: any) {
       getErro(error.message);
     }

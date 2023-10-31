@@ -1,108 +1,110 @@
+import React from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import { Button, FormControl, Grid, TextField } from "@mui/material";
-import React, { useState } from "react";
 
 export interface ExpenseValueType {
+  id?: number;
+  nameExpense: string;
   name: string;
-  price: number;
   description: string;
   date: string;
-  totalValue: string;
+  price: number;
 }
 
-export const AddFixedExpenses = ({
+const AddFixedExpenses = ({
   expensesValue,
   setExpenses,
 }: {
   expensesValue: ExpenseValueType[];
   setExpenses: React.Dispatch<React.SetStateAction<ExpenseValueType[]>>;
 }) => {
-  const [expense, setExpense] = useState<ExpenseValueType>({
-    name: "",
-    price: 0,
-    description: "",
-    date: "",
-    totalValue: "",
+  const validationSchema = Yup.object().shape({
+    nameExpense: Yup.string().required("Campo obrigatório"),
+    name: Yup.string().required("Campo obrigatório"),
+    date: Yup.string().required("Campo obrigatório"),
+    price: Yup.number()
+      .typeError("Deve ser um número")
+      .required("Campo obrigatório")
+      .positive("Deve ser um valor positivo"),
   });
 
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    setExpense({ ...expense, [name]: value });
-  };
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    setExpenses([...expensesValue, expense]);
-    setExpense({
-      name: "",
-      price: 0,
-      description: "",
-      date: "",
-      totalValue: "",
-    });
+  const handleSubmit = (values: ExpenseValueType) => {
+    setExpenses([...expensesValue, values]);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-    <Grid style={{ width: "50%", marginLeft: "20%",  marginTop: '2%' }}>
-      <Grid sx={{display: "flex", flexDirection: "row", gap: "20px", marginBottom: "2%"}}>
-        <FormControl fullWidth>
-          <TextField
-            name=""
-            label="Gasto"
-            variant="outlined"
-          />
-        </FormControl>
-        <FormControl fullWidth>
-              <TextField
-                type="date"
-                name="date"
-                variant="outlined"
-                value={expense.date}
-                onChange={handleChange}
-              />
-            </FormControl>
-      </Grid>
-      <Grid sx={{display: "flex", flexDirection: "row", gap: "20px"}}>
-        <FormControl fullWidth>
-          <TextField
-            name="name"
-            label="Despesa"
-            variant="outlined"
-            value={expense.name}
-            onChange={handleChange}
-          />
-        </FormControl>
-        <FormControl fullWidth>
-          <TextField
-            name="price"
-            label="Valor"
-            variant="outlined"
-            value={expense.price}
-            onChange={handleChange}
-          />
-        </FormControl>
-        <FormControl fullWidth>
-          <TextField
-            name="description"
-            label="Descrição"
-            variant="outlined"
-            value={expense.description}
-            onChange={handleChange}
-          />
-        </FormControl>
-        <Button type="submit" variant="contained" color="primary"
-        sx={{
-          width: "30%"
-        }}
-        >
-          Adicionar
-        </Button>
-      </Grid>
-    </Grid>
-  </form>
-  
-  
-  
+    <Formik
+      initialValues={{
+        nameExpense: "",
+        name: "",
+        description: "",
+        date: "",
+        price: 0,
+      }}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      {() => (
+        <Form>
+          <Grid style={{ width: "50%", marginLeft: "20%", marginTop: "2%" }}>
+            <Grid
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "20px",
+                marginBottom: "2%",
+              }}
+            >
+              <FormControl fullWidth>
+                <Field
+                  as={TextField}
+                  name="name"
+                  label="Mes"
+                  variant="outlined"
+                />
+                <ErrorMessage name="nameExpense" component="div" />
+              </FormControl>
+              <FormControl fullWidth>
+                <Field as={TextField} name="nameExpense" label="Despesa" variant="outlined" />
+                <ErrorMessage name="Expense" component="div" />
+              </FormControl>
+              <FormControl fullWidth>
+                <Field
+                  as={TextField}
+                  type="date"
+                  name="date"
+                  variant="outlined"
+                />
+                <ErrorMessage name="date" component="div" />
+              </FormControl>
+            </Grid>
+            <Grid sx={{ display: "flex", flexDirection: "row", gap: "20px" }}>
+              <FormControl fullWidth>
+                <Field
+                  as={TextField}
+                  name="description"
+                  label="Descrição"
+                  variant="outlined"
+                />
+              </FormControl>
+              <FormControl fullWidth>
+                <Field
+                  as={TextField}
+                  name="price"
+                  label="Valor"
+                  variant="outlined"
+                />
+                <ErrorMessage name="price" component="div" />
+              </FormControl>
+              <Button type="submit" variant="contained" color="primary" sx={{ width: "30%" }}>
+                Adicionar
+              </Button>
+            </Grid>
+          </Grid>
+        </Form>
+      )}
+    </Formik>
   );
 };
 

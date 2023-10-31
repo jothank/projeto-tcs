@@ -2,7 +2,7 @@
 API V1: feedstock Views
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import viewsets
 from app.feedstock.models.feedstock import Feedstock
@@ -15,10 +15,21 @@ from app.feedstock.api.v1.serializers.feedstock.retrieve import RetrieveFeedstoc
 
 
 class FeedstockViewSet(viewsets.ModelViewSet):
-    queryset = Feedstock.objects.all()
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.is_authenticated:
+            return user.feedstock_set.all()
+        else:
+            return Feedstock.objects.none()
 
     def get_serializer_class(self):
         if self.action == 'list':
             return RetrieveFeedstockSerializer
         else:
             return DefaultFeedstockSerializer
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(user=user)

@@ -1,8 +1,8 @@
 """
-API V1: Product Serializers
+API V1: Supply Serializers
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import serializers
 from app.supply.models.supply import Supply
@@ -18,3 +18,4 @@ class DefaultSupplySerializer(serializers.ModelSerializer):
     class Meta:
         model = Supply
         fields = '__all__'
+        read_only_fields = ('user',)

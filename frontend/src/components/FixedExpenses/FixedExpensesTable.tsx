@@ -10,28 +10,25 @@ import {
   Button,
   TextField,
   Typography,
-  TableContainer
+  TableContainer,
 } from "@mui/material";
+import { formatToBRL } from "utils/pricing";
 import { ExpenseValueType } from "./AddFixedExpenses";
-import { setfixedExpense } from "services/fixedexpense.service";
 import { getErro, getSuccess } from "utils/ModalAlert";
-import { FixedExpenseType } from "types/FixedExpenses.types";
 import DeleteIcon from "@mui/icons-material/Delete";
-const FixedExpenseValues: FixedExpenseType = {
-  id: 0,
-  name: "",
-  description: "",
-  price: 0,
-  date: "",
-  total_price: 0,
-  expenses: [],
-};
-const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType[] }) => {
+import EditIcon from "@mui/icons-material/Edit";
+import { ExpenseType, FixedExpenseType } from "types/FixedExpenses.types";
+import { saveExpenses, setfixedExpense } from "services/fixedexpense.service";
+
+const FixedExpensesTable = ({
+  expensesValue,
+  setExpenses,
+}: {
+  expensesValue: ExpenseValueType[];
+  setExpenses: React.Dispatch<React.SetStateAction<ExpenseValueType[]>>;
+}) => {
   const [totalValue, setTotalValue] = useState<number>(0);
   const [manualTotalInput, setManualTotalInput] = useState(false);
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   const calculateTotal = () => {
     let total = 0;
@@ -39,6 +36,23 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
       total += Number(item.price);
     });
     return total;
+  };
+
+  const [isEditing, setIsEditing] = useState<boolean[]>(Array(expensesValue.length).fill(false));
+
+  const handleEditExpense = (rowIndex: number, fieldName: string, value: any) => {
+    const updatedExpenses = [...expensesValue];
+    updatedExpenses[rowIndex] = {
+      ...updatedExpenses[rowIndex],
+      [fieldName]: value,
+    };
+    setExpenses(updatedExpenses);
+  };
+
+  const handleEdit = (rowIndex: number) => {
+    const newIsEditing = [...isEditing];
+    newIsEditing[rowIndex] = !newIsEditing[rowIndex];
+    setIsEditing(newIsEditing);
   };
 
   useEffect(() => {
@@ -58,30 +72,32 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
 
   const handleRegister = async () => {
     try {
+   const expense: ExpenseType[] = [
+  {
+    id: 1,
+    nameExpense: expensesValue[0].nameExpense,
+    price: expensesValue[0].price,
+    description: expensesValue[0].description,
+  },
+];
+
+const expenseResponse = await saveExpenses(expense);
+  
       const fixedExpense: FixedExpenseType = {
+        id: 0,
         name: expensesValue[0].name,
-        description: expensesValue[0].description,
-        price: expensesValue[0].price,
-        expenses: expensesValue.map((item) => ({
-          name: item.name,
-          price: item.price,
-          description: item.description,
-        })),
         date: expensesValue[0].date,
-        total_price: totalValue,
+        description: expensesValue[0].description,
+        expenses: expense.map((e) => e.id).filter((id) => id !== undefined) as number[],
       };
-
-      const response = await setfixedExpense(
-        fixedExpense.name,
-        fixedExpense.description,
-        fixedExpense.price,
-        fixedExpense.expenses,
-        fixedExpense.date,
-        fixedExpense.total_price
-      );
-
-      if (response) {
+  
+      const fixedExpenseResponse = await setfixedExpense(fixedExpense);
+  
+      console.log("response", fixedExpenseResponse.expenses);
+  
+      if (fixedExpenseResponse) {
         getSuccess("Items de despesa registrados com sucesso");
+        setExpenses([]);
       } else {
         getErro("Falha ao registrar despesas");
       }
@@ -89,13 +105,7 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
       getErro(error.message);
     }
   };
-
-  const handleDelete = (rowIndex: any) => {
-    const updatedExpenses = [...expensesValue];
-    updatedExpenses.splice(rowIndex, 1);
-    expensesValue = updatedExpenses;
-  };
-
+  
 
   return (
     <>
@@ -110,7 +120,8 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Nome</TableCell>
+                  <TableCell>Mês Referência</TableCell>
+                  <TableCell>Despesa</TableCell>
                   <TableCell>Descrição</TableCell>
                   <TableCell>Valor</TableCell>
                   <TableCell>Data</TableCell>
@@ -120,17 +131,79 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
               <TableBody>
                 {expensesValue.map((item: ExpenseValueType, rowIndex: number) => (
                   <TableRow key={rowIndex}>
-                    <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.description}</TableCell>
-                    <TableCell>R${item.price},00</TableCell>
-                    <TableCell>{item.date}</TableCell>
                     <TableCell>
-                      <Button
-                        color="error"
-                        onClick={() => handleDelete(rowIndex)}
-                      >
-                        <DeleteIcon />
-                      </Button>
+                      {isEditing[rowIndex] ? (
+                        <TextField
+                          name="name"
+                          value={item.name}
+                          onChange={(e) => handleEditExpense(rowIndex, "name", e.target.value)}
+                        />
+                      ) : (
+                        item.name
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {isEditing[rowIndex] ? (
+                        <TextField
+                          name="nameExpense"
+                          value={item.nameExpense}
+                          onChange={(e) => handleEditExpense(rowIndex, "nameExpense", e.target.value)}
+                        />
+                      ) : (
+                        item.nameExpense
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {isEditing[rowIndex] ? (
+                        <TextField
+                          name="description"
+                          value={item.description}
+                          onChange={(e) =>
+                            handleEditExpense(rowIndex, "description", e.target.value)
+                          }
+                        />
+                      ) : (
+                        item.description
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {isEditing[rowIndex] ? (
+                        <TextField
+                          name="price"
+                          value={item.price}
+                          onChange={(e) =>
+                            handleEditExpense(rowIndex, "price", parseFloat(e.target.value) || 0)
+                          }
+                        />
+                      ) : (
+                        `R$${formatToBRL(item.price)},00`
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {isEditing[rowIndex] ? (
+                        <TextField
+                          type="date"
+                          name="date"
+                          value={item.date}
+                          onChange={(e) => handleEditExpense(rowIndex, "date", e.target.value)}
+                        />
+                      ) : (
+                        item.date
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {isEditing[rowIndex] ? (
+                        <Button onClick={() => handleEdit(rowIndex)}>Salvar</Button>
+                      ) : (
+                        <>
+                          <Button color="error" >
+                            <DeleteIcon />
+                          </Button>
+                          <Button color="info" onClick={() => handleEdit(rowIndex)}>
+                            <EditIcon />
+                          </Button>
+                        </>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -144,7 +217,7 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
             display: "flex",
             flexDirection: "row",
             marginLeft: "30%",
-            gap: "20px"
+            gap: "20px",
           }}
         >
           <div>
@@ -155,18 +228,18 @@ const FixedExpensesTable = ({ expensesValue }: { expensesValue: ExpenseValueType
             </Button>
           </div>
           {manualTotalInput ? (
-              <TextField
-                label="Valor Total"
-                variant="outlined"
-                value={totalValue}
-                onChange={handleTotalValueChange}
-              />
-         
+            <TextField
+              label="Valor Total"
+              variant="outlined"
+              value={totalValue}
+              onChange={handleTotalValueChange}
+            />
           ) : (
-            <Typography variant="subtitle2">Gastos totais: R${totalValue},00</Typography>
+            <Typography variant="subtitle2">Gastos totais: R$ {formatToBRL(totalValue)}</Typography>
           )}
-
-          <Button onClick={handleRegister} variant="outlined">Salvar</Button>
+          <Button onClick={handleRegister} variant="outlined">
+            Salvar
+          </Button>
         </Grid>
       </Paper>
     </>

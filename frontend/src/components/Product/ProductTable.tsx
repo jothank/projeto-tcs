@@ -69,8 +69,8 @@ const ProductTable = ({ data }: ProductTableProps) => {
           Swal.fire(
             'Excluído!',
             'O produto foi excluído.',
-            'success'            
-          );
+            'success').then(() => { location.reload(); }
+            );
         } catch (error) {
           getErro(`Erro ao excluir o produto com ID ${productId}`);
           console.error(`Erro ao excluir o produto com ID ${productId}:`, error);

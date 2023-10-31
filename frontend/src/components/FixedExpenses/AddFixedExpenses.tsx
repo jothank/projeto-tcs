@@ -59,15 +59,15 @@ const AddFixedExpenses = ({
               <FormControl fullWidth>
                 <Field
                   as={TextField}
-                  name="nameExpense"
-                  label="Gasto"
+                  name="name"
+                  label="Mes"
                   variant="outlined"
                 />
                 <ErrorMessage name="nameExpense" component="div" />
               </FormControl>
               <FormControl fullWidth>
-                <Field as={TextField} name="name" label="Despesa" variant="outlined" />
-                <ErrorMessage name="name" component="div" />
+                <Field as={TextField} name="nameExpense" label="Despesa" variant="outlined" />
+                <ErrorMessage name="Expense" component="div" />
               </FormControl>
               <FormControl fullWidth>
                 <Field

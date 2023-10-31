@@ -2,9 +2,9 @@ import { FormikRegistration } from "formik";
 
 export interface ExpenseType {
   id?: number;
-  nameExpense: string; 
-  price: number;
-  description: string;
+  nameExpense?: string; 
+  price?: number;
+  description?: string;
 }
 
 export interface FixedExpenseType {
@@ -12,7 +12,7 @@ export interface FixedExpenseType {
   date: string;
   name: string;
   description: string;
-  expenses: ExpenseType[]; 
+  expenses: number[]; 
 }
 
 

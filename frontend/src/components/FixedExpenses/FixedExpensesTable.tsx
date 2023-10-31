@@ -17,8 +17,8 @@ import { ExpenseValueType } from "./AddFixedExpenses";
 import { getErro, getSuccess } from "utils/ModalAlert";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { FixedExpenseType } from "types/FixedExpenses.types";
-import { setfixedExpense } from "services/fixedexpense.service";
+import { ExpenseType, FixedExpenseType } from "types/FixedExpenses.types";
+import { saveExpenses, setfixedExpense } from "services/fixedexpense.service";
 
 const FixedExpensesTable = ({
   expensesValue,
@@ -72,23 +72,30 @@ const FixedExpensesTable = ({
 
   const handleRegister = async () => {
     try {
-      const expenses = expensesValue.map((expense) => ({
-        nameExpense: expense.nameExpense,
-        description: expense.description,
-        price: expense.price,
-      }));
+      const expense = [
+        {
+          id: expensesValue[0].id,
+          name: expensesValue[0].nameExpense,
+          price: expensesValue[0].price,
+          description: expensesValue[0].description,
+        },
+      ];
   
-      const fixedExpense = {
+      const expenseResponse = await saveExpenses(expense);
+  
+      const fixedExpense: FixedExpenseType = {
         id: 0,
-        name: expensesValue[0].name, // Use o nome da despesa fixa do seu código atual
-        date: expensesValue[0].date, // Use a data da despesa fixa do seu código atual
-        description: expensesValue[0].description, // Use a descrição da despesa fixa do seu código atual
-        expenses, // Associe as despesas
+        name: expensesValue[0].name,
+        date: expensesValue[0].date,
+        description: expensesValue[0].description,
+        expenses: expenseResponse.map((e) => e.id), // Mapeie as IDs de despesa do response
       };
   
-      const response = await setfixedExpense(fixedExpense);
+      const fixedExpenseResponse = await setfixedExpense(fixedExpense);
   
-      if (response) {
+      console.log("response", fixedExpenseResponse.expenses);
+  
+      if (fixedExpenseResponse) {
         getSuccess("Items de despesa registrados com sucesso");
         setExpenses([]);
       } else {
@@ -98,12 +105,7 @@ const FixedExpensesTable = ({
       getErro(error.message);
     }
   };
-
-  const handleDelete = (rowIndex: number) => {
-    const updatedExpenses = [...expensesValue];
-    updatedExpenses.splice(rowIndex, 1);
-    setExpenses(updatedExpenses);
-  };
+  
 
   return (
     <>
@@ -118,7 +120,8 @@ const FixedExpensesTable = ({
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Nome</TableCell>
+                  <TableCell>Mês Referência</TableCell>
+                  <TableCell>Despesa</TableCell>
                   <TableCell>Descrição</TableCell>
                   <TableCell>Valor</TableCell>
                   <TableCell>Data</TableCell>
@@ -137,6 +140,17 @@ const FixedExpensesTable = ({
                         />
                       ) : (
                         item.name
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {isEditing[rowIndex] ? (
+                        <TextField
+                          name="nameExpense"
+                          value={item.nameExpense}
+                          onChange={(e) => handleEditExpense(rowIndex, "nameExpense", e.target.value)}
+                        />
+                      ) : (
+                        item.nameExpense
                       )}
                     </TableCell>
                     <TableCell>

@@ -72,23 +72,23 @@ const FixedExpensesTable = ({
 
   const handleRegister = async () => {
     try {
-      const expense = [
-        {
-          id: 1,
-          // name: expensesValue[0].nameExpense,
-          // price: expensesValue[0].price,
-          // description: expensesValue[0].description,
-        },
-      ];
-  
-      // const expenseResponse = await saveExpenses(expense);
+   const expense: ExpenseType[] = [
+  {
+    id: 1,
+    nameExpense: expensesValue[0].nameExpense,
+    price: expensesValue[0].price,
+    description: expensesValue[0].description,
+  },
+];
+
+const expenseResponse = await saveExpenses(expense);
   
       const fixedExpense: FixedExpenseType = {
         id: 0,
         name: expensesValue[0].name,
         date: expensesValue[0].date,
         description: expensesValue[0].description,
-        expenses: expense.map((e) => e.id), // Mapeie as IDs de despesa do response
+        expenses: expense.map((e) => e.id).filter((id) => id !== undefined) as number[],
       };
   
       const fixedExpenseResponse = await setfixedExpense(fixedExpense);

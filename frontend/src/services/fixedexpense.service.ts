@@ -5,7 +5,7 @@ import { FixedExpenseType, ExpenseType } from "types/FixedExpenses.types";
 
 
 
-export const saveExpenses = async (expenses: ExpenseType) => {
+export const saveExpenses = async (expenses: ExpenseType[]) => {
   try {
     const response = await axios.post(BASE_URL + "expense/", expenses, {
       headers: await getAuthorizationHeader(),

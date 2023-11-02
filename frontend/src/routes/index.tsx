@@ -13,7 +13,6 @@ import Product from "pages/Product/Product";
 import { FixedExpense } from "pages/FixedExpenses/FixedExpenses";
 import Princing from "pages/Pricing/Pricing";
 import Combo from "pages/Combo/Combo";
-import CommandCombo from "pages/Commands/CommandCombo";
 import CommandProduct from "pages/Commands/CommandProduct";
 
 export const AppRoutes = () => {
@@ -90,14 +89,7 @@ export const AppRoutes = () => {
           </PrivateRoute>
         }
       />
-      <Route
-        path="/command-combo"
-        element={
-          <PrivateRoute>
-            <CommandCombo />
-          </PrivateRoute>
-        }
-      />
+     
       <Route
         path="/command-product"
         element={

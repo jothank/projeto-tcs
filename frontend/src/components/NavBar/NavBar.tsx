@@ -3,12 +3,6 @@ import logo from "assets/logo/logo.png";
 import CustomAppBar from "./Header/Header.component";
 import CustomDrawer from "./SideBar/SideBar.compenent";
 import { getLogout } from "utils/ModalAlert";
-type MenuItem = {
-  text: string;
-  href?: string;
-  title?: string;
-  submenus?: MenuItem[];
-};
 
 const NavBar: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -21,8 +15,7 @@ const NavBar: React.FC = () => {
     { text: "Combo", href: "/combo", title: "Combos" },
     { text: "Gastos Fixos", href: "/fixed-expense", title: "Gastos Fixos" },
     { text: "Simulador de Precificação", href: "/pricing", title: "Simulador de precificação" },
-    { text: "Comanda de Produto", href: "/command-product", title: "Comanda de Produto" },
-    { text: "Comanda de Combo", href: "/command-combo", title: "Comanda de Combo" },
+    { text: "Comanda", href: "/command-product", title: "Comanda" },
     
   ];
   const currentPath = new URL(window.location.href).pathname;

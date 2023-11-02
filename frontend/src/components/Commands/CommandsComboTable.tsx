@@ -30,8 +30,6 @@ const CommandsComboTable = (props: any) => {
   );
   const selectedCombo = data.find((combo: any) => combo.id === selectedComboId);
 
-  const [isAddsModalProductOpen, setIsAddsModalProductOpen] = useState(false);
-  const [isAddModalProductOpen, setIsAddModalProductOpen] = useState(false);
   const [products, setProducts] = useState<any>([]);
 
   const componentRef = useRef(null);

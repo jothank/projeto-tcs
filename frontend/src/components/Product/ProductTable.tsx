@@ -129,7 +129,12 @@ const ProductTable = ({ data }: ProductTableProps) => {
   };
 
   return (
-    <Paper>
+    <Paper
+    sx={{
+      width: "80%",
+      marginLeft: "10%"
+    }}
+    >
       <div
         style={{
           display: "flex",

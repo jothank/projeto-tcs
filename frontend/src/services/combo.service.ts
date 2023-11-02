@@ -2,6 +2,13 @@ import { BASE_URL } from "../config";
 import axios from "axios";
 import { getAuthorizationHeader } from "utils/GetHeader";
 
+interface Combo {
+  id: number;
+  name: string;
+  // Outros campos do combo, conforme necessário
+}
+
+
 export const setCombo = async (products: Array<{}>, name: string) => {
   try {
     const response = await axios.post(
@@ -26,6 +33,18 @@ export const getCombos = async () => {
       headers: await getAuthorizationHeader(),
     });
     return response.data.results;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const getComboById = async (comboId: number): Promise<Combo | null> => {
+  try {
+    const response = await axios.get(BASE_URL + `combo/${comboId}`, {
+      headers: await getAuthorizationHeader(),
+    });
+    return response.data as Combo; 
   } catch (error) {
     throw error;
   }

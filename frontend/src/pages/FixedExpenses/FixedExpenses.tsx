@@ -1,27 +1,39 @@
 import React, { useState, useEffect } from "react";
-import AddFixedExpenses, { ExpenseValueType } from "components/FixedExpenses/AddFixedExpenses";
+import AddFixedExpenses from "components/FixedExpenses/AddFixedExpenses";
 import FixedExpensesTable from "components/FixedExpenses/FixedExpensesTable";
-import { getFixedExpense } from "services/fixedexpense.service";
+import { saveExpenses, getFixedExpense } from "services/fixedexpense.service copy"; // Modifique para importar as funções corretas do seu serviço
 import { getErro } from "utils/ModalAlert";
-// Substitua pelo serviço correto
+import { ExpenseType } from "types/FixedExpenses.types";
 
 export const FixedExpense = () => {
-  const [expense, setExpense] = useState<ExpenseValueType[]>([]);
+  const [expenses, setExpenses] = useState<ExpenseType[]>([]);
 
   useEffect(() => {
-    getFixedExpense()
-      .then((expense) => {
-        setExpense(expense);
-      })
-      .catch((error) => {
-        getErro("Erro ao buscar as despesas")
-      });
-  }, []); 
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const data: ExpenseType[] = await getFixedExpense();
+      setExpenses(data);
+    } catch (error) {
+      console.error("Erro ao buscar as despesas:", error);
+    }
+  };
+
+  const handleSaveExpense = async (newExpense: ExpenseType[]) => {
+    try {
+      await saveExpenses(newExpense);
+      fetchData();
+    } catch (error) {
+      console.error("Erro ao salvar a despesa:", error);
+    }
+  };
 
   return (
     <>
-      <AddFixedExpenses expensesValue={expense} setExpenses={setExpense} />
-      <FixedExpensesTable expensesValue={expense} setExpenses={setExpense} />
+      <AddFixedExpenses onSave ={handleSaveExpense} />
+      <FixedExpensesTable expensesValue={expenses} />
     </>
   );
 };

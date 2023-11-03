@@ -12,7 +12,7 @@ export interface ExpenseValueType {
   price: number;
 }
 
-const AddFixedExpenses = ({
+const AddFixedExpensess = ({
   expensesValue,
   setExpenses,
 }: {
@@ -108,4 +108,4 @@ const AddFixedExpenses = ({
   );
 };
 
-export default AddFixedExpenses;
+export default AddFixedExpensess;

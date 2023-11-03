@@ -13,7 +13,7 @@ import {
   TableContainer,
 } from "@mui/material";
 import { formatToBRL } from "utils/pricing";
-import { ExpenseValueType } from "./AddFixedExpenses";
+import { ExpenseValueType } from "./AddFixedExpenses copy";
 import { getErro, getSuccess } from "utils/ModalAlert";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";

@@ -13,7 +13,7 @@ export interface ExpenseValueType {
 }
 
 interface AddFixedExpensesProps {
-  onSave: (values: ExpenseValueType) => void;
+  onSave: (newExpense: ExpenseValueType) => Promise<void>;
   expensesValue: ExpenseValueType[];
   setExpenses: React.Dispatch<React.SetStateAction<ExpenseValueType[]>>;
 }
@@ -109,4 +109,4 @@ const AddFixedExpenses: React.FC<AddFixedExpensesProps> = ({ onSave, expensesVal
   );
 };
 
-export default AddFixedExpense;
+export default AddFixedExpenses;

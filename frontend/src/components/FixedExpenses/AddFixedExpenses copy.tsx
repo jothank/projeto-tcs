@@ -109,4 +109,4 @@ const AddFixedExpenses: React.FC<AddFixedExpensesProps> = ({ onSave, expensesVal
   );
 };
 
-export default AddFixedExpenses;
+export default AddFixedExpense;

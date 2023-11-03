@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AddFixedExpenses from "components/FixedExpenses/AddFixedExpenses";
+import AddFixedExpensesProps from "components/FixedExpenses/AddFixedExpenses copy";
 import FixedExpensesTable from "components/FixedExpenses/FixedExpensesTable";
 import { saveExpenses, getFixedExpense } from "services/fixedexpense.service copy"; // Modifique para importar as funções corretas do seu serviço
 import { getErro } from "utils/ModalAlert";
@@ -32,7 +32,7 @@ export const FixedExpense = () => {
 
   return (
     <>
-      <AddFixedExpenses onSave ={handleSaveExpense} />
+      <AddFixedExpensesProps onSave ={handleSaveExpense} />
       <FixedExpensesTable expensesValue={expenses} />
     </>
   );

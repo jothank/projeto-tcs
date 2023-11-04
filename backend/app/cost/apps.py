@@ -8,9 +8,9 @@ from django.apps import AppConfig
 ###
 
 
-class ExpenseConfig(AppConfig):
+class CostConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'app.expense'
+    name = 'app.cost'
 
     def ready(self):
-        import app.expense.signals
+        import app.cost.signals

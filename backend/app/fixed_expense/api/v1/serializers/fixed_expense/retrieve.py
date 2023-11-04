@@ -3,7 +3,7 @@
 ###
 from rest_framework import serializers
 from app.fixed_expense.models.fixed_expense import FixedExpense
-from app.expense.api.v1.serializers.expense.default import DefaultExpenseSerializer
+from app.cost.api.v1.serializers.cost.default import DefaultCostSerializer
 
 ###
 # Serializers
@@ -11,7 +11,7 @@ from app.expense.api.v1.serializers.expense.default import DefaultExpenseSeriali
 
 
 class RetrieveFixedExpenseSerializer(serializers.ModelSerializer):
-    expenses = DefaultExpenseSerializer(many=True)
+    expenses = DefaultCostSerializer(many=True)
 
     class Meta:
         model = FixedExpense

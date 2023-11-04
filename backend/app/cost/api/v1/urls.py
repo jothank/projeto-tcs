@@ -3,7 +3,7 @@
 ##
 from django.urls import path, include
 from rest_framework import routers
-from app.expense.api.v1.views.expense_views import ExpenseViewSet
+from app.cost.api.v1.views.cost_views import CostViewSet
 
 
 ###
@@ -11,9 +11,9 @@ from app.expense.api.v1.views.expense_views import ExpenseViewSet
 ###
 router = routers.SimpleRouter()
 router.register(
-    r'expense',
-    ExpenseViewSet,
-    basename='expense'
+    r'cost',
+    CostViewSet,
+    basename='cost'
 )
 
 ###

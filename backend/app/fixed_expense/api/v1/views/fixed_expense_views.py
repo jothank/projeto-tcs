@@ -10,7 +10,7 @@ from app.fixed_expense.api.v1.serializers.fixed_expense.create import CreateFixe
 from app.fixed_expense.api.v1.serializers.fixed_expense.retrieve import RetrieveFixedExpenseSerializer
 from app.fixed_expense.api.v1.serializers.fixed_expense.update import UpdateFixedExpenseSerializer
 from app.fixed_expense.models.fixed_expense import FixedExpense
-from app.fixed_expense.models.expense_fixed_expense import FixedExpenseExpense
+from app.fixed_expense.models.expense_fixed_expense import FixedExpenseCost
 
 
 ###
@@ -39,8 +39,8 @@ class FixedExpenseViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         user = self.request.user
-        expenses = serializer.validated_data.pop('expenses')
+        costs = serializer.validated_data.pop('costs')
         fixed_expense = serializer.save(user=user)
-        for expense in expenses:
-            FixedExpenseExpense.objects.create(
-                fixed_expense=fixed_expense, expense=expense, user=user)
+        for cost in costs:
+            FixedExpenseCost.objects.create(
+                fixed_expense=fixed_expense, cost=cost, user=user)

@@ -9,7 +9,7 @@ from app.accounts.models.user import User
 ###
 # Model
 ###
-class Expense(models.Model):
+class Cost(models.Model):
 
     price = models.FloatField(
         verbose_name=_('Price'),

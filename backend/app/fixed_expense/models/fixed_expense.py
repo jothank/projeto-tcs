@@ -3,7 +3,7 @@
 ###
 from django.utils.translation import gettext as _
 from django.db import models
-from app.expense.models.expense import Expense
+from app.cost.models.cost import Cost
 from app.accounts.models.user import User
 
 
@@ -23,11 +23,11 @@ class FixedExpense(models.Model):
     total_price = models.FloatField(
         verbose_name=_('Total Price'),
     )
-    expenses = models.ManyToManyField(
-        Expense,
-        through='FixedExpenseExpense',
-        related_name='expenses',
-        verbose_name=_('Expenses'),
+    costs = models.ManyToManyField(
+        Cost,
+        through='FixedExpenseCost',
+        related_name='costs',
+        verbose_name=_('Costs'),
     )
     description = models.TextField(
         verbose_name=_('Description'),

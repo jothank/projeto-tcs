@@ -5,7 +5,7 @@ Fixed Expense admin
 # Libs
 ###
 from django.contrib import admin
-from app.expense.models.expense import Expense
+from app.cost.models.cost import Cost
 
 ###
 # Inline Admin Models
@@ -16,8 +16,8 @@ from app.expense.models.expense import Expense
 # Main Admin Models
 ###
 
-class ExpenseAdmin(admin.ModelAdmin):
+class CostAdmin(admin.ModelAdmin):
     ...
 
 
-admin.site.register(Expense, ExpenseAdmin)
+admin.site.register(Cost, CostAdmin)

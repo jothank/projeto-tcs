@@ -6,7 +6,7 @@ API V1: Fixed Expense Serializers
 ###
 from rest_framework import serializers
 from app.fixed_expense.models.fixed_expense import FixedExpense
-from app.expense.models.expense import Expense
+from app.cost.models.cost import Cost
 
 ###
 # Serializers
@@ -14,24 +14,23 @@ from app.expense.models.expense import Expense
 
 
 class CreateFixedExpenseSerializer(serializers.ModelSerializer):
-    expenses = serializers.PrimaryKeyRelatedField(
-        queryset=Expense.objects.all(), many=True, required=False)
+    costs = serializers.PrimaryKeyRelatedField(
+        queryset=Cost.objects.all(), many=True, required=False)
     total_price = serializers.FloatField(required=False)
 
     def validate(self, attr):
-        expenses_ids = self.initial_data.get('expenses', None)
+        costs_ids = self.initial_data.get('costs', None)
         total_price = attr.get('total_price', None)
 
-        if total_price is None and expenses_ids is None:
+        if total_price is None and costs_ids is None:
             raise serializers.ValidationError()
 
-        if total_price is None and expenses_ids is not None:
-            expenses = Expense.objects.filter(id__in=expenses_ids)
-            attr['total_price'] = sum(expense.price for expense in expenses)
+        if total_price is None and costs_ids is not None:
+            costs = Cost.objects.filter(id__in=costs_ids)
+            attr['total_price'] = sum(cost.price for cost in costs)
 
         return attr
 
-
     class Meta:
         model = FixedExpense
-        fields = ["expenses", 'date', 'name', 'total_price', 'description',]
+        fields = ["costs", 'date', 'name', 'total_price', 'description',]

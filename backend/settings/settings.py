@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     "app.accounts",
     "app.combo",
     "app.company",
-    "app.expense",
+    "app.cost",
     "app.feedstock",
     "app.fixed_expense",
     "app.pricing",

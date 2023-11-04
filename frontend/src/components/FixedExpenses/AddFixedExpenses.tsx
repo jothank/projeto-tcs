@@ -1,9 +1,10 @@
 import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { Button, FormControl, Grid, TextField } from "@mui/material";
+import { Button, FormControl, Grid } from "@mui/material";
+import { FormInput } from "components/FormGroup";
 
-export interface ExpenseValueType {
+export interface CostType {
   id?: number;
   nameExpense: string;
   name: string;
@@ -12,12 +13,12 @@ export interface ExpenseValueType {
   price: number;
 }
 
-const AddFixedExpensess = ({
-  expensesValue,
-  setExpenses,
-}: {
-  expensesValue: ExpenseValueType[];
-  setExpenses: React.Dispatch<React.SetStateAction<ExpenseValueType[]>>;
+export interface AddFixedExpensesProps {
+  onCostsUpdate: (newCosts: CostType[]) => void;
+}
+
+const AddFixedExpenses: React.FC<AddFixedExpensesProps> = ({
+  onCostsUpdate,
 }) => {
   const validationSchema = Yup.object().shape({
     nameExpense: Yup.string().required("Campo obrigatório"),
@@ -29,8 +30,12 @@ const AddFixedExpensess = ({
       .positive("Deve ser um valor positivo"),
   });
 
-  const handleSubmit = (values: ExpenseValueType) => {
-    setExpenses([...expensesValue, values]);
+  const [costs, setCosts] = React.useState<CostType[]>([]);
+
+  const handleSubmit = (values: CostType) => {
+    const newCosts = [...costs, values];
+    setCosts(newCosts);
+    onCostsUpdate(newCosts);
   };
 
   return (
@@ -47,58 +52,37 @@ const AddFixedExpensess = ({
     >
       {() => (
         <Form>
-          <Grid style={{ width: "50%", marginLeft: "20%", marginTop: "2%" }}>
+          <Grid style={{ width: "50%" }}>
             <Grid
               sx={{
                 display: "flex",
                 flexDirection: "row",
-                gap: "20px",
-                marginBottom: "2%",
               }}
             >
               <FormControl fullWidth>
-                <Field
-                  as={TextField}
-                  name="name"
-                  label="Mes"
-                  variant="outlined"
-                />
-                <ErrorMessage name="nameExpense" component="div" />
+                <FormInput name="name" label="Mês" type="text" />
               </FormControl>
               <FormControl fullWidth>
-                <Field as={TextField} name="nameExpense" label="Despesa" variant="outlined" />
-                <ErrorMessage name="Expense" component="div" />
+                <FormInput name="nameExpense" label="Despesa" type="text" />
               </FormControl>
               <FormControl fullWidth>
-                <Field
-                  as={TextField}
-                  type="date"
-                  name="date"
-                  variant="outlined"
-                />
-                <ErrorMessage name="date" component="div" />
+                <FormInput type="text" name="date" label="Data" />
               </FormControl>
             </Grid>
             <Grid sx={{ display: "flex", flexDirection: "row", gap: "20px" }}>
               <FormControl fullWidth>
-                <Field
-                  as={TextField}
-                  name="description"
-                  label="Descrição"
-                  variant="outlined"
-                />
+                <FormInput name="description" label="Descrição" type="text" />
               </FormControl>
               <FormControl fullWidth>
-                <Field
-                  as={TextField}
-                  name="price"
-                  label="Valor"
-                  variant="outlined"
-                />
-                <ErrorMessage name="price" component="div" />
+                <FormInput name="price" label="Valor" type="number" />
               </FormControl>
-              <Button type="submit" variant="contained" color="primary" sx={{ width: "30%" }}>
-                Adicionar
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                sx={{ width: "30%" }}
+              >
+                Salvar
               </Button>
             </Grid>
           </Grid>
@@ -108,4 +92,4 @@ const AddFixedExpensess = ({
   );
 };
 
-export default AddFixedExpensess;
+export default AddFixedExpenses;

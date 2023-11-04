@@ -1,54 +1,40 @@
 import { BASE_URL } from "../config";
 import axios from "axios";
 import { getAuthorizationHeader } from "utils/GetHeader";
-import { FixedExpenseType, ExpenseType } from "types/FixedExpenses.types";
 
-
-
-export const saveExpenses = async (expenses: ExpenseType[]) => {
+export const saveCosts = async (costs: any) => {
   try {
-   
-    const expensesData = {
-      expenses: expenses.map(expense => ({
-        nameExpense: expense.nameExpense,
-        price: expense.price,
-        description: expense.description,
-       
-      })),
+    const response = await axios.post(
+      BASE_URL + "cost/",
+      { costs: costs },
+      {
+        headers: await getAuthorizationHeader(),
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const setFixedExpense = async (
+  name: string,
+  date: string,
+  costs: number[]
+) => {
+  try {
+    const body = {
+      name: name,
+      date: date,
+      costs: costs,
     };
-
-    const response = await axios.post(BASE_URL + "expense/", { expenses: expensesData }, {
+    const response = await axios.post(BASE_URL + "fixed_expense/", body, {
       headers: await getAuthorizationHeader(),
     });
 
     return response.data;
   } catch (error) {
     return error;
-  }
-};
-
-export const setfixedExpense = async (fixedExpense: FixedExpenseType) => {
-  try {
-    const response = await axios.post(BASE_URL + "fixed_expense/", fixedExpense, {
-      headers: await getAuthorizationHeader(),
-    });
-
-    
-    return response.data;
-  } catch (error) {
-    return error;
-  }
-};
-
-export const getFixedExpense = async () => {
-  try {
-    const response = await axios.get(BASE_URL + "fixed_expense/", {
-      headers: await getAuthorizationHeader(),
-    });
-
-    
-    return response.data.results;
-  } catch (error) {
-    throw error;
   }
 };

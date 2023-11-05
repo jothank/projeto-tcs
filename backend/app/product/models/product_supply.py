@@ -33,4 +33,6 @@ class ProductSupply(models.Model):
         User,
         on_delete=models.CASCADE,
         verbose_name=_('User'),
+        null=True,
+        blank=True,
     )

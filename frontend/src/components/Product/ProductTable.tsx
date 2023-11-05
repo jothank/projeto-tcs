@@ -258,13 +258,16 @@ const ProductTable = ({ data }: ProductTableProps) => {
             >
               Preço Total: {formatToBRL(selectedProduct.price)}
             </Typography>
-            <Button
+            <Grid>
+            <Button variant="outlined"
               onClick={() => {
                 setIsAddProductOpen(true);
-              }}
+              }} 
+              sx={{ mr: 2 }}
             >
               Adicionar Itens
             </Button>
+            </Grid>
           </>
         )}
       </div>

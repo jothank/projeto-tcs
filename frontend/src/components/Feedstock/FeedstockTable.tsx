@@ -142,11 +142,11 @@ export function FeedstockTable(props: CustomTableProps) {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Nome</TableCell>
-                <TableCell>Preço</TableCell>
-                <TableCell>Quantidade</TableCell>
-                <TableCell>Unidade</TableCell>
-                <TableCell>Ações</TableCell>
+                <TableCell align="center" >Nome</TableCell>
+                <TableCell align="center" >Preço</TableCell>
+                <TableCell align="center" >Quantidade</TableCell>
+                <TableCell align="center" >Unidade</TableCell>
+                <TableCell align="center" >Ações</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -155,15 +155,16 @@ export function FeedstockTable(props: CustomTableProps) {
                   key={rowIndex}
                   sx={{ backgroundColor: rowIndex % 2 === 0 ? '#f2f2f2' : '#ffffff' }}
                 >
-                  <TableCell>{item.name}</TableCell>
-                  <TableCell>{formatToBRL(item.price)}</TableCell>
-                  <TableCell>{item.quantity}</TableCell>
-                  <TableCell>{item.unit}</TableCell>
-                  <TableCell>
+                  <TableCell align="center">{item.name}</TableCell>
+                  <TableCell align="center">{formatToBRL(item.price)}</TableCell>
+                  <TableCell align="center">{item.quantity}</TableCell>
+                  <TableCell align="center">{item.unit}</TableCell>
+                  <TableCell align="center">
                     <Grid
                       sx={{
                         display: "flex",
                         flexDirection: "row",
+                        justifyContent: "center",
                       }}
                     >
                       <Button onClick={() => handleDelete(item)}>

@@ -130,10 +130,10 @@ const ProductTable = ({ data }: ProductTableProps) => {
 
   return (
     <Paper
-    sx={{
-      width: "80%",
-      marginLeft: "10%"
-    }}
+      sx={{
+        width: "80%",
+        marginLeft: "10%"
+      }}
     >
       <div
         style={{
@@ -218,7 +218,11 @@ const ProductTable = ({ data }: ProductTableProps) => {
                         onClick={() => handleDelete(product.id)}
                         color="error"
                       >
-                        <DeleteIcon />
+                        <DeleteIcon style={{
+                          cursor: "pointer",
+                          marginRight: "10px",
+                          color: "red",
+                        }} />
                       </Button>
                       <Button
                         onClick={() => {
@@ -226,7 +230,11 @@ const ProductTable = ({ data }: ProductTableProps) => {
                           setSelectedSupply(product);
                         }}
                       >
-                        <EditIcon />
+                        <EditIcon style={{
+                          cursor: "pointer",
+                          marginRight: "10px",
+                          color: "bleu",
+                        }} />
                       </Button>
                     </TableCell>
                   </TableRow>

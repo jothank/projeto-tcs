@@ -9,7 +9,7 @@ const NavBar: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const menuItems = [
     { text: "Home", href: "/home", title: "Bem-vindo ao GastroCustos" },
-    { text: "Empresa", href: "/company", title: "Empresa" },
+    // { text: "Empresa", href: "/company", title: "Empresa" },
     { text: "Insumos", href: "/feed-stock", title: "Insumos" },
     { text: "Produto", href: "/product", title: "Produtos" },
     { text: "Combo", href: "/combo", title: "Combos" },

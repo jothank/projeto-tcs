@@ -33,14 +33,14 @@ export const AppRoutes = () => {
           </PrivateRoute>
         }
       />
-      <Route
+      {/* <Route
         path="/company"
         element={
           <PrivateRoute>
             <Company />
           </PrivateRoute>
         }
-      />
+      /> */}
       <Route
         path="/resale-item"
         element={

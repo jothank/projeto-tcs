@@ -11,22 +11,21 @@ import {
   Typography,
   TableContainer,
 } from "@mui/material";
-import { formatToBRL } from "utils/pricing";
 import { getErro, getSuccess } from "utils/ModalAlert";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import { ExpenseType, FixedExpenseType } from "types/FixedExpenses.types";
 import { saveCosts, setFixedExpense } from "services/fixedexpense.service copy";
 import { CostType } from "./AddFixedExpenses";
 import AddFixedExpenses from "./AddFixedExpenses";
+import { EditExpenseRow } from "./EditFixedExpenses";
+import SearchForMonth from "./SearchForMonth";
 
 const FixedExpensesTable = ({}: {}) => {
   const [costs, setCosts] = React.useState<CostType[]>([]);
-
+  const [editingIndex, setEditingIndex] = useState(-1);
   const handleCostsUpdate = (newCosts: CostType[]) => {
     setCosts(newCosts);
   };
-
+ 
   const handleRegister = async () => {
     try {
       let ids: any[] = [];
@@ -51,10 +50,40 @@ const FixedExpensesTable = ({}: {}) => {
     }
   };
 
+  const handleEdit = (index: number) => {
+    setEditingIndex(index); 
+  };
+
+  const handleSave = (index: number, updatedCost: CostType) => {
+    const updatedCosts = [...costs];
+    updatedCosts[index] = updatedCost;
+    setCosts(updatedCosts);
+    setEditingIndex(-1); 
+  };
+
+  const handleDelete = (index: number) => {
+    const updatedCosts = [...costs];
+    updatedCosts.splice(index, 1);
+    setCosts(updatedCosts);
+    setEditingIndex(-1);
+  };
+
   return (
     <>
       <Typography variant="h5">Despesas Fixas</Typography>
+      <Grid container
+      sx={{
+      display: "flex",
+    flexDirection: "row"
+      }}
+      >
+        <Grid item xs={6}>
       <AddFixedExpenses onCostsUpdate={handleCostsUpdate} />
+      </Grid>
+      <Grid item xs={6}>
+      <SearchForMonth />
+      </Grid>
+      </Grid>
       <Paper
         sx={{
           width: "90%",
@@ -70,26 +99,20 @@ const FixedExpensesTable = ({}: {}) => {
                   <TableCell>Descrição</TableCell>
                   <TableCell>Valor</TableCell>
                   <TableCell>Data</TableCell>
-                  <TableCell></TableCell>
+                  <TableCell>Ações</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {costs.map((cost) => (
-                  <TableRow key={cost.name}>
-                    <TableCell>{cost.name}</TableCell>
-                    <TableCell>{cost.nameExpense}</TableCell>
-                    <TableCell>{cost.description}</TableCell>
-                    <TableCell>{formatToBRL(cost.price)}</TableCell>
-                    <TableCell>{cost.date}</TableCell>
-                    <TableCell>
-                      <Button>
-                        <EditIcon />
-                      </Button>
-                      <Button>
-                        <DeleteIcon />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
+                {costs.map((cost, index) => (
+                  <EditExpenseRow
+                    key={cost.name}
+                    cost={cost}
+                    onEdit={() => handleEdit(index)}
+                    onDelete={() => handleDelete(index)}   
+                    onSave={(updatedCost: any) => handleSave(index, updatedCost)}
+                    isEditing={editingIndex === index}
+                                   
+                    />
                 ))}
               </TableBody>
             </Table>

@@ -3,7 +3,8 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Button, FormControl, Grid } from "@mui/material";
 import { FormInput } from "components/FormGroup";
-
+import UnitSelect from "components/SelectOptions/SelectOptions";
+import { optionsMonth } from "utils/FixedExpenseMonth";
 export interface CostType {
   id?: number;
   nameExpense: string;
@@ -31,7 +32,7 @@ const AddFixedExpenses: React.FC<AddFixedExpensesProps> = ({
   });
 
   const [costs, setCosts] = React.useState<CostType[]>([]);
-
+  
   const handleSubmit = (values: CostType) => {
     const newCosts = [...costs, values];
     setCosts(newCosts);
@@ -52,15 +53,22 @@ const AddFixedExpenses: React.FC<AddFixedExpensesProps> = ({
     >
       {() => (
         <Form>
-          <Grid style={{ width: "50%" }}>
+          <Grid style={{ 
+           width: "100%",
+           }}>
             <Grid
               sx={{
                 display: "flex",
                 flexDirection: "row",
+                gap: "20px"
               }}
             >
               <FormControl fullWidth>
-                <FormInput name="name" label="Mês" type="text" />
+                <UnitSelect
+                name="name"
+               label="Mês"
+               options={optionsMonth}
+                />
               </FormControl>
               <FormControl fullWidth>
                 <FormInput name="nameExpense" label="Despesa" type="text" />

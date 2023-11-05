@@ -5,7 +5,6 @@ import { getAuthorizationHeader } from "utils/GetHeader";
 interface Combo {
   id: number;
   name: string;
-  // Outros campos do combo, conforme necessário
 }
 
 

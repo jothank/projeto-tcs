@@ -82,7 +82,7 @@ export const AddProductPricing =  ({ data }: ProductTableProps) => {
       }
     
       const pricingData = {
-        product: selectedProduct?.id || 0, // Usando o operador de coalescência nula para fornecer um valor padrão
+        product: selectedProduct?.id || 0, 
         tax: newFinancials[0].tax, 
         card_tax: newFinancials[0].card_tax,
         other: newFinancials[0].other || 0, 

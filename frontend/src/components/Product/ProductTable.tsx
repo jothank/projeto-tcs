@@ -187,7 +187,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
                 <TableCell align="center">Unidade de aquisição</TableCell>
                 <TableCell align="center">Valor de aquisição</TableCell>
                 <TableCell align="center">Valor unitário</TableCell>
-                <TableCell align="center">Ações</TableCell>
+                <TableCell align="center"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

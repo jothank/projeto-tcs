@@ -143,16 +143,18 @@ const FixedExpensesTable = () => {
         )}
       </Formik>
 
-      <Paper sx={{ width: "90%" }}>
+      <Paper sx={{ width: "100%" }}>
         <Grid>
           <TableContainer>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Despesa</TableCell>
-                  <TableCell>Descrição</TableCell>
-                  <TableCell>Valor</TableCell>
-                  <TableCell></TableCell>
+                  <TableCell align="center">Despesa</TableCell>
+                  <TableCell align="center">Descrição</TableCell>
+                  <TableCell align="center">Valor</TableCell>
+                  <TableCell align="center" sx={{ width: "20%" }}>
+                    
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -163,16 +165,31 @@ const FixedExpensesTable = () => {
                       backgroundColor: index % 2 !== 0 ? "#f2f2f2" : "#ffffff",
                     }}
                   >
-                    <TableCell>{cost.name}</TableCell>
-                    <TableCell>{cost.description}</TableCell>
-                    <TableCell>{formatToBRL(cost.price)}</TableCell>
-                    <TableCell>
+                    <TableCell align="center">{cost.name}</TableCell>
+                    <TableCell align="center">{cost.description}</TableCell>
+                    <TableCell align="center">
+                      {formatToBRL(cost.price)}
+                    </TableCell>
+                    <TableCell align="center">
+                    <Button onClick={() => handleDeleteCost(index)}>
+                        <DeleteIcon
+                          style={{
+                            cursor: "pointer",
+                            marginRight: "10px",
+                            color: "red",
+                          }}
+                        />
+                      </Button>
                       <Button onClick={() => openEditModal(cost)}>
-                        <EditIcon />
+                        <EditIcon
+                          style={{
+                            cursor: "pointer",
+                            marginRight: "10px",
+                            color: "bleu",
+                          }}
+                        />
                       </Button>
-                      <Button onClick={() => handleDeleteCost(index)}>
-                        <DeleteIcon />
-                      </Button>
+                      
                     </TableCell>
                   </TableRow>
                 ))}

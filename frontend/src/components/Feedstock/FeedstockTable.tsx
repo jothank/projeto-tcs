@@ -142,11 +142,11 @@ export function FeedstockTable(props: CustomTableProps) {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell align="center" >Nome</TableCell>
+                <TableCell align="center" sx={{ width: "30%" }} >Nome</TableCell>
                 <TableCell align="center" >Preço</TableCell>
                 <TableCell align="center" >Quantidade</TableCell>
                 <TableCell align="center" >Unidade</TableCell>
-                <TableCell align="center" >Ações</TableCell>
+                <TableCell align="center" sx={{ width: "10%" }}></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -155,11 +155,11 @@ export function FeedstockTable(props: CustomTableProps) {
                   key={rowIndex}
                   sx={{ backgroundColor: rowIndex % 2 === 0 ? '#f2f2f2' : '#ffffff' }}
                 >
-                  <TableCell align="center">{item.name}</TableCell>
+                  <TableCell align="center" sx={{ width: "30%" }}>{item.name}</TableCell>
                   <TableCell align="center">{formatToBRL(item.price)}</TableCell>
                   <TableCell align="center">{item.quantity}</TableCell>
                   <TableCell align="center">{item.unit}</TableCell>
-                  <TableCell align="center">
+                  <TableCell align="center" sx={{ width: "10%" }}>
                     <Grid
                       sx={{
                         display: "flex",
@@ -171,7 +171,7 @@ export function FeedstockTable(props: CustomTableProps) {
                         <DeleteIcon
                           style={{
                             cursor: "pointer",
-                            marginRight: "10px",
+                            // marginRight: "10px",
                             color: "red",
                           }}
                         />

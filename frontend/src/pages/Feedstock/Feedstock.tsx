@@ -22,7 +22,7 @@ export const Feedstock = () => {
 
   return (
     <>
-      <ContainerResaleItem sizeForm="800px" heightForm="650px">
+      <ContainerResaleItem sizeForm="1200px" heightForm="650px">
         <FeedstockTable data={FeedstockData} />
       </ContainerResaleItem>
     </>

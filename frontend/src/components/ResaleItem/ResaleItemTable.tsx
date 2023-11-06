@@ -62,7 +62,7 @@ export function ResaleItemTable(props: CustomTableProps) {
             <TableCell>Nome</TableCell>
             <TableCell>Descrição</TableCell>
             <TableCell>Preço de compra</TableCell>
-            <TableCell>Ações</TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

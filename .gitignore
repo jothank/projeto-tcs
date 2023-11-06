@@ -8,3 +8,4 @@ backend/app/pricing/migrations/0001_initial.py
 backend/app/product/migrations/0001_initial.py
 backend/app/supply/migrations/0001_initial.py
 backend/app/variable_expense/migrations/0001_initial.py
+backend/app/cost/migrations/0001_initial.py

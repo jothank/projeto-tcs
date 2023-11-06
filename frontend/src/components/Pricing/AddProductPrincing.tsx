@@ -20,8 +20,9 @@ import { formatToBRL } from "utils/pricing";
 import { ProductTableProps } from "types/Product.types";
 import FinancialComponent from "./FinancialComponent";
 import { PricingType } from "types/pricing.types";
+import { setPricing } from "services/pricing.service";
 
-export const AddProductPricing = ({ data }: ProductTableProps) => {
+export const AddProductPricing =  ({ data }: ProductTableProps) => {
     const componentRef = useRef(null);
     const [selectedProductId, setSelectedProductId] = useState<number | null>(
       data?.results.length ? data.results[0].id : null
@@ -44,7 +45,7 @@ export const AddProductPricing = ({ data }: ProductTableProps) => {
       fetchFeedstocks();
     }, []);
 
-    const handlePricingUpdate = (newFinancials: PricingType[]) => {
+    const handlePricingUpdate = async (newFinancials: PricingType[]) => {
       setUpdatedFinacials(newFinancials);
     
       if (selectedProduct) {
@@ -77,14 +78,27 @@ export const AddProductPricing = ({ data }: ProductTableProps) => {
           .toFixed(2)
           .replace(".", ",")
           .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-          setSuggestedPrice(formattedSuggestedPrice);
-        console.log("Despesas foram salvas com sucesso:", newFinancials);
-        console.log("Custo total das despesas:", totalExpenses);
-        console.log("Preço sugerido para o cliente:", formattedSuggestedPrice);
+        setSuggestedPrice(formattedSuggestedPrice);
+      }
+    
+      const pricingData = {
+        product: selectedProduct?.id || 0, // Usando o operador de coalescência nula para fornecer um valor padrão
+        tax: newFinancials[0].tax, 
+        card_tax: newFinancials[0].card_tax,
+        other: newFinancials[0].other || 0, 
+        profit: newFinancials[0].profit, 
+        condominium: newFinancials[0].condominium || 0, 
+        delivery_price: newFinancials[0].delivery_price || 0, 
+        suggested_price: parseFloat(suggestedPrice), 
+      };
+    
+      try {
+        const response = await setPricing(pricingData);
+        console.log('Dados enviados com sucesso:', response);
+      } catch (error) {
+        console.error('Erro ao enviar dados para o banco de dados:', error);
       }
     };
-    
-    
   
     return (
       <Paper

@@ -3,13 +3,12 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Button, FormControl, Grid } from "@mui/material";
 import { FormInput } from "components/FormGroup";
+import { v4 as uuidv4 } from "uuid";
 
 export interface CostType {
-  id?: number;
-  nameExpense: string;
+  id?: string;
   name: string;
   description: string;
-  date: string;
   price: number;
 }
 
@@ -21,9 +20,7 @@ const AddFixedExpenses: React.FC<AddFixedExpensesProps> = ({
   onCostsUpdate,
 }) => {
   const validationSchema = Yup.object().shape({
-    nameExpense: Yup.string().required("Campo obrigatório"),
     name: Yup.string().required("Campo obrigatório"),
-    date: Yup.string().required("Campo obrigatório"),
     price: Yup.number()
       .typeError("Deve ser um número")
       .required("Campo obrigatório")
@@ -33,9 +30,10 @@ const AddFixedExpenses: React.FC<AddFixedExpensesProps> = ({
   const [costs, setCosts] = React.useState<CostType[]>([]);
 
   const handleSubmit = (values: CostType) => {
-    const newCosts = [...costs, values];
-    setCosts(newCosts);
-    onCostsUpdate(newCosts);
+    const newItem = { ...values, id: uuidv4() };
+
+    setCosts((prevCosts) => [...prevCosts, newItem]);
+    onCostsUpdate([...costs, newItem]);
   };
 
   return (
@@ -60,13 +58,7 @@ const AddFixedExpenses: React.FC<AddFixedExpensesProps> = ({
               }}
             >
               <FormControl fullWidth>
-                <FormInput name="name" label="Mês" type="text" />
-              </FormControl>
-              <FormControl fullWidth>
-                <FormInput name="nameExpense" label="Despesa" type="text" />
-              </FormControl>
-              <FormControl fullWidth>
-                <FormInput type="text" name="date" label="Data" />
+                <FormInput name="name" label="Despesa" type="text" />
               </FormControl>
             </Grid>
             <Grid sx={{ display: "flex", flexDirection: "row", gap: "20px" }}>
@@ -79,10 +71,8 @@ const AddFixedExpenses: React.FC<AddFixedExpensesProps> = ({
               <Button
                 type="submit"
                 variant="contained"
-                color="primary"
-                sx={{ width: "30%" }}
               >
-                Salvar
+                Salvar gasto
               </Button>
             </Grid>
           </Grid>

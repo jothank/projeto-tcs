@@ -82,7 +82,7 @@ export const EditFeedstock = ({
               <FeedstockInput name="quantity" label="Quantidade" type="text" />
               <UnitSelect name="unit" label="Unidade" options={options} />
               <ButtonContainer>
-                <Button variant="outlined" onClick={handleClose}>
+                <Button onClick={handleClose}>
                   Fechar
                 </Button>
                 <Button variant="contained" type="submit">

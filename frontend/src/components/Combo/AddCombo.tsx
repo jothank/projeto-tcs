@@ -66,7 +66,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
 
   return (
     <Grid>
-      <Button variant="outlined" onClick={handleOpen} sx={{ mr: 2 }}>
+      <Button variant="contained" onClick={handleOpen} sx={{ mr: 2 }}>
         Add Product
       </Button>
 
@@ -137,7 +137,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
                 </FieldArray>
               </Grid>
               <Button onClick={() => setOpen(false)}>Cancelar</Button>
-              <Button type="submit">Cadastrar</Button>
+              <Button variant="contained" type="submit">Cadastrar</Button>
             </Form>
           </Formik>
         </Grid>

@@ -77,7 +77,7 @@ export const AddFeedstock = () => {
                 options={options}
               />
               <ButtonContainer>
-                <Button variant="outlined" onClick={handleClose}>
+                <Button  onClick={handleClose}>
                   Fechar
                 </Button>
                 <Button variant="contained" type="submit">

@@ -137,7 +137,7 @@ const AddProduct: React.FC<ProductFormProps> = ({
             <Button onClick={onClose} color="primary">
               Cancelar
             </Button>
-            <Button type="submit" color="primary">
+            <Button variant="contained" type="submit" color="primary">
               Salvar
             </Button>
           </DialogActions>

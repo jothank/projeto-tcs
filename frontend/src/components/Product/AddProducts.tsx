@@ -63,13 +63,13 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
   return (
     <Grid>
       <Button
-        variant="outlined"
+        variant="contained"
         onClick={() => handleOpen("product")}
         sx={{ mr: 2 }}
       >
         Add Product
       </Button>
-      <Button variant="outlined" onClick={() => handleOpen("revenda")}>
+      <Button variant="contained" onClick={() => handleOpen("revenda")}>
         Add Revenda
       </Button>
 

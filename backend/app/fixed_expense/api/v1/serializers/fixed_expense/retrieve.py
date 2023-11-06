@@ -11,7 +11,7 @@ from app.cost.api.v1.serializers.cost.default import DefaultCostSerializer
 
 
 class RetrieveFixedExpenseSerializer(serializers.ModelSerializer):
-    expenses = DefaultCostSerializer(many=True)
+    costs = DefaultCostSerializer(many=True)
 
     class Meta:
         model = FixedExpense

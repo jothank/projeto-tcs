@@ -23,24 +23,18 @@ class FixedExpenseViewSet(viewsets.ModelViewSet):
             return RetrieveFixedExpenseSerializer
         elif self.action == 'create':
             return CreateFixedExpenseSerializer
-        elif self.action == 'update':
+        elif self.action in ['update', 'partial_update']:
             return UpdateFixedExpenseSerializer
         else:
             return DefaultFixedExpenseSerializer
 
     def get_queryset(self):
         user = self.request.user
-
         if user.is_authenticated:
             return user.fixedexpense_set.all()
-
         else:
             return FixedExpense.objects.none()
 
     def perform_create(self, serializer):
         user = self.request.user
-        costs = serializer.validated_data.pop('costs')
-        fixed_expense = serializer.save(user=user)
-        for cost in costs:
-            FixedExpenseCost.objects.create(
-                fixed_expense=fixed_expense, cost=cost, user=user)
+        serializer.save(user=user)

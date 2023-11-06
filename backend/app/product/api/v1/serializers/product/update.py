@@ -3,6 +3,7 @@
 ###
 from rest_framework import serializers
 from app.product.models.product import Product
+from app.product.models.product_supply import ProductSupply
 from app.supply.models.supply import Supply
 
 ###

@@ -16,7 +16,7 @@ from app.cost.models.cost import Cost
 @receiver(post_save, sender=Cost)
 def update_fixed_expense_total_price(sender, instance, **kwargs):
 
-    fixed_expenses = instance.fixed_expense_costs.all(
+    fixed_expenses = instance.fixed_expense_cost.all(
     ).values_list('fixed_expense', flat=True)
 
     for fixed_expense_id in fixed_expenses:

@@ -28,11 +28,3 @@ class ProductSupply(models.Model):
         verbose_name=_('Product'),
         on_delete=models.CASCADE
     )
-
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        verbose_name=_('User'),
-        null=True,
-        blank=True,
-    )

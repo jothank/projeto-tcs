@@ -14,10 +14,12 @@ import {
     InputLabel,
     FormControl,
     TableContainer,
+    Grid,
   } from "@mui/material";
 import { formatToBRL } from "utils/pricing";
 import { ProductTableProps } from "types/Product.types";
 import FinancialComponent from "./FinancialComponent";
+import { PricingType } from "types/pricing.types";
 
 export const AddProductPricing = ({ data }: ProductTableProps) => {
     const componentRef = useRef(null);
@@ -27,6 +29,8 @@ export const AddProductPricing = ({ data }: ProductTableProps) => {
     const selectedProduct = data.results.find(
       (product) => product.id === selectedProductId
     );
+    const [suggestedPrice, setSuggestedPrice] = useState('');
+    const [updatedFinancials, setUpdatedFinacials] = useState<PricingType[]>([]);
     const [feedstockList, setFeedstockList] = useState<FeedstockType[]>([]);
     useEffect(() => {
       const fetchFeedstocks = async () => {
@@ -39,6 +43,48 @@ export const AddProductPricing = ({ data }: ProductTableProps) => {
       };
       fetchFeedstocks();
     }, []);
+
+    const handlePricingUpdate = (newFinancials: PricingType[]) => {
+      setUpdatedFinacials(newFinancials);
+    
+      if (selectedProduct) {
+        const convertedExpenses = newFinancials.map((financial) => {
+          return {
+            tax: (financial.tax / 100) * selectedProduct.price,
+            card_tax: (financial.card_tax / 100) * selectedProduct.price,
+            other: (financial.other ?? 0) / 100 * selectedProduct.price, 
+            profit: (financial.profit / 100) * selectedProduct.price,
+            condominium: financial.condominium || 0, 
+            delivery_price: financial.delivery_price || 0, 
+          };
+        });
+    
+        const totalExpenses = convertedExpenses.reduce((total, financial) => {
+          return (
+            total +
+            financial.tax +
+            financial.card_tax +
+            financial.other +
+            financial.profit +
+            financial.condominium +
+            financial.delivery_price
+          );
+        }, 0);
+    
+        const suggestedPrice = (selectedProduct.price - totalExpenses) * 5;
+    
+        const formattedSuggestedPrice = suggestedPrice
+          .toFixed(2)
+          .replace(".", ",")
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+          setSuggestedPrice(formattedSuggestedPrice);
+        console.log("Despesas foram salvas com sucesso:", newFinancials);
+        console.log("Custo total das despesas:", totalExpenses);
+        console.log("Preço sugerido para o cliente:", formattedSuggestedPrice);
+      }
+    };
+    
+    
   
     return (
       <Paper
@@ -136,7 +182,19 @@ export const AddProductPricing = ({ data }: ProductTableProps) => {
             </>
           )}
         </div>
-       <FinancialComponent />
+        <FinancialComponent onFinancial={handlePricingUpdate} />
+        <Grid container>
+          <Grid item>
+            <Typography
+              variant="subtitle1"
+              align="right"
+              style={{ padding: 16 }}
+            >Preço Sugerido: {suggestedPrice}</Typography>
+          </Grid>
+          <Grid item>
+            
+          </Grid>
+        </Grid>
       </Paper>
     );
     

@@ -4,6 +4,7 @@ import { Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, Tab
 
 import { getCombos } from 'services/combo.service';
 import FinancialComponent from './FinancialComponent';
+import { PricingType } from 'types/pricing.types';
 
 interface Combo {
   id: number;
@@ -20,7 +21,7 @@ interface Product {
   unit: string;
 }
 const AddComboPricing = () => {
-
+  const [updatedFinancials, setUpdatedFinacials] = useState<PricingType[]>([]);
   const [combosData, setCombosData] = useState<Combo[]>([]);
 
   useEffect(() => {
@@ -36,6 +37,11 @@ const AddComboPricing = () => {
 
     fetchCombos();
   }, []);
+
+  const handlePricingUpdate = (newFinancials: PricingType[]) => {
+    setUpdatedFinacials(newFinancials);
+  }
+
 
   return (
     <Paper
@@ -83,7 +89,7 @@ const AddComboPricing = () => {
           {/* <TableCell>{combosData.price.toFixed(2)}</TableCell> */}
         </Grid>
       </TableContainer>
-      <FinancialComponent />
+      <FinancialComponent onFinancial={handlePricingUpdate} />
     </Paper>
   )
 

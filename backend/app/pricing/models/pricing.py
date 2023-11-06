@@ -19,6 +19,8 @@ class Pricing(models.Model):
         verbose_name=_('Card Tax'),
     )
     other = models.FloatField(
+        blank=True,
+        null=True,
         verbose_name=_('Other'),
     )
     profit = models.FloatField(

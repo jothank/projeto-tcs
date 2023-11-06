@@ -35,7 +35,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('app.accounts.urls')),
     path('', include('app.combo.urls')),
-    path('', include('app.company.urls')),
+    # path('', include('app.company.urls')),
     path('', include('app.cost.urls')),
     path('', include('app.feedstock.urls')),
     path('', include('app.fixed_expense.urls')),

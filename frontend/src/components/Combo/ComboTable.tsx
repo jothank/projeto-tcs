@@ -22,6 +22,8 @@ import { formatToBRL } from "utils/pricing";
 import AddProductsModal from "./AddCombos";
 import AddProductModal from "./AddCombo";
 import { getAllProduct } from "services/product.service";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 const ComboTable = (props: any) => {
   const { data } = props;
@@ -73,10 +75,10 @@ const ComboTable = (props: any) => {
 
   return (
     <Paper
-    sx={{
-      width: "80%",
-      marginLeft: "10%"
-    }}
+      sx={{
+        width: "80%",
+        marginLeft: "10%"
+      }}
     >
       <div
         style={{
@@ -131,10 +133,10 @@ const ComboTable = (props: any) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell align="right">Nome do produto</TableCell>
-                <TableCell align="right">Unidade de Fabricação</TableCell>
-                <TableCell align="right">Valor de aquisição</TableCell>
-                <TableCell align="right">Ações</TableCell>
+                <TableCell align="center">Nome do produto</TableCell>
+                <TableCell align="center">Unidade de Fabricação</TableCell>
+                <TableCell align="center">Valor de aquisição</TableCell>
+                <TableCell align="center">Ações</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -146,12 +148,35 @@ const ComboTable = (props: any) => {
                       backgroundColor: index % 2 === 0 ? "#f2f2f2" : "#ffffff",
                     }}
                   >
-                    <TableCell align="right">{product.name}</TableCell>
-                    <TableCell align="right">{"Un"}</TableCell>
-                    <TableCell align="right">
+                    <TableCell align="center">{product.name}</TableCell>
+                    <TableCell align="center">{"Un"}</TableCell>
+                    <TableCell align="center">
                       {formatToBRL(product.price)}
                     </TableCell>
-                    <TableCell align="right">Ações</TableCell>
+                    <TableCell align="center">
+                      <Button
+                        // onClick={() => handleDelete(product.id)}
+                        color="error"
+                      >
+                        <DeleteIcon style={{
+                          cursor: "pointer",
+                          marginRight: "10px",
+                          color: "red",
+                        }} />
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          // setIsEditModalOpen(true);
+                          // setSelectedSupply(product);
+                        }}
+                      >
+                        <EditIcon style={{
+                          cursor: "pointer",
+                          marginRight: "10px",
+                          color: "bleu",
+                        }} />
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))
               ) : (

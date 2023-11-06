@@ -45,9 +45,14 @@ export const CommandProduct = () => {
     return (
         <>
             <Grid container 
-            sx={{
-                gap: "20px"
-            }}
+           sx={{
+            widht: "80%",
+            marginLeft: "15%",
+            display: "flex",
+            alignItems: "center",
+            justify: "center",
+            gap: "20px"
+           }}
             >
                 <Grid item>
                     <CommandsProductTable data={supplies.data} />

@@ -53,7 +53,6 @@ export const CommandsProductTable = ({ data }: ProductTableProps) => {
     sx={{
         width: "600px",
         height: "600px",
-        marginLeft: "30%"
         }}
     >
       <div

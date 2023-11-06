@@ -47,7 +47,7 @@ export const AddProductPricing =  ({ data }: ProductTableProps) => {
 
     const handlePricingUpdate = async (newFinancials: PricingType[]) => {
       setUpdatedFinacials(newFinancials);
-    
+    //somar custo de produção + valor do condominio unitário+imposto+ cartão+ outros dividido por 1-(tx imposto-tx cartão - tx outros- tx lucro)
       if (selectedProduct) {
         const convertedExpenses = newFinancials.map((financial) => {
           return {

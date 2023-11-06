@@ -91,7 +91,7 @@ export const AppRoutes = () => {
       />
      
       <Route
-        path="/command-product"
+        path="/datasheet"
         element={
           <PrivateRoute>
             <CommandProduct />

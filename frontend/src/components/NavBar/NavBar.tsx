@@ -15,7 +15,7 @@ const NavBar: React.FC = () => {
     { text: "Combo", href: "/combo", title: "Combos" },
     { text: "Gastos Fixos", href: "/fixed-expense", title: "Gastos Fixos" },
     { text: "Simulador de Precificação", href: "/pricing", title: "Simulador de precificação" },
-    { text: "Comanda", href: "/command-product", title: "Comanda" },
+    { text: "Ficha Técnica", href: "/datasheet", title: "Ficha Técnica" },
     
   ];
   const currentPath = new URL(window.location.href).pathname;

@@ -30,18 +30,15 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         user = self.request.user
-        supplies = serializer.validated_data.pop('supplies')
-        product = serializer.save(user=user)
-        for supply in supplies:
-            ProductSupply.objects.create(
-                product=product, supply=supply, user=user)
+        serializer.save(user=user)
+
 
     def get_serializer_class(self):
         if self.action == 'list':
             return RetrieveProductSerializer
         elif self.action == 'create':
             return CreateProductSerializer
-        elif self.action == 'update':
+        elif self.action in ['update', 'partial_update']:
             return UpdateProductSerializer
         else:
             return DefaultProductSerializer

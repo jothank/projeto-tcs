@@ -55,8 +55,6 @@ const CommandsComboTable = (props: any) => {
     <Paper sx={{
         width: "600px",
         height: "600px",
-        marginLeft: "30%"
-        
         }}>
       <div
         style={{

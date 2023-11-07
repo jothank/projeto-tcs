@@ -46,7 +46,10 @@ export const CommandProduct = () => {
         <>
             <Grid container 
             sx={{
-                gap: "20px"
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "20px"                
             }}
             >
                 <Grid item>

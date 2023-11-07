@@ -99,7 +99,7 @@ export function FeedstockTable(props: CustomTableProps) {
     const ws = XLSX.utils.json_to_sheet(
       localData.map((item) => ({
         Nome: item.name,
-        Preço: item.price,
+        Preço: `R$ ${item.price}`,
         Quantidade: item.quantity,
         Unidade: item.unit,
       }))

@@ -90,11 +90,12 @@ export const AddProductPricing =  ({ data }: ProductTableProps) => {
         condominium: newFinancials[0].condominium || 0, 
         delivery_price: newFinancials[0].delivery_price || 0, 
         suggested_price: parseFloat(suggestedPrice), 
+       
       };
     
       try {
         const response = await setPricing(pricingData);
-        console.log('Dados enviados com sucesso:', response);
+        console.log('Dados enviados com sucesso:', response.data);
       } catch (error) {
         console.error('Erro ao enviar dados para o banco de dados:', error);
       }

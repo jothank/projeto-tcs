@@ -51,4 +51,6 @@ class Pricing(models.Model):
         User,
         on_delete=models.CASCADE,
         verbose_name=_('User'),
+        blank=True,
+        null=True,
     )

@@ -29,6 +29,8 @@ class Pricing(models.Model):
     )
     delivery_price = models.FloatField(
         verbose_name=_('Delivery Price'),
+        blank=True,
+        null=True,
     )
     condominium = models.FloatField(
         verbose_name=_('Condominium'),

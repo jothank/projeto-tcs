@@ -5,7 +5,7 @@ export interface PricingType {
     other?: number;
     profit: number;
     suggested_price: number;
-    delivery_price: number;
+    delivery_price?: number;
     condominium: number;
     product?: number;
     combo?: number;

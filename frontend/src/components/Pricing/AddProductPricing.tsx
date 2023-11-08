@@ -102,8 +102,10 @@ export const AddProductPricing =  ({ data }: ProductTableProps) => {
     };
   
     return (
+      <Grid container
+      sx={{widht: "80%"}}
+      >
       <Paper
-    sx={{widht: "70%"}}
       >
         <div
           style={{
@@ -211,6 +213,7 @@ export const AddProductPricing =  ({ data }: ProductTableProps) => {
           </Grid>
         </Grid>
       </Paper>
+      </Grid>
     );
     
 }

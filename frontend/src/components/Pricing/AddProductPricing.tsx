@@ -20,7 +20,7 @@ import { formatToBRL } from "utils/pricing";
 import { ProductTableProps } from "types/Product.types";
 import FinancialComponent from "./FinancialComponent";
 import { PricingType } from "types/pricing,types";
-import { setPricing } from "services/pricing.services";
+import { getPricing, setPricing } from "services/pricing.service";
 
 export const AddProductPricing =  ({ data }: ProductTableProps) => {
     const componentRef = useRef(null);
@@ -76,14 +76,14 @@ export const AddProductPricing =  ({ data }: ProductTableProps) => {
         const taxRate = (priceInfo.tax - priceInfo.card_tax - (priceInfo.other ?? 0) - priceInfo.profit) / 100;
         const productionCost = totalExpenses + selectedProduct.price;
         const suggestedPrice = productionCost / (1 - taxRate);
-    
         const formattedSuggestedPrice = suggestedPrice
           .toFixed(2)
           .replace(".", ",")
           .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        setSuggestedPrice(formattedSuggestedPrice);
+          setSuggestedPrice(formattedSuggestedPrice);
+        
       }
-    
+      
       const pricingData = {
         product: selectedProduct?.id || 0, 
         tax: newFinancials[0].tax, 
@@ -94,15 +94,17 @@ export const AddProductPricing =  ({ data }: ProductTableProps) => {
         delivery_price: newFinancials[0].delivery_price || 0, 
         suggested_price: parseFloat(suggestedPrice), 
       };
-    
+      
       try {
         const response = await setPricing(pricingData);
-        console.log('Dados enviados com sucesso:', response.data);
+        console.log('Dados enviados com sucesso:', response);
       } catch (error) {
         console.error('Erro ao enviar dados para o banco de dados:', error);
       }
     };
     
+    
+
     return (
       <Grid container
       sx={{widht: "80%"}}
@@ -210,9 +212,7 @@ export const AddProductPricing =  ({ data }: ProductTableProps) => {
               style={{ padding: 16 }}
             >Preço Sugerido: {suggestedPrice}</Typography>
           </Grid>
-          <Grid item>
-            
-          </Grid>
+          
         </Grid>
       </Paper>
       </Grid>

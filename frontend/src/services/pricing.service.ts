@@ -17,3 +17,17 @@ export const setPricing = async (financialsPrincing: PricingType) => {
       return error;
     }
   };
+
+
+  export const getPricing = async () => {
+    try {
+      const response = await axios.get(BASE_URL + "pricing/", {
+        headers: await getAuthorizationHeader(),
+      });
+  
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  };
+  

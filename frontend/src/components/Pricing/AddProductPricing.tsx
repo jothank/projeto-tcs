@@ -47,7 +47,7 @@ export const AddProductPricing =  ({ data }: ProductTableProps) => {
 
     const handlePricingUpdate = async (newFinancials: PricingType[]) => {
       setUpdatedFinacials(newFinancials);
-    //somar custo de produção + valor do condominio unitário+imposto+ cartão+ outros dividido por 1-(tx imposto-tx cartão - tx outros- tx lucro)
+    
       if (selectedProduct) {
         const convertedExpenses = newFinancials.map((financial) => {
           return {
@@ -72,7 +72,10 @@ export const AddProductPricing =  ({ data }: ProductTableProps) => {
           );
         }, 0);
     
-        const suggestedPrice = (selectedProduct.price - totalExpenses) * 5;
+        const priceInfo = newFinancials[0];
+        const taxRate = (priceInfo.tax - priceInfo.card_tax - (priceInfo.other ?? 0) - priceInfo.profit) / 100;
+        const productionCost = totalExpenses + selectedProduct.price;
+        const suggestedPrice = productionCost / (1 - taxRate);
     
         const formattedSuggestedPrice = suggestedPrice
           .toFixed(2)
@@ -90,7 +93,6 @@ export const AddProductPricing =  ({ data }: ProductTableProps) => {
         condominium: newFinancials[0].condominium || 0, 
         delivery_price: newFinancials[0].delivery_price || 0, 
         suggested_price: parseFloat(suggestedPrice), 
-       
       };
     
       try {
@@ -100,7 +102,7 @@ export const AddProductPricing =  ({ data }: ProductTableProps) => {
         console.error('Erro ao enviar dados para o banco de dados:', error);
       }
     };
-  
+    
     return (
       <Grid container
       sx={{widht: "80%"}}

@@ -22,6 +22,7 @@ import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
 import { formatToBRL } from "utils/pricing";
 import Swal from "sweetalert2";
 import * as XLSX from "xlsx";
+import { AddResaleItem } from "./AddResaleItem";
 
 type CustomTableProps = {
   data: FeedstockType[];
@@ -33,11 +34,32 @@ export function FeedstockTable(props: CustomTableProps) {
   const [itemToDelete, setItemToDelete] = React.useState<FeedstockType | null>(
     null
   );
-  const [localData, setLocalData] = React.useState<FeedstockType[]>(props.data);
+  const [localData, setLocalData] = React.useState<FeedstockType[]>([]);
+  const [selectedList, setSelectedList] = React.useState<
+    "all" | "noType" | "resale"
+  >("all");
 
   React.useEffect(() => {
-    setLocalData(props.data);
-  }, [props.data]);
+    const allFeedstocks = props.data;
+    const feedstocksNoType = props.data.filter((feedstock) => !feedstock.type);
+    const feedstocksResale = props.data.filter(
+      (feedstock) => feedstock.type === "resale"
+    );
+
+    switch (selectedList) {
+      case "all":
+        setLocalData(allFeedstocks);
+        break;
+      case "noType":
+        setLocalData(feedstocksNoType);
+        break;
+      case "resale":
+        setLocalData(feedstocksResale);
+        break;
+      default:
+        setLocalData(allFeedstocks);
+    }
+  }, [props.data, selectedList]);
 
   const handleDelete = (item: FeedstockType) => {
     Swal.fire({
@@ -67,7 +89,6 @@ export function FeedstockTable(props: CustomTableProps) {
       }
     });
   };
-
   const handleItemUpdated = (updatedItem: FeedstockType) => {
     setLocalData((prevData) =>
       prevData.map((item) => (item.id === updatedItem.id ? updatedItem : item))
@@ -119,15 +140,44 @@ export function FeedstockTable(props: CustomTableProps) {
           justifyContent: "end",
         }}
       >
-        <ButtonContainer>
-          <AddFeedstock />
-          <Button onClick={handlePrint} variant="outlined">
-            <PrintIcon />
-          </Button>
-          <Button onClick={exportToExcel} variant="outlined">
-            <CloudDownloadIcon />
-          </Button>
-        </ButtonContainer>
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+          {[
+            { component: <AddFeedstock />, key: "AddFeedstock" },
+            { component: <AddResaleItem />, key: "AddResaleItem" },
+            {
+              onClick: () => setSelectedList("all"),
+              label: "Todos os itens",
+              key: "all",
+            },
+            {
+              onClick: () => setSelectedList("noType"),
+              label: "Somente insumos",
+              key: "noType",
+            },
+            {
+              onClick: () => setSelectedList("resale"),
+              label: "Somente Items de revenda",
+              key: "resale",
+            },
+            { onClick: handlePrint, icon: <PrintIcon />, key: "print" },
+            {
+              onClick: exportToExcel,
+              icon: <CloudDownloadIcon />,
+              key: "export",
+            },
+          ].map((button) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={button.key}>
+              <Button
+                onClick={button.onClick}
+                variant="outlined"
+                fullWidth
+                startIcon={button.icon}
+              >
+                {button.label || button.component}
+              </Button>
+            </Grid>
+          ))}
+        </Grid>
       </Grid>
       <div ref={componentRef}>
         <TableContainer>

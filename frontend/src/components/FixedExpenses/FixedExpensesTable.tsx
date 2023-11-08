@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { Formik, Form } from "formik";
 import { FormInput } from "components/FormGroup";
-import { FormInputNumber } from "./FixedExpenseInput";
+import { FormInputDate, FormInputNumber } from "./FixedExpenseInput";
 import AddFixedExpenses from "./AddFixedExpenses";
 import { saveCosts, setFixedExpense } from "services/fixedexpense.service";
 import { getErro, getSuccess } from "utils/ModalAlert";
@@ -43,24 +43,29 @@ const FixedExpensesTable = () => {
 
   const handleRegister = async (values: any) => {
     try {
-      let ids = [];
       if (!values.manualEntry) {
-        const response = await saveCosts(costs);
-        ids = response.costs.map((element: any) => element.id);
+        const responseCosts = await saveCosts(costs);
+        const ids = responseCosts.costs.map((element: any) => element.id);
 
         if (ids.length === 0) {
           throw new Error(
             "Por favor, adicione despesas ou insira um valor manualmente na opção 'Entrada manual' para definir as despesas fixas."
           );
         }
+        const response = await setFixedExpense(
+          values.name,
+          values.date,
+          values.manualValue,
+          ids
+        );
+      } else {
+        const response = await setFixedExpense(
+          values.name,
+          values.date,
+          values.manualValue,
+          undefined
+        );
       }
-
-      const response = await setFixedExpense(
-        values.name,
-        values.date,
-        ids,
-        values.manualValue
-      );
       getSuccess("Despesas fixas salvas com sucesso!");
     } catch (error: any) {
       getErro(error.message);
@@ -98,7 +103,7 @@ const FixedExpensesTable = () => {
           <>
             <Form>
               <FormInput name="name" label="Mês Referência" type="text" />
-              <FormInput name="date" label="Data Referência" type="date" />
+              <FormInputDate name="date" label="Data Referência" type="date" />
               <FormControlLabel
                 control={
                   <Checkbox
@@ -152,9 +157,7 @@ const FixedExpensesTable = () => {
                   <TableCell align="center">Despesa</TableCell>
                   <TableCell align="center">Descrição</TableCell>
                   <TableCell align="center">Valor</TableCell>
-                  <TableCell align="center" sx={{ width: "20%" }}>
-                    
-                  </TableCell>
+                  <TableCell align="center" sx={{ width: "20%" }}></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -171,7 +174,7 @@ const FixedExpensesTable = () => {
                       {formatToBRL(cost.price)}
                     </TableCell>
                     <TableCell align="center">
-                    <Button onClick={() => handleDeleteCost(index)}>
+                      <Button onClick={() => handleDeleteCost(index)}>
                         <DeleteIcon
                           style={{
                             cursor: "pointer",
@@ -189,7 +192,6 @@ const FixedExpensesTable = () => {
                           }}
                         />
                       </Button>
-                      
                     </TableCell>
                   </TableRow>
                 ))}

@@ -13,7 +13,7 @@ import UnitSelect from "components/SelectOptions/SelectOptions";
 import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
 import { options } from "utils/FeedstockUnit";
 import { getErro, getAddReload } from "utils/ModalAlert";
-import { setfeedstock } from "services/feedstock.service";
+import { setResaleItem } from "services/feedstock.service";
 
 const FeedstockValues: FeedstockType = {
   name: "",
@@ -23,7 +23,7 @@ const FeedstockValues: FeedstockType = {
   type: "",
 };
 
-export const AddFeedstock = () => {
+export const AddResaleItem = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -33,11 +33,12 @@ export const AddFeedstock = () => {
     { resetForm }: { resetForm: () => void }
   ) => {
     try {
-      setfeedstock(
+      setResaleItem(
         Addfeedstock.name,
         Addfeedstock.price,
         Addfeedstock.quantity,
-        Addfeedstock.unit
+        Addfeedstock.unit,
+        "resale"
       );
 
       handleClose();
@@ -49,8 +50,8 @@ export const AddFeedstock = () => {
 
   return (
     <div>
-      <Button onClick={handleOpen}>
-        Adicionar insumo
+      <Button onClick={handleOpen} >
+        Adicionar Item de Revenda
       </Button>
       <Modal
         open={open}
@@ -60,7 +61,7 @@ export const AddFeedstock = () => {
       >
         <Box sx={StyleModal}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Adicionar insumo
+            Adicionar Item de Revenda
           </Typography>
           <Divider />
           <Formik

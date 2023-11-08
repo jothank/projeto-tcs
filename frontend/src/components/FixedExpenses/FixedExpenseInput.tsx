@@ -1,6 +1,7 @@
 import React from "react";
 import { Field } from "formik";
 import { TextField } from "@mui/material";
+import { RegisterInputProps } from "types/user.type";
 
 interface FormInputNumberProps {
   name: string;
@@ -40,3 +41,20 @@ const FormInputNumber: React.FC<FormInputNumberProps> = ({
 );
 
 export { FormInputNumber };
+
+const FormInputDate: React.FC<RegisterInputProps> = ({ name, label, type }) => (
+  <Field name={name} label={label}>
+    {({ field, meta }: any) => (
+      <TextField
+        {...field}
+        type={type}
+        fullWidth
+        margin="dense"
+        error={meta.touched && meta.error !== undefined}
+        helperText={meta.touched && meta.error ? meta.error : ""}
+      />
+    )}
+  </Field>
+);
+
+export { FormInputDate };

@@ -1,8 +1,14 @@
+###
+# Libs
+###
 from rest_framework import serializers
 from app.cost.models.cost import Cost
 from app.fixed_expense.models.fixed_expense import FixedExpense
 
 
+###
+# Serializers
+###
 class UpdateFixedExpenseSerializer(serializers.ModelSerializer):
     costs = serializers.PrimaryKeyRelatedField(
         queryset=Cost.objects.all(), many=True, required=False)
@@ -19,7 +25,7 @@ class UpdateFixedExpenseSerializer(serializers.ModelSerializer):
             costs = Cost.objects.filter(id__in=costs_ids)
             attr['total_price'] = sum(cost.price for cost in costs)
             attr['costs'] = costs
-            
+
         return attr
 
     class Meta:

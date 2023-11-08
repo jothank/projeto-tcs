@@ -15,4 +15,4 @@ class RetrieveFeedstockSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Feedstock
-        fields = ('id', 'name', 'price', 'quantity', 'unit')
+        fields = ('id', 'name', 'price', 'quantity', 'unit', 'type')

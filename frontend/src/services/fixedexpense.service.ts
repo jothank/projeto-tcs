@@ -21,8 +21,8 @@ export const saveCosts = async (costs: any) => {
 export const setFixedExpense = async (
   name: string,
   date: string,
-  costs: number[],
-  price: number
+  price: number,
+  costs: number[] | undefined
 ) => {
   try {
     const body = {

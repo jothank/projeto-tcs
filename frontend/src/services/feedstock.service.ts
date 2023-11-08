@@ -26,6 +26,32 @@ export const setfeedstock = async (
     return error;
   }
 };
+export const setResaleItem = async (
+  name: string,
+  price: number,
+  quantity: number,
+  unit: string,
+  type: string
+) => {
+  try {
+    const response = await axios.post(
+      BASE_URL + "feedstock/",
+      {
+        name,
+        price,
+        quantity,
+        unit,
+        type,
+      },
+      {
+        headers: await getAuthorizationHeader(),
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
 
 export const updatefeedstock = async (
   id: number,

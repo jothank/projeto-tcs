@@ -6,30 +6,6 @@ export const setfeedstock = async (
   name: string,
   price: number,
   quantity: number,
-  unit: string
-) => {
-  try {
-    const response = await axios.post(
-      BASE_URL + "feedstock/",
-      {
-        name,
-        price,
-        quantity,
-        unit,
-      },
-      {
-        headers: await getAuthorizationHeader(),
-      }
-    );
-    return response.data;
-  } catch (error) {
-    return error;
-  }
-};
-export const setResaleItem = async (
-  name: string,
-  price: number,
-  quantity: number,
   unit: string,
   type: string
 ) => {
@@ -58,7 +34,8 @@ export const updatefeedstock = async (
   name: string,
   price: number,
   quantity: number,
-  unit: string
+  unit: string,
+  type: string
 ) => {
   try {
     const response = await axios.put(
@@ -68,6 +45,7 @@ export const updatefeedstock = async (
         price,
         quantity,
         unit,
+        type,
       },
       {
         headers: await getAuthorizationHeader(),

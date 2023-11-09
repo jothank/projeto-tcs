@@ -23,6 +23,17 @@ const FeedstockValues: FeedstockType = {
   type: "",
 };
 
+export const Types = [
+  {
+    value: "Feedstock",
+    label: "Insumo",
+  },
+  {
+    value: "ResaleItem",
+    label: "Item de revenda",
+  },
+];
+
 export const AddFeedstock = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -37,7 +48,8 @@ export const AddFeedstock = () => {
         Addfeedstock.name,
         Addfeedstock.price,
         Addfeedstock.quantity,
-        Addfeedstock.unit
+        Addfeedstock.unit,
+        Addfeedstock.type
       );
 
       handleClose();
@@ -49,9 +61,7 @@ export const AddFeedstock = () => {
 
   return (
     <div>
-      <Button onClick={handleOpen}>
-        Adicionar insumo
-      </Button>
+      <Button onClick={handleOpen}>Adicionar insumo</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -73,6 +83,8 @@ export const AddFeedstock = () => {
               <FeedstockInput name="price" label="Preço" type="text" />
               <FeedstockInput name="quantity" label="Quantidade" type="text" />
               <UnitSelect name="unit" label="Unidade" options={options} />
+              <UnitSelect name="type" label="Tipo" options={Types} />
+
               <ButtonContainer>
                 <Button onClick={handleClose}>Fechar</Button>
                 <Button variant="contained" type="submit">

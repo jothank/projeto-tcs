@@ -11,4 +11,5 @@ export const FeedstockValidation = Yup.object().shape({
     .moreThan(0, "O preço deve ser maior que 0"),
   quantity: Yup.number().required("Este campo é obrigatório."),
   unit: Yup.string().required("Este campo é obrigatório."),
+  type: Yup.string().required("Este campo é obrigatório."),
 });

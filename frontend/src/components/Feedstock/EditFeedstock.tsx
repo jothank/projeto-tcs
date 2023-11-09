@@ -9,6 +9,7 @@ import { Form, Formik } from "formik";
 import { getErro, getSuccess } from "utils/ModalAlert";
 import { FeedstockValidation } from "utils/validations/validationFeedstock";
 import { options } from "utils/FeedstockUnit";
+import { Types } from "./AddFeedstock";
 import { updatefeedstock } from "services/feedstock.service";
 import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
 
@@ -41,7 +42,8 @@ export const EditFeedstock = ({
         values.name,
         values.price,
         values.quantity,
-        values.unit
+        values.unit,
+        values.type
       );
       handleClose();
       onUpdated?.(values);
@@ -54,11 +56,13 @@ export const EditFeedstock = ({
   return (
     <div>
       <Button onClick={handleOpen}>
-        <EditIcon style={{
-          cursor: "pointer",
-          marginRight: "10px",
-          color: "bleu",
-        }} />
+        <EditIcon
+          style={{
+            cursor: "pointer",
+            marginRight: "10px",
+            color: "bleu",
+          }}
+        />
       </Button>
       <Modal
         open={open}
@@ -81,10 +85,9 @@ export const EditFeedstock = ({
               <FeedstockInput name="price" label="Preço" type="text" />
               <FeedstockInput name="quantity" label="Quantidade" type="text" />
               <UnitSelect name="unit" label="Unidade" options={options} />
+              <UnitSelect name="type" label="Tipo" options={Types} />
               <ButtonContainer>
-                <Button onClick={handleClose}>
-                  Fechar
-                </Button>
+                <Button onClick={handleClose}>Fechar</Button>
                 <Button variant="contained" type="submit">
                   Editar
                 </Button>

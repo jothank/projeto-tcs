@@ -1,112 +1,105 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react";
 import { getAllfeedstocks } from "services/feedstock.service";
-import { FeedstockType } from "types/Feedstock.type";
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
-    Paper,
-    Typography,
-    Select,
-    MenuItem,
-    InputLabel,
-    FormControl,
-    TableContainer,
-    Grid,
-  } from "@mui/material";
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+  TableContainer,
+  Grid,
+} from "@mui/material";
 import { formatToBRL } from "utils/pricing";
 import { ProductTableProps } from "types/Product.types";
 import FinancialComponent from "./FinancialComponent";
 import { PricingType } from "types/pricing,types";
-import { setPricing } from "services/pricing.services";
+import { getPricing, setPricing } from "services/pricing.service";
+import { FeedstockType } from "types/Feedstock.type";
 
-export const AddProductPricing =  ({ data }: ProductTableProps) => {
-    const componentRef = useRef(null);
-    const [selectedProductId, setSelectedProductId] = useState<number | null>(
-      data?.results.length ? data.results[0].id : null
-    );
-    const selectedProduct = data.results.find(
-      (product) => product.id === selectedProductId
-    );
-    const [suggestedPrice, setSuggestedPrice] = useState('');
-    const [updatedFinancials, setUpdatedFinacials] = useState<PricingType[]>([]);
-    const [feedstockList, setFeedstockList] = useState<FeedstockType[]>([]);
-    useEffect(() => {
-      const fetchFeedstocks = async () => {
-        try {
-          const result = await getAllfeedstocks();
-          setFeedstockList(result);
-        } catch (error) {
-          console.error("Failed to fetch feedstocks:", error);
-        }
-      };
-      fetchFeedstocks();
-    }, []);
-
-    const handlePricingUpdate = async (newFinancials: PricingType[]) => {
-      setUpdatedFinacials(newFinancials);
-    //somar custo de produção + valor do condominio unitário+imposto+ cartão+ outros dividido por 1-(tx imposto-tx cartão - tx outros- tx lucro)
-      if (selectedProduct) {
-        const convertedExpenses = newFinancials.map((financial) => {
-          return {
-            tax: (financial.tax / 100) * selectedProduct.price,
-            card_tax: (financial.card_tax / 100) * selectedProduct.price,
-            other: (financial.other ?? 0) / 100 * selectedProduct.price, 
-            profit: (financial.profit / 100) * selectedProduct.price,
-            condominium: financial.condominium || 0, 
-            delivery_price: financial.delivery_price || 0, 
-          };
-        });
-    
-        const totalExpenses = convertedExpenses.reduce((total, financial) => {
-          return (
-            total +
-            financial.tax +
-            financial.card_tax +
-            financial.other +
-            financial.profit +
-            financial.condominium +
-            financial.delivery_price
-          );
-        }, 0);
-    
-        const suggestedPrice = (selectedProduct.price - totalExpenses) * 5;
-    
-        const formattedSuggestedPrice = suggestedPrice
-          .toFixed(2)
-          .replace(".", ",")
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        setSuggestedPrice(formattedSuggestedPrice);
+export const AddProductPricing = ({ data }: ProductTableProps) => {
+  const componentRef = useRef(null);
+  const [selectedProductId, setSelectedProductId] = useState<number | null>(
+    data?.results.length ? data.results[0].id : null
+  );
+  const selectedProduct = data.results.find(
+    (product) => product.id === selectedProductId
+  );
+  const [suggestedPrice, setSuggestedPrice] = useState<number | string>("");
+  const [updatedFinancials, setUpdatedFinacials] = useState<PricingType[]>([]);
+  const [feedstockList, setFeedstockList] = useState<FeedstockType[]>([]);
+  
+  useEffect(() => {
+    const fetchFeedstocks = async () => {
+      try {
+        const result = await getAllfeedstocks();
+        setFeedstockList(result);
+      } catch (error) {
+        console.error("Failed to fetch feedstocks:", error);
       }
+    };
+    fetchFeedstocks();
+  }, []);
+
+  const handlePricingUpdate = async (newFinancials: PricingType[]) => {
+    setUpdatedFinacials(newFinancials);
     
+    if (selectedProduct) {
+      const priceInfo = newFinancials[0];
+      
+      const productionCost = Number(selectedProduct.price) + Number(priceInfo.condominium || 0);
+      
+      let taxMultiplier = 1 + (priceInfo.tax / 100) + (priceInfo.card_tax / 100) + (priceInfo.profit / 100);
+      
+      if (priceInfo.other !== undefined) {
+        taxMultiplier += priceInfo.other / 100;
+      }
+  
+      const totalExpenses = productionCost + Number(priceInfo.delivery_price || 0);
+      const suggestedPrice = totalExpenses * taxMultiplier;
+  
+      console.log("Selected Product Price:", selectedProduct.price);
+      console.log("Condominium:", priceInfo.condominium || 0);
+      console.log("Delivery Price:", priceInfo.delivery_price || 0);
+      console.log("Production Cost:", productionCost);
+      console.log("Suggested Price:", suggestedPrice);
+      
+      setSuggestedPrice(suggestedPrice);
+      
       const pricingData = {
-        product: selectedProduct?.id || 0, 
-        tax: newFinancials[0].tax, 
-        card_tax: newFinancials[0].card_tax,
-        other: newFinancials[0].other || 0, 
-        profit: newFinancials[0].profit, 
-        condominium: newFinancials[0].condominium || 0, 
-        delivery_price: newFinancials[0].delivery_price || 0, 
-        suggested_price: parseFloat(suggestedPrice), 
-       
+        product: selectedProduct.id || 0,
+        tax: priceInfo.tax,
+        card_tax: priceInfo.card_tax,
+        other: priceInfo.other || 0,
+        profit: priceInfo.profit,
+        condominium: priceInfo.condominium || 0,
+        delivery_price: priceInfo.delivery_price || 0,
+        suggested_price: suggestedPrice,
       };
-    
+  
       try {
         const response = await setPricing(pricingData);
-        console.log('Dados enviados com sucesso:', response.data);
+        console.log('Dados enviados com sucesso:', response);
       } catch (error) {
         console.error('Erro ao enviar dados para o banco de dados:', error);
       }
-    };
+    }
+  };
   
-    return (
-      <Grid container
-      sx={{widht: "80%"}}
-      >
-      <Paper
-      >
+  
+  
+  
+  
+  
+
+  return (
+    <Grid container sx={{ width: "80%" }}>
+      <Paper>
         <div
           style={{
             display: "flex",
@@ -120,7 +113,6 @@ export const AddProductPricing =  ({ data }: ProductTableProps) => {
               : "Nenhum produto selecionado"}
           </Typography>
           
-        
           <FormControl sx={{ width: "40%" }}>
             <InputLabel>Selecione o produto</InputLabel>
             <Select
@@ -173,8 +165,7 @@ export const AddProductPricing =  ({ data }: ProductTableProps) => {
                       <TableCell align="center">
                         {formatToBRL(product.price)}
                       </TableCell>
-                      <TableCell align="center">
-                      </TableCell>
+                      <TableCell align="center"></TableCell>
                     </TableRow>
                   ))
                 ) : (
@@ -206,14 +197,12 @@ export const AddProductPricing =  ({ data }: ProductTableProps) => {
               variant="subtitle1"
               align="right"
               style={{ padding: 16 }}
-            >Preço Sugerido: {suggestedPrice}</Typography>
-          </Grid>
-          <Grid item>
-            
+            >
+              Preço Sugerido: {typeof suggestedPrice === 'number' ? formatToBRL(suggestedPrice) : suggestedPrice}
+            </Typography>
           </Grid>
         </Grid>
       </Paper>
-      </Grid>
-    );
-    
-}
+    </Grid>
+  );
+};

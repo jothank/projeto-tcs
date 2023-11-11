@@ -4,7 +4,7 @@ export interface FeedstockType {
   price: number;
   quantity: number;
   unit: string;
-  type: string | undefined;
+  type: string;
 }
 
 export interface FeedstockInputProps {

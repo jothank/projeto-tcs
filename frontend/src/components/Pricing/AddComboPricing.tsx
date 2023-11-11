@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
-
-
 import { getCombos } from 'services/combo.service';
 import FinancialComponent from './FinancialComponent';
 import { PricingType } from 'types/pricing,types';

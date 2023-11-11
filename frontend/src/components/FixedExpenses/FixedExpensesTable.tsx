@@ -26,6 +26,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { validationSchema } from "utils/validations/validationsFixedExpense";
 import EditFixedExpenses from "./ModalEdit";
+import UnitSelect from "components/SelectOptions/SelectOptions";
+import { optionsMonth } from "utils/FixedExpensesMonths";
 
 const FixedExpensesTable = () => {
   const [costs, setCosts] = React.useState<CostType[]>([]);
@@ -102,7 +104,11 @@ const FixedExpensesTable = () => {
         {({ values, setFieldValue, setFieldTouched, setFieldError }) => (
           <>
             <Form>
-              <FormInput name="name" label="Mês Referência" type="text" />
+            <UnitSelect
+                name="name"
+               label="Mês"
+               options={optionsMonth}
+                />
               <FormInputDate name="date" label="Data Referência" type="date" />
               <FormControlLabel
                 control={

@@ -62,15 +62,7 @@ export const AddProductPricing = ({ data }: ProductTableProps) => {
   
       const totalExpenses = productionCost + Number(priceInfo.delivery_price || 0);
       const suggestedPrice = totalExpenses * taxMultiplier;
-  
-      console.log("Selected Product Price:", selectedProduct.price);
-      console.log("Condominium:", priceInfo.condominium || 0);
-      console.log("Delivery Price:", priceInfo.delivery_price || 0);
-      console.log("Production Cost:", productionCost);
-      console.log("Suggested Price:", suggestedPrice);
-      
       setSuggestedPrice(suggestedPrice);
-      
       const pricingData = {
         product: selectedProduct.id || 0,
         tax: priceInfo.tax,
@@ -91,12 +83,6 @@ export const AddProductPricing = ({ data }: ProductTableProps) => {
     }
   };
   
-  
-  
-  
-  
-  
-
   return (
     <Grid container sx={{ width: "80%" }}>
       <Paper>

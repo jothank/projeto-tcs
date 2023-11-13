@@ -150,68 +150,76 @@ const FixedExpensesTable = () => {
             {!values.manualEntry && (
               <AddFixedExpenses onCostsUpdate={handleCostsUpdate} />
             )}
+
+            <Paper sx={{ width: "100%" }}>
+              <Grid>
+                {!values.manualEntry && (
+                  <TableContainer>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell align="center">Despesa</TableCell>
+                          <TableCell align="center">Descrição</TableCell>
+                          <TableCell align="center">Valor</TableCell>
+                          <TableCell
+                            align="center"
+                            sx={{ width: "20%" }}
+                          ></TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {costs.map((cost, index) => (
+                          <TableRow
+                            key={cost.id}
+                            sx={{
+                              backgroundColor:
+                                index % 2 !== 0 ? "#f2f2f2" : "#ffffff",
+                            }}
+                          >
+                            <TableCell align="center">{cost.name}</TableCell>
+                            <TableCell align="center">
+                              {cost.description}
+                            </TableCell>
+                            <TableCell align="center">
+                              {formatToBRL(cost.price)}
+                            </TableCell>
+                            <TableCell align="center">
+                              <Button onClick={() => handleDeleteCost(index)}>
+                                <DeleteIcon
+                                  style={{
+                                    cursor: "pointer",
+                                    marginRight: "10px",
+                                    color: "red",
+                                  }}
+                                />
+                              </Button>
+                              <Button onClick={() => openEditModal(cost)}>
+                                <EditIcon
+                                  style={{
+                                    cursor: "pointer",
+                                    marginRight: "10px",
+                                    color: "blue",
+                                  }}
+                                />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                )}
+              </Grid>
+            </Paper>
           </>
         )}
       </Formik>
-
-      <Paper sx={{ width: "100%" }}>
-        <Grid>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center">Despesa</TableCell>
-                  <TableCell align="center">Descrição</TableCell>
-                  <TableCell align="center">Valor</TableCell>
-                  <TableCell align="center" sx={{ width: "20%" }}></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {costs.map((cost, index) => (
-                  <TableRow
-                    key={cost.id}
-                    sx={{
-                      backgroundColor: index % 2 !== 0 ? "#f2f2f2" : "#ffffff",
-                    }}
-                  >
-                    <TableCell align="center">{cost.name}</TableCell>
-                    <TableCell align="center">{cost.description}</TableCell>
-                    <TableCell align="center">
-                      {formatToBRL(cost.price)}
-                    </TableCell>
-                    <TableCell align="center">
-                      <Button onClick={() => handleDeleteCost(index)}>
-                        <DeleteIcon
-                          style={{
-                            cursor: "pointer",
-                            marginRight: "10px",
-                            color: "red",
-                          }}
-                        />
-                      </Button>
-                      <Button onClick={() => openEditModal(cost)}>
-                        <EditIcon
-                          style={{
-                            cursor: "pointer",
-                            marginRight: "10px",
-                            color: "bleu",
-                          }}
-                        />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <EditFixedExpenses
-            open={openEdit}
-            cost={currentCost}
-            onClose={() => setOpenEdit(false)}
-            onUpdate={handleUpdateCost}
-          />
-        </Grid>
-      </Paper>
+      <EditFixedExpenses
+        open={openEdit}
+        cost={currentCost}
+        onClose={() => setOpenEdit(false)}
+        onUpdate={handleUpdateCost}
+      />
     </>
   );
 };

@@ -61,7 +61,7 @@ export const AddFeedstock = () => {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Adicionar insumo</Button>
+      <Button onClick={handleOpen} variant="contained" sx={{ margin: "20px", width: "150px" }}> Adicionar</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -70,7 +70,7 @@ export const AddFeedstock = () => {
       >
         <Box sx={StyleModal}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Adicionar insumo
+            Adicionar
           </Typography>
           <Divider />
           <Formik
@@ -86,9 +86,9 @@ export const AddFeedstock = () => {
               <UnitSelect name="type" label="Tipo" options={Types} />
 
               <ButtonContainer>
-                <Button onClick={handleClose}>Fechar</Button>
+                <Button onClick={handleClose}>Cancelar</Button>
                 <Button variant="contained" type="submit">
-                  Adicionar
+                  Salvar
                 </Button>
               </ButtonContainer>
             </Form>

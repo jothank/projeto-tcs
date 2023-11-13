@@ -25,8 +25,3 @@ class ComboProduct(models.Model):
         verbose_name=_('Products'),
         on_delete=models.CASCADE
     )
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        verbose_name=_('User'),
-    )

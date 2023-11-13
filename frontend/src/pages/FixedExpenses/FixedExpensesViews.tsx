@@ -4,22 +4,16 @@ import { ExpenseType } from "types/FixedExpenses.types";
 import AddFixedExpenses from "components/FixedExpenses/AddFixedExpenses";
 import FixedExpensesTable from "components/FixedExpenses/FixedExpensesTable";
 import Container from "@mui/material/Container";
+import { getFixedExpense } from "services/fixedexpense.service";
+import FixedExpensesTableView, {
+  FixedExpenseType,
+} from "components/FixedExpenses/FixedExpensesView";
 
-export const FixedExpense = () => {
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-    } catch (error) {
-      console.error("Erro ao buscar as despesas:", error);
-    }
-  };
+export const FixedExpenseView = () => {
 
   return (
     <Container>
-      <FixedExpensesTable />
+      <FixedExpensesTableView  />
     </Container>
   );
 };

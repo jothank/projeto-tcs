@@ -16,11 +16,10 @@ import AddIcon from "@mui/icons-material/Add";
 import { FieldArray, Formik, Field, Form } from "formik";
 import { ProductInput } from "components/Product/InputProduct";
 import * as Yup from "yup";
-import { setCombo } from "services/combo.service";
+import { setCombo, updateCombo } from "services/combo.service";
 import { getSuccess, getErro } from "utils/ModalAlert";
 
 const validationSchema = Yup.object().shape({
-  comboName: Yup.string().required("Nome do Combo é obrigatório"),
   products: Yup.array()
     .of(Yup.number().required("Produto é obrigatório"))
     .min(1, "Produtos são obrigatórios")
@@ -48,13 +47,10 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
 
   const handleRegister = async (values: any) => {
     try {
-      console.log(selectedCombo);
-      console.log("testa", values);
-
-      //   const combo = await setCombo(values.products, values.comboName);
       let ids = selectedCombo.products.map((item: { id: number }) => item.id);
       const list = [...ids, ...values.products];
-      console.log("list", list);
+
+      const combo = await updateCombo(selectedCombo.id, list, values.comboName);
 
       getSuccess("Combo cadastrado com sucesso");
       setOpen(false);
@@ -67,7 +63,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
   return (
     <Grid>
       <Button variant="contained" onClick={handleOpen} sx={{ mr: 2 }}>
-        Add Product
+        Adicionar produto
       </Button>
 
       <Dialog open={open} onClose={onClose}>
@@ -80,11 +76,6 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
           >
             <Form>
               <Grid>
-                <ProductInput
-                  name="comboName"
-                  label="Nome do Combo"
-                  type="text"
-                />
                 <FieldArray name="products">
                   {({ push, remove, form }) => (
                     <>
@@ -137,7 +128,9 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
                 </FieldArray>
               </Grid>
               <Button onClick={() => setOpen(false)}>Cancelar</Button>
-              <Button variant="contained" type="submit">Cadastrar</Button>
+              <Button variant="contained" type="submit">
+                Cadastrar
+              </Button>
             </Form>
           </Formik>
         </Grid>

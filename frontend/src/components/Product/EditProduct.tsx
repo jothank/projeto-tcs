@@ -64,6 +64,9 @@ const EditDialog: React.FC<EditDialogProps> = ({
         values.quantity,
         values.unit
       );
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (err) {
       console.log(err);
     }
@@ -124,7 +127,7 @@ const EditDialog: React.FC<EditDialogProps> = ({
                 <Button onClick={() => onClose()} color="primary">
                   Cancelar
                 </Button>
-                <Button type="submit" color="primary">
+                <Button type="submit" color="primary" variant="contained">
                   Salvar
                 </Button>
               </DialogActions>

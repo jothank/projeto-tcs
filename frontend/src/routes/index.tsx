@@ -11,6 +11,7 @@ import ResaleItem from "pages/ResaleItem/ResaleItem";
 import { Feedstock } from "pages/Feedstock/Feedstock";
 import Product from "pages/Product/Product";
 import { FixedExpense } from "pages/FixedExpenses/FixedExpenses";
+import { FixedExpenseView } from "pages/FixedExpenses/FixedExpensesViews";
 import Princing from "pages/Pricing/Pricing";
 import Combo from "pages/Combo/Combo";
 import CommandProduct from "pages/Commands/CommandProduct";
@@ -33,14 +34,6 @@ export const AppRoutes = () => {
           </PrivateRoute>
         }
       />
-      {/* <Route
-        path="/company"
-        element={
-          <PrivateRoute>
-            <Company />
-          </PrivateRoute>
-        }
-      /> */}
       <Route
         path="/resale-item"
         element={
@@ -66,10 +59,18 @@ export const AppRoutes = () => {
         }
       />
       <Route
-        path="/fixed-expense"
+        path="/fixed-expense/add"
         element={
           <PrivateRoute>
             <FixedExpense />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/fixed-expense/view"
+        element={
+          <PrivateRoute>
+            <FixedExpenseView />
           </PrivateRoute>
         }
       />
@@ -89,7 +90,7 @@ export const AppRoutes = () => {
           </PrivateRoute>
         }
       />
-     
+
       <Route
         path="/datasheet"
         element={

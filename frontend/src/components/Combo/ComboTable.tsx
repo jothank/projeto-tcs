@@ -94,6 +94,9 @@ const ComboTable = (props: any) => {
         );
 
         updateCombo(updatedCombo.id, productIds, updatedCombo.name);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       }
     } catch (error) {
       console.error(error);
@@ -110,45 +113,24 @@ const ComboTable = (props: any) => {
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
-          padding: 16,
+          justifyContent: "center",
+          alignItems: "center",
+          // justifyContent: "space-between",
+          padding: 20,
         }}
       >
-        <Grid>
-          <Typography variant="h6" component="div">
-            {selectedCombo ? selectedCombo.name : "Nenhum Combo selecionado"}
-          </Typography>
-          <AddProductsModal
-            isOpen={isAddsModalProductOpen}
-            onClose={() => setIsAddsModalProductOpen(false)}
-            productsList={products}
-          />
-        </Grid>
-        <Grid
-          sx={{
-            display: "flex",
-            alignItems: "end",
-            justifyContent: "end",
-          }}
-        >
-          <Button
-            onClick={handlePrint}
-            variant="outlined"
-            style={{ marginRight: 10 }}
-          >
-            <PrintIcon />
-          </Button>
-          <Button onClick={exportToCSV} variant="outlined">
-            <CloudDownloadIcon />
-          </Button>
-        </Grid>
+        <AddProductsModal
+          isOpen={isAddsModalProductOpen}
+          onClose={() => setIsAddsModalProductOpen(false)}
+          productsList={products}
+        />        
         <FormControl sx={{ width: "40%" }}>
           <InputLabel>Selecione o produto</InputLabel>
           <Select
             value={selectedComboId || ""}
             onChange={(event) =>
               setSelectedComboId(event.target.value as number)
-            }
+            } sx={{ mr: 2 }}
           >
             {data.map((productItem: any) => (
               <MenuItem key={productItem.id} value={productItem.id}>
@@ -157,8 +139,30 @@ const ComboTable = (props: any) => {
             ))}
           </Select>
         </FormControl>
+        <Grid >
+          <Button onClick={handlePrint} variant="outlined" sx={{ mr: 2 }}>
+            <PrintIcon />
+          </Button>
+          <Button onClick={exportToCSV} variant="outlined">
+            <CloudDownloadIcon />
+          </Button>
+        </Grid>
       </div>
+      <div style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontWeight: "bold",
+        fontSize: "30px",
+        padding: "20px"
+      }}>
+        <Grid>
+          <Typography variant="h6" component="div">
+            {selectedCombo ? selectedCombo.name : "Nenhum Combo selecionado"}
+          </Typography>
 
+        </Grid>
+      </div>
       <div ref={componentRef}>
         <TableContainer>
           <Table>
@@ -196,6 +200,14 @@ const ComboTable = (props: any) => {
                             color: "red",
                           }}
                         />
+                      </Button>
+                      <Button>
+                        <EditIcon
+                          style={{
+                            cursor: "pointer",
+                            marginRight: "10px",
+                            color: "blue",
+                          }}/>
                       </Button>
                     </TableCell>
                   </TableRow>

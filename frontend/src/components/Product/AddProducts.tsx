@@ -54,8 +54,10 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
         name: values.productRegistrationName,
         supplies: idssupplies,
       });
-      setOpen(false);
-      window.location.reload();
+      setTimeout(() => {
+        setOpen(false);
+        window.location.reload();
+      }, 5000);
     } catch (error) {
       console.error("Failed to add product:", error);
     }

@@ -5,6 +5,7 @@ import FinancialComponent from './FinancialComponent';
 import { PricingType } from 'types/pricing,types';
 import { setPricing } from 'services/pricing.service';
 import { formatToBRL } from 'utils/pricing';
+import { number } from 'yup';
 
 interface Combo {
   id: number;
@@ -52,11 +53,11 @@ const AddComboPricing = () => {
 
     const totalProductionCost = productionCosts.reduce((acc, cost) => acc + cost, 0);
 
-    const taxMultiplier = 1 + (Number(priceInfo.tax) / 100) + (Number(priceInfo.card_tax) / 100) + (Number(priceInfo.profit) / 100);
+    const taxMultiplier = 1 - (Number(priceInfo.tax) / 100) + (Number(priceInfo.card_tax) / 100) + (Number(priceInfo.profit) / 100);
 
     const totalExpenses = totalProductionCost + Number(priceInfo.delivery_price || 0);
 
-    const suggestedPrice = totalExpenses * taxMultiplier;
+    const suggestedPrice = Number(totalExpenses / taxMultiplier);
     setSuggestedPrice(suggestedPrice);
 
     const pricingData = {

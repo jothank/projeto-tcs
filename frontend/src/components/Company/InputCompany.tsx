@@ -79,7 +79,7 @@ export const PhoneNumberInput: React.FC<{ name: string; label: string }> = ({
         label={label}
         type="text"
         fullWidth
-        inputProps={{ maxLength: 17 }} // Ajustado para o tamanho máximo após a formatação
+        inputProps={{ maxLength: 17 }}
         margin="dense"
         error={meta.touched && meta.error !== undefined}
         helperText={meta.touched && meta.error ? meta.error : ""}

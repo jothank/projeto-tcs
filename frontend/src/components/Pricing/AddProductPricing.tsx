@@ -30,10 +30,10 @@ export const AddProductPricing = ({ data }: ProductTableProps) => {
   const selectedProduct = data.results.find(
     (product) => product.id === selectedProductId
   );
-  const [suggestedPrice, setSuggestedPrice] = useState<number | string>("");
+  const [suggestedPrice, setSuggestedPrice] = useState<number | string>(0);
   const [updatedFinancials, setUpdatedFinacials] = useState<PricingType[]>([]);
   const [feedstockList, setFeedstockList] = useState<FeedstockType[]>([]);
-  
+
   useEffect(() => {
     const fetchFeedstocks = async () => {
       try {
@@ -48,29 +48,25 @@ export const AddProductPricing = ({ data }: ProductTableProps) => {
 
   const handlePricingUpdate = async (newFinancials: PricingType[]) => {
     setUpdatedFinacials(newFinancials);
-    
+
     if (selectedProduct) {
       const priceInfo = newFinancials[0];
-      
-      const productionCost = Number(selectedProduct.price) + Number(priceInfo.condominium || 0);
-      
-      let taxMultiplier = 1 + (priceInfo.tax / 100) + (priceInfo.card_tax / 100) + (priceInfo.profit / 100);
-      
+
+      const productionCost = Number(selectedProduct.price) + Number(priceInfo.condominium || 0) + Number(priceInfo.delivery_price || 0);
+
+      let taxMultiplier = 1 - ((priceInfo.tax / 100) + (priceInfo.card_tax / 100) + (priceInfo.profit / 100));
+
       if (priceInfo.other !== undefined) {
         taxMultiplier += priceInfo.other / 100;
       }
-  
-      const totalExpenses = productionCost + Number(priceInfo.delivery_price || 0);
-      const suggestedPrice = totalExpenses * taxMultiplier;
-  
-      console.log("Selected Product Price:", selectedProduct.price);
-      console.log("Condominium:", priceInfo.condominium || 0);
-      console.log("Delivery Price:", priceInfo.delivery_price || 0);
-      console.log("Production Cost:", productionCost);
-      console.log("Suggested Price:", suggestedPrice);
-      
+
+      const suggestedPrice = Number(productionCost / taxMultiplier);
+
       setSuggestedPrice(suggestedPrice);
-      
+
+      console.log('Valor de suggestedPrice antes do cálculo:', productionCost / taxMultiplier);
+      console.log('Valor de suggestedPrice após cálculo:', suggestedPrice);
+      console.log('Valor de suggestedPrice após formatação:', formatToBRL(Number(suggestedPrice)));
       const pricingData = {
         product: selectedProduct.id || 0,
         tax: priceInfo.tax,
@@ -81,7 +77,7 @@ export const AddProductPricing = ({ data }: ProductTableProps) => {
         delivery_price: priceInfo.delivery_price || 0,
         suggested_price: suggestedPrice,
       };
-  
+
       try {
         const response = await setPricing(pricingData);
         console.log('Dados enviados com sucesso:', response);
@@ -90,12 +86,6 @@ export const AddProductPricing = ({ data }: ProductTableProps) => {
       }
     }
   };
-  
-  
-  
-  
-  
-  
 
   return (
     <Grid container sx={{ width: "80%" }}>
@@ -112,7 +102,7 @@ export const AddProductPricing = ({ data }: ProductTableProps) => {
               ? selectedProduct.name
               : "Nenhum produto selecionado"}
           </Typography>
-          
+
           <FormControl sx={{ width: "40%" }}>
             <InputLabel>Selecione o produto</InputLabel>
             <Select
@@ -198,8 +188,18 @@ export const AddProductPricing = ({ data }: ProductTableProps) => {
               align="right"
               style={{ padding: 16 }}
             >
-              Preço Sugerido: {typeof suggestedPrice === 'number' ? formatToBRL(suggestedPrice) : suggestedPrice}
+              <Typography
+                variant="subtitle1"
+                align="right"
+                style={{ padding: 16 }}
+              >
+               Preço Sugerido: {typeof suggestedPrice === 'number' ? suggestedPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : formatToBRL(Number(suggestedPrice))}
+
+
+              </Typography>
+
             </Typography>
+
           </Grid>
         </Grid>
       </Paper>

@@ -49,6 +49,9 @@ const AddProductsModal: React.FC<AddProductModalProps> = ({
       const combo = await setCombo(values.products, values.comboName);
       getSuccess("Combo cadastrado com sucesso");
       setOpen(false);
+      setTimeout(() => {        
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       getErro("Erro ao cadastrar combo");
       setOpen(false);
@@ -58,12 +61,12 @@ const AddProductsModal: React.FC<AddProductModalProps> = ({
   return (
     <Grid>
       <Button variant="contained" onClick={handleOpen} sx={{ mr: 2 }}>
-        Criar Combo
+        Adicionar Combo
       </Button>
 
       <Dialog open={open} onClose={onClose}>
-        <DialogTitle>Adicionar combo</DialogTitle>
-        <Grid>
+        <DialogTitle>Adicionar Combo</DialogTitle>
+        <Grid sx={{ padding: 2 }}>
           <Formik
             initialValues={{ comboName: "", products: [null] }}
             validationSchema={validationSchema}

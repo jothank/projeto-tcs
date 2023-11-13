@@ -64,6 +64,9 @@ const EditDialog: React.FC<EditDialogProps> = ({
         values.quantity,
         values.unit
       );
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (err) {
       console.log(err);
     }

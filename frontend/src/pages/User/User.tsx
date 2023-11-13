@@ -294,7 +294,7 @@ const UserProfile: React.FC = () => {
                 <Button onClick={() => setIsPasswordDialogOpen(false)}>
                   Cancelar
                 </Button>
-                <Button type="submit" color="primary">
+                <Button type="submit" color="primary" variant="contained">
                   Alterar Senha
                 </Button>
               </DialogActions>

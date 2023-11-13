@@ -4,7 +4,7 @@ import { emailSchema } from "./validationBase";
 const passwordRegex =
   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&.\\])[A-Za-z\d@$!%*#?&.\\]{8,}$/;
 
-const passwordSchema = Yup.string()
+export const passwordSchema = Yup.string()
   .test(
     "password",
     "A senha deve ter pelo menos 8 caracteres, incluir pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial (@$!%*#?&.).",
@@ -12,7 +12,7 @@ const passwordSchema = Yup.string()
   )
   .required("Este campo é obrigatório!");
 
-const usernameSchema = Yup.string()
+export const usernameSchema = Yup.string()
   .min(3, "O nome de usuário deve ter pelo menos 3 caracteres.")
   .max(20, "O nome de usuário não deve exceder 20 caracteres.")
   .required("Este campo é obrigatório!");

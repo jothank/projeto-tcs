@@ -40,7 +40,6 @@ const CustomDrawer: React.FC<DrawerProps> = ({
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
 
   const handleSubMenuClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, itemText: string) => {
-    // Se o item tiver subItems, previne a navegação padrão e abre o submenu
     event.preventDefault();
     setOpenSubMenu(openSubMenu === itemText ? null : itemText);
   };

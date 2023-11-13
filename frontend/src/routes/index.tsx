@@ -15,6 +15,7 @@ import { FixedExpenseView } from "pages/FixedExpenses/FixedExpensesViews";
 import Princing from "pages/Pricing/Pricing";
 import Combo from "pages/Combo/Combo";
 import CommandProduct from "pages/Commands/CommandProduct";
+import User from "pages/User/User";
 
 export const AppRoutes = () => {
   return (
@@ -63,6 +64,14 @@ export const AppRoutes = () => {
         element={
           <PrivateRoute>
             <FixedExpense />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/user"
+        element={
+          <PrivateRoute>
+            <User />
           </PrivateRoute>
         }
       />

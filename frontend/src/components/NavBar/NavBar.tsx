@@ -17,8 +17,16 @@ const NavBar: React.FC = () => {
       href: "/fixed-expense",
       title: "Gastos Fixos",
       subItems: [
-        { text: "Cadastrar Gastos Fixos", href: "/fixed-expense/add" },
-        { text: "Visualizar Gastos Fixos", href: "/fixed-expense/view" },
+        {
+          text: "Cadastrar Gastos Fixos",
+          href: "/fixed-expense/add",
+          title: "Cadastrar Gastos Fixos",
+        },
+        {
+          text: "Visualizar Gastos Fixos",
+          href: "/fixed-expense/view",
+          title: "Visualizar Gastos Fixos",
+        },
       ],
     },
     {
@@ -30,8 +38,15 @@ const NavBar: React.FC = () => {
   ];
 
   const currentPath = new URL(window.location.href).pathname;
-  const matchedItem = menuItems.find((item) => currentPath === item.href);
-  const pageTitle = matchedItem?.title || "Página não encontrada";
+  const findMenuItem = (items: any[], path: string) =>
+    items
+      .flatMap((item: { subItems: any }) => [item, ...(item.subItems || [])])
+      .find((item: { href: any }) => item.href === path);
+  const matchedItem = findMenuItem(menuItems, currentPath);
+  let pageTitle = matchedItem?.title || "Página não encontrada";
+  if (currentPath === "/user") {
+    pageTitle = "Editar Perfil";
+  }
 
   const handleDrawerOpen = () => {
     setIsDrawerOpen(true);
@@ -53,6 +68,10 @@ const NavBar: React.FC = () => {
     getLogout("Deseja realmente sair?");
   };
 
+  function handleEditProfile(): void {
+    window.location.href = "/user";
+  }
+
   return (
     <div style={{ marginBlockEnd: "2%" }}>
       <CustomAppBar
@@ -62,6 +81,7 @@ const NavBar: React.FC = () => {
         handleMenuClose={handleMenuClose}
         handleLogout={handleLogout}
         anchorEl={anchorEl}
+        handleEditProfile={handleEditProfile}
       />
       <CustomDrawer
         isDrawerOpen={isDrawerOpen}

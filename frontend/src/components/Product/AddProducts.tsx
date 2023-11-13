@@ -6,6 +6,7 @@ import { ProductType } from "types/Product.types";
 import { setProduct } from "services/product.service";
 import ProductForm from "./ProductForm";
 import { FeedstockType } from "types/Feedstock.type";
+import { getSuccess, getSuccessWarning } from "utils/ModalAlert";
 
 interface AddProductModalProps {
   isOpen: boolean;
@@ -54,10 +55,9 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
         name: values.productRegistrationName,
         supplies: idssupplies,
       });
-      setTimeout(() => {
-        setOpen(false);
-        window.location.reload();
-      }, 5000);
+      setOpen(false);
+      getSuccessWarning("Produto cadastrado com sucesso!");
+
     } catch (error) {
       console.error("Failed to add product:", error);
     }

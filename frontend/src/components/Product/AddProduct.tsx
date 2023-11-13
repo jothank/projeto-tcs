@@ -22,6 +22,7 @@ import {
   setProduct,
   updateProduct,
 } from "services/product.service";
+import { getSuccessWarning } from "utils/ModalAlert";
 
 interface ProductFormProps {
   open: boolean;
@@ -76,7 +77,7 @@ const AddProduct: React.FC<ProductFormProps> = ({
         price: updatePrice,
       });
       onClose();
-      window.location.reload();
+      getSuccessWarning("Produto adicionado com sucesso!");
     } catch (err) {
       console.log(err);
     }

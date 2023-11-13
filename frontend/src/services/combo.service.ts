@@ -8,7 +8,6 @@ interface Combo {
   // Outros campos do combo, conforme necessário
 }
 
-
 export const setCombo = async (products: Array<{}>, name: string) => {
   try {
     const response = await axios.post(
@@ -38,13 +37,34 @@ export const getCombos = async () => {
   }
 };
 
+export const updateCombo = async (
+  comboId: number,
+  products: Array<{}>,
+  name: string
+) => {
+  try {
+    const response = await axios.put(
+      BASE_URL + `combo/${comboId}/`,
+      {
+        name,
+        products: products,
+      },
+      {
+        headers: await getAuthorizationHeader(),
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const getComboById = async (comboId: number): Promise<Combo | null> => {
   try {
     const response = await axios.get(BASE_URL + `combo/${comboId}`, {
       headers: await getAuthorizationHeader(),
     });
-    return response.data as Combo; 
+    return response.data as Combo;
   } catch (error) {
     throw error;
   }

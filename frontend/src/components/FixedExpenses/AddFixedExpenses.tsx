@@ -59,21 +59,16 @@ const AddFixedExpenses: React.FC<AddFixedExpensesProps> = ({
             >
               <FormControl fullWidth>
                 <FormInput name="name" label="Despesa" type="text" />
+                <Grid
+                  sx={{ display: "flex", flexDirection: "row", gap: "20px" }}
+                >
+                  <FormInput name="description" label="Descrição" type="text" />
+                  <FormInput name="price" label="Valor" type="number" />
+                  <Button type="submit" variant="contained">
+                    Salvar gasto
+                  </Button>
+                </Grid>
               </FormControl>
-            </Grid>
-            <Grid sx={{ display: "flex", flexDirection: "row", gap: "20px" }}>
-              <FormControl fullWidth>
-                <FormInput name="description" label="Descrição" type="text" />
-              </FormControl>
-              <FormControl fullWidth>
-                <FormInput name="price" label="Valor" type="number" />
-              </FormControl>
-              <Button
-                type="submit"
-                variant="contained"
-              >
-                Salvar gasto
-              </Button>
             </Grid>
           </Grid>
         </Form>

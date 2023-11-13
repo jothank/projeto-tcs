@@ -24,6 +24,7 @@ import AddProductModal from "./AddCombo";
 import { getAllProduct } from "services/product.service";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { updateCombo } from "services/combo.service";
 
 const ComboTable = (props: any) => {
   const { data } = props;
@@ -31,7 +32,7 @@ const ComboTable = (props: any) => {
   const [selectedComboId, setSelectedComboId] = useState<number | null>(
     data?.length ? data[0].id : null
   );
-  const selectedCombo = data.find((combo: any) => combo.id === selectedComboId);
+  let selectedCombo = data.find((combo: any) => combo.id === selectedComboId);
 
   const [isAddsModalProductOpen, setIsAddsModalProductOpen] = useState(false);
   const [isAddModalProductOpen, setIsAddModalProductOpen] = useState(false);
@@ -73,11 +74,37 @@ const ComboTable = (props: any) => {
     a.click();
   };
 
+  async function handleDelete(productIdToRemove: number): Promise<void> {
+    try {
+      const index = selectedCombo.products.findIndex(
+        (product: { id: number }) => product.id === productIdToRemove
+      );
+
+      if (index !== -1) {
+        const newProducts = [
+          ...selectedCombo.products.slice(0, index),
+          ...selectedCombo.products.slice(index + 1),
+        ];
+
+        const updatedCombo = { ...selectedCombo, products: newProducts };
+        selectedCombo = updatedCombo;
+
+        const productIds = updatedCombo.products.map(
+          (product: { id: any }) => product.id
+        );
+
+        updateCombo(updatedCombo.id, productIds, updatedCombo.name);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <Paper
       sx={{
         width: "80%",
-        marginLeft: "10%"
+        marginLeft: "10%",
       }}
     >
       <div
@@ -104,7 +131,11 @@ const ComboTable = (props: any) => {
             justifyContent: "end",
           }}
         >
-          <Button onClick={handlePrint} variant="outlined" style={{ marginRight: 10 }}>
+          <Button
+            onClick={handlePrint}
+            variant="outlined"
+            style={{ marginRight: 10 }}
+          >
             <PrintIcon />
           </Button>
           <Button onClick={exportToCSV} variant="outlined">
@@ -143,7 +174,7 @@ const ComboTable = (props: any) => {
               {selectedCombo ? (
                 selectedCombo.products.map((product: any, index: number) => (
                   <TableRow
-                    key={product.id}
+                    key={`${product.id}-${index}`}
                     sx={{
                       backgroundColor: index % 2 === 0 ? "#f2f2f2" : "#ffffff",
                     }}
@@ -155,26 +186,16 @@ const ComboTable = (props: any) => {
                     </TableCell>
                     <TableCell align="center">
                       <Button
-                        // onClick={() => handleDelete(product.id)}
+                        onClick={() => handleDelete(product.id)}
                         color="error"
                       >
-                        <DeleteIcon style={{
-                          cursor: "pointer",
-                          marginRight: "10px",
-                          color: "red",
-                        }} />
-                      </Button>
-                      <Button
-                        onClick={() => {
-                          // setIsEditModalOpen(true);
-                          // setSelectedSupply(product);
-                        }}
-                      >
-                        <EditIcon style={{
-                          cursor: "pointer",
-                          marginRight: "10px",
-                          color: "bleu",
-                        }} />
+                        <DeleteIcon
+                          style={{
+                            cursor: "pointer",
+                            marginRight: "10px",
+                            color: "red",
+                          }}
+                        />
                       </Button>
                     </TableCell>
                   </TableRow>

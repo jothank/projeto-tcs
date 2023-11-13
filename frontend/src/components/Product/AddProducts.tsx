@@ -67,10 +67,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
         onClick={() => handleOpen("product")}
         sx={{ mr: 2 }}
       >
-        Add Product
-      </Button>
-      <Button variant="contained" onClick={() => handleOpen("revenda")}>
-        Add Revenda
+        Criar produto
       </Button>
 
       <Dialog open={open} onClose={() => setOpen(false)}>

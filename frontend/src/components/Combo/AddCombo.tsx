@@ -52,11 +52,11 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
 
       const combo = await updateCombo(selectedCombo.id, list, values.comboName);
 
-      getSuccess("Combo cadastrado com sucesso");      
-      setTimeout(() => {
-        setOpen(false);
+      getSuccess("Combo cadastrado com sucesso");  
+      setOpen(false);    
+      setTimeout(() => {        
         window.location.reload();
-      }, 1000);
+      }, 3000);
     } catch (error) {
       getErro("Erro ao cadastrar combo");
       setOpen(false);

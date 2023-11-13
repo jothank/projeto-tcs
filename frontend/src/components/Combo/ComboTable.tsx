@@ -200,15 +200,7 @@ const ComboTable = (props: any) => {
                             color: "red",
                           }}
                         />
-                      </Button>
-                      <Button>
-                        <EditIcon
-                          style={{
-                            cursor: "pointer",
-                            marginRight: "10px",
-                            color: "blue",
-                          }}/>
-                      </Button>
+                      </Button>                      
                     </TableCell>
                   </TableRow>
                 ))

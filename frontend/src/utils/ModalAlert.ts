@@ -16,7 +16,7 @@ export function getAddReload(message: string) {
   Swal.fire({
     icon: "success",
     title: "Sucesso!",
-    text: message,
+    text: "Item registrado com sucesso!",
     showConfirmButton: true,
     confirmButtonText: "OK",
     reverseButtons: true,

@@ -30,6 +30,7 @@ import { FeedstockType } from "types/Feedstock.type";
 import AddProduct from "./AddProduct";
 import Swal from "sweetalert2";
 import { getErro } from "utils/ModalAlert";
+import * as XLSX from 'xlsx';
 
 const ProductTable = ({ data }: ProductTableProps) => {
   const componentRef = useRef(null);
@@ -99,34 +100,23 @@ const ProductTable = ({ data }: ProductTableProps) => {
     fetchFeedstocks();
   }, []);
 
-  const handleExportToCSV = () => {
+  const handleExportToXLS = () => {
     if (selectedProduct) {
-      const header = "Insumo,Unidade de Fabricacao,Quantidade de uso,Unidade de aquisição,Valor de aquisicao,Valor unitario";
-
-      const csvData = selectedProduct.supplies
-        .map((product) => {
-          const row = [
-            product.feedstock.name,
-            product.unit,
-            product.quantity,
-            product.feedstock.unit,
-            formatToBRL(product.feedstock.price),
-            formatToBRL(product.price),
-          ];
-          return row.join(",");
-        })
-        .join("\n");
-
-      const BOM = "\uFEFF";
-      const csvContent = BOM + `${header}\n${csvData}`;
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "product_data.csv";
-      a.click();
+      const ws = XLSX.utils.json_to_sheet(selectedProduct.supplies.map(supply => ({
+        Insumo: supply.feedstock.name,
+        'Unidade de Fabricação': supply.unit,
+        'Quantidade de uso': supply.quantity,
+        'Unidade de aquisição': supply.feedstock.unit,
+        'Valor de aquisição': formatToBRL(supply.feedstock.price),
+        'Valor unitário': formatToBRL(supply.price)
+      })));
+  
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Supplies");
+  
+      XLSX.writeFile(wb, "product_data.xlsx");
     }
-  };
+  };  
 
   return (
     <Paper
@@ -168,7 +158,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
           <Button onClick={handlePrint} variant="outlined" sx={{ mr: 2 }}>
             <PrintIcon />
           </Button>
-          <Button onClick={handleExportToCSV} variant="outlined" >
+          <Button onClick={handleExportToXLS} variant="outlined">
             <CloudDownloadIcon />
           </Button>
         </Grid>

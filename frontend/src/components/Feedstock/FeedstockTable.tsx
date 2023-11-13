@@ -13,6 +13,8 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import PrintIcon from "@mui/icons-material/Print";
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import { FeedstockType } from "types/Feedstock.type";
 import EditFeedstock from "components/Feedstock/EditFeedstock";
 import { AddFeedstock } from "components/Feedstock/AddFeedstock";
@@ -124,17 +126,26 @@ export function FeedstockTable({ data }: CustomTableProps) {
         }}
       >
         <Grid container spacing={2} justifyContent="center" alignItems="center">
+          <AddFeedstock />
           <Select
             value={filter}
             onChange={handleFilterChange}
             displayEmpty
             inputProps={{ "aria-label": "Without label" }}
+            sx={{ width: "40%", mr: 2 }}
           >
             <MenuItem value="all">Todos os Itens</MenuItem>
             <MenuItem value="Feedstock">Insumos</MenuItem>
             <MenuItem value="ResaleItem">Itens para Revenda</MenuItem>
           </Select>
-          <AddFeedstock />
+          <Grid>
+            <Button onClick={handlePrint} variant="outlined" sx={{ mr: 2 }}>
+              <PrintIcon />
+            </Button>
+            <Button onClick={exportToExcel} variant="outlined">
+              <CloudDownloadIcon />
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
       <div ref={componentRef}>
@@ -186,7 +197,7 @@ export function FeedstockTable({ data }: CustomTableProps) {
                       </Button>
                       <EditFeedstock
                         item={item}
-                        onClose={() => {}}
+                        onClose={() => { }}
                         onUpdated={handleItemUpdated}
                       />
                     </Grid>

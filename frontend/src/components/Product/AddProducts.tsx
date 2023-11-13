@@ -55,6 +55,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
         supplies: idssupplies,
       });
       setOpen(false);
+      window.location.reload();
     } catch (error) {
       console.error("Failed to add product:", error);
     }
@@ -67,7 +68,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
         onClick={() => handleOpen("product")}
         sx={{ mr: 2 }}
       >
-        Criar produto
+        Adicionar Produto
       </Button>
 
       <Dialog open={open} onClose={() => setOpen(false)}>

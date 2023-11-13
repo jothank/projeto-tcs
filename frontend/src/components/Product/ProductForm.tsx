@@ -41,10 +41,10 @@ const ProductForm: React.FC<ProductFormProps> = ({
           />
           <DialogActions>
             <Button onClick={onCancel} color="primary">
-              Cancel
+              Cancelar
             </Button>
             <Button variant="contained" type="submit" color="primary">
-              Save
+              Salvar
             </Button>
           </DialogActions>
         </Form>

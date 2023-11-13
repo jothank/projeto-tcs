@@ -49,6 +49,7 @@ pip install --upgrade pip
 
 <pre>
 pip install -r requirements.txt
+python.exe -m pip install --upgrade pip
 </pre>
 
 <p>Faça as migrações do banco de dados:</p>

@@ -7,8 +7,8 @@ API V1: Combo Views
 from rest_framework import viewsets
 from app.combo.api.v1.serializers.combo.create import CreateComboSerializer
 from app.combo.api.v1.serializers.combo.default import DefaultComboSerializer
+from app.combo.api.v1.serializers.combo.update import UpdateComboSerializer
 from app.combo.models.combo import Combo
-from app.combo.models.combo_product import ComboProduct
 
 
 ###
@@ -24,14 +24,12 @@ class ComboViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         user = self.request.user
-        products = serializer.validated_data.pop('products')
-        combo = serializer.save(user=user)
-        for product in products:
-            ComboProduct.objects.create(
-                combo=combo, product=product, user=user)
+        serializer.save(user=user)
 
     def get_serializer_class(self):
         if self.action == 'create':
             return CreateComboSerializer
+        elif self.action in ['update', 'partial_update']:
+            return UpdateComboSerializer
         else:
             return DefaultComboSerializer

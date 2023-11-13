@@ -25,6 +25,8 @@ import { getAllProduct } from "services/product.service";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { updateCombo } from "services/combo.service";
+import * as XLSX from 'xlsx';
+import Swal from "sweetalert2";
 
 const ComboTable = (props: any) => {
   const { data } = props;
@@ -56,52 +58,68 @@ const ComboTable = (props: any) => {
     content: () => componentRef.current,
   });
 
-  const exportToCSV = () => {
-    const header = "Nome do produto,Unidade de Fabricação,Valor de aquisição";
-    const csvData = selectedCombo?.products
-      .map((product: any) => {
-        return `${product.name},Un,${product.price}`;
-      })
-      .join("\n");
+  const exportToXLS = () => {
+    if (selectedCombo) {
+      const ws = XLSX.utils.json_to_sheet(selectedCombo.products.map((product: any) => ({
+        'Nome do produto': product.name,
+        'Unidade de Fabricação': 'Un',
+        'Valor de aquisição': `R$ ${product.price}`,
+      })));
 
-    const BOM = "\uFEFF";
-    const csvContent = BOM + `${header}\n${csvData}`;
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "combo_data.csv";
-    a.click();
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Produtos");
+
+      XLSX.writeFile(wb, "combo_data.xlsx");
+    }
   };
 
-  async function handleDelete(productIdToRemove: number): Promise<void> {
-    try {
-      const index = selectedCombo.products.findIndex(
-        (product: { id: number }) => product.id === productIdToRemove
-      );
 
-      if (index !== -1) {
-        const newProducts = [
-          ...selectedCombo.products.slice(0, index),
-          ...selectedCombo.products.slice(index + 1),
-        ];
+  const handleDelete = async (productIdToRemove: number) => {
+    Swal.fire({
+      title: "Tem certeza de que deseja excluir este item?",
+      text: "Esta ação não pode ser desfeita!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sim, excluir!",
+      cancelButtonText: "Cancelar",
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const index = selectedCombo.products.findIndex(
+            (product: { id: number }) => product.id === productIdToRemove
+          );
 
-        const updatedCombo = { ...selectedCombo, products: newProducts };
-        selectedCombo = updatedCombo;
+          if (index !== -1) {
+            const newProducts = [
+              ...selectedCombo.products.slice(0, index),
+              ...selectedCombo.products.slice(index + 1),
+            ];
 
-        const productIds = updatedCombo.products.map(
-          (product: { id: any }) => product.id
-        );
+            const updatedCombo = { ...selectedCombo, products: newProducts };
+            selectedCombo = updatedCombo;
 
-        updateCombo(updatedCombo.id, productIds, updatedCombo.name);
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+            const productIds = updatedCombo.products.map(
+              (product: { id: any }) => product.id
+            );
+
+            await updateCombo(updatedCombo.id, productIds, updatedCombo.name);
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
+
+          Swal.fire("Excluído!", "O item foi excluído.", "success");
+        } catch (error) {
+          console.error(error);
+          Swal.fire("Erro!", "Ocorreu um erro ao excluir o item.", "error");
+        }
+      } else {
+        Swal.fire("Cancelado", "O item não foi excluído.", "error");
       }
-    } catch (error) {
-      console.error(error);
-    }
-  }
+    });
+  };
+
 
   return (
     <Paper
@@ -123,7 +141,7 @@ const ComboTable = (props: any) => {
           isOpen={isAddsModalProductOpen}
           onClose={() => setIsAddsModalProductOpen(false)}
           productsList={products}
-        />        
+        />
         <FormControl sx={{ width: "40%" }}>
           <InputLabel>Selecione o produto</InputLabel>
           <Select
@@ -143,7 +161,7 @@ const ComboTable = (props: any) => {
           <Button onClick={handlePrint} variant="outlined" sx={{ mr: 2 }}>
             <PrintIcon />
           </Button>
-          <Button onClick={exportToCSV} variant="outlined">
+          <Button onClick={exportToXLS} variant="outlined">
             <CloudDownloadIcon />
           </Button>
         </Grid>
@@ -200,7 +218,7 @@ const ComboTable = (props: any) => {
                             color: "red",
                           }}
                         />
-                      </Button>                      
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))

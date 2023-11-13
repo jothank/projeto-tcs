@@ -76,6 +76,7 @@ const AddProduct: React.FC<ProductFormProps> = ({
         price: updatePrice,
       });
       onClose();
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }

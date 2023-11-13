@@ -138,23 +138,12 @@ const ProductTable = ({ data }: ProductTableProps) => {
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "center",
+          alignItems: "center",
+          // justifyContent: "space-between",
           padding: 20,
         }}
       >
-        <Typography variant="h6" component="div">
-          {selectedProduct
-            ? selectedProduct.name
-            : "Nenhum produto selecionado"}
-        </Typography>
-        <Grid>
-          <Button onClick={handlePrint} variant="outlined" sx={{ mr: 2 }}>
-            <PrintIcon />
-          </Button>
-          <Button onClick={handleExportToCSV} variant="outlined">
-            <CloudDownloadIcon />
-          </Button>
-        </Grid>
         <AddProductModal
           isOpen={isAddModalOpen}
           onClose={() => setisAddModalOpen(false)}
@@ -166,7 +155,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
             value={selectedProductId || ""}
             onChange={(event) =>
               setSelectedProductId(event.target.value as number)
-            }
+            } sx={{ mr: 2 }}
           >
             {data.results.map((productItem) => (
               <MenuItem key={productItem.id} value={productItem.id}>
@@ -175,6 +164,28 @@ const ProductTable = ({ data }: ProductTableProps) => {
             ))}
           </Select>
         </FormControl>
+        <Grid >
+          <Button onClick={handlePrint} variant="outlined" sx={{ mr: 2 }}>
+            <PrintIcon />
+          </Button>
+          <Button onClick={handleExportToCSV} variant="outlined" >
+            <CloudDownloadIcon />
+          </Button>
+        </Grid>
+      </div>
+      <div style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontWeight: "bold",
+        fontSize: "30px",
+        padding: "20px"
+      }}>
+        <Typography variant="h6" component="div">
+          {selectedProduct
+            ? selectedProduct.name
+            : "Nenhum produto selecionado"}
+        </Typography>
       </div>
       <div ref={componentRef}>
         <TableContainer>
@@ -233,7 +244,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
                         <EditIcon style={{
                           cursor: "pointer",
                           marginRight: "10px",
-                          color: "bleu",
+                          color: "blue"
                         }} />
                       </Button>
                     </TableCell>
@@ -259,13 +270,13 @@ const ProductTable = ({ data }: ProductTableProps) => {
               Preço Total: {formatToBRL(selectedProduct.price)}
             </Typography>
             <Grid>
-            <Button variant="contained"
-              onClick={() => {
-                setIsAddProductOpen(true);
-              }} 
-            >
-              Adicionar Itens
-            </Button>
+              <Button variant="contained"
+                onClick={() => {
+                  setIsAddProductOpen(true);
+                }} sx={{ margin: "20px" }}
+              >
+                Adicionar Itens
+              </Button>
             </Grid>
           </>
         )}

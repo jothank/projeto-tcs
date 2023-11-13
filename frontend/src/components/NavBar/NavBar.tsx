@@ -9,15 +9,26 @@ const NavBar: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const menuItems = [
     { text: "Home", href: "/home", title: "Bem-vindo ao GastroCustos" },
-    // { text: "Empresa", href: "/company", title: "Empresa" },
     { text: "Insumos", href: "/feed-stock", title: "Insumos" },
     { text: "Produto", href: "/product", title: "Produtos" },
     { text: "Combo", href: "/combo", title: "Combos" },
-    { text: "Gastos Fixos", href: "/fixed-expense", title: "Gastos Fixos" },
-    { text: "Simulador de Precificação", href: "/pricing", title: "Simulador de precificação" },
+    {
+      text: "Gastos Fixos",
+      href: "/fixed-expense",
+      title: "Gastos Fixos",
+      subItems: [
+        { text: "Cadastrar Gastos Fixos", href: "/fixed-expense/add" },
+        { text: "Visualizar Gastos Fixos", href: "/fixed-expense/view" },
+      ],
+    },
+    {
+      text: "Simulador de Precificação",
+      href: "/pricing",
+      title: "Simulador de precificação",
+    },
     { text: "Ficha técnica", href: "/datasheet", title: "Ficha técnica" },
-    
   ];
+
   const currentPath = new URL(window.location.href).pathname;
   const matchedItem = menuItems.find((item) => currentPath === item.href);
   const pageTitle = matchedItem?.title || "Página não encontrada";

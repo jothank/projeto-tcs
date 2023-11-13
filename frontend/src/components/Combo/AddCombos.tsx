@@ -58,7 +58,7 @@ const AddProductsModal: React.FC<AddProductModalProps> = ({
   return (
     <Grid>
       <Button variant="contained" onClick={handleOpen} sx={{ mr: 2 }}>
-        Add Combo
+        Criar Combo
       </Button>
 
       <Dialog open={open} onClose={onClose}>

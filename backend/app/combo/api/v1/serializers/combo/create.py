@@ -5,9 +5,6 @@ API V1: Combo Serializers
 # Libs
 ###
 from rest_framework import serializers
-###
-# Libs
-###
 from app.combo.models.combo import Combo
 from app.product.models.product import Product
 

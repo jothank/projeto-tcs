@@ -124,7 +124,7 @@ const EditDialog: React.FC<EditDialogProps> = ({
                 <Button onClick={() => onClose()} color="primary">
                   Cancelar
                 </Button>
-                <Button type="submit" color="primary">
+                <Button type="submit" color="primary" variant="contained">
                   Salvar
                 </Button>
               </DialogActions>

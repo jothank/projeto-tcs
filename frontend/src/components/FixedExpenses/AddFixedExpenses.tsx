@@ -1,9 +1,19 @@
 import React from "react";
-import { Formik, Form } from "formik";
+import { Formik, Form, FieldArray } from "formik";
 import * as Yup from "yup";
-import { Button, FormControl, Grid } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  IconButton,
+} from "@mui/material";
 import { FormInput } from "components/FormGroup";
 import { v4 as uuidv4 } from "uuid";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 export interface CostType {
   id?: string;
@@ -13,67 +23,111 @@ export interface CostType {
 }
 
 export interface AddFixedExpensesProps {
+  open: boolean;
+  onClose: () => void;
   onCostsUpdate: (newCosts: CostType[]) => void;
 }
 
+const validationSchema = Yup.object().shape({
+  costs: Yup.array()
+    .of(
+      Yup.object().shape({
+        name: Yup.string().required("Campo obrigatório"),
+        description: Yup.string(),
+        price: Yup.number()
+          .typeError("Deve ser um número")
+          .required("Campo obrigatório")
+          .positive("Deve ser um valor positivo"),
+      })
+    )
+    .required("É necessário pelo menos um custo"),
+});
+
 const AddFixedExpenses: React.FC<AddFixedExpensesProps> = ({
   onCostsUpdate,
+  open,
+  onClose,
 }) => {
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Campo obrigatório"),
-    price: Yup.number()
-      .typeError("Deve ser um número")
-      .required("Campo obrigatório")
-      .positive("Deve ser um valor positivo"),
-  });
+  const initialValues = {
+    costs: [{ name: "", description: "", price: 0 }],
+  };
 
-  const [costs, setCosts] = React.useState<CostType[]>([]);
+  interface FormValues {
+    costs: CostType[];
+  }
 
-  const handleSubmit = (values: CostType) => {
-    const newItem = { ...values, id: uuidv4() };
-
-    setCosts((prevCosts) => [...prevCosts, newItem]);
-    onCostsUpdate([...costs, newItem]);
+  const handleSubmit = (values: FormValues) => {
+    const newCosts = values.costs.map((cost: CostType) => ({
+      ...cost,
+      id: uuidv4(),
+    }));
+    onCostsUpdate(newCosts);
+    onClose();
   };
 
   return (
-    <Formik
-      initialValues={{
-        nameExpense: "",
-        name: "",
-        description: "",
-        date: "",
-        price: 0,
-      }}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
-      {() => (
-        <Form>
-          <Grid style={{ width: "50%" }}>
-            <Grid
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-              }}
-            >
-              <FormControl fullWidth>
-                <FormInput name="name" label="Despesa" type="text" />
-                <Grid
-                  sx={{ display: "flex", flexDirection: "row", gap: "20px" }}
-                >
-                  <FormInput name="description" label="Descrição" type="text" />
-                  <FormInput name="price" label="Valor" type="number" />
-                  <Button type="submit" variant="contained">
-                    Salvar gasto
-                  </Button>
-                </Grid>
-              </FormControl>
-            </Grid>
-          </Grid>
-        </Form>
-      )}
-    </Formik>
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>Adicionar itens</DialogTitle>
+      <DialogContent>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ values }) => (
+            <Form>
+              <FieldArray name="costs">
+                {({ remove, push }) => (
+                  <div>
+                    {values.costs.length > 0 &&
+                      values.costs.map((cost, index) => (
+                        <div key={index}>
+                          <FormControl fullWidth>
+                            <FormInput
+                              name={`costs.${index}.name`}
+                              label="Despesa"
+                              type="text"
+                            />
+                            <FormInput
+                              name={`costs.${index}.description`}
+                              label="Descrição"
+                              type="text"
+                            />
+                            <FormInput
+                              name={`costs.${index}.price`}
+                              label="Valor"
+                              type="number"
+                            />
+                            <IconButton onClick={() => remove(index)}>
+                              <RemoveIcon sx={{ color: "red" }} />
+                            </IconButton>
+                          </FormControl>
+                        </div>
+                      ))}
+                    <IconButton
+                      type="button"
+                      onClick={() =>
+                        push({ name: "", description: "", price: 0 })
+                      }
+                    >
+                      <AddIcon />
+                    </IconButton>
+                  </div>
+                )}
+              </FieldArray>
+              <DialogActions>
+                <Button onClick={onClose} color="primary">
+                  Cancelar
+                </Button>
+                <Button variant="contained" type="submit" color="primary">
+                  Salvar
+                </Button>
+              </DialogActions>
+            </Form>
+          )}
+        </Formik>
+      </DialogContent>
+    </Dialog>
   );
 };
 

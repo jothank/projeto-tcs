@@ -24,8 +24,8 @@ import AddProductModal from "./AddCombo";
 import { getAllProduct } from "services/product.service";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { updateCombo } from "services/combo.service";
-import * as XLSX from 'xlsx';
+import { deleteCombo, updateCombo } from "services/combo.service";
+import * as XLSX from "xlsx";
 import Swal from "sweetalert2";
 
 const ComboTable = (props: any) => {
@@ -60,11 +60,13 @@ const ComboTable = (props: any) => {
 
   const exportToXLS = () => {
     if (selectedCombo) {
-      const ws = XLSX.utils.json_to_sheet(selectedCombo.products.map((product: any) => ({
-        'Nome do produto': product.name,
-        'Unidade de Fabricação': 'Un',
-        'Valor de aquisição': `R$ ${product.price}`,
-      })));
+      const ws = XLSX.utils.json_to_sheet(
+        selectedCombo.products.map((product: any) => ({
+          "Nome do produto": product.name,
+          "Unidade de Fabricação": "Un",
+          "Valor de aquisição": `R$ ${product.price}`,
+        }))
+      );
 
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Produtos");
@@ -72,7 +74,6 @@ const ComboTable = (props: any) => {
       XLSX.writeFile(wb, "combo_data.xlsx");
     }
   };
-
 
   const handleDelete = async (productIdToRemove: number) => {
     Swal.fire({
@@ -120,6 +121,29 @@ const ComboTable = (props: any) => {
     });
   };
 
+  const handleDeleteCombo = async (id: number) => {
+    Swal.fire({
+      title: "Tem certeza de que deseja excluir este item?",
+      text: "Esta ação não pode ser desfeita!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sim, excluir!",
+      cancelButtonText: "Cancelar",
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await deleteCombo(id);
+          window.location.reload();
+        } catch (error) {
+          console.error(error);
+          Swal.fire("Erro!", "Ocorreu um erro ao excluir o item.", "error");
+        }
+      } else {
+        Swal.fire("Cancelado", "O item não foi excluído.", "error");
+      }
+    });
+  };
 
   return (
     <Paper
@@ -148,7 +172,8 @@ const ComboTable = (props: any) => {
             value={selectedComboId || ""}
             onChange={(event) =>
               setSelectedComboId(event.target.value as number)
-            } sx={{ mr: 2 }}
+            }
+            sx={{ mr: 2 }}
           >
             {data.map((productItem: any) => (
               <MenuItem key={productItem.id} value={productItem.id}>
@@ -157,28 +182,39 @@ const ComboTable = (props: any) => {
             ))}
           </Select>
         </FormControl>
-        <Grid >
+        <Grid>
           <Button onClick={handlePrint} variant="outlined" sx={{ mr: 2 }}>
             <PrintIcon />
           </Button>
           <Button onClick={exportToXLS} variant="outlined">
             <CloudDownloadIcon />
           </Button>
+          {selectedCombo && selectedCombo.id && (
+            <Button
+              onClick={() => handleDeleteCombo(selectedCombo.id)}
+              color="error"
+            >
+              <DeleteIcon
+                style={{ cursor: "pointer", marginRight: "10px", color: "red" }}
+              />
+            </Button>
+          )}
         </Grid>
       </div>
-      <div style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        fontWeight: "bold",
-        fontSize: "30px",
-        padding: "20px"
-      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontWeight: "bold",
+          fontSize: "30px",
+          padding: "20px",
+        }}
+      >
         <Grid>
           <Typography variant="h6" component="div">
             {selectedCombo ? selectedCombo.name : "Nenhum Combo selecionado"}
           </Typography>
-
         </Grid>
       </div>
       <div ref={componentRef}>

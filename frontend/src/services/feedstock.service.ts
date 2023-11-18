@@ -25,7 +25,7 @@ export const setfeedstock = async (
     );
     return response.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 
@@ -53,7 +53,7 @@ export const updatefeedstock = async (
     );
     return response.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 
@@ -64,7 +64,7 @@ export const deletefeedstock = async (id: number) => {
     });
     return response.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 

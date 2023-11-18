@@ -58,12 +58,13 @@ export const updateCombo = async (
   }
 };
 
-export const getComboById = async (comboId: number): Promise<Combo | null> => {
+
+export const deleteCombo = async (comboId: number) => {
   try {
-    const response = await axios.get(BASE_URL + `combo/${comboId}`, {
+    const response = await axios.delete(BASE_URL + `combo/${comboId}/`, {
       headers: await getAuthorizationHeader(),
     });
-    return response.data as Combo;
+    return response.data;
   } catch (error) {
     throw error;
   }

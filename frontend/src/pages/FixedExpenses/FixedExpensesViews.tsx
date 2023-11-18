@@ -5,15 +5,12 @@ import AddFixedExpenses from "components/FixedExpenses/AddFixedExpenses";
 import FixedExpensesTable from "components/FixedExpenses/FixedExpensesTable";
 import Container from "@mui/material/Container";
 import { getFixedExpense } from "services/fixedexpense.service";
-import FixedExpensesTableView, {
-  FixedExpenseType,
-} from "components/FixedExpenses/FixedExpensesView";
+import FixedExpensesTableView from "components/FixedExpenses/FixedExpensesView";
 
 export const FixedExpenseView = () => {
-
   return (
     <Container>
-      <FixedExpensesTableView  />
+      <FixedExpensesTableView />
     </Container>
   );
 };

@@ -12,7 +12,7 @@ export const getUser = async () => {
     );
     return response.data;
   } catch (error: any) {
-    throw new Error(error);
+    throw error;
   }
 };
 
@@ -21,7 +21,7 @@ export const updateUser = async (data: User) => {
     const response = await axios.patch(
       BASE_URL + "accounts/user/",
       {
-        username : data.username,
+        username: data.username,
         first_name: data.firstName,
         last_name: data.lastName,
       },
@@ -31,7 +31,7 @@ export const updateUser = async (data: User) => {
     );
     return response.data;
   } catch (error: any) {
-    throw new Error(error);
+    throw error;
   }
 };
 
@@ -50,6 +50,6 @@ export const updatePassword = async (data: any) => {
     );
     return response.data;
   } catch (error: any) {
-    throw new Error(error);
+    throw error;
   }
 };

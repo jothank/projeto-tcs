@@ -41,7 +41,7 @@ export const setSupply = async (
     });
     return response.data.supplies;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 
@@ -65,7 +65,7 @@ export const updateSupply = async (
     );
     return response.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 
@@ -76,7 +76,7 @@ export const deleteSupply = async (id: number) => {
     });
     return response.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 

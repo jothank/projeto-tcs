@@ -29,7 +29,7 @@ export const setProduct = async ({
     );
     return response.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 
@@ -58,7 +58,7 @@ export const updateProduct = async ({
     );
     return response.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 
@@ -69,7 +69,7 @@ export const getProduct = async (id: number) => {
     });
     return response.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 
@@ -80,6 +80,6 @@ export const getAllProduct = async () => {
     });
     return response.data.results;
   } catch (error) {
-    return error;
+    throw error;
   }
 };

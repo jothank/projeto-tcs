@@ -21,7 +21,7 @@ export const setResaleItem = async (
     );
     return response.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 
@@ -45,7 +45,7 @@ export const updateResealeItem = async (
     );
     return response.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 
@@ -56,7 +56,7 @@ export const deleteReleaseItem = async (id: number) => {
     });
     return response.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 

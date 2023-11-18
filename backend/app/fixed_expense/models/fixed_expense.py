@@ -18,7 +18,6 @@ class FixedExpense(models.Model):
     name = models.CharField(
         max_length=255,
         verbose_name=_('Name'),
-        help_text=_('Name'),
     )
     total_price = models.FloatField(
         verbose_name=_('Total Price'),
@@ -31,9 +30,12 @@ class FixedExpense(models.Model):
     )
     description = models.TextField(
         verbose_name=_('Description'),
-        help_text=_('Description'),
         blank=True,
         null=True,
+    )
+    type = models.CharField(
+        max_length=255,
+        verbose_name=_('Type'),
     )
 
     user = models.ForeignKey(

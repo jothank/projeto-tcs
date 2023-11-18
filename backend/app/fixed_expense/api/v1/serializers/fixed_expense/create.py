@@ -33,4 +33,4 @@ class CreateFixedExpenseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FixedExpense
-        fields = ["costs", 'date', 'name', 'total_price', 'description',]
+        fields = ["costs", 'date', 'name', 'total_price', 'description', 'type',]

@@ -15,5 +15,17 @@ from app.pricing.api.v1.serializers.pricing.default import DefaultPricingSeriali
 
 
 class PricingViewSet(viewsets.ModelViewSet):
-    queryset = Pricing.objects.all()
-    serializer_class = DefaultPricingSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return user.pricing_set.all()
+        else:
+            return Pricing.objects.none()
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(user=user)
+
+    def get_serializer_class(self):
+        return DefaultPricingSerializer

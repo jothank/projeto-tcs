@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import styles from './Sidebar.module.css';
+import Logosemfundo from '../../../assets/Logo sem fundo.png';
 
 interface SubItem {
   text: string;
@@ -62,7 +63,7 @@ const CustomDrawer: React.FC<DrawerProps> = ({
           <MenuIcon />
         </IconButton>
         <div style={{ marginBottom: '16px' }}>
-          <img src={logo} alt="Logo" width="100" />
+          <img src={Logosemfundo} alt="Logo" width="100%" />
         </div>
         {menuItems.map((item, index) => (
           <React.Fragment key={index}>

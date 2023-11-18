@@ -13,8 +13,8 @@ export const saveCosts = async (costs: any) => {
     );
 
     return response.data;
-  } catch (error) {
-    return error;
+  } catch (error: any) {
+    throw new error;
   }
 };
 

@@ -27,32 +27,32 @@ const StyledPaper = styled(Paper)({
 });
 
 
-const IconeClicavel = ({ icone, texto, onClick }: { icone: React.ReactNode, texto: string, onClick: () => void }) => (
+const ClickableIcon = ({ icon, text, onClick }: { icon: React.ReactNode, text: string, onClick: () => void }) => (
   <Button onClick={onClick} style={{ display: "flex", alignItems: "center" }}>
-    {icone}
+    {icon}
     <Typography variant="body1" style={{ marginLeft: 8 }}>
-      {texto}
+      {text}
     </Typography>
   </Button>
 );
 
 export default function Home() {
-  const [modalAberto, setModalAberto] = useState(false);
-  const [conteudoModal, setConteudoModal] = useState({ titulo: "", conteudo: "" });
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState({ title: "", content: "" });
 
-  const abrirModal = (titulo: any, conteudo: any) => {
-    setConteudoModal({ titulo, conteudo });
-    setModalAberto(true);
+  const openModal = (title: any, content: any) => {
+    setModalContent({ title, content });
+    setModalOpen(true);
   };
 
-  const fecharModal = () => {
-    setModalAberto(false);
+  const closeModal = () => {
+    setModalOpen(false);
   };
 
   return (
     <StyledPaper>
-       <Avatar alt="Logo" src={LogoSemFundo} style={{ width: 380, height: 150, marginBottom: 0 }} />
-      <Typography variant="h4">
+       <Avatar alt="Logo" src={LogoSemFundo} style={{ width: "100%", height: "auto", marginBottom: 16 }} />
+      <Typography variant="h4" style={{ marginBottom: "1rem" }}>
       Revolucionando a Gestão Financeira na Gastronomia com Tecnologia de Ponta
       </Typography>
       
@@ -71,21 +71,22 @@ export default function Home() {
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <Typography variant="h5">
-            <IconeClicavel
-              icone={<FlashOnIcon />}
-              texto="Missão"
-              onClick={() => abrirModal("Missão", "Impulsionar a máxima eficiência financeira em estabelecimentos gastronômicos por meio da aplicação de tecnologias inovadoras, promovendo a excelência operacional e a adaptação contínua.")}
+            <ClickableIcon
+              icon={<FlashOnIcon />}
+              text="Missão"
+              onClick={() => openModal("Missão", "Impulsionar a máxima eficiência financeira em estabelecimentos gastronômicos por meio da aplicação de tecnologias inovadoras, promovendo a excelência operacional e a adaptação contínua.")}
             />
           </Typography>
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Typography variant="h5">
-            <IconeClicavel
-              icone={<TrendingUpIcon />}
-              texto="Valores"
-              onClick={() => abrirModal("Valores", (
+          <Typography variant="h5" >
+            <ClickableIcon
+              icon={<TrendingUpIcon />}
+              text="Valores"
+              onClick={() => openModal("Valores", (
                 <>
+                <Typography variant="body1" style={{ textAlign: 'justify' }}>
                   <ListItem>
                     <ListItemText primary="Compromisso com a excelência impulsionada por dados e análises avançadas." />
                   </ListItem>
@@ -98,6 +99,7 @@ export default function Home() {
                   <ListItem>
                     <ListItemText primary="Empatia tecnológica ao compreender os desafios específicos enfrentados pelos nossos clientes na era digital." />
                   </ListItem>
+                </Typography>
                 </>
               ))}
             />
@@ -105,13 +107,13 @@ export default function Home() {
         </Grid>
       </Grid>
 
-      <Dialog open={modalAberto} onClose={fecharModal}>
-        <DialogTitle>{conteudoModal.titulo}</DialogTitle>
+      <Dialog open={modalOpen} onClose={closeModal}>
+        <DialogTitle>{modalContent.title}</DialogTitle>
         <DialogContent>
-          <Typography variant="body1">{conteudoModal.conteudo}</Typography>
+          <Typography variant="body1" style={{ textAlign: 'justify' }}>{modalContent.content}</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={fecharModal}>Fechar</Button>
+          <Button onClick={closeModal}>Fechar</Button>
         </DialogActions>
       </Dialog>
     </StyledPaper>

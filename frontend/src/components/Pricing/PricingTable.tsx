@@ -39,7 +39,7 @@ function PricingSimulator() {
       marginLeft: "5%"
     }}
     >
-      <Button onClick={toggleSimulator} variant='outlined'>
+      <Button onClick={toggleSimulator} variant='contained'>
         {isProductSimulatorVisible ? ' Simulador de Produtos' : 'Simulador de Combos'}
       </Button>
       {isProductSimulatorVisible ? <AddProductPricing data={supplies.data} /> : <AddComboPricing />}

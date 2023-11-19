@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogActions,
   IconButton,
+  Grid
 } from "@mui/material";
 import { FormInput } from "components/FormGroup";
 import { v4 as uuidv4 } from "uuid";
@@ -81,37 +82,45 @@ const AddCosts: React.FC<AddFixedExpensesProps> = ({
                   <div>
                     {values.costs.length > 0 &&
                       values.costs.map((cost, index) => (
-                        <div key={index}>
-                          <FormControl fullWidth>
-                            <FormInput
-                              name={`costs.${index}.name`}
-                              label="Despesa"
-                              type="text"
-                            />
-                            <FormInput
-                              name={`costs.${index}.description`}
-                              label="Descrição"
-                              type="text"
-                            />
-                            <FormInput
-                              name={`costs.${index}.price`}
-                              label="Valor"
-                              type="number"
-                            />
-                            <IconButton onClick={() => remove(index)}>
-                              <RemoveIcon sx={{ color: "red" }} />
-                            </IconButton>
-                          </FormControl>
-                        </div>
+                        <Grid container spacing={2} key={index}>
+                          <Grid item xs={12}>
+                            <FormControl fullWidth>
+                              <FormInput
+                                name={`costs.${index}.name`}
+                                label="Despesa"
+                                type="text"
+                              />
+                              <FormInput
+                                name={`costs.${index}.description`}
+                                label="Descrição"
+                                type="text"
+                              />
+                              <FormInput
+                                name={`costs.${index}.price`}
+                                label="Valor"
+                                type="number"
+                              />
+                            </FormControl>
+                          </Grid>
+                        </Grid>
                       ))}
-                    <IconButton
-                      type="button"
-                      onClick={() =>
-                        push({ name: "", description: "", price: 0 })
-                      }
-                    >
-                      <AddIcon />
-                    </IconButton>
+                    <Grid container spacing={2}>
+                      <Grid item xs={6} style={{ textAlign: "right" }}>
+                        <IconButton
+                          type="button"
+                          onClick={() => push({ name: "", description: "", price: 0 })}
+                        >
+                          <AddIcon />
+                        </IconButton>
+                      </Grid>
+                      {values.costs.length > 0 && (
+                        <Grid item xs={6} style={{ textAlign: "left" }}>
+                          <IconButton onClick={() => remove(values.costs.length - 1)}>
+                            <RemoveIcon sx={{ color: "red" }} />
+                          </IconButton>
+                        </Grid>
+                      )}
+                    </Grid>
                   </div>
                 )}
               </FieldArray>

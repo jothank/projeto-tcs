@@ -64,9 +64,6 @@ export const AddProductPricing = ({ data }: ProductTableProps) => {
 
       setSuggestedPrice(suggestedPrice);
 
-      console.log('Valor de suggestedPrice antes do cálculo:', productionCost / taxMultiplier);
-      console.log('Valor de suggestedPrice após cálculo:', suggestedPrice);
-      console.log('Valor de suggestedPrice após formatação:', formatToBRL(Number(suggestedPrice)));
       const pricingData = {
         product: selectedProduct.id || 0,
         tax: priceInfo.tax,

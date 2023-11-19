@@ -1,134 +1,83 @@
 import React from "react";
-import { Formik, Form, FieldArray } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import {
   Button,
   FormControl,
+  Grid,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  IconButton,
 } from "@mui/material";
 import { FormInput } from "components/FormGroup";
-import { v4 as uuidv4 } from "uuid";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-
-export interface CostType {
-  id?: string;
-  name: string;
-  description: string;
-  price: number;
-}
+import { FixedExpenseType } from "./FixedExpensesView";
+import { FormInputDate } from "./FixedExpenseInput";
 
 export interface AddFixedExpensesProps {
+  onFixedExpensesUpdate: (newFixedExpenses: FixedExpenseType) => void;
+  fixedExpenses: FixedExpenseType;
   open: boolean;
   onClose: () => void;
-  onCostsUpdate: (newCosts: CostType[]) => void;
 }
 
-const validationSchema = Yup.object().shape({
-  costs: Yup.array()
-    .of(
-      Yup.object().shape({
-        name: Yup.string().required("Campo obrigatório"),
-        description: Yup.string(),
-        price: Yup.number()
-          .typeError("Deve ser um número")
-          .required("Campo obrigatório")
-          .positive("Deve ser um valor positivo"),
-      })
-    )
-    .required("É necessário pelo menos um custo"),
-});
-
-const AddFixedExpenses: React.FC<AddFixedExpensesProps> = ({
-  onCostsUpdate,
+const ModalAddFixedExpenses: React.FC<AddFixedExpensesProps> = ({
+  onFixedExpensesUpdate,
+  fixedExpenses,
   open,
   onClose,
 }) => {
-  const initialValues = {
-    costs: [{ name: "", description: "", price: 0 }],
-  };
+  const validationSchema = Yup.object().shape({
+    date: Yup.date().required("Campo obrigatório"),
+    total_price: Yup.number()
+      .typeError("Deve ser um número")
+      .required("Campo obrigatório")
+      .positive("Deve ser um valor positivo"),
+  });
 
-  interface FormValues {
-    costs: CostType[];
-  }
-
-  const handleSubmit = (values: FormValues) => {
-    const newCosts = values.costs.map((cost: CostType) => ({
-      ...cost,
-      id: uuidv4(),
-    }));
-    onCostsUpdate(newCosts);
+  const handleSubmit = (values: FixedExpenseType) => {
+    onFixedExpensesUpdate(values);
     onClose();
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Adicionar itens</DialogTitle>
-      <DialogContent>
+    <>
+      <Dialog open={open} onClose={onClose}>
+        <DialogTitle>Adicionar Despesa</DialogTitle>
         <Formik
-          initialValues={initialValues}
+          initialValues={{
+            id: fixedExpenses.id,
+            name: fixedExpenses.name,
+            costs: fixedExpenses.costs,
+            type: fixedExpenses.type,
+            description: fixedExpenses.description || "",
+            date: fixedExpenses.date,
+            total_price: fixedExpenses.total_price,
+          }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {({ values }) => (
+          {() => (
             <Form>
-              <FieldArray name="costs">
-                {({ remove, push }) => (
-                  <div>
-                    {values.costs.length > 0 &&
-                      values.costs.map((cost, index) => (
-                        <div key={index}>
-                          <FormControl fullWidth>
-                            <FormInput
-                              name={`costs.${index}.name`}
-                              label="Despesa"
-                              type="text"
-                            />
-                            <FormInput
-                              name={`costs.${index}.description`}
-                              label="Descrição"
-                              type="text"
-                            />
-                            <FormInput
-                              name={`costs.${index}.price`}
-                              label="Valor"
-                              type="number"
-                            />
-                            <IconButton onClick={() => remove(index)}>
-                              <RemoveIcon sx={{ color: "red" }} />
-                            </IconButton>
-                          </FormControl>
-                        </div>
-                      ))}
-                    <IconButton
-                      type="button"
-                      onClick={() =>
-                        push({ name: "", description: "", price: 0 })
-                      }
-                    >
-                      <AddIcon />
-                    </IconButton>
-                  </div>
-                )}
-              </FieldArray>
+              <DialogContent>
+                <FormControl fullWidth>
+                  <FormInput name="description" label="Descrição" type="text" />
+                  <FormInputDate name="date" label="data" type="date" />
+                  <FormInput name="total_price" label="Valor" type="number" />
+                </FormControl>
+              </DialogContent>
               <DialogActions>
-                <Button onClick={onClose} color="primary">
-                  Cancelar
-                </Button>
-                <Button variant="contained" type="submit" color="primary">
-                  Salvar
+                <Button onClick={onClose}>Cancelar</Button>
+                <Button type="submit" variant="contained">
+                  Salvar Gasto
                 </Button>
               </DialogActions>
             </Form>
           )}
         </Formik>
-      </DialogContent>
-    </Dialog>
+      </Dialog>
+    </>
   );
 };
 
-export default AddFixedExpenses;
+export default ModalAddFixedExpenses;

@@ -99,6 +99,28 @@ export const updateFixedExpense = async (fixedExpense: any, ids: any) => {
   }
 };
 
+export const updateFixedExpenseManual = async (fixedExpense: any) => {
+  try {
+    const response = await axios.put(
+      BASE_URL + `fixed_expense/${fixedExpense.id}/`,
+      {
+        name: fixedExpense.name,
+        date: fixedExpense.date,
+        type: fixedExpense.type,
+        description: fixedExpense.description,
+        total_price: fixedExpense.total_price,
+        costs: [],
+      },
+      {
+        headers: await getAuthorizationHeader(),
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const deleteFixedExpense = async (id: any) => {
   try {
     const response = await axios.delete(BASE_URL + `fixed_expense/${id}/`, {

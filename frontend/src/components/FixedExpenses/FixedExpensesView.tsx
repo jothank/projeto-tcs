@@ -6,7 +6,6 @@ import {
   TableHead,
   TableRow,
   Button,
-  Typography,
   TableContainer,
   FormControl,
   InputLabel,
@@ -15,8 +14,9 @@ import {
   Box,
   Paper,
   Grid,
+  Typography,
 } from "@mui/material";
-import { CostType } from "./AddFixedExpenses";
+import { CostType } from "./AddCosts";
 import {
   deleteCost,
   deleteFixedExpense,
@@ -24,12 +24,16 @@ import {
   saveCosts,
   updateCost,
   updateFixedExpense,
+  updateFixedExpenseManual,
 } from "services/fixedexpense.service";
 import { formatToBRL } from "utils/pricing";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import EditFixedExpenses from "./ModalEdit";
-import ModalAddFixedExpenses from "./ModalAddFixedExpenses";
+import ModalAddCosts from "./ModalAddCosts";
+import ModalAddFixedExpenses from "./AddFixedExpenses";
+import { getErro, getSuccess } from "utils/ModalAlert";
+import { formatDate } from "utils/date";
 
 export interface FixedExpenseType {
   id?: string;
@@ -44,6 +48,7 @@ export interface FixedExpenseType {
 const FixedExpensesTableView = () => {
   const [fixedExpenses, setFixedExpenses] = useState<FixedExpenseType[]>([]);
   const [openEdit, setOpenEdit] = React.useState(false);
+  const [openAddFixedExpense, setOpenAddFixedExpense] = React.useState(false);
   const [currentCost, setCurrentCost] = React.useState<CostType | null>(null);
 
   const [selectedFixedExpense, setSelectedFixedExpense] =
@@ -127,8 +132,8 @@ const FixedExpensesTableView = () => {
       const response = await deleteFixedExpense(fixedExpenseId);
       window.location.reload();
     } catch (error) {}
-  };  
-  
+  };
+
   const handleEditFixedExpense = async (fixedExpenseId: string) => {
     try {
       const response = await deleteFixedExpense(fixedExpenseId);
@@ -157,11 +162,21 @@ const FixedExpensesTableView = () => {
     }
   }
 
+  async function handleFixedExpensesUpdate(values: FixedExpenseType) {
+    try {
+      const response = await updateFixedExpenseManual(values);
+      setSelectedFixedExpense(values);
+      getSuccess("Despesa fixa atualizada com sucesso!");
+    } catch (error) {
+      getErro("Erro ao atualizar despesa fixa!");
+    }
+  }
+
   return (
     <>
       <FormControl fullWidth margin="normal">
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={4}>
             <InputLabel>Selecione a despesa</InputLabel>
             <Select
               fullWidth
@@ -192,21 +207,36 @@ const FixedExpensesTableView = () => {
                   }
                   startIcon={<DeleteIcon />}
                 />
-              </Grid> 
-              <Grid item>
-                <Button
-                  fullWidth
-                  color="primary"
-                  onClick={() =>
-                    handleEditFixedExpense(selectedFixedExpense.id || "")
-                  }
-                  startIcon={<EditIcon />}
-                />
+              </Grid>
+              {selectedFixedExpense?.type === "manual" && (
+                <Grid item>
+                  <Button
+                    fullWidth
+                    color="primary"
+                    onClick={() => setOpenAddFixedExpense(!openAddFixedExpense)}
+                    startIcon={<EditIcon />}
+                  />
+                </Grid>
+              )}
+            </>
+          )}
+          {selectedFixedExpense && (
+            <>
+              <Grid item xs={12}>
+                <Typography>
+                  Descrição: {selectedFixedExpense.description}
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>
+                  Data: {formatDate(selectedFixedExpense.date)}
+                </Typography>
               </Grid>
             </>
           )}
         </Grid>
       </FormControl>
+
       <TableContainer component={Paper} elevation={3}>
         <Table>
           <TableHead>
@@ -242,18 +272,25 @@ const FixedExpensesTableView = () => {
                 </TableCell>
               </TableRow>
             ))}
-            {!selectedFixedExpense?.costs.length && (
+            {!selectedFixedExpense ? (
               <TableRow>
                 <TableCell colSpan={4} align="center">
                   Nenhuma despesa selecionada
                 </TableCell>
               </TableRow>
-            )}
+            ) : !selectedFixedExpense.costs ||
+              selectedFixedExpense.costs.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={4} align="center">
+                  Nenhuma despesa cadastrada
+                </TableCell>
+              </TableRow>
+            ) : null}
           </TableBody>
         </Table>
       </TableContainer>
       {selectedFixedExpense?.type === "automatic" && (
-        <ModalAddFixedExpenses onCostsUpdate={handleCostsUpdate} />
+        <ModalAddCosts onCostsUpdate={handleCostsUpdate} />
       )}
 
       {selectedFixedExpense && (
@@ -269,6 +306,14 @@ const FixedExpensesTableView = () => {
         onClose={() => setOpenEdit(false)}
         onUpdate={handleEditModal}
       />
+      {selectedFixedExpense?.type === "manual" && (
+        <ModalAddFixedExpenses
+          onFixedExpensesUpdate={handleFixedExpensesUpdate}
+          onClose={() => setOpenAddFixedExpense(false)}
+          open={openAddFixedExpense}
+          fixedExpenses={selectedFixedExpense}
+        />
+      )}
     </>
   );
 };

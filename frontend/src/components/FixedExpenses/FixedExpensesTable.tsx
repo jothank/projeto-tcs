@@ -16,10 +16,10 @@ import {
 } from "@mui/material";
 import { Formik, Form } from "formik";
 import { FormInputDate, FormInputNumber } from "./FixedExpenseInput";
-import AddFixedExpenses from "./AddFixedExpenses";
+import AddCosts from "./AddCosts";
 import { saveCosts, setFixedExpense } from "services/fixedexpense.service";
 import { getErro, getSuccess } from "utils/ModalAlert";
-import { CostType } from "./AddFixedExpenses";
+import { CostType } from "./AddCosts";
 import { formatToBRL } from "utils/pricing";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -244,7 +244,7 @@ const FixedExpensesTable = () => {
           </>
         )}
       </Formik>
-      <AddFixedExpenses
+      <AddCosts
         open={isAddDialogOpen}
         onClose={handleCloseAddDialog}
         onCostsUpdate={handleCostsUpdate}

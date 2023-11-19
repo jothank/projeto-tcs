@@ -24,7 +24,7 @@ export interface AddFixedExpensesProps {
   onCostsUpdate: (newCosts: CostType[]) => void;
 }
 
-const ModalAddFixedExpenses: React.FC<AddFixedExpensesProps> = ({
+const ModalAddCosts: React.FC<AddFixedExpensesProps> = ({
   onCostsUpdate,
 }) => {
   const [open, setOpen] = React.useState(false);
@@ -88,4 +88,4 @@ const ModalAddFixedExpenses: React.FC<AddFixedExpensesProps> = ({
   );
 };
 
-export default ModalAddFixedExpenses;
+export default ModalAddCosts;

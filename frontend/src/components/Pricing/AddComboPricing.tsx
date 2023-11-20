@@ -47,27 +47,27 @@ const AddComboPricing = () => {
   if (selectedCombo && selectedCombo.products && newFinancials[0]) {
     const priceInfo = newFinancials[0];
 
-    const productionCosts = selectedCombo.products.map((product) => {
-      return Number(product.price) + Number(priceInfo.condominium || 0);
-    });
+    const productionCost = Number(selectedCombo.price) + Number(priceInfo.condominium || 0) + Number(priceInfo.delivery_price || 0);
 
-    const totalProductionCost = productionCosts.reduce((acc, cost) => acc + cost, 0);
+    
 
-    const taxMultiplier = 1 - (Number(priceInfo.tax) / 100) + (Number(priceInfo.card_tax) / 100) + (Number(priceInfo.profit) / 100);
+    let taxMultiplier = 1 - ((priceInfo.tax / 100) + (priceInfo.card_tax / 100) + (priceInfo.profit / 100));
 
-    const totalExpenses = totalProductionCost + Number(priceInfo.delivery_price || 0);
+    if (priceInfo.other !== undefined) {
+      taxMultiplier += priceInfo.other / 100;
+    }
 
-    const suggestedPrice = Number(totalExpenses / taxMultiplier);
+    const suggestedPrice = Number(productionCost / taxMultiplier);
     setSuggestedPrice(suggestedPrice);
 
     const pricingData = {
       combo: selectedCombo.id,
-      tax: Number(priceInfo.tax),
-      card_tax: Number(priceInfo.card_tax),
-      other: Number(priceInfo.other) || 0,
-      profit: Number(priceInfo.profit),
-      condominium: Number(priceInfo.condominium) || 0,
-      delivery_price: Number(priceInfo.delivery_price) || 0,
+      tax: priceInfo.tax,
+      card_tax: priceInfo.card_tax,
+      other: priceInfo.other || 0,
+      profit: priceInfo.profit,
+      condominium: priceInfo.condominium || 0,
+      delivery_price: priceInfo.delivery_price || 0,
       suggested_price: suggestedPrice,
     };
 

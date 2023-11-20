@@ -36,4 +36,4 @@ class UpdateFixedExpenseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FixedExpense
-        fields = ["costs", 'date', 'name', 'total_price', 'description', 'type',]
+        fields = ["costs", 'date', 'name', 'total_price', 'description', 'type','id',]

@@ -17,6 +17,7 @@ import Combo from "pages/Combo/Combo";
 import CommandProduct from "pages/Commands/CommandProduct";
 import User from "pages/User/User";
 import ProductionSimulator from "pages/ProductionSimulator/ProductionSimulator";
+import { PricingHistory } from "components/Pricing/PricingHistory";
 
 export const AppRoutes = () => {
   return (
@@ -85,7 +86,7 @@ export const AppRoutes = () => {
         }
       />
       <Route
-        path="/pricing"
+        path="/pricing/simulator"
         element={
           <PrivateRoute>
             <Princing />
@@ -116,6 +117,15 @@ export const AppRoutes = () => {
             <ProductionSimulator />
           </PrivateRoute>
         }
+      />
+
+      <Route 
+      path="/pricing/history"
+      element= {
+        <PrivateRoute>
+          <PricingHistory />
+        </PrivateRoute>
+      }
       />
     </Routes>
   );

@@ -33,9 +33,22 @@ const NavBar: React.FC = () => {
       text: "Simulador de Precificação",
       href: "/pricing",
       title: "Simulador de precificação",
+      subItems: [
+        {
+          text: "Simulador de preço",
+          href: "/pricing/simulator",
+          title: "Simulador de preço"
+        },
+        {
+          text: "Histórico de precificação",
+          href: "/pricing/history",
+          title: "Histórico de precificação"
+        }
+      ]
     },
-    { text: "Ficha técnica", href: "/datasheet", title: "Ficha técnica" },
     { text: "Simulador de produção", href: "/production-simulator", title: "Simulador de produção" },
+    { text: "Ficha técnica", href: "/datasheet", title: "Ficha técnica" },
+   
   ];
 
   const currentPath = new URL(window.location.href).pathname;

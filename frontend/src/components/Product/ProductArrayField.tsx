@@ -5,7 +5,7 @@ import {
 } from "components/Product/InputProduct";
 import UnitSelect from "components/SelectOptions/SelectOptions";
 import { FeedstockType } from "types/Feedstock.type";
-import { IconButton } from "@mui/material";
+import { FormControl, IconButton } from "@mui/material";
 import React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -30,34 +30,36 @@ const ProductArrayField: React.FC<ProductArrayFieldProps> = ({
   return (
     <FieldArray name="products">
       {({ push, remove }) => (
-        <>
+        <div>
           {values.products.map((product: any, index: number) => (
             <div key={index}>
-              <FeedstocksSelect
-                label="Insumo"
-                name={`products[${index}].feedstock.id`}
-                feedstocks={feedstockList}
-                value={product.feedstock.id || ""}
-                onChange={(value: any, selectedFeedstock: any) => {
-                  setFieldValue(
-                    `products[${index}].feedstock`,
-                    selectedFeedstock
-                  );
-                }}
-              />
-              <ProductInput
-                name={`products[${index}].quantity`}
-                label="Quantidade"
-                type="number"
-              />
-              <UnitSelect
-                name={`products[${index}].unit`}
-                label="Unidade"
-                options={options}
-              />
-              <IconButton onClick={() => remove(index)}>
-                <RemoveIcon />
-              </IconButton>
+              <FormControl fullWidth>
+                <FeedstocksSelect
+                  label="Insumo"
+                  name={`products[${index}].feedstock.id`}
+                  feedstocks={feedstockList}
+                  value={product.feedstock.id || ""}
+                  onChange={(value: any, selectedFeedstock: any) => {
+                    setFieldValue(
+                      `products[${index}].feedstock`,
+                      selectedFeedstock
+                    );
+                  }}
+                />
+                <ProductInput
+                  name={`products[${index}].quantity`}
+                  label="Quantidade"
+                  type="number"
+                />
+                <UnitSelect
+                  name={`products[${index}].unit`}
+                  label="Unidade"
+                  options={options}
+                />
+                <IconButton onClick={() => remove(index)}>
+                  <RemoveIcon sx={{ color: "red" }} />
+                </IconButton>
+              </FormControl>
             </div>
           ))}
           <IconButton
@@ -72,7 +74,7 @@ const ProductArrayField: React.FC<ProductArrayFieldProps> = ({
           >
             <AddIcon />
           </IconButton>
-        </>
+        </div>
       )}
     </FieldArray>
   );

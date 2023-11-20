@@ -201,7 +201,6 @@ const FixedExpensesTable = () => {
                                   <DeleteIcon
                                     style={{
                                       cursor: "pointer",
-                                      marginRight: "10px",
                                       color: "red",
                                     }}
                                   />
@@ -210,7 +209,6 @@ const FixedExpensesTable = () => {
                                   <EditIcon
                                     style={{
                                       cursor: "pointer",
-                                      marginRight: "10px",
                                       color: "blue",
                                     }}
                                   />

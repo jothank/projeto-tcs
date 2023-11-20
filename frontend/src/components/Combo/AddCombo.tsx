@@ -52,9 +52,9 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
 
       const combo = await updateCombo(selectedCombo.id, list, values.comboName);
 
-      getSuccess("Combo cadastrado com sucesso");  
-      setOpen(false);    
-      setTimeout(() => {        
+      getSuccess("Combo cadastrado com sucesso");
+      setOpen(false);
+      setTimeout(() => {
         window.location.reload();
       }, 2000);
     } catch (error) {
@@ -65,7 +65,11 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
 
   return (
     <Grid>
-      <Button variant="contained" onClick={handleOpen} sx={{ mr: 2, margin: 2 }}>
+      <Button
+        variant="contained"
+        onClick={handleOpen}
+        sx={{ mr: 2, margin: 2 }}
+      >
         Adicionar Produto
       </Button>
 
@@ -81,52 +85,54 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
               <Grid>
                 <FieldArray name="products">
                   {({ push, remove, form }) => (
-                    <>
+                    <div>
                       {form.values.products.map(
                         (productId: number, index: number) => (
                           <div key={index}>
-                            <Field name={`products.${index}`}>
-                              {({ field, meta }: any) => (
-                                <FormControl fullWidth margin="dense">
-                                  <InputLabel>Produto</InputLabel>
-                                  <Select
-                                    value={productId || ""}
-                                    onChange={(e) => {
-                                      field.onChange({
-                                        target: {
-                                          value: e.target.value,
-                                          name: `products.${index}`,
-                                        },
-                                      });
-                                    }}
-                                  >
-                                    <MenuItem value="" disabled>
-                                      Selecione um produto
-                                    </MenuItem>
-                                    {productsList.map((item) => (
-                                      <MenuItem key={item.id} value={item.id}>
-                                        {item.name}
+                            <FormControl fullWidth>
+                              <Field name={`products.${index}`}>
+                                {({ field, meta }: any) => (
+                                  <FormControl fullWidth margin="dense">
+                                    <InputLabel>Produto</InputLabel>
+                                    <Select
+                                      value={productId || ""}
+                                      onChange={(e) => {
+                                        field.onChange({
+                                          target: {
+                                            value: e.target.value,
+                                            name: `products.${index}`,
+                                          },
+                                        });
+                                      }}
+                                    >
+                                      <MenuItem value="" disabled>
+                                        Selecione um produto
                                       </MenuItem>
-                                    ))}
-                                  </Select>
-                                  {meta.touched && meta.error && (
-                                    <FormHelperText error={true}>
-                                      {meta.error}
-                                    </FormHelperText>
-                                  )}
-                                </FormControl>
-                              )}
-                            </Field>
-                            <IconButton onClick={() => remove(index)}>
-                              <RemoveIcon />
+                                      {productsList.map((item) => (
+                                        <MenuItem key={item.id} value={item.id}>
+                                          {item.name}
+                                        </MenuItem>
+                                      ))}
+                                    </Select>
+                                    {meta.touched && meta.error && (
+                                      <FormHelperText error={true}>
+                                        {meta.error}
+                                      </FormHelperText>
+                                    )}
+                                  </FormControl>
+                                )}
+                              </Field>
+                              <IconButton onClick={() => remove(index)}>
+                              <RemoveIcon sx={{ color: "red" }} />
                             </IconButton>
+                            </FormControl>
                           </div>
                         )
                       )}
                       <IconButton onClick={() => push(null)}>
                         <AddIcon />
                       </IconButton>
-                    </>
+                    </div>
                   )}
                 </FieldArray>
               </Grid>

@@ -35,6 +35,7 @@ const NavBar: React.FC = () => {
       title: "Simulador de precificação",
     },
     { text: "Ficha técnica", href: "/datasheet", title: "Ficha técnica" },
+    { text: "Simulador de produção", href: "/production-simulator", title: "Simulador de produção" },
   ];
 
   const currentPath = new URL(window.location.href).pathname;

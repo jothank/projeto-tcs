@@ -190,7 +190,6 @@ export function FeedstockTable({ data }: CustomTableProps) {
                         <DeleteIcon
                           style={{
                             cursor: "pointer",
-                            // marginRight: "10px",
                             color: "red",
                           }}
                         />

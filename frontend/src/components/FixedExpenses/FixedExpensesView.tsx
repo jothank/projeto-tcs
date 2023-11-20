@@ -252,7 +252,7 @@ const FixedExpensesTableView = () => {
               <TableRow
                 key={cost.id}
                 sx={{
-                  backgroundColor: index % 2 !== 0 ? "#f9f9f9" : "#ffffff",
+                  backgroundColor: index % 2 !== 0 ? "#ffffff" : "#f2f2f2",
                 }}
               >
                 <TableCell align="center">{cost.name}</TableCell>

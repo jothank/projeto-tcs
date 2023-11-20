@@ -221,7 +221,6 @@ const ProductTable = ({ data }: ProductTableProps) => {
                       >
                         <DeleteIcon style={{
                           cursor: "pointer",
-                          marginRight: "10px",
                           color: "red",
                         }} />
                       </Button>
@@ -233,7 +232,6 @@ const ProductTable = ({ data }: ProductTableProps) => {
                       >
                         <EditIcon style={{
                           cursor: "pointer",
-                          marginRight: "10px",
                           color: "blue"
                         }} />
                       </Button>

@@ -250,7 +250,6 @@ const ComboTable = (props: any) => {
                         <DeleteIcon
                           style={{
                             cursor: "pointer",
-                            marginRight: "10px",
                             color: "red",
                           }}
                         />

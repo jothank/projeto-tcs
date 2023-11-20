@@ -9,7 +9,7 @@ import {
   DialogContent,
   DialogActions,
   IconButton,
-  Grid
+  Grid,
 } from "@mui/material";
 import { FormInput } from "components/FormGroup";
 import { v4 as uuidv4 } from "uuid";
@@ -108,14 +108,18 @@ const AddCosts: React.FC<AddFixedExpensesProps> = ({
                       <Grid item xs={6} style={{ textAlign: "right" }}>
                         <IconButton
                           type="button"
-                          onClick={() => push({ name: "", description: "", price: 0 })}
+                          onClick={() =>
+                            push({ name: "", description: "", price: 0 })
+                          }
                         >
                           <AddIcon />
                         </IconButton>
                       </Grid>
                       {values.costs.length > 0 && (
                         <Grid item xs={6} style={{ textAlign: "left" }}>
-                          <IconButton onClick={() => remove(values.costs.length - 1)}>
+                          <IconButton
+                            onClick={() => remove(values.costs.length - 1)}
+                          >
                             <RemoveIcon sx={{ color: "red" }} />
                           </IconButton>
                         </Grid>

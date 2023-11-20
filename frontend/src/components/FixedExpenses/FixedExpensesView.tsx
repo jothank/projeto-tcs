@@ -111,7 +111,7 @@ const FixedExpensesTableView = () => {
           costs: updatedCosts,
           total_price: totalCostsPrice,
         };
-
+        console.log("1",updatedFixedExpense);
         setSelectedFixedExpense(updatedFixedExpense);
 
         setFixedExpenses((prevExpenses) =>
@@ -134,13 +134,6 @@ const FixedExpensesTableView = () => {
     } catch (error) {}
   };
 
-  const handleEditFixedExpense = async (fixedExpenseId: string) => {
-    try {
-      const response = await deleteFixedExpense(fixedExpenseId);
-      window.location.reload();
-    } catch (error) {}
-  };
-
   useEffect(() => {
     const fetchFixedExpenses = async () => {
       const result = await getFixedExpense();
@@ -150,12 +143,13 @@ const FixedExpensesTableView = () => {
     fetchFixedExpenses();
   }, []);
 
-  async function handleCostsUpdate(newCosts: CostType[]): Promise<void> {
+  async function handleCostsUpdate(newCosts: CostType): Promise<void> {
     try {
       const response = await saveCosts(newCosts);
       const ids = selectedFixedExpense?.costs.map((item) => item?.id);
       ids?.push(response.costs[0].id);
       const update = await updateFixedExpense(selectedFixedExpense, ids);
+      console.log(update);
       setSelectedFixedExpense(update);
     } catch (error) {
       console.log(error);
@@ -165,6 +159,7 @@ const FixedExpensesTableView = () => {
   async function handleFixedExpensesUpdate(values: FixedExpenseType) {
     try {
       const response = await updateFixedExpenseManual(values);
+      console.log(response);
       setSelectedFixedExpense(values);
       getSuccess("Despesa fixa atualizada com sucesso!");
     } catch (error) {

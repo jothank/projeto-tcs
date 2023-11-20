@@ -6,7 +6,7 @@ export const saveCosts = async (costs: any) => {
   try {
     const response = await axios.post(
       BASE_URL + "cost/",
-      { costs: costs },
+      { costs: [costs] },
       {
         headers: await getAuthorizationHeader(),
       }

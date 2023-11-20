@@ -57,12 +57,16 @@ const AddCosts: React.FC<AddFixedExpensesProps> = ({
     costs: CostType[];
   }
 
-  const handleSubmit = (values: FormValues) => {
+  const handleSubmit = (
+    values: FormValues,
+    { resetForm }: { resetForm: () => void }
+  ) => {
     const newCosts = values.costs.map((cost: CostType) => ({
       ...cost,
       id: uuidv4(),
     }));
     onCostsUpdate(newCosts);
+    resetForm();
     onClose();
   };
 

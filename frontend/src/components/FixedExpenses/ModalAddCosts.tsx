@@ -21,12 +21,10 @@ export interface CostType {
 }
 
 export interface AddFixedExpensesProps {
-  onCostsUpdate: (newCosts: CostType[]) => void;
+  onCostsUpdate: (newCosts: CostType) => void;
 }
 
-const ModalAddCosts: React.FC<AddFixedExpensesProps> = ({
-  onCostsUpdate,
-}) => {
+const ModalAddCosts: React.FC<AddFixedExpensesProps> = ({ onCostsUpdate }) => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => setOpen(true);
@@ -42,10 +40,13 @@ const ModalAddCosts: React.FC<AddFixedExpensesProps> = ({
 
   const [costs, setCosts] = React.useState<CostType[]>([]);
 
-  const handleSubmit = (values: CostType) => {
+  const handleSubmit = (
+    values: CostType,
+    { resetForm }: { resetForm: () => void }
+  ) => {
     const newItem = { ...values, id: uuidv4() };
     setCosts((prevCosts) => [...prevCosts, newItem]);
-    onCostsUpdate([...costs, newItem]);
+    onCostsUpdate(newItem);
     handleClose();
   };
 

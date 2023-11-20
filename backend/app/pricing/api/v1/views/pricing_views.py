@@ -7,6 +7,7 @@ API V1: Pricing Views
 from rest_framework import viewsets
 from app.pricing.models.pricing import Pricing
 from app.pricing.api.v1.serializers.pricing.default import DefaultPricingSerializer
+from app.pricing.api.v1.serializers.pricing.list import ListPricingSerializer
 
 
 ###
@@ -28,4 +29,7 @@ class PricingViewSet(viewsets.ModelViewSet):
         serializer.save(user=user)
 
     def get_serializer_class(self):
-        return DefaultPricingSerializer
+        if self.action == 'list':
+            return ListPricingSerializer
+        else:
+            return DefaultPricingSerializer

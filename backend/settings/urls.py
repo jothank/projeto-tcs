@@ -40,8 +40,8 @@ urlpatterns = [
     path('', include('app.fixed_expense.urls')),
     path('', include('app.pricing.urls')),
     path('', include('app.product.urls')),
+    path('', include('app.production_simulator.urls')),
     path('', include('app.supply.urls')),
-    path('', include('app.variable_expense.urls')),
 
 
     # Swagger

@@ -1,5 +1,5 @@
 """
-Variable Expense URL Configuration
+Pricing URL Configuration
 """
 ###
 # Libs
@@ -13,5 +13,5 @@ from django.urls import path, include
 
 
 urlpatterns = [
-    path('', include('app.variable_expense.api.v1.urls'))
+    path('', include('app.production_simulator.api.v1.urls'))
 ]

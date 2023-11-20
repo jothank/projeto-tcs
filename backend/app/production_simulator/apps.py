@@ -7,9 +7,9 @@ from django.apps import AppConfig
 ###
 # Config
 ###
-class VariableExpenseConfig(AppConfig):
+class ProductionSimulatorConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'app.variable_expense'
+    name = 'app.production_simulator'
 
     def ready(self):
-        import app.variable_expense.signals
+        import app.production_simulator.signals

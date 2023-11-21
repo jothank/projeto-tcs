@@ -1,90 +1,81 @@
 import React, { useEffect, useState } from 'react';
-import {FormControl, InputLabel, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography} from '@mui/material'
+import { Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { getPricing } from 'services/pricing.service';
-import { PricingType } from 'types/pricing,types';
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { ProductPricingType } from 'types/pricing,types';
 
+ 
+const PricingHistory = () => {
+  const [pricingData, setPricingData] = useState<ProductPricingType[]>([]);
 
-export const PricingHistory = () => {
-    const [pricingData, setPricingData] = useState<PricingType[]>([]);
+  useEffect(() => {
+    const fetchPricing = async () => {
+      try {
+        const pricingData = await getPricing();
+        console.log(pricingData)
+        setPricingData(pricingData.results);  
+      } catch (error) {
+        console.error('Error fetching pricing data', error);
+      }
+    };
 
-    useEffect(()=> {
-       const fetchPricing = async () => {
-        try {
-            const pricingData = await getPricing();
-            console.log(pricingData)
-        } catch {
+    fetchPricing();
+  }, []);
 
-        }
-       }
-       fetchPricing();
-    }, [])
-
-
-        return (
-            <Paper
-            sx={{
-              width: "80%"
-            }}
-          >
-            <div>
-            <FormControl sx={{ 
-              width: "40%", 
-              marginBottom: 2,
-              display: "flex",
-              alignItems: "end",
-              justifyContent: "end",
-              
-              }}>
-              {/* <InputLabel>Selecione o combo</InputLabel>
-              <Select
-                value={selectedComboId}
-                onChange={(event) => setSelectedComboId(event.target.value as number)}
-              >
-                <MenuItem value="" disabled>
-                  Selecione um combo
-                </MenuItem>
-                {combosData.map((combo) => (
-                  <MenuItem key={combo.id} value={combo.id}>
-                    {combo.name}
-                  </MenuItem>
-                ))}
-              </Select> */}
-            </FormControl>
-      
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Produto</TableCell>
-                    <TableCell>Condominio</TableCell>
-                    <TableCell>Imposto</TableCell>
-                    <TableCell>Cartão Débito/Crédito</TableCell>
-                    <TableCell>Outros</TableCell>
-                    <TableCell>Lucro</TableCell>
-                    <TableCell>Entrega</TableCell>
-                    <TableCell>Ações</TableCell>
-                  </TableRow>
-                </TableHead>
-                {/* <TableBody>
-                  {selectedCombo && selectedCombo.products.map((product) => (
-                    <TableRow key={product.id}>
-                      <TableCell >{product.name}</TableCell>
-                      <TableCell>{product.price}</TableCell>
-                    </TableRow>
-                  ))}
-                  {selectedCombo && (
-                    <TableRow>
-                      <TableCell>Custo de produção</TableCell>
-                      <TableCell>{selectedCombo.price}</TableCell>
-                    </TableRow>
-                  )}
-                </TableBody> */}
-              </Table>
-            </TableContainer>
-            </div>
-           
-          </Paper>
-        );
-}
+  return (
+    <Grid
+    sx={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    }}
+    >
+    <Paper sx={{ width: '80%' }}>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Produto</TableCell>
+              <TableCell>Preço</TableCell>
+              <TableCell>Condomínio</TableCell>
+              <TableCell>Imposto</TableCell>
+              <TableCell>Cartão Débito/Crédito</TableCell>
+              <TableCell>Outros</TableCell>
+              <TableCell>Lucro</TableCell>
+              <TableCell>Entrega</TableCell>
+              <TableCell>Preço Sugerido</TableCell>
+              <TableCell>Ações</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {pricingData.map((pricing) => (
+              <TableRow key={pricing.id}>
+                <TableCell>{pricing.product?.name || pricing.combo?.name}</TableCell>
+                <TableCell>{pricing.product?.price || pricing.combo?.price}</TableCell>
+                <TableCell>{pricing.condominium}</TableCell>
+                <TableCell>{pricing.tax}</TableCell>
+                <TableCell>{pricing.card_tax}</TableCell>
+                <TableCell>{pricing.other}</TableCell>
+                <TableCell>{pricing.profit}</TableCell>
+                <TableCell>{pricing.delivery_price}</TableCell>
+                <TableCell>{pricing.suggested_price}</TableCell>
+                <TableCell>
+                  <Button>
+                    <DeleteIcon sx={{color: "red"}}/>
+                  </Button>
+                  <Button>
+                    <EditIcon />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Paper>
+    </Grid>
+  );
+};
 
 export default PricingHistory;

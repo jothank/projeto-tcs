@@ -17,7 +17,7 @@ import Combo from "pages/Combo/Combo";
 import CommandProduct from "pages/Commands/CommandProduct";
 import User from "pages/User/User";
 import ProductionSimulator from "pages/ProductionSimulator/ProductionSimulator";
-import { PricingHistory } from "components/Pricing/PricingHistory";
+import PricingHistory from "components/Pricing/PricingHistory";
 
 export const AppRoutes = () => {
   return (

@@ -35,7 +35,6 @@ function PricingSimulator() {
     <Grid
     sx={{
       widht: "80%",
-     
       marginLeft: "5%"
     }}
     >

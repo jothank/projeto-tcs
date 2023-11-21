@@ -46,11 +46,7 @@ const AddComboPricing = () => {
 
   if (selectedCombo && selectedCombo.products && newFinancials[0]) {
     const priceInfo = newFinancials[0];
-
     const productionCost = Number(selectedCombo.price) + Number(priceInfo.condominium || 0) + Number(priceInfo.delivery_price || 0);
-
-    
-
     let taxMultiplier = 1 - ((priceInfo.tax / 100) + (priceInfo.card_tax / 100) + (priceInfo.profit / 100));
 
     if (priceInfo.other !== undefined) {
@@ -122,7 +118,7 @@ const AddComboPricing = () => {
           <TableBody>
             {selectedCombo && selectedCombo.products.map((product) => (
               <TableRow key={product.id}>
-                <TableCell >{product.name}</TableCell>
+                <TableCell >{selectedCombo.name}</TableCell>
                 <TableCell>{product.price}</TableCell>
               </TableRow>
             ))}

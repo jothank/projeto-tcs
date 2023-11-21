@@ -27,6 +27,7 @@ import { validationSchema } from "utils/validations/validationsFixedExpense";
 import EditFixedExpenses from "./ModalEdit";
 import UnitSelect from "components/SelectOptions/SelectOptions";
 import { optionsMonth } from "utils/FixedExpensesMonths";
+import { FormInput } from "components/FormGroup";
 
 const FixedExpensesTable = () => {
   const [costs, setCosts] = React.useState<CostType[]>([]);
@@ -67,7 +68,8 @@ const FixedExpensesTable = () => {
           values.date,
           undefined,
           ids,
-          "automatic"
+          "automatic",
+          values.description
         );
       } else {
         const response = await setFixedExpense(
@@ -75,7 +77,8 @@ const FixedExpensesTable = () => {
           values.date,
           values.manualValue,
           undefined,
-          "manual"
+          "manual",
+          values.description
         );
       }
       getSuccess("Despesas fixas salvas com sucesso!");
@@ -106,6 +109,7 @@ const FixedExpensesTable = () => {
           date: "",
           manualValue: 0,
           manualEntry: false,
+          description: "",
         }}
         validationSchema={validationSchema}
         onSubmit={handleRegister}
@@ -117,7 +121,7 @@ const FixedExpensesTable = () => {
             <Form>
               <UnitSelect name="name" label="Mês" options={optionsMonth} />
               <FormInputDate name="date" label="Data Referência" type="date" />
-
+              <FormInput name="description" label="Descrição" type="text" />
               <Grid container spacing={2} alignItems="center">
                 <Grid item>
                   <Button

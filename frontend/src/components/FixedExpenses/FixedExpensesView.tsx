@@ -21,6 +21,7 @@ import {
   deleteCost,
   deleteFixedExpense,
   getFixedExpense,
+  saveCost,
   saveCosts,
   updateCost,
   updateFixedExpense,
@@ -145,7 +146,7 @@ const FixedExpensesTableView = () => {
 
   async function handleCostsUpdate(newCosts: CostType): Promise<void> {
     try {
-      const response = await saveCosts(newCosts);
+      const response = await saveCost(newCosts);
       const ids = selectedFixedExpense?.costs.map((item) => item?.id);
       ids?.push(response.costs[0].id);
       const update = await updateFixedExpense(selectedFixedExpense, ids);

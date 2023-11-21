@@ -6,6 +6,20 @@ export const saveCosts = async (costs: any) => {
   try {
     const response = await axios.post(
       BASE_URL + "cost/",
+      { costs: costs },
+      {
+        headers: await getAuthorizationHeader(),
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const saveCost = async (costs: any) => {
+  try {
+    const response = await axios.post(
+      BASE_URL + "cost/",
       { costs: [costs] },
       {
         headers: await getAuthorizationHeader(),
@@ -48,7 +62,8 @@ export const setFixedExpense = async (
   date: string,
   price: number | undefined,
   costs: number[] | undefined,
-  type: string
+  type: string,
+  description: string
 ) => {
   try {
     const body = {
@@ -57,6 +72,7 @@ export const setFixedExpense = async (
       costs: costs,
       total_price: price,
       type: type,
+      description: description,
     };
     const response = await axios.post(BASE_URL + "fixed_expense/", body, {
       headers: await getAuthorizationHeader(),

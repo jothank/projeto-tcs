@@ -8,18 +8,26 @@ import {
   TableRow,
   Paper,
   Button,
-  Typography,
   TableContainer,
   FormControl,
-  FormControlLabel,
-  Switch,
+  InputLabel,
+  Select,
+  MenuItem,
+  Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { getProductionSimulator } from "services/ProductionSimulator.service";
 import { formatToBRL } from "utils/pricing";
+import { FixedExpenseType } from "components/FixedExpenses/FixedExpensesView";
+import { getFixedExpense } from "services/fixedexpense.service";
+import TableFixedExpense from "./TableFixedExpense";
+import ProductionTable from "./TableProductionSimulator";
+import ModalAddProductionSimulator from "./ModalAddProductionSimulator";
+import { getPricing } from "services/pricing.service";
 
 export interface PricingType {
+  id?: number;
   tax: number;
   card_tax: number;
   other?: number;
@@ -38,15 +46,26 @@ export interface ProductionSimulatorType {
 }
 
 const ProductionSimulatorTable = () => {
+  const [open, setOpen] = useState(false);
   const [productionSimulator, setProductionSimulator] = useState<
     ProductionSimulatorType[]
   >([]);
+  const [fixedExpenses, setFixedExpenses] = useState<FixedExpenseType[]>([]);
+  const [selectedFixedExpense, setSelectedFixedExpense] =
+    React.useState<FixedExpenseType | null>(null);
+  const [pricings, setPricings] = React.useState<PricingType[]>([]);
+
 
   useEffect(() => {
     (async () => {
       try {
         const data = await getProductionSimulator();
         setProductionSimulator(data);
+        const result = await getFixedExpense();
+        setFixedExpenses(result.results);
+        const response = await getPricing();
+        setPricings(response.results);
+          console.log(pricings);
       } catch (error) {
         console.log(error);
       }
@@ -55,8 +74,50 @@ const ProductionSimulatorTable = () => {
 
   return (
     <>
-      <Paper sx={{ width: "100%" }}>
+      <Grid container spacing={2} alignItems="center">
+        <Grid item xs={12} md={4}>
+          <FormControl fullWidth margin="normal">
+            <InputLabel>Selecione a despesa</InputLabel>
+            <Select
+              value={selectedFixedExpense?.id || ""}
+              onChange={(event) =>
+                setSelectedFixedExpense(
+                  fixedExpenses.find(
+                    (fixedExpense) => fixedExpense.id === event.target.value
+                  ) || null
+                )
+              }
+            >
+              {fixedExpenses.map((fixedExpense) => (
+                <MenuItem key={fixedExpense.id} value={fixedExpense.id}>
+                  {fixedExpense.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <Button
+          onClick={() => setOpen(true)}
+          >Simular Produção</Button>
+        </Grid>
+        <Grid item xs={12}>
+          {selectedFixedExpense && (
+            <TableFixedExpense fixedExpense={selectedFixedExpense} />
+          )}
+        </Grid>
+        <Grid item xs={12}>
+          {productionSimulator && (
+            <ProductionTable
+              selectedFixedExpense={selectedFixedExpense}
+              productionSimulator={productionSimulator}
+            />
+          )}
+        </Grid>
+      </Grid>
+      <Paper sx={{ width: "100%", marginTop: "2%" }}>
         <TableContainer>
+          <Typography variant="h5" align="center">
+            Simulador de Produção
+          </Typography>
           <Table>
             <TableHead>
               <TableRow>
@@ -122,6 +183,7 @@ const ProductionSimulatorTable = () => {
           </Table>
         </TableContainer>
       </Paper>
+      <ModalAddProductionSimulator open={open} onClose={() => setOpen(false)} pricings={pricings} />
     </>
   );
 };

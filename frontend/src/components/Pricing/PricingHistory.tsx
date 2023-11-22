@@ -49,8 +49,12 @@ const PricingHistory = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {pricingData.map((pricing) => (
-              <TableRow key={pricing.id}>
+            {pricingData.map((pricing, index) => (
+              <TableRow key={`${pricing.id} - ${index}`}
+              sx={{
+                backgroundColor: index % 2 === 0 ? "#f2f2f2" : "#ffffff"
+              }}
+              >
                 <TableCell>{pricing.product?.name || pricing.combo?.name}</TableCell>
                 <TableCell>{pricing.product?.price || pricing.combo?.price}</TableCell>
                 <TableCell>{pricing.condominium}</TableCell>
@@ -59,7 +63,7 @@ const PricingHistory = () => {
                 <TableCell>{pricing.other}</TableCell>
                 <TableCell>{pricing.profit}</TableCell>
                 <TableCell>{pricing.delivery_price}</TableCell>
-                <TableCell>{pricing.suggested_price}</TableCell>
+                <TableCell>{pricing.suggested_price.toFixed(2)}</TableCell>
                 <TableCell>
                   <Button>
                     <DeleteIcon sx={{color: "red"}}/>

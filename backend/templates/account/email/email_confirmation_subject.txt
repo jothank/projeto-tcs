@@ -1,1 +1,1 @@
-- Verfiy Email
+ - Verificação de Email

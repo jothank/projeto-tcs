@@ -37,8 +37,8 @@ const Login: React.FC = () => {
         onSubmit={handleLogin}
       >
         <Form>
-          <FormInput name="username" label="Username" type="text" />
-          <FormInput name="password" label="Password" type="password" />
+          <FormInput name="username" label="Usuário" type="text" />
+          <FormInput name="password" label="Senha" type="password" />
           <ButtonForms>
             <Button variant="contained" type="submit" sx={{ width: "50%" }}>
               Acessar

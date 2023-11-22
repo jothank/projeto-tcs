@@ -43,13 +43,13 @@ Linux/MacOs: source venv/bin/activate
 
 <pre>
 pip install --upgrade pip
+python.exe -m pip install --upgrade pip
 </pre>
 
 <p>Instale as dependências:</p>
 
 <pre>
 pip install -r requirements.txt
-python.exe -m pip install --upgrade pip
 </pre>
 
 <p>Faça as migrações do banco de dados:</p>

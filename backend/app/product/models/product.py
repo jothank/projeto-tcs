@@ -3,28 +3,28 @@
 ###
 from django.utils.translation import gettext as _
 from django.db import models
-from app.feedstock.models.feedstock import Feedstock
+from app.supply.models.supply import Supply
+from app.accounts.models.user import User
 
 
 ###
-# Model
+# Models
 ###
 class Product(models.Model):
- 
-    name = models.CharField(
-        max_length=255,
-        verbose_name=_('Name')
+
+    name = models.CharField(max_length=255, verbose_name=_('Name'))
+
+    supplies = models.ManyToManyField(
+        Supply,
+        through='ProductSupply',
+        related_name='supplies',
+        verbose_name=_('Supplies'),
     )
-    feedstock = models.ForeignKey(
-        Feedstock, on_delete=models.CASCADE, verbose_name=_('Feedstock')
-    )
-    quantity = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        verbose_name=_('Quantity')
-    )
-    price = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        verbose_name=_('Price')
+
+    price = models.FloatField(verbose_name=_('Price'))
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name=_('User'),
     )

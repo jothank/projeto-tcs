@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style type="text/css">
+      @media screen and (max-width: 600px) {
+        .container {
+          width: 100% ;
+        }
+        .responsive-image {
+          height: auto ;
+          max-width: 100% t;
+        }
+        .content {
+          padding: 0 20px;
+        }
+        .button {
+          display: block ;
+          width: 100% ;
+          box-sizing: border-box;
+        }
+      }
+    </style>
+  </head>
+  <body style="margin: 0; padding: 0; background-color: #f9fafb;">
+    <table border="0" cellpadding="0" cellspacing="0" align="center" class="container" style="background-color: #ffffff; border-radius: 5px; margin-top: 17px; width: 100%; max-width: 600px;">
+      <tr style="background-color:#f9f8f3; color:#f9f8f3; border-radius: 5px" height="50px">
+        <td align="center" valign="middle">
+          <img src="https://i.postimg.cc/gJtBjKNX/logo.jpg" alt="GastroCustos" class="responsive-image" style="height: auto; max-width: 100%; margin: 0px;">
+        </td>
+      </tr>
+      <tr>
+        <td class="content">
+          <h1 style="font-family: Montserrat, Sans-Serif, sans-serif; font-size: 28px; text-align: center; color: #d89147; margin: 23px 0 0; ">
+            Vamos verificar seu e-mail!
+          </h1>
+          <p style="font-family: 'Source Sans Pro', Sans-Serif, sans-serif; font-size: 14px; text-align: center; color: #717f80; margin: 23px 0 0;">
+            Basta usar o link abaixo para verificar seu e-mail e seguir as próximas etapas para confirmar sua conta.
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td align="center">
+          <table border="0" cellpadding="0" cellspacing="0" width="80%" style="margin-top: 38px; margin-bottom: 50px;">
+            <tr height="40">
+              <td align="center" class="button" style="background: #de9086; border-radius: 5px;" valign="middle">
+                <a href="{{ FE_URL }}/confirm-email/{{ key }}" style="color: #FFF; font-family: 'Source Sans Pro', Sans-Serif, sans-serif; font-size: 14px; text-decoration: none; display: block; padding: 10px; box-sizing: border-box;">VERIFIQUE SEU E-MAIL</a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+

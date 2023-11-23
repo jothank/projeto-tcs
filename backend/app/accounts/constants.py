@@ -2,7 +2,7 @@
 Accounts Constants
 """
 ###
-# Libraries
+# Libs
 ###
 
 ###

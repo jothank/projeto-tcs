@@ -2,7 +2,7 @@
 API V1: Accounts Serializers
 """
 ###
-# Libraries
+# Libs
 ###
 from dj_rest_auth.serializers import PasswordResetSerializer
 from dj_rest_auth.registration.serializers import RegisterSerializer

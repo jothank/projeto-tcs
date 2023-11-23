@@ -1,5 +1,5 @@
 ###
-# Libraries
+# Libs
 ###
 from django_filters import rest_framework as filters
 from app.company.models.company import Company

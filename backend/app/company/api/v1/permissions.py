@@ -2,7 +2,7 @@
 API V1: Address Permissions
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import permissions
 from app.company.models.company import Company

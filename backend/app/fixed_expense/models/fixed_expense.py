@@ -3,7 +3,8 @@
 ###
 from django.utils.translation import gettext as _
 from django.db import models
-from app.company.models.company import Company
+from app.cost.models.cost import Cost
+from app.accounts.models.user import User
 
 
 ###
@@ -11,34 +12,34 @@ from app.company.models.company import Company
 ###
 class FixedExpense(models.Model):
 
-    company = models.ForeignKey(
-        Company,
-        on_delete=models.CASCADE,
-        verbose_name=_('Company'),
-    )
     date = models.DateField(
         verbose_name=_('Date'),
     )
     name = models.CharField(
         max_length=255,
         verbose_name=_('Name'),
-        help_text=_('Name'),
     )
-    value = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        verbose_name=_('Value'),
-        help_text=_('Value'),
+    total_price = models.FloatField(
+        verbose_name=_('Total Price'),
+    )
+    costs = models.ManyToManyField(
+        Cost,
+        through='FixedExpenseCost',
+        related_name='costs',
+        verbose_name=_('Costs'),
     )
     description = models.TextField(
         verbose_name=_('Description'),
-        help_text=_('Description'),
         blank=True,
         null=True,
     )
+    type = models.CharField(
+        max_length=255,
+        verbose_name=_('Type'),
+    )
 
-    @property
-    def total_fixed_expense(self):
-        total= sum([fixed_expense.value for fixed_expense in FixedExpense.objects.all()])
-        return total
-      
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name=_('User'),
+    )

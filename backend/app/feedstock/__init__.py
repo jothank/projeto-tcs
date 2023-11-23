@@ -1,1 +1,1 @@
-default_app_config = 'app.feedstock.apps.FeedstockConfig'
+default_app_config = 'app.feedstock.apps.feedstockConfig'

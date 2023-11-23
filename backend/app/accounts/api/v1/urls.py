@@ -1,5 +1,5 @@
 ##
-# Libraries
+# Libs
 ##
 from django.urls import path, re_path
 from rest_framework import routers
@@ -20,11 +20,14 @@ from django.views.generic import TemplateView
 from rest_framework_simplejwt.views import TokenVerifyView
 from dj_rest_auth.jwt_auth import get_refresh_view
 
+###
 # Routers
+###
 router = routers.DefaultRouter()
 
-
+###
 # URLs
+###
 urlpatterns = [
     # Register
     path(

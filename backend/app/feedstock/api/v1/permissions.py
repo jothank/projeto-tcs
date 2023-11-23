@@ -1,8 +1,8 @@
 """
-API V1: Feedstock Permissions
+API V1: feedstock Permissions
 """
 ###
-# Libraries
+# Libs
 ###
 
 

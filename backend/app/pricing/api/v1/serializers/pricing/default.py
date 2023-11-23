@@ -2,7 +2,7 @@
 API V1: Pricing Serializers
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import serializers
 from app.pricing.models.pricing import Pricing
@@ -16,3 +16,4 @@ class DefaultPricingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pricing
         fields = '__all__'
+        read_only_fields = ('user',)

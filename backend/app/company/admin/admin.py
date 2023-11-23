@@ -2,7 +2,7 @@
 Company admin
 """
 ###
-# Libraries
+# Libs
 ###
 from django.contrib import admin
 from app.company.models.company import Company

@@ -43,6 +43,7 @@ Linux/MacOs: source venv/bin/activate
 
 <pre>
 pip install --upgrade pip
+python.exe -m pip install --upgrade pip
 </pre>
 
 <p>Instale as dependências:</p>

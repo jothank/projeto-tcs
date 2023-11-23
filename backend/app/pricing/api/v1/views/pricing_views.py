@@ -2,11 +2,12 @@
 API V1: Pricing Views
 """
 ###
-# Libraries
+# Libs
 ###
 from rest_framework import viewsets
 from app.pricing.models.pricing import Pricing
 from app.pricing.api.v1.serializers.pricing.default import DefaultPricingSerializer
+from app.pricing.api.v1.serializers.pricing.list import ListPricingSerializer
 
 
 ###
@@ -15,5 +16,20 @@ from app.pricing.api.v1.serializers.pricing.default import DefaultPricingSeriali
 
 
 class PricingViewSet(viewsets.ModelViewSet):
-    queryset = Pricing.objects.all()
-    serializer_class = DefaultPricingSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return user.pricing_set.all()
+        else:
+            return Pricing.objects.none()
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(user=user)
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ListPricingSerializer
+        else:
+            return DefaultPricingSerializer

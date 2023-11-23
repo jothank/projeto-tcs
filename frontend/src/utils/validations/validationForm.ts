@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { emailSchema } from "./validationBase";
+import { emailSchema, noMoreThanTwoSpaces } from "./validationBase";
 
 const passwordRegex =
   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&.\\])[A-Za-z\d@$!%*#?&.\\]{8,}$/;
@@ -15,12 +15,23 @@ export const passwordSchema = Yup.string()
 export const usernameSchema = Yup.string()
   .min(3, "O nome de usuário deve ter pelo menos 3 caracteres.")
   .max(20, "O nome de usuário não deve exceder 20 caracteres.")
+  .test(
+    'no-more-than-two-spaces',
+    "O nome de usuário não deve conter mais de dois espaços.",
+    value => noMoreThanTwoSpaces(value)
+  )
   .required("Este campo é obrigatório!");
+
 
 const nameSchema = (name: string) =>
   Yup.string()
     .min(3, `O ${name} deve ter pelo menos 3 caracteres.`)
     .max(20, `O ${name} não deve exceder 20 caracteres.`)
+    .test(
+      'no-more-than-two-spaces',
+      `O ${name} não deve conter mais de dois espaços.`,
+      value => noMoreThanTwoSpaces(value)
+    )
     .required("Este campo é obrigatório!");
 
 export const ConfirmPasswordResetValidation = Yup.object({

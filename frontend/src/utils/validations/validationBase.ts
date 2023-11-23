@@ -6,3 +6,8 @@ export const emailSchema = Yup.string()
     "Este não é um email válido."
   )
   .required("Este campo é obrigatório!");
+
+export const noMoreThanTwoSpaces = (value: any) => {
+  const spaceCount = (value.match(/ /g) || []).length;
+  return spaceCount <= 2;
+};

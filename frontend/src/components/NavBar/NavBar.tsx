@@ -1,19 +1,66 @@
 import React, { useState } from "react";
 import logo from "assets/logo/logo.png";
-import { logout } from "services/auth.service";
 import CustomAppBar from "./Header/Header.component";
 import CustomDrawer from "./SideBar/SideBar.compenent";
+import { getLogout } from "utils/ModalAlert";
 
 const NavBar: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const menuItems = [
     { text: "Home", href: "/home", title: "Bem-vindo ao GastroCustos" },
-    { text: "Empresa", href: "/company", title: "Empresa" },
+    { text: "Insumos", href: "/feed-stock", title: "Insumos" },
+    { text: "Produto", href: "/product", title: "Produtos" },
+    { text: "Combo", href: "/combo", title: "Combos" },
+    {
+      text: "Gastos Fixos",
+      href: "/fixed-expense",
+      title: "Gastos Fixos",
+      subItems: [
+        {
+          text: "Cadastrar Gastos Fixos",
+          href: "/fixed-expense/add",
+          title: "Cadastrar Gastos Fixos",
+        },
+        {
+          text: "Visualizar Gastos Fixos",
+          href: "/fixed-expense/view",
+          title: "Visualizar Gastos Fixos",
+        },
+      ],
+    },
+    {
+      text: "Simulador de Precificação",
+      href: "/pricing",
+      title: "Simulador de precificação",
+      subItems: [
+        {
+          text: "Simulador de preço",
+          href: "/pricing/simulator",
+          title: "Simulador de preço"
+        },
+        {
+          text: "Histórico de precificação",
+          href: "/pricing/history",
+          title: "Histórico de precificação"
+        }
+      ]
+    },
+    { text: "Simulador de produção", href: "/production-simulator", title: "Simulador de produção" },
+    { text: "Ficha técnica", href: "/datasheet", title: "Ficha técnica" },
+   
   ];
+
   const currentPath = new URL(window.location.href).pathname;
-  const matchedItem = menuItems.find((item) => currentPath === item.href);
-  const pageTitle = matchedItem?.title || "Página não encontrada";
+  const findMenuItem = (items: any[], path: string) =>
+    items
+      .flatMap((item: { subItems: any }) => [item, ...(item.subItems || [])])
+      .find((item: { href: any }) => item.href === path);
+  const matchedItem = findMenuItem(menuItems, currentPath);
+  let pageTitle = matchedItem?.title || "Página não encontrada";
+  if (currentPath === "/user") {
+    pageTitle = "Editar Perfil";
+  }
 
   const handleDrawerOpen = () => {
     setIsDrawerOpen(true);
@@ -32,9 +79,12 @@ const NavBar: React.FC = () => {
   };
 
   const handleLogout = () => {
-    logout();
-    window.location.reload();
+    getLogout("Deseja realmente sair?");
   };
+
+  function handleEditProfile(): void {
+    window.location.href = "/user";
+  }
 
   return (
     <div style={{ marginBlockEnd: "2%" }}>
@@ -45,6 +95,7 @@ const NavBar: React.FC = () => {
         handleMenuClose={handleMenuClose}
         handleLogout={handleLogout}
         anchorEl={anchorEl}
+        handleEditProfile={handleEditProfile}
       />
       <CustomDrawer
         isDrawerOpen={isDrawerOpen}

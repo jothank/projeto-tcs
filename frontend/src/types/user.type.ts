@@ -12,7 +12,7 @@ export interface RegisterIUser {
 export interface RegisterInputProps {
   name: string;
   label: string;
-  type: "text" | "email" | "password";
+  type: "text" | "email" | "password" | "number" | "date";
 }
 
 export interface LoginIUser {

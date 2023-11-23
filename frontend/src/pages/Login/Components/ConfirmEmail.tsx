@@ -12,7 +12,7 @@ import {
   TitleForms,
 } from "components/FormGroup";
 
-import { ConfirmEmailValidation } from "utils/validationForm";
+import { ConfirmEmailValidation } from "utils/validations/validationForm";
 
 const ConfirmEmailValues: ConfirmEmailIUser = {
   email: "",
@@ -86,7 +86,7 @@ const ConfirmEmail: React.FC = () => {
             <h2>Obrigado por verificar sua conta</h2>
           </TitleForms>
           <ButtonForms>
-            <Link href="/login" underline="hover" variant="subtitle2">
+            <Link href="/" underline="hover" variant="subtitle2">
               Deseja acessar o sistema?
             </Link>
           </ButtonForms>

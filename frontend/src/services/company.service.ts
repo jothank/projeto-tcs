@@ -1,5 +1,6 @@
 import { BASE_URL } from "../config";
 import axios from "axios";
+import { getAuthorizationHeader } from "../utils/GetHeader";
 
 export const setCompany = async (
   name: string,
@@ -14,15 +15,6 @@ export const setCompany = async (
   country: string,
   zipcode: string
 ) => {
-  const localStorageAccessToken = localStorage.getItem("accessToken");
-  const accessToken = localStorageAccessToken
-    ? JSON.parse(localStorageAccessToken)
-    : null;
-
-  console.log(accessToken);
-  const headers = {
-    Authorization: `Bearer ${accessToken}`,
-  };
   try {
     const response = await axios.post(
       BASE_URL + "company/",
@@ -40,11 +32,11 @@ export const setCompany = async (
         zipcode,
       },
       {
-        headers,
+        headers: await getAuthorizationHeader(),
       }
     );
     return response.data;
   } catch (error) {
-    throw new Error("deu ruim");
+    throw error;
   }
 };

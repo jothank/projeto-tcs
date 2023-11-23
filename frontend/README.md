@@ -37,7 +37,7 @@ git clone https://github.com/jothank/projeto-tcs.git
 
 <p>Instale as dependências:</p>
 
-<pre>npm install</pre>
+<pre>npm install --force</pre>
 
 <p>Inicie o servidor:</p>
 

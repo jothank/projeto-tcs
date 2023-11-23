@@ -2,12 +2,13 @@ import { Button, Stack } from "@mui/material";
 import { Form, Formik } from "formik";
 import React from "react";
 import { CompanyType } from "types/company.types";
-import { CompanyValidation } from "utils/validationCompany";
+import { CompanyValidation } from "utils/validations/validationCompany";
 import { getErro, getSuccess } from "utils/ModalAlert";
 import { ContainerCompany } from "components/Company/ContainerCompany";
 import {
   CompanyInput,
   CNPJCompanyInput,
+  PhoneNumberInput,
 } from "components/Company/InputCompany";
 import { setCompany } from "services/company.service";
 
@@ -31,10 +32,22 @@ const Company: React.FC = () => {
     { resetForm }: { resetForm: () => void }
   ) => {
     try {
-      //   await registerCompany(company);
-      setCompany(company.name, company.cnpj, company.email, company.phone, company.street, company.number, company.neighborhood, company.city, company.state, company.country, company.zipcode);
+      setCompany(
+        company.name,
+        company.cnpj,
+        company.email,
+        company.phone,
+        company.street,
+        company.number,
+        company.neighborhood,
+        company.city,
+        company.state,
+        company.country,
+        company.zipcode
+      );
       console.log(company);
-      getSuccess("Company registered successfully.");
+      getSuccess("Empresa criada com sucesso.");
+      resetForm();
     } catch (error: any) {
       getErro(error.message);
     }
@@ -56,7 +69,7 @@ const Company: React.FC = () => {
 
             <Stack spacing={1} direction={{ xs: "column", sm: "row" }}>
               <CompanyInput name="email" label="Email" type="email" />
-              <CompanyInput name="phone" label="Telefone" type="text" />
+              <PhoneNumberInput name="phone" label="Telefone" />
             </Stack>
 
             <Stack spacing={1} direction={{ xs: "column", sm: "row" }}>

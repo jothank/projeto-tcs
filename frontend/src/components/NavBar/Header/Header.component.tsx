@@ -17,6 +17,7 @@ interface AppBarProps {
   handleMenuOpen: (event: React.MouseEvent<HTMLElement>) => void;
   handleMenuClose: () => void;
   handleLogout: () => void;
+  handleEditProfile: () => void;
   anchorEl: null | HTMLElement;
 }
 
@@ -26,17 +27,27 @@ const CustomAppBar: React.FC<AppBarProps> = ({
   handleMenuOpen,
   handleMenuClose,
   handleLogout,
+  handleEditProfile,
   anchorEl,
 }) => (
   <AppBar position="sticky" className={styles.theme}>
     <Toolbar>
-      <IconButton edge="start" color="inherit" onClick={handleDrawerOpen}>
+      <IconButton
+        edge="start"
+        color="inherit"
+        sx={{ color: "black" }}
+        onClick={handleDrawerOpen}
+      >
         <MenuIcon />
       </IconButton>
       <Typography variant="h6" className={styles.title}>
         {pageTitle}
       </Typography>
-      <IconButton color="inherit" onClick={handleMenuOpen}>
+      <IconButton
+        sx={{ color: "black" }}
+        color="inherit"
+        onClick={handleMenuOpen}
+      >
         <AccountCircle />
       </IconButton>
       <Menu
@@ -44,7 +55,7 @@ const CustomAppBar: React.FC<AppBarProps> = ({
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={handleMenuClose}>Editar Perfil</MenuItem>
+        <MenuItem onClick={handleEditProfile}>Editar Perfil</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </Toolbar>

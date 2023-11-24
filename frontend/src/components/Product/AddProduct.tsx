@@ -35,7 +35,7 @@ const validationSchema = Yup.object({
   feedstock: Yup.object({
     id: Yup.number().notOneOf([0], "Insumo é obrigatório"),
   }).required("Insumo é obrigatório"),
-  quantity: Yup.number().required("Quantidade é obrigatório"),
+  quantity: Yup.number().required("Quantidade é obrigatório").moreThan(0, "O preço deve ser maior que 0"),
   unit: Yup.string().required("Unidade é obrigatório"),
   price: Yup.number().required("Preço é obrigatório"),
 });

@@ -18,14 +18,14 @@ import {
   PricingType,
   ProductionSimulatorType,
 } from "./ProductionSimulatorTable";
+import { updateProductionSimulator } from "services/ProductionSimulator.service";
+import { getErro } from "utils/ModalAlert";
 
 export interface AddFixedExpensesProps {
   open: boolean;
   onClose: () => void;
+  productionSimulator: ProductionSimulatorType | null;
   pricings: PricingType[];
-  onProductionSimulatorUpdate: (
-    newProductionSimulator: ProductionSimulatorType
-  ) => void;
 }
 
 const validationSchema = Yup.object().shape({
@@ -40,30 +40,36 @@ const validationSchema = Yup.object().shape({
     }),
 });
 
-const ModalAddProductionSimulator: React.FC<AddFixedExpensesProps> = ({
+const ModalEditProductionSimulator: React.FC<AddFixedExpensesProps> = ({
   open,
   onClose,
+  productionSimulator,
   pricings,
-  onProductionSimulatorUpdate,
 }) => {
   const initialValues = {
-    productionQuantity: 0,
-    pricingId: "",
+    id: productionSimulator?.id || 0,
+    productionQuantity: productionSimulator?.production_quantity || 0,
+    pricingId: productionSimulator?.pricing.id || "",
   };
 
-  const handleSubmit = (
+  const handleSubmit = async (
     values: any,
     { resetForm }: { resetForm: () => void }
   ) => {
-    console.log(values);
-    onProductionSimulatorUpdate(values);
-    resetForm();
+    try {
+      console.log(values);
+      const response = await updateProductionSimulator(values);
+      resetForm();
+      window.location.reload();
+    } catch (error) {
+      getErro("Erro ao editar simulação");
+    }
     onClose();
   };
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Criar simulação</DialogTitle>
+      <DialogTitle>Editar simulação</DialogTitle>
       <DialogContent>
         <Formik
           initialValues={initialValues}
@@ -80,9 +86,8 @@ const ModalAddProductionSimulator: React.FC<AddFixedExpensesProps> = ({
                 />
               </FormControl>
               <FormControl fullWidth margin="dense">
-                <InputLabel id="pricing-select-label">Produto</InputLabel>
+                <InputLabel>Produto</InputLabel>
                 <Select
-                  labelId="pricing-select-label"
                   name="pricingId"
                   onChange={(e) => setFieldValue("pricingId", e.target.value)}
                   value={values.pricingId}
@@ -97,7 +102,9 @@ const ModalAddProductionSimulator: React.FC<AddFixedExpensesProps> = ({
                 </Select>
                 {touched.pricingId && errors.pricingId && (
                   <FormHelperText error={true}>
-                    {errors.pricingId}
+                    {typeof errors.pricingId === "string"
+                      ? errors.pricingId
+                      : ""}
                   </FormHelperText>
                 )}
               </FormControl>
@@ -117,4 +124,4 @@ const ModalAddProductionSimulator: React.FC<AddFixedExpensesProps> = ({
   );
 };
 
-export default ModalAddProductionSimulator;
+export default ModalEditProductionSimulator;

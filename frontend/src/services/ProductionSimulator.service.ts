@@ -6,7 +6,7 @@ export const saveProductionSimulator = async (data: any) => {
   try {
     const response = await axios.post(
       BASE_URL + "production_simulator/",
-      data,
+      { production_quantity: data.productionQuantity, pricing: data.pricingId },
       {
         headers: await getAuthorizationHeader(),
       }
@@ -23,6 +23,35 @@ export const getProductionSimulator = async () => {
       headers: await getAuthorizationHeader(),
     });
     return response.data.results;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateProductionSimulator = async (data: any) => {
+  try {
+    const response = await axios.put(
+      BASE_URL + `production_simulator/${data.id}/ `,
+      { production_quantity: data.productionQuantity, pricing: data.pricingId },
+      {
+        headers: await getAuthorizationHeader(),
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteProductionSimulator = async (id: number| undefined) => {
+  try {
+    const response = await axios.delete(
+      BASE_URL + `production_simulator/${id}/ `,
+      {
+        headers: await getAuthorizationHeader(),
+      }
+    );
+    return response.data;
   } catch (error) {
     throw error;
   }

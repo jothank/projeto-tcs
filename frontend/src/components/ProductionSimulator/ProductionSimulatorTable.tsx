@@ -17,7 +17,11 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { getProductionSimulator } from "services/ProductionSimulator.service";
+import {
+  deleteProductionSimulator,
+  getProductionSimulator,
+  saveProductionSimulator,
+} from "services/ProductionSimulator.service";
 import { formatToBRL } from "utils/pricing";
 import { FixedExpenseType } from "components/FixedExpenses/FixedExpensesView";
 import { getFixedExpense } from "services/fixedexpense.service";
@@ -25,6 +29,13 @@ import TableFixedExpense from "./TableFixedExpense";
 import ProductionTable from "./TableProductionSimulator";
 import ModalAddProductionSimulator from "./ModalAddProductionSimulator";
 import { getPricing } from "services/pricing.service";
+import ModalEditProductionSimulator from "./ModalEditProductionSimulator";
+import Swal from "sweetalert2";
+import { getErro } from "utils/ModalAlert";
+import { useReactToPrint } from "react-to-print";
+import * as XLSX from "xlsx";
+import PrintIcon from "@mui/icons-material/Print";
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 
 export interface PricingType {
   id?: number;
@@ -40,6 +51,7 @@ export interface PricingType {
 }
 
 export interface ProductionSimulatorType {
+  id?: number;
   pricing: PricingType;
   production_quantity: number;
   amortization: number;
@@ -47,6 +59,7 @@ export interface ProductionSimulatorType {
 
 const ProductionSimulatorTable = () => {
   const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const [productionSimulator, setProductionSimulator] = useState<
     ProductionSimulatorType[]
   >([]);
@@ -54,7 +67,44 @@ const ProductionSimulatorTable = () => {
   const [selectedFixedExpense, setSelectedFixedExpense] =
     React.useState<FixedExpenseType | null>(null);
   const [pricings, setPricings] = React.useState<PricingType[]>([]);
+  const [editingSimulator, setEditingSimulator] =
+    useState<ProductionSimulatorType | null>(null);
+  const componentRef = React.useRef(null);
 
+  const handleAddProductionSimulator = async (
+    newProductionSimulator: ProductionSimulatorType
+  ) => {
+    try {
+      const response = await saveProductionSimulator(newProductionSimulator);
+      console.log(response);
+      window.location.reload();
+    } catch (error) {}
+  };
+
+  const handleDeleteProductionSimulator = async (
+    productionSimulator: ProductionSimulatorType
+  ) => {
+    try {
+      Swal.fire({
+        title: "Você tem certeza?",
+        text: "Você não poderá reverter isso!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const response = await deleteProductionSimulator(
+            productionSimulator.id
+          );
+          console.log(response);
+          window.location.reload();
+        }
+      });
+    } catch (error) {
+      getErro("Erro ao deletar simulação");
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -65,12 +115,33 @@ const ProductionSimulatorTable = () => {
         setFixedExpenses(result.results);
         const response = await getPricing();
         setPricings(response.results);
-          console.log(pricings);
       } catch (error) {
         console.log(error);
       }
     })();
   }, []);
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
+  const exportToExcel = () => {
+    const wb = XLSX.utils.book_new();
+
+    const ws = XLSX.utils.json_to_sheet(
+      productionSimulator.map((item) => ({
+        "Nome do prato": item.pricing.product?.name || item.pricing.combo?.name,
+        "Condominio Unitário": item.pricing.condominium,
+        "Quantidade de Produção": item.production_quantity,
+        Amortização: item.amortization,
+        "Preço Sugerido": item.pricing.suggested_price,
+        "Custo Unitário":
+          item.pricing.combo?.price || item.pricing.product?.price,
+      }))
+    );
+    XLSX.utils.book_append_sheet(wb, ws, "Dados");
+    XLSX.writeFile(wb, "feedstock_data.xlsx");
+  };
 
   return (
     <>
@@ -95,9 +166,18 @@ const ProductionSimulatorTable = () => {
               ))}
             </Select>
           </FormControl>
-          <Button
-          onClick={() => setOpen(true)}
-          >Simular Produção</Button>
+        </Grid>
+        <Grid>
+          <Button variant="contained" onClick={() => setOpen(true)}>
+            Simular Produção
+          </Button>
+
+          <Button onClick={handlePrint} variant="outlined" sx={{ mr: 2 }}>
+            <PrintIcon />
+          </Button>
+          <Button onClick={exportToExcel} variant="outlined">
+            <CloudDownloadIcon />
+          </Button>
         </Grid>
         <Grid item xs={12}>
           {selectedFixedExpense && (
@@ -113,77 +193,91 @@ const ProductionSimulatorTable = () => {
           )}
         </Grid>
       </Grid>
-      <Paper sx={{ width: "100%", marginTop: "2%" }}>
-        <TableContainer>
-          <Typography variant="h5" align="center">
-            Simulador de Produção
-          </Typography>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell align="center">Porções</TableCell>
-                <TableCell align="center">Condominio Unitário</TableCell>
-                <TableCell align="center">Produção</TableCell>
-                <TableCell align="center">Amortização</TableCell>
-                <TableCell align="center">PV</TableCell>
-                <TableCell align="center">Produção</TableCell>
-                <TableCell align="center"></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {productionSimulator.map((simulator, index) => (
-                <TableRow
-                  key={index}
-                  sx={{
-                    backgroundColor: index % 2 !== 0 ? "#ffffff" : "#f2f2f2",
-                  }}
-                >
-                  <TableCell align="center">
-                    {simulator.pricing.product?.name ||
-                      simulator.pricing.combo?.name}
-                  </TableCell>
-                  <TableCell align="center">
-                    {formatToBRL(simulator.pricing.condominium)}
-                  </TableCell>
-                  <TableCell align="center">
-                    {simulator.production_quantity}
-                  </TableCell>
-                  <TableCell align="center">
-                    {formatToBRL(simulator.amortization)}
-                  </TableCell>
-                  <TableCell align="center">
-                    {formatToBRL(simulator.pricing.suggested_price)}
-                  </TableCell>
-                  <TableCell align="center">
-                    {formatToBRL(simulator.pricing.combo?.price) ||
-                      formatToBRL(simulator.pricing.product?.price)}
-                  </TableCell>
-
-                  <TableCell align="center">
-                    <Button>
-                      <DeleteIcon
-                        style={{
-                          cursor: "pointer",
-                          color: "red",
-                        }}
-                      />
-                    </Button>
-                    <Button>
-                      <EditIcon
-                        style={{
-                          cursor: "pointer",
-                          color: "blue",
-                        }}
-                      />
-                    </Button>
-                  </TableCell>
+      <div ref={componentRef}>
+        <Paper sx={{ width: "100%", marginTop: "2%" }}>
+          <TableContainer>
+            <Typography variant="h5" align="center">
+              Simulador de Produção
+            </Typography>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center">Nome do prato</TableCell>
+                  <TableCell align="center">Condominio Unitário</TableCell>
+                  <TableCell align="center">Quantidade de Produção</TableCell>
+                  <TableCell align="center">Amortização</TableCell>
+                  <TableCell align="center">Preço Sugerido</TableCell>
+                  <TableCell align="center">Custo Unitário</TableCell>
+                  <TableCell align="center"></TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-      <ModalAddProductionSimulator open={open} onClose={() => setOpen(false)} pricings={pricings} />
+              </TableHead>
+              <TableBody>
+                {productionSimulator.map((simulator, index) => (
+                  <TableRow
+                    key={index}
+                    sx={{
+                      backgroundColor: index % 2 !== 0 ? "#ffffff" : "#f2f2f2",
+                    }}
+                  >
+                    <TableCell align="center">
+                      {simulator.pricing.product?.name ||
+                        simulator.pricing.combo?.name}
+                    </TableCell>
+                    <TableCell align="center">
+                      {formatToBRL(simulator.pricing.condominium)}
+                    </TableCell>
+                    <TableCell align="center">
+                      {simulator.production_quantity}
+                    </TableCell>
+                    <TableCell align="center">
+                      {formatToBRL(simulator.amortization)}
+                    </TableCell>
+                    <TableCell align="center">
+                      {formatToBRL(simulator.pricing.suggested_price)}
+                    </TableCell>
+                    <TableCell align="center">
+                      {formatToBRL(simulator.pricing.combo?.price) ||
+                        formatToBRL(simulator.pricing.product?.price)}
+                    </TableCell>
+
+                    <TableCell align="center">
+                      <Button
+                        onClick={() => {
+                          handleDeleteProductionSimulator(simulator);
+                        }}
+                        color="secondary"
+                        startIcon={<DeleteIcon />}
+                      ></Button>
+                      <Button
+                        onClick={() => {
+                          setOpenEdit(true);
+                          setEditingSimulator(simulator);
+                        }}
+                        startIcon={<EditIcon />}
+                      ></Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      </div>
+      <ModalAddProductionSimulator
+        open={open}
+        onClose={() => setOpen(false)}
+        pricings={pricings}
+        onProductionSimulatorUpdate={handleAddProductionSimulator}
+      />
+      <ModalEditProductionSimulator
+        open={openEdit}
+        onClose={() => {
+          setOpenEdit(false);
+          setEditingSimulator(null);
+        }}
+        productionSimulator={editingSimulator}
+        pricings={pricings}
+      />
     </>
   );
 };

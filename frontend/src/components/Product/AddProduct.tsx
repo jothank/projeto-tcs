@@ -91,7 +91,7 @@ const AddProduct: React.FC<ProductFormProps> = ({
         onSubmit={handleAddProduct}
         validationSchema={validationSchema}
       >
-        <Form>
+        <Form style={{ padding: "10px" }}>
           <Field
             name="feedstock"
             label="Insumo"

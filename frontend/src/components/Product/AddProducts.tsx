@@ -75,7 +75,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
 
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>{getTitle()}</DialogTitle>
-        <Grid>
+        <Grid padding={2}>
           <ProductForm
             feedstockList={feedstockList}
             onSubmit={handleSubmit}

@@ -56,24 +56,25 @@ const ProductArrayField: React.FC<ProductArrayFieldProps> = ({
                   label="Unidade"
                   options={options}
                 />
+                <IconButton
+                  onClick={() =>
+                    push({
+                      feedstock: { id: "" },
+                      quantity: 0,
+                      unit: "",
+                      price: 0,
+                    })
+                  }
+                >
+                  <AddIcon sx={{ color: "green" }} />
+                </IconButton>
                 <IconButton onClick={() => remove(index)}>
                   <RemoveIcon sx={{ color: "red" }} />
                 </IconButton>
               </FormControl>
             </div>
           ))}
-          <IconButton
-            onClick={() =>
-              push({
-                feedstock: { id: "" },
-                quantity: 0,
-                unit: "",
-                price: 0,
-              })
-            }
-          >
-            <AddIcon />
-          </IconButton>
+
         </div>
       )}
     </FieldArray>

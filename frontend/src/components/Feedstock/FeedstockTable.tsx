@@ -125,7 +125,7 @@ export function FeedstockTable({ data }: CustomTableProps) {
           justifyContent: "end",
         }}
       >
-        <Grid container spacing={2} justifyContent="center" alignItems="center">
+        <Grid container spacing={2} justifyContent="center" alignItems="center" padding={1}>
           <AddFeedstock />
           <Select
             value={filter}

@@ -9,5 +9,5 @@ export const emailSchema = Yup.string()
 
 export const noMoreThanTwoSpaces = (value: any) => {
   const spaceCount = (value.match(/ /g) || []).length;
-  return spaceCount <= 2;
+  return spaceCount < 2;
 };

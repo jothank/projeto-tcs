@@ -112,7 +112,7 @@ const FixedExpensesTableView = () => {
           costs: updatedCosts,
           total_price: totalCostsPrice,
         };
-        console.log("1",updatedFixedExpense);
+        console.log("1", updatedFixedExpense);
         setSelectedFixedExpense(updatedFixedExpense);
 
         setFixedExpenses((prevExpenses) =>
@@ -132,7 +132,7 @@ const FixedExpensesTableView = () => {
     try {
       const response = await deleteFixedExpense(fixedExpenseId);
       window.location.reload();
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -201,7 +201,7 @@ const FixedExpensesTableView = () => {
                   onClick={() =>
                     handleDeleteFixedExpense(selectedFixedExpense.id || "")
                   }
-                  startIcon={<DeleteIcon />}
+                  startIcon={<DeleteIcon sx={{ color: "red" }} />}
                 />
               </Grid>
               {selectedFixedExpense?.type === "manual" && (
@@ -210,7 +210,7 @@ const FixedExpensesTableView = () => {
                     fullWidth
                     color="primary"
                     onClick={() => setOpenAddFixedExpense(!openAddFixedExpense)}
-                    startIcon={<EditIcon />}
+                    startIcon={<EditIcon sx={{ color: "blue" }} />}
                   />
                 </Grid>
               )}
@@ -258,12 +258,12 @@ const FixedExpensesTableView = () => {
                   <Button
                     onClick={() => cost.id && handleDeleteCost(cost.id)}
                     color="secondary"
-                    startIcon={<DeleteIcon />}
+                    startIcon={<DeleteIcon sx={{ color: "red" }} />}
                   />
                   <Button
                     onClick={() => openEditModal(cost)}
                     color="primary"
-                    startIcon={<EditIcon />}
+                    startIcon={<EditIcon sx={{ color: "blue" }} />}
                   />
                 </TableCell>
               </TableRow>

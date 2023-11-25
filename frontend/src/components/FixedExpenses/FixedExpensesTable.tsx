@@ -28,6 +28,7 @@ import EditFixedExpenses from "./ModalEdit";
 import UnitSelect from "components/SelectOptions/SelectOptions";
 import { optionsMonth } from "utils/FixedExpensesMonths";
 import { FormInput } from "components/FormGroup";
+import Swal from "sweetalert2";
 
 const FixedExpensesTable = () => {
   const [costs, setCosts] = React.useState<CostType[]>([]);
@@ -87,10 +88,31 @@ const FixedExpensesTable = () => {
     }
   };
 
-  const handleDeleteCost = (index: number) => {
-    const newCosts = [...costs];
-    newCosts.splice(index, 1);
-    setCosts(newCosts);
+  const handleDeleteCost = async (cost: CostType) => {
+    Swal.fire({
+      title: "Tem certeza de que deseja excluir esta despesa?",
+      text: "Esta ação não pode ser desfeita!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sim, excluir!",
+      cancelButtonText: "Cancelar",
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          if (cost && cost.id) {
+            const newCosts = costs.filter((c) => c.id !== cost.id);
+            setCosts(newCosts);
+
+            Swal.fire("Excluído!", "A despesa foi excluída.", "success");
+          }
+        } catch (error) {
+          getErro(`Erro ao excluir a despesa com ID ${cost.id}`);
+        }
+      } else {
+        Swal.fire("Cancelado", "A despesa não foi excluída.", "error");
+      }
+    });
   };
 
   const handleUpdateCost = (updatedCost: CostType) => {
@@ -101,6 +123,7 @@ const FixedExpensesTable = () => {
     });
     setOpenEdit(false);
   };
+
   return (
     <>
       <Formik
@@ -129,6 +152,7 @@ const FixedExpensesTable = () => {
                     color="primary"
                     onClick={handleOpenAddDialog}
                     disabled={values.manualEntry}
+                    sx={{ width: "205px" }}
                   >
                     Adicionar custos
                   </Button>
@@ -167,7 +191,7 @@ const FixedExpensesTable = () => {
               </Grid>
 
               <Grid>
-                <Button type="submit" variant="contained" color="primary">
+                <Button type="submit" variant="contained" color="primary" sx={{ width: "205px" }}>
                   Cadastrar despesas
                 </Button>
               </Grid>
@@ -194,14 +218,12 @@ const FixedExpensesTable = () => {
                               }}
                             >
                               <TableCell align="center">{cost.name}</TableCell>
-                              <TableCell align="center">
-                                {cost.description}
-                              </TableCell>
+                              <TableCell align="center">{cost.description}</TableCell>
                               <TableCell align="center">
                                 {formatToBRL(cost.price)}
                               </TableCell>
                               <TableCell align="center">
-                                <Button onClick={() => handleDeleteCost(index)}>
+                                <Button onClick={() => handleDeleteCost(cost)}>
                                   <DeleteIcon
                                     style={{
                                       cursor: "pointer",

@@ -15,6 +15,7 @@ import { FormInput } from "components/FormGroup";
 import { v4 as uuidv4 } from "uuid";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { noMoreThanTwoSpaces } from "utils/validations/validationBase";
 
 export interface CostType {
   id?: string;
@@ -33,7 +34,7 @@ const validationSchema = Yup.object().shape({
   costs: Yup.array()
     .of(
       Yup.object().shape({
-        name: Yup.string().required("Campo obrigatório"),
+        name: Yup.string().required("Campo obrigatório").test('no-more-than-two-spaces', `O Produto não deve conter mais de dois espaços.`, value => noMoreThanTwoSpaces(value)),
         description: Yup.string(),
         price: Yup.number()
           .typeError("Deve ser um número")
@@ -116,7 +117,7 @@ const AddCosts: React.FC<AddFixedExpensesProps> = ({
                             push({ name: "", description: "", price: 0 })
                           }
                         >
-                          <AddIcon />
+                          <AddIcon sx={{ color: "green" }} />
                         </IconButton>
                       </Grid>
                       {values.costs.length > 0 && (

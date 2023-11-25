@@ -78,7 +78,7 @@ const ModalAddCosts: React.FC<AddFixedExpensesProps> = ({ onCostsUpdate }) => {
               <DialogActions>
                 <Button onClick={handleClose}>Cancelar</Button>
                 <Button type="submit" variant="contained">
-                  Salvar Gasto
+                  Salvar
                 </Button>
               </DialogActions>
             </Form>

@@ -20,7 +20,7 @@ class FeedstockViewSet(viewsets.ModelViewSet):
         user = self.request.user
 
         if user.is_authenticated:
-            return user.feedstock_set.all()
+            return user.feedstock_set.all().order_by('id')
         else:
             return Feedstock.objects.none()
 

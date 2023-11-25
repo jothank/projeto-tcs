@@ -1,9 +1,10 @@
 ###
 # Libs
 ###
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from ..models.pricing import Pricing
+from app.production_simulator.models.production_simulator import ProductionSimulator
 
 
 ###
@@ -27,3 +28,10 @@ def calculate_suggested_price(sender, instance, **kwargs):
                    instance.other/100 + instance.profit/100)
     suggested_price = total_cost / divisor
     instance.suggested_price = suggested_price
+
+
+@receiver(post_save, sender=Pricing)
+def update_production_simulator_on_pricing_update(sender, instance, **kwargs):
+    for simulator in ProductionSimulator.objects.filter(pricing=instance):
+        simulator.amortization = instance.condominium * simulator.production_quantity
+        simulator.save()

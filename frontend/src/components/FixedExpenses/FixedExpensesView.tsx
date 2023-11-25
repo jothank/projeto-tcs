@@ -240,7 +240,7 @@ const FixedExpensesTableView = () => {
               <TableCell align="center">Despesa</TableCell>
               <TableCell align="center">Descrição</TableCell>
               <TableCell align="center">Valor</TableCell>
-              <TableCell align="center">Ações</TableCell>
+              <TableCell align="center"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
-import { getPricing } from 'services/pricing.service';
+import { deletePricing, getPricing } from 'services/pricing.service';
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import { ProductPricingType } from 'types/pricing,types';
+import { ProductPricingType } from 'types/pricing.types';
+import Swal from "sweetalert2";
+import EditPricing from './EditPricing';
 
- 
 const PricingHistory = () => {
   const [pricingData, setPricingData] = useState<ProductPricingType[]>([]);
-
+  const [selectedPricing, setSelectedPricing] = useState<ProductPricingType | null>(null);
   useEffect(() => {
     const fetchPricing = async () => {
       try {
         const pricingData = await getPricing();
         console.log(pricingData)
-        setPricingData(pricingData.results);  
+        setPricingData(pricingData.results);
       } catch (error) {
         console.error('Error fetching pricing data', error);
       }
@@ -23,62 +23,84 @@ const PricingHistory = () => {
     fetchPricing();
   }, []);
 
+  const handleDelete = async (item: ProductPricingType) => {
+    try {
+      await deletePricing(item.id);
+      const updatedPricingData = pricingData.filter((pricing) => pricing.id !== item.id);
+      setPricingData(updatedPricingData);
+      Swal.fire("Excluído!", "O item foi excluído com sucesso.", "success");
+    } catch (error) {
+      console.error("Erro ao excluir item", error);
+      Swal.fire("Erro", "Ocorreu um erro ao excluir o item.", "error");
+    }
+  };
+
+
   return (
     <Grid
-    sx={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center"
-    }}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }}
     >
-    <Paper sx={{ width: '80%' }}>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Produto</TableCell>
-              <TableCell>Preço</TableCell>
-              <TableCell>Condomínio</TableCell>
-              <TableCell>Imposto</TableCell>
-              <TableCell>Cartão Débito/Crédito</TableCell>
-              <TableCell>Outros</TableCell>
-              <TableCell>Lucro</TableCell>
-              <TableCell>Entrega</TableCell>
-              <TableCell>Preço Sugerido</TableCell>
-              <TableCell>Ações</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {pricingData.map((pricing, index) => (
-              <TableRow key={`${pricing.id} - ${index}`}
-              sx={{
-                backgroundColor: index % 2 === 0 ? "#f2f2f2" : "#ffffff"
-              }}
-              >
-                <TableCell>{pricing.product?.name || pricing.combo?.name}</TableCell>
-                <TableCell>{pricing.product?.price || pricing.combo?.price}</TableCell>
-                <TableCell>{pricing.condominium}</TableCell>
-                <TableCell>{pricing.tax}</TableCell>
-                <TableCell>{pricing.card_tax}</TableCell>
-                <TableCell>{pricing.other}</TableCell>
-                <TableCell>{pricing.profit}</TableCell>
-                <TableCell>{pricing.delivery_price}</TableCell>
-                <TableCell>{pricing.suggested_price.toFixed(2)}</TableCell>
-                <TableCell>
-                  <Button>
-                    <DeleteIcon sx={{color: "red"}}/>
-                  </Button>
-                  <Button>
-                    <EditIcon />
-                  </Button>
-                </TableCell>
+      <Paper sx={{ width: '80%' }}>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Produto</TableCell>
+                <TableCell>Preço</TableCell>
+                <TableCell>Condomínio</TableCell>
+                <TableCell>Imposto</TableCell>
+                <TableCell>Cartão Débito/Crédito</TableCell>
+                <TableCell>Outros</TableCell>
+                <TableCell>Lucro</TableCell>
+                <TableCell>Entrega</TableCell>
+                <TableCell>Preço Sugerido</TableCell>
+                <TableCell>Ações</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Paper>
-    </Grid>
+            </TableHead>
+            <TableBody>
+              {pricingData.map((pricing, index) => (
+                <TableRow key={`${pricing.id} - ${index}`}
+                  sx={{
+                    backgroundColor: index % 2 === 0 ? "#f2f2f2" : "#ffffff"
+                  }}
+                >
+                  <TableCell>{pricing.product?.name || pricing.combo?.name}</TableCell>
+                  <TableCell>{pricing.product?.price || pricing.combo?.price}</TableCell>
+                  <TableCell>{pricing.condominium}</TableCell>
+                  <TableCell>{pricing.tax}</TableCell>
+                  <TableCell>{pricing.card_tax}</TableCell>
+                  <TableCell>{pricing.other}</TableCell>
+                  <TableCell>{pricing.profit}</TableCell>
+                  <TableCell>{pricing.delivery_price}</TableCell>
+                  <TableCell>{pricing.suggested_price.toFixed(2)}</TableCell>
+                  <TableCell>
+                    <Grid
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row"
+                      }}
+                    >
+                      <Button onClick={() => handleDelete(pricing)}>
+                        <DeleteIcon sx={{ color: "red" }} />
+                      </Button>
+                      <EditPricing
+                        pricing={pricing}
+                        setSelectedPricing={setSelectedPricing}
+                      />
+                    </Grid>
+                  </TableCell>
+
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+    </Grid >
   );
 };
 

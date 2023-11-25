@@ -3,9 +3,9 @@ import { TextField, Grid, Typography, Button } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { PricingtemInput } from './InputPricing';
 import { PricingValidation } from 'utils/validations/validationPricing';
-import { PricingType } from 'types/pricing,types';
+import { PricingType } from 'types/pricing.types';
 
-const PricingItemValue: PricingType = {
+export const PricingItemValue: PricingType = {
   tax: 0,
   card_tax: 0,
   other: 0,

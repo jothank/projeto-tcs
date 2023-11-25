@@ -4,7 +4,7 @@ import ConfirmPasswordReset from "pages/Login/Components/ConfirmPasswordReset";
 import Register from "pages/Login/Components/Register";
 import Login from "pages/Login/Login";
 import ConfirmEmail from "pages/Login/Components/ConfirmEmail";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, RouterProvider } from "react-router-dom";
 import PrivateRoute from "hooks/ProtectedRoutes/PrivateRoute";
 import Company from "pages/Company/Company";
 import ResaleItem from "pages/ResaleItem/ResaleItem";
@@ -127,6 +127,9 @@ export const AppRoutes = () => {
         </PrivateRoute>
       }
       />
+      
     </Routes>
+
+   
   );
 };

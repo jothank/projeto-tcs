@@ -1,68 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { Divider, Box, Button, Typography, Modal } from "@mui/material";
-import { StyleModal } from "components/StyleModal/StyleModal";
-import { FeedstockType } from "types/Feedstock.type";
-import EditIcon from "@mui/icons-material/Edit";
-import { FeedstockInput } from "components/Feedstock/InputFeedstock";
-import UnitSelect from "components/SelectOptions/SelectOptions";
+import { Box, Button, Modal, Typography, Divider } from "@mui/material";
 import { Form, Formik } from "formik";
-import { getErro, getSuccess } from "utils/ModalAlert";
-import { FeedstockValidation } from "utils/validations/validationFeedstock";
-import { options } from "utils/FeedstockUnit";
-import { Types } from "./AddFeedstock";
-import { updatefeedstock } from "services/feedstock.service";
+import { PricingValidation } from "utils/validations/validationPricing";
+import Swal from "sweetalert2";
+import { updatePricing } from "services/pricing.service";
 import { ButtonContainer } from "components/ButtonContainer/ButtonContainer";
-
-export const EditFeedstock = ({
-  item,
-  onClose,
-  onUpdated,
-}: {
-  item: FeedstockType;
-  onClose: () => void;
-  onUpdated?: (updatedItem: FeedstockType) => void;
-}) => {
+import { PricingtemInput } from "components/Pricing/InputPricing";
+import EditIcon from "@mui/icons-material/Edit"
+const EditPricing = ({ pricing, onClose, onUpdated }: any) => {
   const [open, setOpen] = React.useState(false);
+  const [formData, setFormData] = useState(pricing);
+
+  useEffect(() => {
+    setFormData(pricing);
+  }, [pricing]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
     onClose();
   };
-  const [formData, setFormData] = useState<FeedstockType>(item);
 
-  useEffect(() => {
-    setFormData(item);
-  }, [item]);
-
-  const handleUpdate = async (values: FeedstockType) => {
+  const handleUpdate = async (values: any) => {
     try {
-      await updatefeedstock(
-        values.id || 0,
-        values.name,
-        values.price,
-        values.quantity,
-        values.unit,
-        values.type
-      );
+      await updatePricing({
+        id: pricing.id,
+        condominium: values.condominium,
+        tax: values.tax,
+        card_tax: values.card_tax,
+        other: values.other,
+        profit: values.profit,
+        delivery_price: values.delivery_price,
+      });
+
       handleClose();
       onUpdated?.(values);
-      getSuccess("Item atualizado com sucesso");
-    } catch (error: any) {
-      getErro(error.message);
+      Swal.fire("Editado!", "O item foi editado com sucesso.", "success");
+    } catch (error) {
+      console.error("Erro ao editar item", error);
+      Swal.fire("Erro", "Ocorreu um erro ao editar o item.", "error");
     }
   };
 
   return (
     <div>
       <Button onClick={handleOpen}>
-        <EditIcon
-          style={{
-            cursor: "pointer",
-            marginRight: "10px",
-            color: "bleu",
-          }}
-        />
+        <EditIcon style={{ cursor: "pointer", marginRight: "10px", color: "blue" }} />
       </Button>
       <Modal
         open={open}
@@ -70,22 +53,23 @@ export const EditFeedstock = ({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={StyleModal}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Editar Insumos
+        <Box>
+          <Typography variant="h6" component="h2">
+            Editar Preços
           </Typography>
           <Divider />
           <Formik
             initialValues={formData}
-            validationSchema={FeedstockValidation}
+            validationSchema={PricingValidation}
             onSubmit={handleUpdate}
           >
             <Form>
-              <FeedstockInput name="name" label="Nome" type="text" />
-              <FeedstockInput name="price" label="Preço" type="text" />
-              <FeedstockInput name="quantity" label="Quantidade" type="text" />
-              <UnitSelect name="unit" label="Unidade" options={options} />
-              <UnitSelect name="type" label="Tipo" options={Types} />
+              <PricingtemInput name="condominium" label="Condomínio" type="text" />
+              <PricingtemInput name="tax" label="Taxa" type="text" />
+              <PricingtemInput name="card_tax" label="Taxa do cartão" type="text" />
+              <PricingtemInput name="other" label="Outros" type="text" />
+              <PricingtemInput name="profit" label="Lucro" type="text" />
+              <PricingtemInput name="delivery_price" label="Taxa de entrega" type="text" />
               <ButtonContainer>
                 <Button onClick={handleClose}>Cancelar</Button>
                 <Button variant="contained" type="submit">
@@ -100,4 +84,4 @@ export const EditFeedstock = ({
   );
 };
 
-export default EditFeedstock;
+export default EditPricing;

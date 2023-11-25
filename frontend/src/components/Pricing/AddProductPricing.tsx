@@ -18,7 +18,7 @@ import {
 import { formatToBRL } from "utils/pricing";
 import { ProductTableProps } from "types/Product.types";
 import FinancialComponent from "./FinancialComponent";
-import { PricingType } from "types/pricing,types";
+import { PricingType } from "types/pricing.types";
 import { getPricing, setPricing } from "services/pricing.service";
 import { FeedstockType } from "types/Feedstock.type";
 

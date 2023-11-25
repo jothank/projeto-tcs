@@ -2153,3 +2153,4 @@ node_modules/zip-stream/node_modules/archiver-utils/LICENSE
 node_modules/zip-stream/node_modules/archiver-utils/package.json
 node_modules/zip-stream/node_modules/archiver-utils/README.md
 backend/app/production_simulator/migrations/0001_initial.py
+frontend/yarn.lock

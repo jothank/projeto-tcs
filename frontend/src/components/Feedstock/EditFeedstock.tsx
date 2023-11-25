@@ -59,8 +59,8 @@ export const EditFeedstock = ({
         <EditIcon
           style={{
             cursor: "pointer",
-            marginRight: "10px",
-            color: "bleu",
+            color: "blue",
+            marginRight: "5px",
           }}
         />
       </Button>

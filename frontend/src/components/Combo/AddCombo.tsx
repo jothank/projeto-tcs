@@ -122,16 +122,30 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
                                   </FormControl>
                                 )}
                               </Field>
-                              <IconButton onClick={() => remove(index)}>
-                              <RemoveIcon sx={{ color: "red" }} />
-                            </IconButton>
+                              <div style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}>
+                                <IconButton onClick={() => remove(index)}>
+                                  <RemoveIcon sx={{ color: "red" }} />
+                                </IconButton>
+                              </div>
                             </FormControl>
                           </div>
                         )
                       )}
-                      <IconButton onClick={() => push(null)}>
-                        <AddIcon />
-                      </IconButton>
+                      <div style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}>
+                        <IconButton onClick={() => push(null)}>
+                          <AddIcon sx={{
+                            color: "green",
+                          }} />
+                        </IconButton>
+                      </div>
                     </div>
                   )}
                 </FieldArray>

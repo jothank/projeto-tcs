@@ -184,6 +184,7 @@ export function FeedstockTable({ data }: CustomTableProps) {
                         display: "flex",
                         flexDirection: "row",
                         justifyContent: "center",
+                        marginRight: "50px", 
                       }}
                     >
                       <Button onClick={() => handleDelete(item)}>

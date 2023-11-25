@@ -52,7 +52,7 @@ const ModalAddCosts: React.FC<AddFixedExpensesProps> = ({ onCostsUpdate }) => {
 
   return (
     <>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="contained" onClick={handleClickOpen} >
         Adicionar Gasto Fixo
       </Button>
       <Dialog open={open} onClose={handleClose}>

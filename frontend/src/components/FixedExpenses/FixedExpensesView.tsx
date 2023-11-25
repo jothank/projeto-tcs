@@ -35,6 +35,11 @@ import ModalAddCosts from "./ModalAddCosts";
 import ModalAddFixedExpenses from "./AddFixedExpenses";
 import { getErro, getSuccess } from "utils/ModalAlert";
 import { formatDate } from "utils/date";
+import Swal from "sweetalert2";
+import PrintIcon from "@mui/icons-material/Print";
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
+import { useReactToPrint } from "react-to-print";
+import * as XLSX from "xlsx";
 
 export interface FixedExpenseType {
   id?: string;
@@ -55,39 +60,56 @@ const FixedExpensesTableView = () => {
   const [selectedFixedExpense, setSelectedFixedExpense] =
     React.useState<FixedExpenseType | null>(null);
 
-  async function handleDeleteCost(costId: string) {
-    try {
-      await deleteCost(costId);
-      if (selectedFixedExpense && selectedFixedExpense.costs) {
-        const updatedCosts = selectedFixedExpense.costs.filter(
-          (cost) => cost.id !== costId
-        );
+  const handleDeleteCost = async (costId: string) => {
+    Swal.fire({
+      title: "Tem certeza de que deseja excluir este custo?",
+      text: "Esta ação não pode ser desfeita!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sim, excluir!",
+      cancelButtonText: "Cancelar",
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await deleteCost(costId);
 
-        const totalCostsPrice = updatedCosts.reduce(
-          (total, cost) => total + cost.price,
-          0
-        );
+          if (selectedFixedExpense && selectedFixedExpense.costs) {
+            const updatedCosts = selectedFixedExpense.costs.filter(
+              (cost) => cost.id !== costId
+            );
 
-        const updatedFixedExpense = {
-          ...selectedFixedExpense,
-          costs: updatedCosts,
-          total_price: totalCostsPrice,
-        };
+            const totalCostsPrice = updatedCosts.reduce(
+              (total, cost) => total + cost.price,
+              0
+            );
 
-        setSelectedFixedExpense(updatedFixedExpense);
+            const updatedFixedExpense = {
+              ...selectedFixedExpense,
+              costs: updatedCosts,
+              total_price: totalCostsPrice,
+            };
 
-        setFixedExpenses((prevExpenses) =>
-          prevExpenses.map((expense) =>
-            expense.id === updatedFixedExpense.id
-              ? updatedFixedExpense
-              : expense
-          )
-        );
+            setSelectedFixedExpense(updatedFixedExpense);
+
+            setFixedExpenses((prevExpenses) =>
+              prevExpenses.map((expense) =>
+                expense.id === updatedFixedExpense.id
+                  ? updatedFixedExpense
+                  : expense
+              )
+            );
+
+            Swal.fire("Excluído!", "O custo foi excluído.", "success");
+          }
+        } catch (error) {
+          console.log("Erro ao deletar o custo:", error);
+        }
+      } else {
+        Swal.fire("Cancelado", "O custo não foi excluído.", "error");
       }
-    } catch (error) {
-      console.log("Erro ao deletar o custo:", error);
-    }
-  }
+    });
+  };
 
   function openEditModal(cost: any): void {
     setCurrentCost(cost);
@@ -129,10 +151,26 @@ const FixedExpensesTableView = () => {
   }
 
   const handleDeleteFixedExpense = async (fixedExpenseId: string) => {
-    try {
-      const response = await deleteFixedExpense(fixedExpenseId);
-      window.location.reload();
-    } catch (error) { }
+    Swal.fire({
+      title: "Tem certeza de que deseja excluir esta despesa fixa?",
+      text: "Esta ação não pode ser desfeita!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sim, excluir!",
+      cancelButtonText: "Cancelar",
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await deleteFixedExpense(fixedExpenseId);
+          window.location.reload(); // Reload the page after deletion
+        } catch (error) {
+          console.log("Erro ao deletar despesa fixa:", error);
+        }
+      } else {
+        Swal.fire("Cancelado", "A despesa fixa não foi excluída.", "error");
+      }
+    });
   };
 
   useEffect(() => {
@@ -204,6 +242,8 @@ const FixedExpensesTableView = () => {
                   startIcon={<DeleteIcon sx={{ color: "red" }} />}
                 />
               </Grid>
+              <Grid>
+              </Grid>
               {selectedFixedExpense?.type === "manual" && (
                 <Grid item>
                   <Button
@@ -214,6 +254,12 @@ const FixedExpensesTableView = () => {
                   />
                 </Grid>
               )}
+              {/* <Button onClick={handlePrint} variant="outlined" sx={{ mr: 2 }}> */}
+                <PrintIcon />
+              {/* </Button> */}
+              {/* // <Button onClick={exportToExcel} variant="outlined"> */}
+                <CloudDownloadIcon />
+              {/* // </Button> */}
             </>
           )}
           {selectedFixedExpense && (
@@ -285,16 +331,17 @@ const FixedExpensesTableView = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      {selectedFixedExpense?.type === "automatic" && (
-        <ModalAddCosts onCostsUpdate={handleCostsUpdate} />
-      )}
-
       {selectedFixedExpense && (
         <>
-          <Typography variant="subtitle1" align="right">
-            Preço Total: {formatToBRL(selectedFixedExpense.total_price)}
-          </Typography>
+          <Grid sx={{ margin: "10px" }}>
+            <Typography variant="subtitle1" align="right">
+              Preço Total: {formatToBRL(selectedFixedExpense.total_price)}
+            </Typography>
+          </Grid>
         </>
+      )}
+      {selectedFixedExpense?.type === "automatic" && (
+        <ModalAddCosts onCostsUpdate={handleCostsUpdate} />
       )}
       <EditFixedExpenses
         open={openEdit}

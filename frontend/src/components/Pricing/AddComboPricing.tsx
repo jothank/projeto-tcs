@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
 import { getCombos } from 'services/combo.service';
 import FinancialComponent from './FinancialComponent';
-import { PricingType } from 'types/pricing,types';
+import { PricingType } from 'types/pricing.types';
 import { setPricing } from 'services/pricing.service';
 import { formatToBRL } from 'utils/pricing';
 import { number } from 'yup';

@@ -1,4 +1,3 @@
-import { ProductType } from "./Product.types";
 
 export interface PricingType {
     id?: number;

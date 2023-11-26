@@ -1,7 +1,7 @@
 import React from "react";
 import { Field } from "formik";
 import { TextField } from "@mui/material";
-import { PricingInputProps } from "types/pricing,types";
+import { PricingInputProps } from "types/pricing.types";
 
 export const PricingtemInput: React.FC<PricingInputProps> = ({
     name,

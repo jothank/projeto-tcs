@@ -18,7 +18,7 @@ class ComboViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.is_authenticated:
-            return user.combo_set.all()
+            return user.combo_set.all().order_by('id')
         else:
             return Combo.objects.none()
 

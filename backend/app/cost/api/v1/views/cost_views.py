@@ -17,7 +17,7 @@ class CostViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.is_authenticated:
-            return user.cost_set.all()
+            return user.cost_set.all().order_by('id')
         else:
             return Cost.objects.none()
 

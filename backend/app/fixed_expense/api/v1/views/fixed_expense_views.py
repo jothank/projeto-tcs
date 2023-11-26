@@ -10,7 +10,6 @@ from app.fixed_expense.api.v1.serializers.fixed_expense.create import CreateFixe
 from app.fixed_expense.api.v1.serializers.fixed_expense.retrieve import RetrieveFixedExpenseSerializer
 from app.fixed_expense.api.v1.serializers.fixed_expense.update import UpdateFixedExpenseSerializer
 from app.fixed_expense.models.fixed_expense import FixedExpense
-from app.fixed_expense.models.expense_fixed_expense import FixedExpenseCost
 
 
 ###
@@ -31,7 +30,7 @@ class FixedExpenseViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.is_authenticated:
-            return user.fixedexpense_set.all()
+            return user.fixedexpense_set.all().order_by('id')
         else:
             return FixedExpense.objects.none()
 

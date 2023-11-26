@@ -23,7 +23,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         user = self.request.user
 
         if user.is_authenticated:
-            return user.product_set.all()
+            return user.product_set.all().order_by('id')
 
         else:
             return Product.objects.none()

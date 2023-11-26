@@ -20,7 +20,7 @@ class PricingViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.is_authenticated:
-            return user.pricing_set.all()
+            return user.pricing_set.all().order_by('id')
         else:
             return Pricing.objects.none()
 

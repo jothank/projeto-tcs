@@ -4,8 +4,7 @@ API V1: Supply Views
 ###
 # Libs
 ###
-from rest_framework import viewsets, status
-from rest_framework.response import Response
+from rest_framework import viewsets
 from app.supply.models.supply import Supply
 from app.supply.api.v1.serializers.supply.default import DefaultSupplySerializer
 from app.supply.api.v1.serializers.supply.retrieve import RetrieveSupplySerializer
@@ -20,7 +19,7 @@ class SupplyViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.is_authenticated:
-            return user.supply_set.all()
+            return user.supply_set.all().order_by('id')
         else:
             return Supply.objects.none()
 

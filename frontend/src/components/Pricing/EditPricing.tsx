@@ -42,32 +42,32 @@ const EditPricingModal = ({ pricing, onClose, onUpdated }: any) => {
           <Formik initialValues={formData} onSubmit={handleUpdate}>
             <Form>
               <Grid
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px",
-                marginTop: "10px"
-              }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                  marginTop: "10px"
+                }}
               >
-              <TextField label="Condomínio" fullWidth name="condominium" value={formData.condominium} onChange={(e) => setFormData({ ...formData, condominium: e.target.value })} />
-              <TextField label="Taxa" fullWidth name="tax" value={formData.tax} onChange={(e) => setFormData({ ...formData, tax: e.target.value })} />
-              <TextField label="Taxa do Cartão" fullWidth name="card_tax" value={formData.card_tax} onChange={(e) => setFormData({ ...formData, card_tax: e.target.value })} />
-              <TextField label="Outros" fullWidth name="other" value={formData.other} onChange={(e) => setFormData({ ...formData, other: e.target.value })} />
-              <TextField label="Lucro" fullWidth name="profit" value={formData.profit} onChange={(e) => setFormData({ ...formData, profit: e.target.value })} />
-              <TextField label="Taxa de Entrega" fullWidth name="delivery_price" value={formData.delivery_price} onChange={(e) => setFormData({ ...formData, delivery_price: e.target.value })} />
+                <TextField label="Condomínio" fullWidth name="condominium" value={formData.condominium} onChange={(e) => setFormData({ ...formData, condominium: e.target.value })} />
+                <TextField label="Taxa" fullWidth name="tax" value={formData.tax} onChange={(e) => setFormData({ ...formData, tax: e.target.value })} />
+                <TextField label="Taxa do Cartão" fullWidth name="card_tax" value={formData.card_tax} onChange={(e) => setFormData({ ...formData, card_tax: e.target.value })} />
+                <TextField label="Outros" fullWidth name="other" value={formData.other} onChange={(e) => setFormData({ ...formData, other: e.target.value })} />
+                <TextField label="Lucro" fullWidth name="profit" value={formData.profit} onChange={(e) => setFormData({ ...formData, profit: e.target.value })} />
+                <TextField label="Taxa de Entrega" fullWidth name="delivery_price" value={formData.delivery_price} onChange={(e) => setFormData({ ...formData, delivery_price: e.target.value })} />
               </Grid>
               <Grid
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "end",
-                justifyContent: "end",
-                marginTop: "2%",
-                gap: "10px"
-              }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "end",
+                  justifyContent: "end",
+                  marginTop: "2%",
+                  gap: "10px"
+                }}
               >
-              <Button onClick={handleClose} variant="outlined">Cancelar</Button>
-              <Button type="submit" variant="contained">Editar</Button>
+                <Button onClick={handleClose} variant="outlined">Cancelar</Button>
+                <Button type="submit" variant="contained">Editar</Button>
               </Grid>
             </Form>
           </Formik>

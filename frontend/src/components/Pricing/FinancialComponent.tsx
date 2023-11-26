@@ -23,12 +23,12 @@ export interface FinancialComponentProps {
 const FinancialComponent: React.FC<FinancialComponentProps> = ({
   onFinancial,
 }) => {
- 
+
   return (
     <Formik
       initialValues={PricingItemValue}
       validationSchema={PricingValidation}
-      onSubmit={(values) =>{
+      onSubmit={(values) => {
         onFinancial([values])
       }}
     >
@@ -38,39 +38,39 @@ const FinancialComponent: React.FC<FinancialComponentProps> = ({
             <Typography variant="h6" color="textSecondary">Valor do Condomínio</Typography>
           </Grid>
           <Grid item xs={6}>
-            <PricingtemInput name='condominium' label='Condomínio' type='text' />
+            <PricingtemInput name='condominium' label='Condomínio' type='number' />
           </Grid>
           <Grid item xs={4}>
             <Typography>Imposto</Typography>
-            <PricingtemInput name='tax' label='Taxa' type='text' />
+            <PricingtemInput name='tax' label='Taxa' type='number' />
           </Grid>
           <Grid item xs={4}>
             <Typography>Cartão Débito | Crédito</Typography>
-            <PricingtemInput name='card_tax' label='Taxa do cartão' type='text' />
+            <PricingtemInput name='card_tax' label='Taxa do cartão' type='number' />
           </Grid>
           <Grid item xs={4}>
             <Typography>Outros</Typography>
-            <PricingtemInput name='other' label='Outros' type='text' />
+            <PricingtemInput name='other' label='Outros' type='number' />
           </Grid>
           <Grid item xs={4}>
             <Typography>Lucro</Typography>
-            <PricingtemInput name='profit' label='Lucro' type='text' />
+            <PricingtemInput name='profit' label='Lucro' type='number' />
           </Grid>
           <Grid item xs={4}>
             <Typography>Taxa de entrega</Typography>
-            <PricingtemInput name='delivery_price' label='Taxa de entrega' type='text' />
+            <PricingtemInput name='delivery_price' label='Taxa de entrega' type='number' />
           </Grid>
           <Grid item xs={2}>
-          <Button
-          sx={{marginTop: "15%"}} 
-            type="submit"
-            variant="contained"
-            color="primary"
-          >
-            Salvar
-          </Button>
-        </Grid>
-       
+            <Button
+              sx={{ marginTop: "15%", width: "150px" }}
+              type="submit"
+              variant="contained"
+              color="primary"
+            >
+              Salvar
+            </Button>
+          </Grid>
+
         </Grid>
       </Form>
     </Formik>

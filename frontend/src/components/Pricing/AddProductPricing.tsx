@@ -190,13 +190,9 @@ export const AddProductPricing = ({ data }: ProductTableProps) => {
                 align="right"
                 style={{ padding: 16 }}
               >
-               Preço Sugerido: {typeof suggestedPrice === 'number' ? suggestedPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : formatToBRL(Number(suggestedPrice))}
-
-
+                Preço Sugerido: {typeof suggestedPrice === 'number' ? suggestedPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : formatToBRL(Number(suggestedPrice))}
               </Typography>
-
             </Typography>
-
           </Grid>
         </Grid>
       </Paper>

@@ -33,10 +33,10 @@ function PricingSimulator() {
 
   return (
     <Grid
-    sx={{
-      widht: "80%",
-      marginLeft: "5%"
-    }}
+      sx={{
+        widht: "80%",
+        marginLeft: "15%"
+      }}
     >
       <Button onClick={toggleSimulator} variant='contained'>
         {isProductSimulatorVisible ? ' Simulador de Produtos' : 'Simulador de Combos'}

@@ -52,7 +52,7 @@ const EditDialog: React.FC<EditDialogProps> = ({
       id: Yup.number().moreThan(0, "Insumo é obrigatório"),
       name: Yup.string().required("Nome do insumo é obrigatório"),      
     }).required("Insumo é obrigatório"),
-    quantity: Yup.number().required("Quantidade é obrigatório").moreThan(0, "O preço deve ser maior que 0"),
+    quantity: Yup.number().required("Quantidade é obrigatório").moreThan(0, "O preço deve ser maior que 0").transform((value, originalValue) => typeof originalValue === "string" ? parseFloat(originalValue.replace(/[^0-9.,]/g, "").replace(",", ".")) : value),
   });
 
   const handleEdit = async (values: Product) => {

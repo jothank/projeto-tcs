@@ -7,7 +7,7 @@ export const ProductValidation = Yup.object().shape({
     .test('no-more-than-two-spaces', `O Produto não deve conter mais de dois espaços.`, value => noMoreThanTwoSpaces(value))
     .required("Este campo é obrigatório"),
   feedstock_type: Yup.string().required("Este campo é obrigatório."),
-  price: Yup.number().required("Este campo é obrigatório."),
-  quantity: Yup.number().required("Este campo é obrigatório.").moreThan(0, "O preço deve ser maior que 0"),
+  price: Yup.number().required("Este campo é obrigatório.").moreThan(0, "O preço deve ser maior que 0").transform((value, originalValue) => typeof originalValue === "string" ? parseFloat(originalValue.replace(/[^0-9.,]/g, "").replace(",", ".")) : value),
+  quantity: Yup.number().required("Este campo é obrigatório.").moreThan(0, "O preço deve ser maior que 0").transform((value, originalValue) => typeof originalValue === "string" ? parseFloat(originalValue.replace(/[^0-9.,]/g, "").replace(",", ".")) : value),
   unit: Yup.string().required("Este campo é obrigatório."),
 });

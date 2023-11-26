@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Table,
   TableBody,
@@ -109,6 +109,32 @@ const FixedExpensesTableView = () => {
         Swal.fire("Cancelado", "O custo não foi excluído.", "error");
       }
     });
+  };
+
+  const tableRef = useRef(null);
+
+  const handlePrint = useReactToPrint({
+    content: () => tableRef.current,
+  });
+
+  const exportToExcel = () => {
+    if (!selectedFixedExpense || !selectedFixedExpense.costs) {
+      return;
+    }
+
+    const data = selectedFixedExpense.costs.map((cost) => ({
+      Despesa: cost.name,
+      Descrição: cost.description,
+      Valor: formatToBRL(cost.price),
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(data);
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Despesas");
+
+    const fileName = `Gastos_Fixos_${selectedFixedExpense.name}.xlsx`;
+    XLSX.writeFile(wb, fileName);
   };
 
   function openEditModal(cost: any): void {
@@ -254,12 +280,12 @@ const FixedExpensesTableView = () => {
                   />
                 </Grid>
               )}
-              {/* <Button onClick={handlePrint} variant="outlined" sx={{ mr: 2 }}> */}
+              <Button onClick={handlePrint} variant="outlined" sx={{ mr: 2 }}>
                 <PrintIcon />
-              {/* </Button> */}
-              {/* // <Button onClick={exportToExcel} variant="outlined"> */}
+              </Button>
+              <Button onClick={exportToExcel} variant="outlined">
                 <CloudDownloadIcon />
-              {/* // </Button> */}
+              </Button>
             </>
           )}
           {selectedFixedExpense && (
@@ -279,7 +305,7 @@ const FixedExpensesTableView = () => {
         </Grid>
       </FormControl>
 
-      <TableContainer component={Paper} elevation={3}>
+      <TableContainer component={Paper} elevation={3} ref={tableRef}>
         <Table>
           <TableHead>
             <TableRow>

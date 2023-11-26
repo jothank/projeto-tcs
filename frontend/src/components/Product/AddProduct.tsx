@@ -35,7 +35,7 @@ const validationSchema = Yup.object({
   feedstock: Yup.object({
     id: Yup.number().notOneOf([0], "Insumo é obrigatório"),
   }).required("Insumo é obrigatório"),
-  quantity: Yup.number().required("Quantidade é obrigatório").moreThan(0, "O preço deve ser maior que 0"),
+  quantity: Yup.number().required("Quantidade é obrigatório").moreThan(0, "O preço deve ser maior que 0").transform((value, originalValue) => typeof originalValue === "string" ? parseFloat(originalValue.replace(/[^0-9.,]/g, "").replace(",", ".")) : value),
   unit: Yup.string().required("Unidade é obrigatório"),
   price: Yup.number().required("Preço é obrigatório"),
 });
@@ -133,7 +133,7 @@ const AddProduct: React.FC<ProductFormProps> = ({
               </FormControl>
             )}
           />
-          <ProductInput name="quantity" label="Quantidade" type="text" />
+          <ProductInput name="quantity" label="Quantidade" type="number" />
           <UnitSelect name="unit" label="Unidade" options={options} />
           <DialogActions>
             <Button onClick={onClose} color="primary">

@@ -38,27 +38,27 @@ const FinancialComponent: React.FC<FinancialComponentProps> = ({
             <Typography variant="h6" color="textSecondary">Valor do Condomínio</Typography>
           </Grid>
           <Grid item xs={6}>
-            <PricingtemInput name='condominium' label='Condomínio' type='number' />
+            <PricingtemInput name='condominium' label='Condomínio' type='text' />
           </Grid>
           <Grid item xs={4}>
             <Typography>Imposto</Typography>
-            <PricingtemInput name='tax' label='Taxa' type='number' />
+            <PricingtemInput name='tax' label='Taxa' type='text' />
           </Grid>
           <Grid item xs={4}>
             <Typography>Cartão Débito | Crédito</Typography>
-            <PricingtemInput name='card_tax' label='Taxa do cartão' type='number' />
+            <PricingtemInput name='card_tax' label='Taxa do cartão' type='text' />
           </Grid>
           <Grid item xs={4}>
             <Typography>Outros</Typography>
-            <PricingtemInput name='other' label='Outros' type='number' />
+            <PricingtemInput name='other' label='Outros' type='text' />
           </Grid>
           <Grid item xs={4}>
             <Typography>Lucro</Typography>
-            <PricingtemInput name='profit' label='Lucro' type='number' />
+            <PricingtemInput name='profit' label='Lucro' type='text' />
           </Grid>
           <Grid item xs={4}>
             <Typography>Taxa de entrega</Typography>
-            <PricingtemInput name='delivery_price' label='Taxa de entrega' type='number' />
+            <PricingtemInput name='delivery_price' label='Taxa de entrega' type='text' />
           </Grid>
           <Grid item xs={2}>
             <Button

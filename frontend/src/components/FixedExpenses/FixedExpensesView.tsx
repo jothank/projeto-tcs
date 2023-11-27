@@ -40,6 +40,8 @@ import PrintIcon from "@mui/icons-material/Print";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import { useReactToPrint } from "react-to-print";
 import * as XLSX from "xlsx";
+import CircularProgress from "@mui/material/CircularProgress";
+import Backdrop from "@mui/material/Backdrop";
 
 export interface FixedExpenseType {
   id?: string;
@@ -56,9 +58,11 @@ const FixedExpensesTableView = () => {
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openAddFixedExpense, setOpenAddFixedExpense] = React.useState(false);
   const [currentCost, setCurrentCost] = React.useState<CostType | null>(null);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   const [selectedFixedExpense, setSelectedFixedExpense] =
     React.useState<FixedExpenseType | null>(null);
+  const componentRef = useRef(null);
 
   const handleDeleteCost = async (costId: string) => {
     Swal.fire({
@@ -111,10 +115,15 @@ const FixedExpensesTableView = () => {
     });
   };
 
-  const tableRef = useRef(null);
-
   const handlePrint = useReactToPrint({
-    content: () => tableRef.current,
+    content: () => componentRef.current,
+    onBeforeGetContent: () => {
+      setIsGeneratingPDF(true);
+      return new Promise((resolve) => {
+        setTimeout(resolve, 1);
+      });
+    },
+    onAfterPrint: () => setIsGeneratingPDF(false),
   });
 
   const exportToExcel = () => {
@@ -268,8 +277,7 @@ const FixedExpensesTableView = () => {
                   startIcon={<DeleteIcon sx={{ color: "red" }} />}
                 />
               </Grid>
-              <Grid>
-              </Grid>
+              <Grid></Grid>
               {selectedFixedExpense?.type === "manual" && (
                 <Grid item>
                   <Button
@@ -304,68 +312,75 @@ const FixedExpensesTableView = () => {
           )}
         </Grid>
       </FormControl>
-
-      <TableContainer component={Paper} elevation={3} ref={tableRef}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">Despesa</TableCell>
-              <TableCell align="center">Descrição</TableCell>
-              <TableCell align="center">Valor</TableCell>
-              <TableCell align="center"></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {selectedFixedExpense?.costs.map((cost, index) => (
-              <TableRow
-                key={cost.id}
-                sx={{
-                  backgroundColor: index % 2 !== 0 ? "#ffffff" : "#f2f2f2",
-                }}
-              >
-                <TableCell align="center">{cost.name}</TableCell>
-                <TableCell align="center">{cost.description}</TableCell>
-                <TableCell align="center">{formatToBRL(cost.price)}</TableCell>
-                <TableCell align="center">
-                  <Button
-                    onClick={() => cost.id && handleDeleteCost(cost.id)}
-                    color="secondary"
-                    startIcon={<DeleteIcon sx={{ color: "red" }} />}
-                  />
-                  <Button
-                    onClick={() => openEditModal(cost)}
-                    color="primary"
-                    startIcon={<EditIcon sx={{ color: "blue" }} />}
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
-            {!selectedFixedExpense ? (
+      <div ref={componentRef}>
+        <TableContainer component={Paper} elevation={3}>
+          <Table>
+            <TableHead>
               <TableRow>
-                <TableCell colSpan={4} align="center">
-                  Nenhuma despesa selecionada
-                </TableCell>
+                <TableCell align="center">Despesa</TableCell>
+                <TableCell align="center">Descrição</TableCell>
+                <TableCell align="center">Valor</TableCell>
+                <TableCell align="center"></TableCell>
               </TableRow>
-            ) : !selectedFixedExpense.costs ||
-              selectedFixedExpense.costs.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={4} align="center">
-                  Nenhuma despesa cadastrada
-                </TableCell>
-              </TableRow>
-            ) : null}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      {selectedFixedExpense && (
-        <>
-          <Grid sx={{ margin: "10px" }}>
-            <Typography variant="subtitle1" align="right">
-              Preço Total: {formatToBRL(selectedFixedExpense.total_price)}
-            </Typography>
-          </Grid>
-        </>
-      )}
+            </TableHead>
+            <TableBody>
+              {selectedFixedExpense?.costs.map((cost, index) => (
+                <TableRow
+                  key={cost.id}
+                  sx={{
+                    backgroundColor: index % 2 !== 0 ? "#ffffff" : "#f2f2f2",
+                  }}
+                >
+                  <TableCell align="center">{cost.name}</TableCell>
+                  <TableCell align="center">{cost.description}</TableCell>
+                  <TableCell align="center">
+                    {formatToBRL(cost.price)}
+                  </TableCell>
+                  <TableCell align="center">
+                    {!isGeneratingPDF && (
+                      <>
+                        <Button
+                          onClick={() => cost.id && handleDeleteCost(cost.id)}
+                          color="secondary"
+                          startIcon={<DeleteIcon sx={{ color: "red" }} />}
+                        />
+                        <Button
+                          onClick={() => openEditModal(cost)}
+                          color="primary"
+                          startIcon={<EditIcon sx={{ color: "blue" }} />}
+                        />
+                      </>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+              {!selectedFixedExpense ? (
+                <TableRow>
+                  <TableCell colSpan={4} align="center">
+                    Nenhuma despesa selecionada
+                  </TableCell>
+                </TableRow>
+              ) : !selectedFixedExpense.costs ||
+                selectedFixedExpense.costs.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={4} align="center">
+                    Nenhuma despesa cadastrada
+                  </TableCell>
+                </TableRow>
+              ) : null}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        {selectedFixedExpense && (
+          <>
+            <Grid sx={{ margin: "10px" }}>
+              <Typography variant="subtitle1" align="right">
+                Preço Total: {formatToBRL(selectedFixedExpense.total_price)}
+              </Typography>
+            </Grid>
+          </>
+        )}
+      </div>
       {selectedFixedExpense?.type === "automatic" && (
         <ModalAddCosts onCostsUpdate={handleCostsUpdate} />
       )}
@@ -382,6 +397,14 @@ const FixedExpensesTableView = () => {
           open={openAddFixedExpense}
           fixedExpenses={selectedFixedExpense}
         />
+      )}
+      {isGeneratingPDF && (
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={isGeneratingPDF}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       )}
     </>
   );

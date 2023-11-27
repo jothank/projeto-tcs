@@ -27,6 +27,7 @@ const EditPricingModal = ({ pricing, onClose, onUpdated }: any) => {
       handleClose();
       onUpdated?.(values);
       Swal.fire("Editado!", "O item foi editado com sucesso.", "success");
+      window.location.reload();
     } catch (error) {
       console.error("Erro ao editar item", error);
       handleClose();

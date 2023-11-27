@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { deletePricing, getPricing } from 'services/pricing.service';
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -6,10 +6,28 @@ import Swal from "sweetalert2";
 import EditPricingModal from './EditPricing';
 import { ProductPricingType } from 'types/pricing.types';
 import { formatToBRL } from "utils/pricing";
+import { useReactToPrint } from 'react-to-print';
+import * as XLSX from 'xlsx';
+import PrintIcon from "@mui/icons-material/Print";
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 
 const PricingHistory = () => {
   const [pricingData, setPricingData] = useState<ProductPricingType[]>([]);
   const [selectedPricing, setSelectedPricing] = useState<ProductPricingType | null>(null);
+
+  const componentRef = useRef(null);
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
+  const handleExportToXLS = () => {
+    const ws = XLSX.utils.json_to_sheet(pricingData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Pricing Data");
+    XLSX.writeFile(wb, "pricing_data.xlsx");
+  };
+
   useEffect(() => {
     const fetchPricing = async () => {
       try {
@@ -62,60 +80,70 @@ const PricingHistory = () => {
       }}
     >
       <Paper sx={{ width: '80%' }}>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Produto</TableCell>
-                <TableCell>Preço</TableCell>
-                <TableCell>Condomínio</TableCell>
-                <TableCell>Imposto</TableCell>
-                <TableCell>Cartão Débito/Crédito</TableCell>
-                <TableCell>Outros</TableCell>
-                <TableCell>Lucro</TableCell>
-                <TableCell>Entrega</TableCell>
-                <TableCell>Preço Sugerido</TableCell>
-                <TableCell>Ações</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {pricingData.map((pricing, index) => (
-                <TableRow key={`${pricing.id} - ${index}`}
-                  sx={{
-                    backgroundColor: index % 2 === 0 ? "#f2f2f2" : "#ffffff"
-                  }}
-                >
-                  <TableCell>{pricing.product?.name || pricing.combo?.name}</TableCell>
-                  <TableCell>{formatToBRL(pricing.product?.price || pricing.combo?.price)}</TableCell>
-                  <TableCell>{pricing.condominium}</TableCell>
-                  <TableCell>{pricing.tax}</TableCell>
-                  <TableCell>{pricing.card_tax}</TableCell>
-                  <TableCell>{pricing.other}</TableCell>
-                  <TableCell>{pricing.profit}</TableCell>
-                  <TableCell>{pricing.delivery_price}</TableCell>
-                  <TableCell>{formatToBRL(pricing.suggested_price)}</TableCell>
-                  <TableCell>
-                    <Grid
+          <div ref={componentRef}>
+            <TableContainer>
+              <Grid sx={{ display: 'flex', justifyContent: 'flex-end', padding: 2 }}>
+                <Button onClick={handlePrint} variant="outlined" sx={{ mr: 2 }}>
+                  <PrintIcon />
+                </Button>
+                <Button onClick={handleExportToXLS} variant="outlined">
+                  <CloudDownloadIcon />
+                </Button>
+              </Grid>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center">Produto</TableCell>
+                    <TableCell align="center">Preço</TableCell>
+                    <TableCell align="center">Condomínio</TableCell>
+                    <TableCell align="center">Imposto</TableCell>
+                    <TableCell align="center">Cartão Débito/Crédito</TableCell>
+                    <TableCell align="center">Outros</TableCell>
+                    <TableCell align="center">Lucro</TableCell>
+                    <TableCell align="center">Entrega</TableCell>
+                    <TableCell align="center">Preço Sugerido</TableCell>
+                    <TableCell align="center"></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {pricingData.map((pricing, index) => (
+                    <TableRow key={`${pricing.id} - ${index}`}
                       sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
+                        backgroundColor: index % 2 === 0 ? "#f2f2f2" : "#ffffff"
                       }}
                     >
-                      <Button onClick={() => handleDeletePricing(pricing)}>
-                        <DeleteIcon sx={{ color: 'red' }} />
-                      </Button>
-                      <EditPricingModal
-                        pricing={pricing}
-                        setSelectedPricing={setSelectedPricing}
-                      />
-                    </Grid>
-                  </TableCell>
+                      <TableCell align="center">{pricing.product?.name || pricing.combo?.name}</TableCell>
+                      <TableCell align="center">{formatToBRL(pricing.product?.price || pricing.combo?.price)}</TableCell>
+                      <TableCell align="center">{pricing.condominium}</TableCell>
+                      <TableCell align="center">{pricing.tax}</TableCell>
+                      <TableCell align="center">{pricing.card_tax}</TableCell>
+                      <TableCell align="center">{pricing.other}</TableCell>
+                      <TableCell align="center">{pricing.profit}</TableCell>
+                      <TableCell align="center">{pricing.delivery_price}</TableCell>
+                      <TableCell align="center">{formatToBRL(pricing.suggested_price)}</TableCell>
+                      <TableCell align="center">
+                        <Grid
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                          }}
+                        >
+                          <Button onClick={() => handleDeletePricing(pricing)}>
+                            <DeleteIcon sx={{ color: 'red' }} />
+                          </Button>
+                          <EditPricingModal
+                            pricing={pricing}
+                            setSelectedPricing={setSelectedPricing}
+                          />
+                        </Grid>
+                      </TableCell>
 
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
       </Paper>
     </Grid >
   );

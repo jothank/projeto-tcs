@@ -46,8 +46,8 @@ const ProductionTable: React.FC<ProductionTableProps> = ({
       (acc, curr) =>
         acc +
         curr.pricing.suggested_price *
-          curr.production_quantity *
-          (curr.pricing.card_tax / 100),
+        curr.production_quantity *
+        (curr.pricing.card_tax / 100),
       0
     );
   const calculateTaxFee = () =>
@@ -55,8 +55,8 @@ const ProductionTable: React.FC<ProductionTableProps> = ({
       (acc, curr) =>
         acc +
         curr.pricing.suggested_price *
-          curr.production_quantity *
-          (curr.pricing.tax / 100),
+        curr.production_quantity *
+        (curr.pricing.tax / 100),
       0
     );
 

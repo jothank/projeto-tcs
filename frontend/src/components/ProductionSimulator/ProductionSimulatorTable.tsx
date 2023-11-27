@@ -78,7 +78,7 @@ const ProductionSimulatorTable = () => {
       const response = await saveProductionSimulator(newProductionSimulator);
       console.log(response);
       window.location.reload();
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleDeleteProductionSimulator = async (
@@ -86,12 +86,13 @@ const ProductionSimulatorTable = () => {
   ) => {
     try {
       Swal.fire({
-        title: "Você tem certeza?",
-        text: "Você não poderá reverter isso!",
+        title: "Tem certeza de que deseja excluir este item?",
+        text: "Esta ação não pode ser desfeita!",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonText: "Sim, excluir!",
+        cancelButtonText: "Cancelar",
+        reverseButtons: true,
       }).then(async (result) => {
         if (result.isConfirmed) {
           const response = await deleteProductionSimulator(
@@ -99,8 +100,10 @@ const ProductionSimulatorTable = () => {
           );
           console.log(response);
           window.location.reload();
+        } else {
+          Swal.fire("Cancelado", "O item não foi excluído.", "error");
         }
-      });
+      })
     } catch (error) {
       getErro("Erro ao deletar simulação");
     }
@@ -140,12 +143,18 @@ const ProductionSimulatorTable = () => {
       }))
     );
     XLSX.utils.book_append_sheet(wb, ws, "Dados");
-    XLSX.writeFile(wb, "feedstock_data.xlsx");
+    XLSX.writeFile(wb, "simulator_data.xlsx");
   };
 
   return (
     <>
-      <Grid container spacing={2} alignItems="center">
+
+      <Grid container spacing={2} alignItems="center" justifyContent="center">
+        <Grid sx={{ padding: 2, marginTop: "2%" }}>
+          <Button variant="contained" onClick={() => setOpen(true)}>
+            Simular Produção
+          </Button>
+        </Grid>
         <Grid item xs={12} md={4}>
           <FormControl fullWidth margin="normal">
             <InputLabel>Selecione a despesa</InputLabel>
@@ -167,11 +176,7 @@ const ProductionSimulatorTable = () => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid>
-          <Button variant="contained" onClick={() => setOpen(true)}>
-            Simular Produção
-          </Button>
-
+        <Grid sx={{ padding: 2, marginTop: "2%" }}>
           <Button onClick={handlePrint} variant="outlined" sx={{ mr: 2 }}>
             <PrintIcon />
           </Button>
@@ -246,14 +251,20 @@ const ProductionSimulatorTable = () => {
                           handleDeleteProductionSimulator(simulator);
                         }}
                         color="secondary"
-                        startIcon={<DeleteIcon />}
+                        startIcon={<DeleteIcon style={{
+                          cursor: "pointer",
+                          color: "red",
+                        }} />}
                       ></Button>
                       <Button
                         onClick={() => {
                           setOpenEdit(true);
                           setEditingSimulator(simulator);
                         }}
-                        startIcon={<EditIcon />}
+                        startIcon={<EditIcon style={{
+                          cursor: "pointer",
+                          color: "blue",
+                        }} />}
                       ></Button>
                     </TableCell>
                   </TableRow>

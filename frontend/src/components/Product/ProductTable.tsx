@@ -30,18 +30,28 @@ import { FeedstockType } from "types/Feedstock.type";
 import AddProduct from "./AddProduct";
 import Swal from "sweetalert2";
 import { getErro } from "utils/ModalAlert";
-import * as XLSX from 'xlsx';
+import * as XLSX from "xlsx";
+import CircularProgress from "@mui/material/CircularProgress";
+import Backdrop from "@mui/material/Backdrop";
 
 const ProductTable = ({ data }: ProductTableProps) => {
   const componentRef = useRef(null);
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
+    onBeforeGetContent: () => {
+      setIsGeneratingPDF(true);
+      return new Promise((resolve) => {
+        setTimeout(resolve, 1);
+      });
+    },
+    onAfterPrint: () => setIsGeneratingPDF(false),
   });
 
   const [isAddModalOpen, setisAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddProductOpen, setIsAddProductOpen] = useState(false);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
     data?.results.length ? data.results[0].id : null
@@ -55,33 +65,32 @@ const ProductTable = ({ data }: ProductTableProps) => {
 
   const handleDelete = (productId: number) => {
     Swal.fire({
-      title: 'Tem certeza de que deseja excluir este produto?',
+      title: "Tem certeza de que deseja excluir este produto?",
       text: "Esta ação não pode ser desfeita!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonText: 'Sim, excluir!',
-      cancelButtonText: 'Cancelar',
-      reverseButtons: true
+      confirmButtonText: "Sim, excluir!",
+      cancelButtonText: "Cancelar",
+      reverseButtons: true,
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
           await deleteSupply(productId);
           console.log(`Produto com ID ${productId} foi excluído com sucesso.`);
-          Swal.fire(
-            'Excluído!',
-            'O produto foi excluído.',
-            'success').then(() => { location.reload(); }
-            );
+          Swal.fire("Excluído!", "O produto foi excluído.", "success").then(
+            () => {
+              location.reload();
+            }
+          );
         } catch (error) {
           getErro(`Erro ao excluir o produto com ID ${productId}`);
-          console.error(`Erro ao excluir o produto com ID ${productId}:`, error);
+          console.error(
+            `Erro ao excluir o produto com ID ${productId}:`,
+            error
+          );
         }
       } else {
-        Swal.fire(
-          'Cancelado',
-          'O produto não foi excluído.',
-          'error'
-        );
+        Swal.fire("Cancelado", "O produto não foi excluído.", "error");
       }
     });
   };
@@ -102,27 +111,29 @@ const ProductTable = ({ data }: ProductTableProps) => {
 
   const handleExportToXLS = () => {
     if (selectedProduct) {
-      const ws = XLSX.utils.json_to_sheet(selectedProduct.supplies.map(supply => ({
-        Insumo: supply.feedstock.name,
-        'Unidade de Fabricação': supply.unit,
-        'Quantidade de uso': supply.quantity,
-        'Unidade de aquisição': supply.feedstock.unit,
-        'Valor de aquisição': formatToBRL(supply.feedstock.price),
-        'Valor unitário': formatToBRL(supply.price)
-      })));
-  
+      const ws = XLSX.utils.json_to_sheet(
+        selectedProduct.supplies.map((supply) => ({
+          Insumo: supply.feedstock.name,
+          "Unidade de Fabricação": supply.unit,
+          "Quantidade de uso": supply.quantity,
+          "Unidade de aquisição": supply.feedstock.unit,
+          "Valor de aquisição": formatToBRL(supply.feedstock.price),
+          "Valor unitário": formatToBRL(supply.price),
+        }))
+      );
+
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Supplies");
-  
+
       XLSX.writeFile(wb, "product_data.xlsx");
     }
-  };  
+  };
 
   return (
     <Paper
       sx={{
         width: "80%",
-        marginLeft: "10%"
+        marginLeft: "10%",
       }}
     >
       <div
@@ -145,7 +156,8 @@ const ProductTable = ({ data }: ProductTableProps) => {
             value={selectedProductId || ""}
             onChange={(event) =>
               setSelectedProductId(event.target.value as number)
-            } sx={{ mr: 2 }}
+            }
+            sx={{ mr: 2 }}
           >
             {data.results.map((productItem) => (
               <MenuItem key={productItem.id} value={productItem.id}>
@@ -154,7 +166,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
             ))}
           </Select>
         </FormControl>
-        <Grid >
+        <Grid>
           <Button onClick={handlePrint} variant="outlined" sx={{ mr: 2 }}>
             <PrintIcon />
           </Button>
@@ -163,21 +175,23 @@ const ProductTable = ({ data }: ProductTableProps) => {
           </Button>
         </Grid>
       </div>
-      <div style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        fontWeight: "bold",
-        fontSize: "30px",
-        padding: "20px"
-      }}>
-        <Typography variant="h6" component="div">
-          {selectedProduct
-            ? selectedProduct.name
-            : "Nenhum produto selecionado"}
-        </Typography>
-      </div>
       <div ref={componentRef}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontWeight: "bold",
+            fontSize: "30px",
+            padding: "20px",
+          }}
+        >
+          <Typography variant="h6" component="div">
+            {selectedProduct
+              ? selectedProduct.name
+              : "Nenhum produto selecionado"}
+          </Typography>
+        </div>
         <TableContainer>
           <Table>
             <TableHead>
@@ -197,7 +211,7 @@ const ProductTable = ({ data }: ProductTableProps) => {
                   <TableRow
                     key={`${product.id}-${index}`}
                     sx={{
-                      backgroundColor: index % 2 === 0 ? "#f2f2f2" : "#ffffff"
+                      backgroundColor: index % 2 === 0 ? "#f2f2f2" : "#ffffff",
                     }}
                   >
                     <TableCell align="center" component="th" scope="row">
@@ -215,26 +229,34 @@ const ProductTable = ({ data }: ProductTableProps) => {
                       {formatToBRL(product.price)}
                     </TableCell>
                     <TableCell align="center">
-                      <Button
-                        onClick={() => handleDelete(product.id)}
-                        color="error"
-                      >
-                        <DeleteIcon style={{
-                          cursor: "pointer",
-                          color: "red",
-                        }} />
-                      </Button>
-                      <Button
-                        onClick={() => {
-                          setIsEditModalOpen(true);
-                          setSelectedSupply(product);
-                        }}
-                      >
-                        <EditIcon style={{
-                          cursor: "pointer",
-                          color: "blue"
-                        }} />
-                      </Button>
+                      {!isGeneratingPDF && (
+                        <>
+                          <Button
+                            onClick={() => handleDelete(product.id)}
+                            color="error"
+                          >
+                            <DeleteIcon
+                              style={{
+                                cursor: "pointer",
+                                color: "red",
+                              }}
+                            />
+                          </Button>
+                          <Button
+                            onClick={() => {
+                              setIsEditModalOpen(true);
+                              setSelectedSupply(product);
+                            }}
+                          >
+                            <EditIcon
+                              style={{
+                                cursor: "pointer",
+                                color: "blue",
+                              }}
+                            />
+                          </Button>
+                        </>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))
@@ -248,27 +270,26 @@ const ProductTable = ({ data }: ProductTableProps) => {
             </TableBody>
           </Table>
         </TableContainer>
-        {selectedProduct && (
-          <>
-            <Typography
-              variant="subtitle1"
-              align="right"
-              style={{ padding: 16 }}
-            >
-              Preço Total: {formatToBRL(selectedProduct.price)}
-            </Typography>
-            <Grid>
-              <Button variant="contained"
-                onClick={() => {
-                  setIsAddProductOpen(true);
-                }} sx={{ margin: "20px" }}
-              >
-                Adicionar Itens
-              </Button>
-            </Grid>
-          </>
-        )}
       </div>
+
+      {selectedProduct && (
+        <>
+          <Typography variant="subtitle1" align="right" style={{ padding: 16 }}>
+            Preço Total: {formatToBRL(selectedProduct.price)}
+          </Typography>
+          <Grid>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setIsAddProductOpen(true);
+              }}
+              sx={{ margin: "20px" }}
+            >
+              Adicionar Itens
+            </Button>
+          </Grid>
+        </>
+      )}
       <EditDialog
         open={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
@@ -281,6 +302,14 @@ const ProductTable = ({ data }: ProductTableProps) => {
         onClose={() => setIsAddProductOpen(false)}
         open={isAddProductOpen}
       />
+      {isGeneratingPDF && (
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={isGeneratingPDF}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      )}
     </Paper>
   );
 };

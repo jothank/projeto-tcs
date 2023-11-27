@@ -24,6 +24,8 @@ import { deletefeedstock } from "services/feedstock.service";
 import { getErro } from "utils/ModalAlert";
 import { useReactToPrint } from "react-to-print";
 import * as XLSX from "xlsx";
+import CircularProgress from "@mui/material/CircularProgress";
+import Backdrop from "@mui/material/Backdrop";
 
 type CustomTableProps = {
   data: FeedstockType[];
@@ -34,6 +36,7 @@ export function FeedstockTable({ data }: CustomTableProps) {
   const [allData, setAllData] = useState(data);
   const [localData, setLocalData] = useState(data);
   const [filter, setFilter] = useState("all");
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   useEffect(() => {
     setAllData(data);
@@ -97,6 +100,17 @@ export function FeedstockTable({ data }: CustomTableProps) {
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
+    onBeforeGetContent: () => {
+      setIsGeneratingPDF(true);
+      return new Promise<void>((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, 1);
+      });
+    },
+    onAfterPrint: () => {
+      setIsGeneratingPDF(false);
+    },
   });
 
   const exportToExcel = () => {
@@ -125,7 +139,13 @@ export function FeedstockTable({ data }: CustomTableProps) {
           justifyContent: "end",
         }}
       >
-        <Grid container spacing={2} justifyContent="center" alignItems="center" padding={1}>
+        <Grid
+          container
+          spacing={2}
+          justifyContent="center"
+          alignItems="center"
+          padding={1}
+        >
           <AddFeedstock />
           <Select
             value={filter}
@@ -179,28 +199,32 @@ export function FeedstockTable({ data }: CustomTableProps) {
                   <TableCell align="center">{item.quantity}</TableCell>
                   <TableCell align="center">{item.unit}</TableCell>
                   <TableCell align="center" sx={{ width: "10%" }}>
-                    <Grid
-                      sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "center",
-                        marginRight: "50px", 
-                      }}
-                    >
-                      <Button onClick={() => handleDelete(item)}>
-                        <DeleteIcon
-                          style={{
-                            cursor: "pointer",
-                            color: "red",
+                    {!isGeneratingPDF && (
+                      <>
+                        <Grid
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            marginRight: "50px",
                           }}
-                        />
-                      </Button>
-                      <EditFeedstock
-                        item={item}
-                        onClose={() => { }}
-                        onUpdated={handleItemUpdated}
-                      />
-                    </Grid>
+                        >
+                          <Button onClick={() => handleDelete(item)}>
+                            <DeleteIcon
+                              style={{
+                                cursor: "pointer",
+                                color: "red",
+                              }}
+                            />
+                          </Button>
+                          <EditFeedstock
+                            item={item}
+                            onClose={() => {}}
+                            onUpdated={handleItemUpdated}
+                          />
+                        </Grid>
+                      </>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}
@@ -208,6 +232,14 @@ export function FeedstockTable({ data }: CustomTableProps) {
           </Table>
         </TableContainer>
       </div>
+      {isGeneratingPDF && (
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={isGeneratingPDF}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      )}
     </>
   );
 }

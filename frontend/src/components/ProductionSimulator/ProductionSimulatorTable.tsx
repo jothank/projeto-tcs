@@ -36,6 +36,8 @@ import { useReactToPrint } from "react-to-print";
 import * as XLSX from "xlsx";
 import PrintIcon from "@mui/icons-material/Print";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
+import CircularProgress from "@mui/material/CircularProgress";
+import Backdrop from "@mui/material/Backdrop";
 
 export interface PricingType {
   id?: number;
@@ -70,6 +72,7 @@ const ProductionSimulatorTable = () => {
   const [editingSimulator, setEditingSimulator] =
     useState<ProductionSimulatorType | null>(null);
   const componentRef = React.useRef(null);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   const handleAddProductionSimulator = async (
     newProductionSimulator: ProductionSimulatorType
@@ -78,7 +81,7 @@ const ProductionSimulatorTable = () => {
       const response = await saveProductionSimulator(newProductionSimulator);
       console.log(response);
       window.location.reload();
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const handleDeleteProductionSimulator = async (
@@ -103,7 +106,7 @@ const ProductionSimulatorTable = () => {
         } else {
           Swal.fire("Cancelado", "O item não foi excluído.", "error");
         }
-      })
+      });
     } catch (error) {
       getErro("Erro ao deletar simulação");
     }
@@ -126,6 +129,17 @@ const ProductionSimulatorTable = () => {
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
+    onBeforeGetContent: () => {
+      setIsGeneratingPDF(true);
+      return new Promise<void>((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, 1);
+      });
+    },
+    onAfterPrint: () => {
+      setIsGeneratingPDF(false);
+    },
   });
 
   const exportToExcel = () => {
@@ -148,7 +162,6 @@ const ProductionSimulatorTable = () => {
 
   return (
     <>
-
       <Grid container spacing={2} alignItems="center" justifyContent="center">
         <Grid sx={{ padding: 2, marginTop: "2%" }}>
           <Button variant="contained" onClick={() => setOpen(true)}>
@@ -184,6 +197,8 @@ const ProductionSimulatorTable = () => {
             <CloudDownloadIcon />
           </Button>
         </Grid>
+      </Grid>
+      <div ref={componentRef}>
         <Grid item xs={12}>
           {selectedFixedExpense && (
             <TableFixedExpense fixedExpense={selectedFixedExpense} />
@@ -197,8 +212,6 @@ const ProductionSimulatorTable = () => {
             />
           )}
         </Grid>
-      </Grid>
-      <div ref={componentRef}>
         <Paper sx={{ width: "100%", marginTop: "2%" }}>
           <TableContainer>
             <Typography variant="h5" align="center">
@@ -246,26 +259,32 @@ const ProductionSimulatorTable = () => {
                     </TableCell>
 
                     <TableCell align="center">
-                      <Button
-                        onClick={() => {
-                          handleDeleteProductionSimulator(simulator);
-                        }}
-                        color="secondary"
-                        startIcon={<DeleteIcon style={{
-                          cursor: "pointer",
-                          color: "red",
-                        }} />}
-                      ></Button>
-                      <Button
-                        onClick={() => {
-                          setOpenEdit(true);
-                          setEditingSimulator(simulator);
-                        }}
-                        startIcon={<EditIcon style={{
-                          cursor: "pointer",
-                          color: "blue",
-                        }} />}
-                      ></Button>
+                      {!isGeneratingPDF && (
+                        <>
+                          <Button
+                            onClick={() => {
+                              handleDeleteProductionSimulator(simulator);
+                            }}
+                            color="secondary"
+                            startIcon={
+                              <DeleteIcon
+                                style={{ cursor: "pointer", color: "red" }}
+                              />
+                            }
+                          ></Button>
+                          <Button
+                            onClick={() => {
+                              setOpenEdit(true);
+                              setEditingSimulator(simulator);
+                            }}
+                            startIcon={
+                              <EditIcon
+                                style={{ cursor: "pointer", color: "blue" }}
+                              />
+                            }
+                          ></Button>
+                        </>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -289,6 +308,14 @@ const ProductionSimulatorTable = () => {
         productionSimulator={editingSimulator}
         pricings={pricings}
       />
+      {isGeneratingPDF && (
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={isGeneratingPDF}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      )}
     </>
   );
 };

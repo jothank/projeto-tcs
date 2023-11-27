@@ -23,10 +23,11 @@ import AddProductsModal from "./AddCombos";
 import AddProductModal from "./AddCombo";
 import { getAllProduct } from "services/product.service";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import { deleteCombo, updateCombo } from "services/combo.service";
 import * as XLSX from "xlsx";
 import Swal from "sweetalert2";
+import CircularProgress from "@mui/material/CircularProgress";
+import Backdrop from "@mui/material/Backdrop";
 
 const ComboTable = (props: any) => {
   const { data } = props;
@@ -39,6 +40,7 @@ const ComboTable = (props: any) => {
   const [isAddsModalProductOpen, setIsAddsModalProductOpen] = useState(false);
   const [isAddModalProductOpen, setIsAddModalProductOpen] = useState(false);
   const [products, setProducts] = useState<any>([]);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   const componentRef = useRef(null);
 
@@ -56,6 +58,17 @@ const ComboTable = (props: any) => {
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
+    onBeforeGetContent: () => {
+      setIsGeneratingPDF(true);
+      return new Promise<void>((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, 1);
+      });
+    },
+    onAfterPrint: () => {
+      setIsGeneratingPDF(false);
+    },
   });
 
   const exportToXLS = () => {
@@ -201,23 +214,23 @@ const ComboTable = (props: any) => {
           )}
         </Grid>
       </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontWeight: "bold",
-          fontSize: "30px",
-          padding: "20px",
-        }}
-      >
-        <Grid>
-          <Typography variant="h6" component="div">
-            {selectedCombo ? selectedCombo.name : "Nenhum Combo selecionado"}
-          </Typography>
-        </Grid>
-      </div>
       <div ref={componentRef}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontWeight: "bold",
+            fontSize: "30px",
+            padding: "20px",
+          }}
+        >
+          <Grid>
+            <Typography variant="h6" component="div">
+              {selectedCombo ? selectedCombo.name : "Nenhum Combo selecionado"}
+            </Typography>
+          </Grid>
+        </div>
         <TableContainer>
           <Table>
             <TableHead>
@@ -243,17 +256,19 @@ const ComboTable = (props: any) => {
                       {formatToBRL(product.price)}
                     </TableCell>
                     <TableCell align="center">
-                      <Button
-                        onClick={() => handleDelete(product.id)}
-                        color="error"
-                      >
-                        <DeleteIcon
-                          style={{
-                            cursor: "pointer",
-                            color: "red",
-                          }}
-                        />
-                      </Button>
+                      {!isGeneratingPDF && (
+                        <Button
+                          onClick={() => handleDelete(product.id)}
+                          color="error"
+                        >
+                          <DeleteIcon
+                            style={{
+                              cursor: "pointer",
+                              color: "red",
+                            }}
+                          />
+                        </Button>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))
@@ -281,6 +296,14 @@ const ComboTable = (props: any) => {
             selectedCombo={selectedCombo}
           />
         </>
+      )}
+      {isGeneratingPDF && (
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={isGeneratingPDF}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       )}
     </Paper>
   );

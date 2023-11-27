@@ -138,7 +138,7 @@ const PricingHistory = () => {
                   <TableCell align="center">Lucro</TableCell>
                   <TableCell align="center">Entrega</TableCell>
                   <TableCell align="center">Preço Sugerido</TableCell>
-                  <TableCell align="center"></TableCell>
+                  <TableCell align="center">Ações</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

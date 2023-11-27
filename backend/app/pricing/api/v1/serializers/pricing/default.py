@@ -12,6 +12,9 @@ from app.pricing.models.pricing import Pricing
 
 
 class DefaultPricingSerializer(serializers.ModelSerializer):
+    suggested_price = serializers.FloatField(
+        required=False,
+    )
 
     class Meta:
         model = Pricing

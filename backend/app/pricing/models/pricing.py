@@ -26,8 +26,6 @@ class Pricing(models.Model):
     )
     suggested_price = models.FloatField(
         verbose_name=_('Suggested Price'),
-        blank=True,
-        null=True
     )
     delivery_price = models.FloatField(
         verbose_name=_('Delivery Price'),

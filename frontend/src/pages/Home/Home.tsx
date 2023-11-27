@@ -51,19 +51,19 @@ export default function Home() {
 
   return (
     <StyledPaper>
-       <Avatar alt="Logo" src={LogoSemFundo} style={{ width: "100%", height: "auto", marginBottom: 16 }} />
-      <Typography variant="h4" style={{ marginBottom: "1rem" }}>
-      Revolucionando a Gestão Financeira na Gastronomia com Tecnologia de Ponta
+      <Avatar alt="Logo" src={LogoSemFundo} sx={{ width: "100%", height: "auto", marginBottom: 2 }} />
+      <Typography variant="h4" sx={{ marginBottom: "1rem" }}>
+        Revolucionando a Gestão Financeira na Gastronomia com Tecnologia de Ponta
       </Typography>
-      
+
       <Typography variant="body1">
         O GastroCustos é a solução disruptiva para a gestão financeira no setor gastronômico, alavancando a eficiência operacional e impulsionando o sucesso nos negócios.
       </Typography>
-      
+
       <Typography variant="body1">
         Sua função primordial é automatizar e otimizar o cálculo de preços de produtos, oferecendo um controle abrangente sobre custos, ficha técnica e gestão financeira para restaurantes, bares e estabelecimentos similares.
       </Typography>
-      
+
       <Typography variant="body1">
         Como um simulador de produção gastronômica, o GastroCustos fornece análises preditivas avançadas, relatórios em tempo real e uma abordagem inovadora na precificação, considerando variáveis dinâmicas, impulsionando a prosperidade sustentável dos estabelecimentos.
       </Typography>
@@ -79,27 +79,27 @@ export default function Home() {
           </Typography>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} sx={{ marginBottom: 2 }}>
           <Typography variant="h5" >
             <ClickableIcon
               icon={<TrendingUpIcon />}
               text="Valores"
               onClick={() => openModal("Valores", (
                 <>
-                <Typography variant="body1" style={{ textAlign: 'justify' }}>
-                  <ListItem>
-                    <ListItemText primary="Compromisso com a excelência impulsionada por dados e análises avançadas." />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText primary="Busca incessante por inovação para atender às demandas em constante evolução do setor gastronômico." />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText primary="Transparência e integridade em cada interação, baseadas em algoritmos e segurança digital." />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText primary="Empatia tecnológica ao compreender os desafios específicos enfrentados pelos nossos clientes na era digital." />
-                  </ListItem>
-                </Typography>
+                  <Typography variant="body1" style={{ textAlign: 'justify' }}>
+                    <ListItem>
+                      <ListItemText primary="Compromisso com a excelência impulsionada por dados e análises avançadas." />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText primary="Busca incessante por inovação para atender às demandas em constante evolução do setor gastronômico." />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText primary="Transparência e integridade em cada interação, baseadas em algoritmos e segurança digital." />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText primary="Empatia tecnológica ao compreender os desafios específicos enfrentados pelos nossos clientes na era digital." />
+                    </ListItem>
+                  </Typography>
                 </>
               ))}
             />

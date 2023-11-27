@@ -29,19 +29,6 @@ const PricingHistory = () => {
   const [selectedPricing, setSelectedPricing] = useState<ProductPricingType | null>(null);
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
 
-  const componentRef = useRef(null);
-
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
-
-  const handleExportToXLS = () => {
-    const ws = XLSX.utils.json_to_sheet(pricingData);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Pricing Data');
-    XLSX.writeFile(wb, 'pricing_data.xlsx');
-  };
-
   useEffect(() => {
     const fetchPricing = async () => {
       try {
@@ -91,7 +78,7 @@ const PricingHistory = () => {
       }}
     >
       <Paper sx={{ width: '80%' }}>
-        <div ref={componentRef}>
+        <div>
           <TableContainer>
             <Grid container 
             sx={{
@@ -116,15 +103,6 @@ const PricingHistory = () => {
                 ))}
               </Select>
             </Grid>
-            <Grid item sx={{ display: 'flex', justifyContent: 'flex-end', padding: 2 }}>
-              <Button onClick={handlePrint} variant="outlined" sx={{ mr: 2 }}>
-                <PrintIcon />
-              </Button>
-              <Button onClick={handleExportToXLS} variant="outlined">
-                <CloudDownloadIcon />
-              </Button>
-            </Grid>
-            
             </Grid>
             <Table>
               <TableHead>

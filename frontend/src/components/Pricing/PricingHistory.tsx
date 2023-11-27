@@ -23,16 +23,32 @@ const PricingHistory = () => {
     fetchPricing();
   }, []);
 
-  const handleDelete = async (item: ProductPricingType) => {
-    try {
-      await deletePricing(item.id);
-      const updatedPricingData = pricingData.filter((pricing) => pricing.id !== item.id);
-      setPricingData(updatedPricingData);
-      Swal.fire("Excluído!", "O item foi excluído com sucesso.", "success");
-    } catch (error) {
-      console.error("Erro ao excluir item", error);
-      Swal.fire("Erro", "Ocorreu um erro ao excluir o item.", "error");
-    }
+  const handleDeletePricing = async (pricing: ProductPricingType) => {
+    Swal.fire({
+      title: 'Tem certeza de que deseja excluir este item?',
+      text: 'Esta ação não pode ser desfeita!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sim, excluir!',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await deletePricing(pricing.id);
+          const updatedPricingData = pricingData.filter(
+            (item) => item.id !== pricing.id
+          );
+          setPricingData(updatedPricingData);
+          Swal.fire('Excluído!', 'O item foi excluído com sucesso.', 'success');
+        } catch (error) {
+          console.error('Erro ao excluir item', error);
+          Swal.fire('Erro', 'Ocorreu um erro ao excluir o item.', 'error');
+        }
+      } else {
+        Swal.fire('Cancelado', 'O item não foi excluído.', 'error');
+      }
+    });
   };
 
 
@@ -80,12 +96,12 @@ const PricingHistory = () => {
                   <TableCell>
                     <Grid
                       sx={{
-                        display: "flex",
-                        flexDirection: "row"
+                        display: 'flex',
+                        flexDirection: 'row',
                       }}
                     >
-                      <Button onClick={() => handleDelete(pricing)}>
-                        <DeleteIcon sx={{ color: "red" }} />
+                      <Button onClick={() => handleDeletePricing(pricing)}>
+                        <DeleteIcon sx={{ color: 'red' }} />
                       </Button>
                       <EditPricingModal
                         pricing={pricing}

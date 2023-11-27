@@ -18,11 +18,10 @@ import { ProductInput } from "components/Product/InputProduct";
 import * as Yup from "yup";
 import { setCombo } from "services/combo.service";
 import { getSuccess, getErro } from "utils/ModalAlert";
-import { noMoreThanTwoSpaces } from "utils/validations/validationBase";
 
 const validationSchema = Yup.object().shape({
   comboName: Yup.string().min(3, `O Produto deve ter no minimo 3 caracteres`)
-    .test('no-more-than-two-spaces', `O Produto não deve conter mais de dois espaços.`, value => noMoreThanTwoSpaces(value))
+    .trim()
     .required("Este campo é obrigatório"),
   products: Yup.array()
     .of(Yup.number().required("Produto é obrigatório"))

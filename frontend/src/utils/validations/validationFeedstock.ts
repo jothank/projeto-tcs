@@ -1,10 +1,9 @@
 import * as Yup from "yup";
-import { noMoreThanTwoSpaces } from "./validationBase";
 
 export const FeedstockValidation = Yup.object().shape({
   name: Yup.string()
     .min(3, `O Produto deve ter no minimo 3 caracteres`)
-    .test('no-more-than-two-spaces', `O Produto não deve conter mais de dois espaços.`, value => noMoreThanTwoSpaces(value))
+    .trim()
     .required("Este campo é obrigatório"),
   price: Yup
     .number()

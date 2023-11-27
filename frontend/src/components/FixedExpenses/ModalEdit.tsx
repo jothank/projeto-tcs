@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import { FormInput } from "components/FormGroup";
 import { v4 as uuidv4 } from "uuid";
-import { noMoreThanTwoSpaces } from "utils/validations/validationBase";
 
 export interface CostType {
   id?: string;
@@ -34,7 +33,7 @@ const EditFixedExpenses: React.FC<EditFixedExpensesProps> = ({
   onUpdate,
 }) => {
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Campo obrigatório").test('no-more-than-two-spaces', `O Produto não deve conter mais de dois espaços.`, value => noMoreThanTwoSpaces(value)),
+    name: Yup.string().required("Campo obrigatório").trim(),
     price: Yup.number()
       .typeError("Deve ser um número")
       .required("Campo obrigatório")

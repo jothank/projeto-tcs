@@ -32,22 +32,22 @@ const NavBar: React.FC = () => {
     {
       text: "Simulador de Precificação",
       href: "/pricing",
-      title: "Simulador de precificação",
+      title: "Simulador de Precificação",
       subItems: [
         {
-          text: "Simulador de preço",
+          text: "Simulador de Preço",
           href: "/pricing/simulator",
-          title: "Simulador de preço"
+          title: "Simulador de Preço"
         },
         {
-          text: "Histórico de precificação",
+          text: "Histórico de Precificação",
           href: "/pricing/history",
-          title: "Histórico de precificação"
+          title: "Histórico de Precificação"
         }
       ]
     },
-    { text: "Simulador de produção", href: "/production-simulator", title: "Simulador de produção" },
-    { text: "Ficha técnica", href: "/datasheet", title: "Ficha técnica" },
+    { text: "Simulador de Produção", href: "/production-simulator", title: "Simulador de produção" },
+    { text: "Ficha Técnica", href: "/datasheet", title: "Ficha técnica" },
    
   ];
 

@@ -5,6 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
 import EditPricingModal from './EditPricing';
 import { ProductPricingType } from 'types/pricing.types';
+import { formatToBRL } from "utils/pricing";
 
 const PricingHistory = () => {
   const [pricingData, setPricingData] = useState<ProductPricingType[]>([]);
@@ -85,14 +86,14 @@ const PricingHistory = () => {
                   }}
                 >
                   <TableCell>{pricing.product?.name || pricing.combo?.name}</TableCell>
-                  <TableCell>{pricing.product?.price || pricing.combo?.price}</TableCell>
+                  <TableCell>{formatToBRL(pricing.product?.price || pricing.combo?.price)}</TableCell>
                   <TableCell>{pricing.condominium}</TableCell>
                   <TableCell>{pricing.tax}</TableCell>
                   <TableCell>{pricing.card_tax}</TableCell>
                   <TableCell>{pricing.other}</TableCell>
                   <TableCell>{pricing.profit}</TableCell>
                   <TableCell>{pricing.delivery_price}</TableCell>
-                  <TableCell>{pricing.suggested_price.toFixed(2)}</TableCell>
+                  <TableCell>{formatToBRL(pricing.suggested_price)}</TableCell>
                   <TableCell>
                     <Grid
                       sx={{

@@ -1,3 +1,4 @@
+import { ChangeEvent } from "react";
 
 export interface PricingType {
     id?: number;
@@ -16,6 +17,8 @@ export interface PricingInputProps {
     name: string;
     label: string;
     type: string;
+    value?: string;
+    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   }
 
   export interface ProductPricingType {

@@ -1,9 +1,9 @@
 import React from 'react';
 import { TextField, Grid, Typography, Button } from '@mui/material';
 import { Form, Formik } from 'formik';
-import { PricingtemInput } from './InputPricing';
 import { PricingValidation } from 'utils/validations/validationPricing';
 import { PricingType } from 'types/pricing.types';
+import { PricingtemInput } from './InputPricing';
 
 const PricingItemValue: PricingType = {
   tax: 0,

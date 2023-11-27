@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { updatePricing } from "services/pricing.service";
 import EditIcon from "@mui/icons-material/Edit"
 import { PricingValidation } from "utils/validations/validationPricing";
+import { PricingtemInput } from "./InputPricing";
 
 const EditPricingModal = ({ pricing, onClose, onUpdated }: any) => {
   const [open, setOpen] = useState(false);
@@ -53,12 +54,12 @@ const EditPricingModal = ({ pricing, onClose, onUpdated }: any) => {
                     marginTop: "10px"
                   }}
                 >
-                  <TextField label="Condomínio"  name="condominium" type="text" value={values.condominium} onChange={(e) => setFieldValue("condominium", e.target.value)} />
-                  <TextField label="Taxa"  name="tax"  type="text" value={values.tax} onChange={(e) => setFieldValue("tax", e.target.value)} />
-                  <TextField label="Taxa do Cartão" name="card_tax"  type="text" value={values.card_tax} onChange={(e) => setFieldValue("card_tax", e.target.value)} />
-                  <TextField label="Outros"  name="other" type="text" value={values.other} onChange={(e) => setFieldValue("other", e.target.value)} />
-                  <TextField label="Lucro"  name="profit" type="text" value={values.profit} onChange={(e) => setFieldValue("profit", e.target.value)} />
-                  <TextField label="Taxa de Entrega"  name="delivery_price" type="text" value={values.delivery_price} onChange={(e) => setFieldValue("delivery_price", e.target.value)} />
+                  <PricingtemInput label="Condomínio"  name="condominium" type="text" value={values.condominium} onChange={(e) => setFieldValue("condominium", e.target.value)} />
+                  <PricingtemInput label="Taxa"  name="tax"  type="text" value={values.tax} onChange={(e) => setFieldValue("tax", e.target.value)} />
+                  <PricingtemInput label="Taxa do Cartão" name="card_tax"  type="text" value={values.card_tax} onChange={(e) => setFieldValue("card_tax", e.target.value)} />
+                  <PricingtemInput label="Outros"  name="other" type="text" value={values.other} onChange={(e) => setFieldValue("other", e.target.value)} />
+                  <PricingtemInput label="Lucro"  name="profit" type="text" value={values.profit} onChange={(e) => setFieldValue("profit", e.target.value)} />
+                  <PricingtemInput label="Taxa de Entrega"  name="delivery_price" type="text" value={values.delivery_price} onChange={(e) => setFieldValue("delivery_price", e.target.value)} />
                 </Grid>
                 <Grid
                   sx={{

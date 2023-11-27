@@ -7,6 +7,7 @@ export const PricingtemInput: React.FC<PricingInputProps> = ({
     name,
     label,
     type,
+    value,
   }) => (
     <Field name={name}>
       {({ field, meta }: any) => (
@@ -18,6 +19,7 @@ export const PricingtemInput: React.FC<PricingInputProps> = ({
           margin="dense"
           error={meta.touched && meta.error !== undefined}
           helperText={meta.touched && meta.error ? meta.error : ""}
+          value={value}
         />
       )}
     </Field>

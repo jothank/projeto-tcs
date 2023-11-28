@@ -18,7 +18,7 @@ import { Formik, Form } from "formik";
 import { FormInputDate, FormInputNumber } from "./FixedExpenseInput";
 import AddCosts from "./AddCosts";
 import { saveCosts, setFixedExpense } from "services/fixedexpense.service";
-import { getErro, getSuccess } from "utils/ModalAlert";
+import { getErro, getSuccess, getSuccessWarning } from "utils/ModalAlert";
 import { CostType } from "./AddCosts";
 import { formatToBRL } from "utils/pricing";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -82,7 +82,8 @@ const FixedExpensesTable = () => {
           values.description
         );
       }
-      getSuccess("Despesas fixas salvas com sucesso!");
+      getSuccessWarning("Despesas fixas salvas com sucesso!");
+
     } catch (error: any) {
       getErro(error.message);
     }

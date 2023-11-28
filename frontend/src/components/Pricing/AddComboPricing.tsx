@@ -153,7 +153,7 @@ const AddComboPricing = () => {
                         backgroundColor: index % 2 === 0 ? "#f2f2f2" : "#ffffff",
                       }}
                     >
-                      <TableCell>{selectedCombo.name}</TableCell>
+                      <TableCell>{product.name}</TableCell>
                       <TableCell>{formatToBRL(product.price)}</TableCell>
                     </TableRow>
                   ))}
